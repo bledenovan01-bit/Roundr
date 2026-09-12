@@ -1,7 +1,7 @@
 // Composants de formulaire partagés (E02) : grandes cibles tactiles, options
 // dépliables sur place, aucun écran intermédiaire.
 import { useState } from "react";
-import { Pressable, Switch, Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
@@ -153,22 +153,38 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
 
 export function ToggleRow({ label, value, onChange, hint, testID }: { label: string; value: boolean; onChange: (v: boolean) => void; hint?: string; testID?: string }) {
   const styles = useStyles();
-  const { colors } = useTheme();
   return (
     <Pressable onPress={() => onChange(!value)} style={styles.rowBetween} testID={testID}>
       <View style={{ flex: 1 }}>
         <Text style={styles.fieldLabel}>{label}</Text>
         {hint ? <Text style={styles.hint}>{hint}</Text> : null}
       </View>
-      <Switch
-        value={value}
-        onValueChange={onChange}
-        trackColor={{ true: colors.brandPrimary, false: colors.surfaceTertiary }}
-        thumbColor={value ? colors.onBrandPrimary : colors.onSurface}
-        ios_backgroundColor={colors.surfaceTertiary}
-      />
+      <Toggle value={value} onChange={onChange} />
     </Pressable>
   );
+}
+
+// Interrupteur maison (maquettes) : piste sombre, pastille verte à l'état actif.
+export function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
+  const styles = useStyles();
+  return (
+    <Pressable
+      accessibilityRole="switch"
+      accessibilityState={{ checked: value }}
+      onPress={() => {
+        Haptics.selectionAsync().catch(() => {});
+        onChange(!value);
+      }}
+      style={[styles.track, value && styles.trackOn]}
+    >
+      <View style={[styles.thumb, value && styles.thumbOn]} />
+    </Pressable>
+  );
+}
+
+export function Divider() {
+  const styles = useStyles();
+  return <View style={styles.dividerLine} />;
 }
 
 export function Segmented<T extends string | number>({ label, options, value, onChange, testID }: { label?: string; options: { value: T; label: string }[]; value: T; onChange: (v: T) => void; testID?: string }) {
@@ -240,10 +256,14 @@ function CheckChip({ label, checked, onPress, testID }: { label: string; checked
         Haptics.selectionAsync().catch(() => {});
         onPress();
       }}
-      style={[styles.chip, styles.checkChip, checked && { borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary }]}
+      style={[styles.tile, checked && styles.tileActive]}
     >
-      <MaterialCommunityIcons name={checked ? "checkbox-marked" : "checkbox-blank-outline"} size={22} color={checked ? colors.brandPrimary : colors.muted} />
-      <Text style={styles.chipLabel}>{label}</Text>
+      <MaterialCommunityIcons
+        name={checked ? "check-circle" : "circle-outline"}
+        size={24}
+        color={checked ? colors.brandPrimary : colors.muted}
+      />
+      <Text style={[styles.tileLabel, checked && styles.chipLabelActive]}>{label}</Text>
     </Pressable>
   );
 }
@@ -345,6 +365,26 @@ const useStyles = makeStyles((colors) => ({
   },
   chipActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
   checkChip: { flexDirection: "row", gap: spacing.sm, paddingHorizontal: spacing.md },
+  tile: {
+    flex: 1,
+    minWidth: 140,
+    minHeight: 72,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.md,
+    backgroundColor: colors.surfaceTertiary,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  tileActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
+  tileLabel: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.onSurfaceTertiary },
+  track: { width: 58, height: 34, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.borderStrong, padding: 3, justifyContent: "center" },
+  trackOn: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary },
+  thumb: { width: 26, height: 26, borderRadius: radius.pill, backgroundColor: colors.muted },
+  thumbOn: { backgroundColor: colors.onBrandPrimary, alignSelf: "flex-end" },
+  dividerLine: { height: 1, backgroundColor: colors.divider, marginVertical: -spacing.xs },
   chipLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurfaceTertiary },
   chipLabelActive: { color: colors.brandPrimary },
   inputRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
@@ -363,8 +403,8 @@ const useStyles = makeStyles((colors) => ({
   suffix: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
   rowBetween: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md, minHeight: control.row },
   stepper: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
-  stepBtn: { width: control.icon, height: control.icon, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
-  stepValue: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface, minWidth: 44, textAlign: "center" },
+  stepBtn: { width: 52, height: 52, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
+  stepValue: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"] + 8, color: colors.onSurface, minWidth: 52, textAlign: "center" },
   segment: { flexDirection: "row", backgroundColor: colors.surfaceTertiary, borderRadius: radius.md, padding: 5, gap: 5, borderWidth: 1, borderColor: colors.border },
   segmentItem: { flex: 1, minHeight: 48, borderRadius: radius.sm, alignItems: "center", justifyContent: "center" },
   segmentItemActive: { backgroundColor: colors.brandTertiary, borderWidth: 2, borderColor: colors.brandPrimary },

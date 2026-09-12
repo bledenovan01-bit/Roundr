@@ -1,7 +1,7 @@
 // E03–E07 — Live commun, pause, pause entre périodes, départage, transition.
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { Alert, AppState, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions } from "react-native";
+import { Alert, AppState, Platform, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
@@ -171,7 +171,7 @@ export default function LiveScreen() {
   const prepActive = live.firedAlerts.includes("prep") && live.stage !== "finished" && next;
   const remainingMs = live.stage === "period" && live.end.byTime ? Math.max(0, target - el) : null;
   const teamColor = (label: string) => session.teams.find((t) => t.name === label)?.color ?? null;
-  const ringSize = Math.min(284, width - spacing.lg * 2);
+  const ringSize = Math.min(268, width - spacing.lg * 2);
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -227,7 +227,7 @@ export default function LiveScreen() {
         ) : null}
 
         {live.scoreOn && live.stage !== "shootout" ? (
-          <Pressable testID="toggle-correct" onPress={() => setCorrecting((c) => !c)} style={styles.correctLink}>
+          <Pressable testID="toggle-correct" onPress={() => setCorrecting((c) => !c)} style={styles.correctPill}>
             <MaterialCommunityIcons name={correcting ? "check" : "pencil-outline"} size={16} color={colors.muted} />
             <Text style={styles.correctLabel}>{correcting ? "Terminer la correction" : "Corriger le score"}</Text>
           </Pressable>
@@ -283,7 +283,7 @@ export default function LiveScreen() {
               <MaterialCommunityIcons name={paused ? "play" : "pause"} size={24} color={colors.onSurface} />
               <Text style={styles.ctrlLabel}>{paused ? "Reprendre" : "Pause"}</Text>
             </Pressable>
-            <Pressable testID="live-end" onPress={confirmEnd} style={[styles.ctrl, { backgroundColor: colors.brandPrimary }]}>
+            <Pressable testID="live-end" onPress={confirmEnd} style={[styles.ctrl, styles.ctrlPrimary]}>
               <MaterialCommunityIcons name="stop" size={22} color={colors.onBrandPrimary} />
               <Text style={[styles.ctrlLabel, { color: colors.onBrandPrimary }]}>Fin du match</Text>
             </Pressable>
@@ -475,9 +475,9 @@ const useStyles = makeStyles((colors) => ({
   teamName: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onSurface, letterSpacing: 0.8, maxWidth: TEAM_COL },
   score: {
     fontFamily: fontFamily.display,
-    fontSize: 64,
+    fontSize: 72,
     color: colors.onSurface,
-    lineHeight: 64 * 1.02,
+    lineHeight: 72,
     // @ts-ignore
     fontVariant: ["tabular-nums"],
   },
@@ -486,7 +486,7 @@ const useStyles = makeStyles((colors) => ({
   plusLabel: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface },
   teamsLine: { textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },
   correctLink: { flexDirection: "row", alignSelf: "center", alignItems: "center", gap: spacing.xs, minHeight: 40, paddingHorizontal: spacing.md },
-  correctLabel: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
+  correctLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurfaceTertiary },
   nextCard: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
   rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   nextTitle: { fontFamily: fontFamily.text, fontSize: fontSize.base + 1, color: colors.muted },
@@ -498,6 +498,31 @@ const useStyles = makeStyles((colors) => ({
   controls: { flexDirection: "row", gap: spacing.md },
   ctrl: { flex: 1, minHeight: 68, borderRadius: radius.lg, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
   ctrlSecondary: { backgroundColor: colors.surfaceSecondary, borderWidth: 1, borderColor: colors.borderStrong },
+  ctrlPrimary: {
+    backgroundColor: colors.brandPrimary,
+    ...Platform.select({
+      web: { boxShadow: `0 0 18px ${colors.brandPrimary}73` },
+      default: {
+        shadowColor: colors.brandPrimary,
+        shadowOpacity: 0.45,
+        shadowRadius: 18,
+        shadowOffset: { width: 0, height: 0 },
+        elevation: 10,
+      },
+    }),
+  },
+  correctPill: {
+    flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
+    gap: spacing.sm,
+    minHeight: 44,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceSecondary,
+  },
   ctrlLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl - 2, color: colors.onSurface },
   panel: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
   panelTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.5, color: colors.brandPrimary, textTransform: "uppercase" },

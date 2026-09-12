@@ -2,7 +2,7 @@
 // dépliées sur place, temps d'abord (UX-01/UX-02).
 import { Text, View } from "react-native";
 
-import { Card, ChoiceRow, Disclosure, EndRulesField, NumberInput, Segmented, Stepper, ToggleRow } from "@/src/components/fields";
+import { Card, ChoiceRow, Disclosure, Divider, EndRulesField, NumberInput, Section, Segmented, Stepper, ToggleRow } from "@/src/components/fields";
 import { bestNextCount, groupSizes, recommendCup } from "@/src/domain/cup";
 import { periodsDelta, splitPeriods } from "@/src/domain/custom-split";
 import { classicBreakDefault } from "@/src/domain/defaults";
@@ -26,41 +26,53 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
   const mm = Math.floor(half / 60);
   const ss = Math.round(half % 60);
   return (
-    <Card>
-      <ChoiceRow
-        label="Durée totale de jeu"
-        testID="duration"
-        options={[10, 30, 45, 90].map((n) => ({ value: n, label: `${n} min` }))}
-        value={config.totalMin}
-        onChange={(n) => set({ totalMin: n, breakMin: classicBreakDefault(n) })}
-        custom={{ min: 1, onChange: (n) => set({ totalMin: n, breakMin: classicBreakDefault(n) }) }}
-        suffix="min"
-      />
-      <Segmented
-        label="Format"
-        testID="periods"
-        options={[{ value: 1, label: "1 période" }, { value: 2, label: "2 mi-temps" }]}
-        value={config.periods}
-        onChange={(v) => set({ periods: v as 1 | 2 })}
-      />
-      {config.periods === 2 ? (
-        <>
-          <Text style={styles.note}>{`Chaque mi-temps : ${mm}:${String(ss).padStart(2, "0")} · pause exclue du total.`}</Text>
+    <View style={styles.formStack}>
+      <Section title="Temps de jeu">
+        <Card>
           <ChoiceRow
-            label="Pause entre les mi-temps"
-            testID="break"
-            options={[5, 10, 15].map((n) => ({ value: n, label: `${n} min` }))}
-            value={config.breakMin}
-            onChange={(n) => set({ breakMin: n })}
-            custom={{ min: 0, onChange: (n) => set({ breakMin: n }) }}
+            label="Durée totale de jeu"
+            testID="duration"
+            options={[10, 30, 45, 90].map((n) => ({ value: n, label: `${n} min` }))}
+            value={config.totalMin}
+            onChange={(n) => set({ totalMin: n, breakMin: classicBreakDefault(n) })}
+            custom={{ min: 1, onChange: (n) => set({ totalMin: n, breakMin: classicBreakDefault(n) }) }}
             suffix="min"
           />
-        </>
-      ) : null}
-      <ToggleRow testID="toggle-additional" label="Temps additionnel" hint="À zéro, le chrono continue en +00:01… jusqu’à la fin manuelle." value={config.additional} onChange={(v) => set({ additional: v })} />
-      <ToggleRow testID="toggle-score" label="Score" value={config.score} onChange={(v) => set({ score: v })} />
-      <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
-    </Card>
+          <Divider />
+          <Segmented
+            label="Format"
+            testID="periods"
+            options={[{ value: 1, label: "1 période" }, { value: 2, label: "2 mi-temps" }]}
+            value={config.periods}
+            onChange={(v) => set({ periods: v as 1 | 2 })}
+          />
+          {config.periods === 2 ? (
+            <>
+              <Text style={styles.note}>{`Chaque mi-temps : ${mm}:${String(ss).padStart(2, "0")} · pause exclue du total.`}</Text>
+              <Divider />
+              <ChoiceRow
+                label="Pause entre les mi-temps"
+                testID="break"
+                options={[5, 10, 15].map((n) => ({ value: n, label: `${n} min` }))}
+                value={config.breakMin}
+                onChange={(n) => set({ breakMin: n })}
+                custom={{ min: 0, onChange: (n) => set({ breakMin: n }) }}
+                suffix="min"
+              />
+            </>
+          ) : null}
+        </Card>
+      </Section>
+      <Section title="Options">
+        <Card>
+          <ToggleRow testID="toggle-additional" label="Temps additionnel" hint="À zéro, le chrono continue en +00:01… jusqu’à la fin manuelle." value={config.additional} onChange={(v) => set({ additional: v })} />
+          <Divider />
+          <ToggleRow testID="toggle-score" label="Score" value={config.score} onChange={(v) => set({ score: v })} />
+          <Divider />
+          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
+        </Card>
+      </Section>
+    </View>
   );
 }
 
@@ -147,15 +159,31 @@ export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
   const styles = useStyles();
   const set = (p: Partial<MaracanaConfig>) => onChange({ ...config, ...p });
   return (
-    <Card>
-      {config.end.byTime ? (
-        <ChoiceRow label="Durée des matchs" testID="duration" options={MATCH_MIN} value={config.matchMin} onChange={(n) => set({ matchMin: n })} custom={{ min: 1, onChange: (n) => set({ matchMin: n }) }} suffix="min" />
-      ) : null}
-      <EndRulesField value={config.end} onChange={(end) => set({ end })} note={config.teamCount === 3 && config.end.byTime ? "À 3 équipes, un 0–0 au temps déclenche une extension unique de 2 min : le premier but l’emporte (C06)." : undefined} />
-      <Stepper label="Nombre d’équipes" testID="teams" value={config.teamCount} min={3} max={8} onChange={(n) => set({ teamCount: n })} hint={config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."} />
-      <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
-      <Text style={styles.note}>Score obligatoire. Préparation automatique du prochain match.</Text>
-    </Card>
+    <View style={styles.formStack}>
+      <Section title="Temps de jeu">
+        <Card>
+          {config.end.byTime ? (
+            <>
+              <ChoiceRow label="Durée des matchs" testID="duration" options={MATCH_MIN} value={config.matchMin} onChange={(n) => set({ matchMin: n })} custom={{ min: 1, onChange: (n) => set({ matchMin: n }) }} suffix="min" />
+              <Divider />
+            </>
+          ) : null}
+          <EndRulesField value={config.end} onChange={(end) => set({ end })} note={config.teamCount === 3 && config.end.byTime ? "À 3 équipes, un 0–0 au temps déclenche une extension unique de 2 min : le premier but l’emporte (C06)." : undefined} />
+        </Card>
+      </Section>
+      <Section title="Équipes">
+        <Card>
+          <Stepper label="Nombre d’équipes" testID="teams" value={config.teamCount} min={3} max={8} onChange={(n) => set({ teamCount: n })} hint={config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."} />
+        </Card>
+      </Section>
+      <Section title="Options">
+        <Card>
+          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
+          <Divider />
+          <Text style={styles.note}>Score obligatoire. Préparation automatique du prochain match.</Text>
+        </Card>
+      </Section>
+    </View>
   );
 }
 
@@ -256,6 +284,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
 }
 
 const useStyles = makeStyles((colors) => ({
+  formStack: { gap: spacing.xl },
   fieldGap: { gap: spacing.md },
   label: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.4 },

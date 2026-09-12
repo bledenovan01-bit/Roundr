@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
@@ -51,6 +52,14 @@ export default function HomeScreen() {
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
+      <View style={styles.hero}>
+        <Image source={require("@/assets/images/pitch-night.png")} style={styles.heroImage} resizeMode="cover" />
+        <LinearGradient
+          colors={["transparent", colors.surface]}
+          locations={[0.1, 0.92]}
+          style={styles.heroFade}
+        />
+      </View>
       <ScrollView
         contentContainerStyle={[
           styles.scroll,
@@ -168,6 +177,26 @@ const useStyles = makeStyles((colors) => ({
   root: {
     flex: 1,
     backgroundColor: colors.surface,
+  },
+  hero: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 300,
+    pointerEvents: "none",
+  },
+  heroImage: {
+    width: "100%",
+    height: "100%",
+    opacity: 0.55,
+  },
+  heroFade: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   scroll: {
     paddingHorizontal: spacing.lg,

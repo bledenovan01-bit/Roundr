@@ -1,0 +1,35 @@
+{
+  "summary": "Passage de non-régression après le refactor visuel de Roundr V0 (Expo web preview, viewport 390x844). Toutes les interactions ciblées fonctionnent avec le nouveau composant Toggle maison, les tuiles end-time/end-goals et les nouvelles Sections/Cards. Aucun écran blanc, aucune erreur console rouge (le warning 'transform-origin' de l'iter_1 a disparu après le passage à un <Path> dans ChronoRing). Seuls des warnings de dépréciation RN-web restent (props.pointerEvents, shadow*), à traiter en fond mais non bloquants.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "*",
+        "issues": [
+          "Warning console (non rouge) : 'props.pointerEvents is deprecated. Use style.pointerEvents' — provient de <View pointerEvents=\"none\"> du hero d'accueil (app/index.tsx:55). Non bloquant, purement esthétique dans la console web.",
+          "Warning console (non rouge) : '\"shadow*\" style props are deprecated. Use \"boxShadow\".' — probable sur ctrlPrimary de /live (shadowColor/shadowOpacity/shadowRadius/shadowOffset dans live.tsx:503-506). Non bloquant sur web, mais à migrer si support RN 0.75+ visé."
+        ]
+      }
+    ],
+    "react_native_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Aucun correctif bloquant. Optionnel : passer pointerEvents dans style ({ pointerEvents: 'none' }) sur le hero d'accueil, et convertir les 4 props shadow* de ctrlPrimary en boxShadow pour éliminer les warnings de dépréciation RN-web.",
+    "La validation manuelle sur Expo Go reste ouverte (limitation iter_1) : Alert.alert destructive de live-end/transition/summary, sons WAV, partage PNG — non testables via Playwright/react-native-web."
+  ],
+  "critical_code_review_comments": [
+    "live.tsx est à ~535 lignes — toujours en dessous de 700 mais continue de grossir ; envisager d'extraire Transition/TieChoice/TeamColumn dans /app/frontend/src/features/live-*.tsx pour rester sous 300 lignes par fichier.",
+    "fields.tsx : le Toggle interne est utilisé via ToggleRow qui pose déjà le testID sur le Pressable extérieur. L'utilisateur clique en réalité sur la row entière (bonne cible tactile ≥ control.row=56). OK.",
+    "config-forms.tsx : la Section 'Options' de MaracanaForm affiche une note statique 'Score obligatoire. Préparation automatique du prochain match.' — cohérent avec la logique métier (score toujours ON en Maracana)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (offline app)", "frontend": "100% sur les scénarios demandés"},
+  "seed_data_creation": "Aucune. localStorage.clear() entre les scénarios pour isoler.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Refactor visuel validé. Résultats détaillés du run Playwright (viewport 390x844) : (1) Home : 5 mode-card-* rendus (survie/custom sous le fold, clic OK après scroll), presets-empty visible, hero pitch-night.png chargée (900x600), resume-session-card apparaît après création de session. (2) /config/classique : duration-10/30/45/90 + duration-custom, periods-1/-2 avec révélation break-5/-10/-15, toggle-additional/-score/-sounds/-teams tous cliquables et persistent bien la valeur (vérifié par re-clic et présence conditionnelle de team-name-0 après toggle-teams ON). (3) /config/maracana : tuiles end-time / end-goals basculent correctement, goal-target apparaît/disparaît selon end-goals, end-rules-error apparaît quand les deux sont OFF, teams-plus/minus fonctionne (3→4→3), toggle-sounds OK, lancement -> /live avec next-card visible. (4) /live : chrono démarre (22:28 → 22:26 en 1.5s), goal-0/goal-1 incrémentent, toggle-correct affiche ungoal-0/-1 puis décrémente, live-pause fige le temps (22:25 → 22:25 après 1.2s), live-resume relance. (5) Persistance : après reload de /live, score (0-1) et chrono (~22:25 → 22:24) conservés. (6) 0 erreur console rouge sur l'ensemble du run. Le warning 'Invalid DOM property transform-origin' de l'iter_1 est bien corrigé (ChronoRing utilise désormais un <Path> depuis midi). Limitation web-only inchangée : Alert.alert avec plusieurs boutons ne peut être invoquée via Playwright, donc live-end/transition/summary restent à valider en natif.",
+  "rca_of_issue": "N/A — aucun bug bloquant détecté sur ce passage. Note : une première tentative de click sur config-launch en Maracana a timeout à 30s ; réessai avec un scroll bottom avant le click : OK. Flake d'automation, pas de régression fonctionnelle."
+}

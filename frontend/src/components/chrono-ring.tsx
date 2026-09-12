@@ -17,7 +17,7 @@ type Props = {
 export function ChronoRing({ time, caption, status, progress, size = 280, accent, testID }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
-  const stroke = 12;
+  const stroke = 14;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const p = Math.min(1, Math.max(0, progress));
@@ -31,7 +31,7 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
   return (
     <View style={[styles.wrap, { width: size, height: size }]} testID={testID}>
       <Svg width={size} height={size} style={styles.svg}>
-        <Circle cx={size / 2} cy={size / 2} r={r} stroke={colors.surfaceTertiary} strokeWidth={stroke} fill="none" />
+        <Circle cx={size / 2} cy={size / 2} r={r} stroke={colors.divider} strokeWidth={stroke} fill="none" />
         {/* Halo néon (maquette) : même arc, épais et translucide. */}
         <Path
           d={ringPath}
