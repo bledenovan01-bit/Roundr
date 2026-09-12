@@ -170,6 +170,7 @@ export default function LiveScreen() {
 
   const prepActive = live.firedAlerts.includes("prep") && live.stage !== "finished" && next;
   const remainingMs = live.stage === "period" && live.end.byTime ? Math.max(0, target - el) : null;
+  const teamColor = (label: string) => session.teams.find((t) => t.name === label)?.color ?? null;
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -201,7 +202,7 @@ export default function LiveScreen() {
         {/* Score + chrono */}
         <View style={styles.arena}>
           {live.scoreOn ? <TeamColumn team={teamA} score={live.score[0]} side={0} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} /> : null}
-          <ChronoRing time={time} caption={caption} status={status} progress={progress} size={live.scoreOn ? Math.min(240, width - spacing.lg * 2 - 2 * TEAM_COL - spacing.sm * 2) : Math.min(300, width - spacing.lg * 2)} accent={paused ? colors.muted : accent} testID="live-chrono" />
+          <ChronoRing time={time} caption={caption} status={status} progress={progress} size={live.scoreOn ? Math.min(240, width - spacing.lg * 2 - 2 * TEAM_COL - spacing.sm * 2) : Math.min(300, width - spacing.lg * 2)} accent={paused ? colors.muted : colors.brandPrimary} testID="live-chrono" />
           {live.scoreOn ? <TeamColumn team={teamB} score={live.score[1]} side={1} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} /> : null}
         </View>
         {!live.scoreOn ? (
@@ -222,7 +223,21 @@ export default function LiveScreen() {
               <Text style={styles.nextTitle}>Prochain match</Text>
               <Text style={styles.nextMeta}>{live.end.byTime ? `${next.durationMin} min` : "Ensuite"}</Text>
             </View>
-            <Text style={styles.nextTeams}>{next.certain ? `${next.aLabel}  vs  ${next.bLabel}` : `${next.aLabel} contre ${next.bLabel}`}</Text>
+            {next.certain ? (
+              <View style={styles.nextTeamRow}>
+                <View style={[styles.nextJersey, { borderColor: teamColor(next.aLabel) ?? colors.borderStrong }]}>
+                  <MaterialCommunityIcons name="tshirt-crew" size={20} color={teamColor(next.aLabel) ?? colors.muted} />
+                </View>
+                <Text style={styles.nextTeams} numberOfLines={1}>{next.aLabel.toUpperCase()}</Text>
+                <Text style={styles.vs}>VS</Text>
+                <Text style={[styles.nextTeams, { flex: 1, textAlign: "right" }]} numberOfLines={1}>{next.bLabel.toUpperCase()}</Text>
+                <View style={[styles.nextJersey, { borderColor: teamColor(next.bLabel) ?? colors.borderStrong }]}>
+                  <MaterialCommunityIcons name="tshirt-crew" size={20} color={teamColor(next.bLabel) ?? colors.muted} />
+                </View>
+              </View>
+            ) : (
+              <Text style={styles.nextTeams}>{`${next.aLabel} contre ${next.bLabel}`}</Text>
+            )}
             {prepActive ? (
               <View style={styles.prepBanner} testID="prep-banner">
                 <MaterialCommunityIcons name="bullhorn-outline" size={20} color={colors.brandPrimary} />
@@ -303,6 +318,13 @@ export default function LiveScreen() {
         ) : null}
 
         {session.cup?.tieChoice ? <TieChoice session={session} /> : null}
+
+        <View style={styles.brandFooter} testID="live-brand">
+          <Text style={styles.brandTagline}>PLUS DE JEU. MOINS D’ORGANISATION.</Text>
+          <Text style={styles.brandWordmark}>
+            Roundr<Text style={{ color: colors.brandPrimary }}>.</Text>
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );
@@ -325,7 +347,7 @@ function TeamColumn({ team, score, side, canScore, correcting, finished }: { tea
       <Text style={styles.score} testID={`score-${side}`}>{score}</Text>
       {canScore || canCorrectFinished ? (
         <View style={{ gap: spacing.xs }}>
-          <Pressable testID={`goal-${side}`} onPress={() => act(1)} style={[styles.plus, correcting && { borderColor: colors.brandPrimary }]}>
+          <Pressable testID={`goal-${side}`} onPress={() => act(1)} style={[styles.plus, { borderColor: team?.color ?? colors.borderStrong }, correcting && { borderColor: colors.brandPrimary }]}>
             <Text style={styles.plusLabel}>+1</Text>
           </Pressable>
           {correcting ? (
@@ -419,23 +441,29 @@ const useStyles = makeStyles((colors) => ({
   scroll: { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, gap: spacing.lg },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   iconBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  modeTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, letterSpacing: 1 },
+  modeTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, letterSpacing: 1.6 },
+  brandFooter: { alignItems: "center", gap: spacing.xs, paddingTop: spacing.sm },
+  brandTagline: { fontFamily: fontFamily.text, fontSize: 10, color: colors.muted, letterSpacing: 2.2 },
+  brandWordmark: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface, letterSpacing: -0.8 },
+  nextTeamRow: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  nextJersey: { width: 40, height: 40, borderRadius: 20, borderWidth: 2, alignItems: "center", justifyContent: "center", backgroundColor: colors.surface },
+  vs: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.muted, letterSpacing: 1.2 },
   matchLabel: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
   errorBanner: { flexDirection: "row", gap: spacing.sm, alignItems: "center", padding: spacing.md, borderRadius: radius.sm, backgroundColor: colors.error },
   errorText: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onError },
   arena: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
   teamCol: { width: TEAM_COL, alignItems: "center", gap: spacing.xs },
   jersey: { width: 52, height: 52, borderRadius: 26, borderWidth: 3, alignItems: "center", justifyContent: "center", backgroundColor: colors.surfaceSecondary },
-  teamName: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onSurface, letterSpacing: 0.5, maxWidth: TEAM_COL },
+  teamName: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurface, letterSpacing: 0.8, maxWidth: TEAM_COL },
   score: {
     fontFamily: fontFamily.display,
-    fontSize: fontSize["3xl"] + 8,
+    fontSize: fontSize["3xl"] + 20,
     color: colors.onSurface,
-    lineHeight: (fontSize["3xl"] + 8) * 1.05,
+    lineHeight: (fontSize["3xl"] + 20) * 1.02,
     // @ts-ignore
     fontVariant: ["tabular-nums"],
   },
-  plus: { width: TEAM_COL, height: 60, borderRadius: radius.sm, backgroundColor: colors.surfaceSecondary, borderWidth: 1, borderColor: colors.borderStrong, alignItems: "center", justifyContent: "center" },
+  plus: { width: TEAM_COL, height: 60, borderRadius: radius.md, backgroundColor: colors.surfaceSecondary, borderWidth: 1.5, borderColor: colors.borderStrong, alignItems: "center", justifyContent: "center" },
   minus: { height: 44, backgroundColor: colors.surface },
   plusLabel: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface },
   teamsLine: { textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },

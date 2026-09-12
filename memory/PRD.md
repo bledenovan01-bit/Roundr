@@ -45,6 +45,11 @@ Défini par mobile_design_agent (personnalité "7 Dark-First Utility") dans `/ap
 ## Identité visuelle (maquettes fournies)
 Fond quasi noir #0B0F0D, cartes #161B19, accent vert néon #3DF27C, accents par mode (vert/bleu/violet/orange/gris), anneau de progression autour du chrono.
 
+### Alignement maquettes (passe visuelle)
+- Accueil : wordmark « Roundr. » seul (point vert), tagline, titres de section en gros bold blanc (« Choisis ton mode », « Mes chronos »), carte « Reprendre la session en cours » sombre avec cercle play vert + badge « En cours », carte « Mes chronos » pleine (plus de bordure pointillée), pied de page tagline capitales espacées + wordmark.
+- Live : anneau vert néon (halo translucide + repère de tête), label « TEMPS RESTANT » capitales espacées, scores Barlow Condensed 68, boutons +1 bordés de la couleur d'équipe, carte « Prochain match » avec maillots + VS, pied de page marque.
+- L'anneau reste vert (brandPrimary) quel que soit le mode ; la couleur de mode sert à l'icône d'en-tête et aux tuiles de l'accueil.
+
 ## Architecture
 - `src/chrono/engine.ts` : machine à états temps (Date.now())
 - `src/domain/*` : types, session (moteur de session pur, `advance(session, now)` idempotent), maracana, bracket, cup, standings, summary, validate, preparation

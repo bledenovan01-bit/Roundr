@@ -38,23 +38,25 @@ export function ResumeCard({ modeLabel, subtitle, onPress, testID }: Props) {
           <MaterialCommunityIcons
             name="play"
             size={22}
-            color={colors.onBrandPrimary}
+            color={colors.brandPrimary}
           />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.eyebrow}>REPRENDRE LA SESSION</Text>
           <Text style={styles.title} numberOfLines={1}>
-            {modeLabel}
+            Reprendre la session en cours
           </Text>
           <Text style={styles.subtitle} numberOfLines={1}>
-            {subtitle}
+            {modeLabel} · {subtitle}
           </Text>
         </View>
       </View>
+      <View style={styles.statusPill}>
+        <Text style={styles.statusLabel}>En cours</Text>
+      </View>
       <MaterialCommunityIcons
-        name="arrow-right"
-        size={26}
-        color={colors.onBrandPrimary}
+        name="chevron-right"
+        size={24}
+        color={colors.muted}
       />
     </Pressable>
   );
@@ -62,18 +64,20 @@ export function ResumeCard({ modeLabel, subtitle, onPress, testID }: Props) {
 
 const useStyles = makeStyles((colors) => ({
   card: {
-    minHeight: 96,
+    minHeight: 84,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: colors.brandPrimary,
+    backgroundColor: colors.surfaceSecondary,
     borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.lg,
-    gap: spacing.md,
+    gap: spacing.sm,
   },
   pressed: {
-    backgroundColor: colors.brandSecondary,
+    backgroundColor: colors.surfaceTertiary,
   },
   left: {
     flexDirection: "row",
@@ -85,29 +89,31 @@ const useStyles = makeStyles((colors) => ({
     width: 44,
     height: 44,
     borderRadius: radius.pill,
-    backgroundColor: "rgba(0,0,0,0.25)",
+    borderWidth: 2,
+    borderColor: colors.brandPrimary,
     alignItems: "center",
     justifyContent: "center",
   },
-  eyebrow: {
+  statusPill: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+    borderRadius: radius.sm,
+    backgroundColor: colors.brandTertiary,
+  },
+  statusLabel: {
     fontFamily: fontFamily.textBold,
     fontSize: fontSize.sm,
-    color: colors.onBrandPrimary,
-    opacity: 0.85,
-    letterSpacing: 1.2,
-    marginBottom: 2,
+    color: colors.brandPrimary,
   },
   title: {
-    fontFamily: fontFamily.display,
-    fontSize: fontSize["2xl"],
-    color: colors.onBrandPrimary,
-    letterSpacing: 0.6,
-    textTransform: "uppercase",
+    fontFamily: fontFamily.textBold,
+    fontSize: fontSize.lg,
+    color: colors.onSurface,
   },
   subtitle: {
     fontFamily: fontFamily.text,
     fontSize: fontSize.base,
-    color: colors.onBrandPrimary,
-    opacity: 0.9,
+    color: colors.muted,
+    marginTop: 2,
   },
 }));

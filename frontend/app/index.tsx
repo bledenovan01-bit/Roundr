@@ -16,6 +16,7 @@ import {
   fontFamily,
   fontSize,
   makeStyles,
+  radius,
   spacing,
   useTheme,
 } from "@/src/theme";
@@ -64,13 +65,6 @@ export default function HomeScreen() {
           testID="home-header"
         >
           <View style={styles.brandRow}>
-            <View style={styles.logoDot}>
-              <MaterialCommunityIcons
-                name="soccer"
-                size={22}
-                color={colors.onBrandPrimary}
-              />
-            </View>
             <Text style={styles.brandName}>Roundr<Text style={{ color: colors.brandPrimary }}>.</Text></Text>
           </View>
           <Text style={styles.tagline}>Plus de jeu. Moins d’organisation.</Text>
@@ -97,7 +91,7 @@ export default function HomeScreen() {
         {/* Modes de jeu */}
         <View style={styles.section} testID="modes-section">
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>CHOISIS TON MODE</Text>
+            <Text style={styles.sectionTitle}>Choisis ton mode</Text>
           </View>
           <View style={styles.modesList}>
             {GAME_MODES.map((mode, index) => (
@@ -120,7 +114,7 @@ export default function HomeScreen() {
         {presets.length > 0 ? (
           <View style={styles.section} testID="presets-section">
             <Pressable style={styles.sectionHeader} onPress={() => router.push("/presets" as never)} testID="presets-manage">
-              <Text style={styles.sectionTitle}>MES CHRONOS</Text>
+              <Text style={styles.sectionTitle}>Mes chronos</Text>
               <Text style={[styles.sectionHint, { color: colors.brandPrimary }]}>Gérer ›</Text>
             </Pressable>
             <ScrollView
@@ -141,24 +135,29 @@ export default function HomeScreen() {
           </View>
         ) : (
           <Pressable style={styles.emptyPresets} testID="presets-empty" onPress={() => router.push("/presets" as never)}>
-            <MaterialCommunityIcons
-              name="timer-plus-outline"
-              size={24}
-              color={colors.muted}
-            />
+            <View style={styles.emptyPresetsIcon}>
+              <MaterialCommunityIcons
+                name="clock-outline"
+                size={24}
+                color={colors.onSurface}
+              />
+            </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.emptyPresetsTitle}>Mes chronos</Text>
               <Text style={styles.emptyPresetsSubtitle}>
-                Enregistre tes réglages Custom pour les relancer en un tap.
+                Vos formats sauvegardés
               </Text>
             </View>
-            <MaterialCommunityIcons name="chevron-right" size={22} color={colors.muted} />
+            <MaterialCommunityIcons name="chevron-right" size={24} color={colors.muted} />
           </Pressable>
         )}
 
         {/* Footer */}
         <View style={styles.footer} testID="home-footer">
-          <Text style={styles.footerText}>Roundr V0 · Hors-ligne</Text>
+          <Text style={styles.footerTagline}>PLUS DE JEU. MOINS D’ORGANISATION.</Text>
+          <Text style={styles.footerWordmark}>
+            Roundr<Text style={{ color: colors.brandPrimary }}>.</Text>
+          </Text>
         </View>
       </ScrollView>
     </View>
@@ -183,23 +182,16 @@ const useStyles = makeStyles((colors) => ({
     alignItems: "center",
     gap: spacing.md,
   },
-  logoDot: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: colors.brandPrimary,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   brandName: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize["3xl"] - 8,
+    fontSize: fontSize["3xl"] - 6,
+    lineHeight: (fontSize["3xl"] - 6) * 1.1,
     color: colors.onSurface,
-    letterSpacing: -1,
+    letterSpacing: -1.4,
   },
   tagline: {
     fontFamily: fontFamily.text,
-    fontSize: fontSize.base,
+    fontSize: fontSize.lg,
     color: colors.muted,
   },
   resumeWrap: {},
@@ -213,8 +205,9 @@ const useStyles = makeStyles((colors) => ({
   },
   sectionTitle: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize.sm,
-    letterSpacing: 1.5,
+    fontSize: fontSize["2xl"],
+    lineHeight: fontSize["2xl"] * 1.15,
+    letterSpacing: -0.6,
     color: colors.onSurface,
   },
   sectionHint: {
@@ -234,32 +227,47 @@ const useStyles = makeStyles((colors) => ({
     alignItems: "center",
     gap: spacing.md,
     padding: spacing.lg,
-    borderRadius: 8,
+    borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    borderStyle: "dashed",
     backgroundColor: colors.surfaceSecondary,
+  },
+  emptyPresetsIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.pill,
+    borderWidth: 2,
+    borderColor: colors.borderStrong,
+    alignItems: "center",
+    justifyContent: "center",
   },
   emptyPresetsTitle: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize.base,
+    fontSize: fontSize.lg,
     color: colors.onSurface,
   },
   emptyPresetsSubtitle: {
     fontFamily: fontFamily.text,
-    fontSize: fontSize.sm,
+    fontSize: fontSize.base,
     color: colors.muted,
     marginTop: 2,
   },
   footer: {
     alignItems: "center",
     paddingVertical: spacing.md,
+    gap: spacing.xs,
   },
-  footerText: {
+  footerTagline: {
     fontFamily: fontFamily.text,
-    fontSize: fontSize.sm,
+    fontSize: 10,
     color: colors.muted,
-    letterSpacing: 0.5,
+    letterSpacing: 2.2,
+  },
+  footerWordmark: {
+    fontFamily: fontFamily.textBold,
+    fontSize: fontSize.xl,
+    color: colors.onSurface,
+    letterSpacing: -0.8,
   },
   saveError: {
     fontFamily: fontFamily.textBold,
