@@ -18,7 +18,7 @@ import type { Session, Team } from "@/src/domain/types";
 import { archiveSession, dispatchSession, tick, useStore } from "@/src/store/session-store";
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 
-const TEAM_COL = 76;
+const TEAM_COL = 68;
 
 export default function LiveScreen() {
   const styles = useStyles();
@@ -171,6 +171,7 @@ export default function LiveScreen() {
   const prepActive = live.firedAlerts.includes("prep") && live.stage !== "finished" && next;
   const remainingMs = live.stage === "period" && live.end.byTime ? Math.max(0, target - el) : null;
   const teamColor = (label: string) => session.teams.find((t) => t.name === label)?.color ?? null;
+  const ringSize = Math.min(284, width - spacing.lg * 2);
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -199,11 +200,27 @@ export default function LiveScreen() {
           </View>
         ) : null}
 
-        {/* Score + chrono */}
-        <View style={styles.arena}>
-          {live.scoreOn ? <TeamColumn team={teamA} score={live.score[0]} side={0} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} /> : null}
-          <ChronoRing time={time} caption={caption} status={status} progress={progress} size={live.scoreOn ? Math.min(240, width - spacing.lg * 2 - 2 * TEAM_COL - spacing.sm * 2) : Math.min(300, width - spacing.lg * 2)} accent={paused ? colors.muted : colors.brandPrimary} testID="live-chrono" />
-          {live.scoreOn ? <TeamColumn team={teamB} score={live.score[1]} side={1} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} /> : null}
+        {/* Score + chrono — le chrono domine l'écran (maquette live) */}
+        <View style={[styles.arena, { height: ringSize }]}>
+          <ChronoRing
+            time={time}
+            caption={caption}
+            status={status}
+            progress={progress}
+            size={ringSize}
+            accent={paused ? colors.muted : colors.brandPrimary}
+            testID="live-chrono"
+          />
+          {live.scoreOn ? (
+            <>
+              <View style={[styles.teamSlot, { left: 0 }]}>
+                <TeamColumn team={teamA} score={live.score[0]} side={0} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} />
+              </View>
+              <View style={[styles.teamSlot, { right: 0 }]}>
+                <TeamColumn team={teamB} score={live.score[1]} side={1} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} />
+              </View>
+            </>
+          ) : null}
         </View>
         {!live.scoreOn ? (
           <Text style={styles.teamsLine}>{teamA?.name} <Text style={{ color: colors.muted }}>vs</Text> {teamB?.name}</Text>
@@ -438,11 +455,11 @@ function TieChoice({ session }: { session: Session }) {
 
 const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
-  scroll: { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, gap: spacing.lg },
+  scroll: { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, gap: spacing.lg, flexGrow: 1 },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   iconBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   modeTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, letterSpacing: 1.6 },
-  brandFooter: { alignItems: "center", gap: spacing.xs, paddingTop: spacing.sm },
+  brandFooter: { alignItems: "center", gap: spacing.xs, paddingTop: spacing.lg, marginTop: "auto" },
   brandTagline: { fontFamily: fontFamily.text, fontSize: 10, color: colors.muted, letterSpacing: 2.2 },
   brandWordmark: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface, letterSpacing: -0.8 },
   nextTeamRow: { flexDirection: "row", alignItems: "center", gap: spacing.md },
@@ -451,37 +468,38 @@ const useStyles = makeStyles((colors) => ({
   matchLabel: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
   errorBanner: { flexDirection: "row", gap: spacing.sm, alignItems: "center", padding: spacing.md, borderRadius: radius.sm, backgroundColor: colors.error },
   errorText: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onError },
-  arena: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
-  teamCol: { width: TEAM_COL, alignItems: "center", gap: spacing.xs },
-  jersey: { width: 52, height: 52, borderRadius: 26, borderWidth: 3, alignItems: "center", justifyContent: "center", backgroundColor: colors.surfaceSecondary },
-  teamName: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurface, letterSpacing: 0.8, maxWidth: TEAM_COL },
+  arena: { alignItems: "center", justifyContent: "center", marginTop: spacing.sm },
+  teamSlot: { position: "absolute", top: 0, bottom: 0, width: TEAM_COL, justifyContent: "center" },
+  teamCol: { width: TEAM_COL, alignItems: "center", gap: spacing.sm },
+  jersey: { width: 54, height: 54, borderRadius: 27, borderWidth: 3, alignItems: "center", justifyContent: "center", backgroundColor: colors.surfaceSecondary },
+  teamName: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onSurface, letterSpacing: 0.8, maxWidth: TEAM_COL },
   score: {
     fontFamily: fontFamily.display,
-    fontSize: fontSize["3xl"] + 20,
+    fontSize: 64,
     color: colors.onSurface,
-    lineHeight: (fontSize["3xl"] + 20) * 1.02,
+    lineHeight: 64 * 1.02,
     // @ts-ignore
     fontVariant: ["tabular-nums"],
   },
-  plus: { width: TEAM_COL, height: 60, borderRadius: radius.md, backgroundColor: colors.surfaceSecondary, borderWidth: 1.5, borderColor: colors.borderStrong, alignItems: "center", justifyContent: "center" },
+  plus: { width: TEAM_COL, height: 58, borderRadius: radius.md, backgroundColor: colors.surfaceSecondary, borderWidth: 1.5, borderColor: colors.borderStrong, alignItems: "center", justifyContent: "center" },
   minus: { height: 44, backgroundColor: colors.surface },
   plusLabel: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface },
   teamsLine: { textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },
   correctLink: { flexDirection: "row", alignSelf: "center", alignItems: "center", gap: spacing.xs, minHeight: 40, paddingHorizontal: spacing.md },
   correctLabel: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
-  nextCard: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.md, padding: spacing.lg, gap: spacing.sm, borderWidth: 1, borderColor: colors.border },
+  nextCard: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
   rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  nextTitle: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
-  nextMeta: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.muted },
-  nextTeams: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },
-  prepBanner: { flexDirection: "row", alignItems: "center", gap: spacing.md, padding: spacing.md, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary },
-  prepTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurface },
-  prepSub: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
+  nextTitle: { fontFamily: fontFamily.text, fontSize: fontSize.base + 1, color: colors.muted },
+  nextMeta: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.muted },
+  nextTeams: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, letterSpacing: 0.6 },
+  prepBanner: { flexDirection: "row", alignItems: "center", gap: spacing.md, padding: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary },
+  prepTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
+  prepSub: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
   controls: { flexDirection: "row", gap: spacing.md },
-  ctrl: { flex: 1, minHeight: 64, borderRadius: radius.md, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
+  ctrl: { flex: 1, minHeight: 68, borderRadius: radius.lg, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
   ctrlSecondary: { backgroundColor: colors.surfaceSecondary, borderWidth: 1, borderColor: colors.borderStrong },
-  ctrlLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
-  panel: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.md, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
+  ctrlLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl - 2, color: colors.onSurface },
+  panel: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
   panelTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.5, color: colors.brandPrimary, textTransform: "uppercase" },
   panelHint: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted, lineHeight: fontSize.base * 1.4 },
   result: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"] + 4, color: colors.onSurface },

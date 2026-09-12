@@ -4,6 +4,7 @@ import * as Haptics from "expo-haptics";
 import {
   fontFamily,
   fontSize,
+  control,
   makeStyles,
   radius,
   spacing,
@@ -81,8 +82,8 @@ export function PrimaryButton({
 
 const useStyles = makeStyles((colors) => ({
   base: {
-    minHeight: 60,
-    borderRadius: radius.md,
+    minHeight: control.button,
+    borderRadius: radius.lg,
     paddingHorizontal: spacing.xl,
     alignItems: "center",
     justifyContent: "center",
@@ -96,7 +97,9 @@ const useStyles = makeStyles((colors) => ({
     backgroundColor: colors.brandPrimary,
   },
   bgSecondary: {
-    backgroundColor: colors.surfaceTertiary,
+    backgroundColor: colors.surfaceSecondary,
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
   },
   bgGhost: {
     backgroundColor: "transparent",
@@ -112,14 +115,14 @@ const useStyles = makeStyles((colors) => ({
   },
   label: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize.lg,
-    letterSpacing: 0.4,
+    fontSize: fontSize.xl - 2,
+    letterSpacing: 0.2,
   },
   textPrimary: {
     color: colors.onBrandPrimary,
   },
   textSecondary: {
-    color: colors.onSurfaceTertiary,
+    color: colors.onSurface,
   },
   textGhost: {
     color: colors.onSurface,

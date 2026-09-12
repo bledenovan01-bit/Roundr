@@ -48,7 +48,7 @@ export function ModeCard({
         onPress={handlePress}
         style={({ pressed }) => [
           styles.card,
-          dominant && { borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary },
+          dominant && { borderColor: colors.brandPrimary, borderWidth: 2, backgroundColor: colors.brandTertiary },
           pressed && styles.pressed,
         ]}
       >
@@ -79,12 +79,12 @@ export function ModeCard({
 
 const useStyles = makeStyles((colors) => ({
   card: {
-    minHeight: 84,
+    minHeight: 92,
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.lg,
     backgroundColor: colors.surfaceSecondary,
-    borderRadius: radius.md,
+    borderRadius: radius.lg,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.lg,
     borderWidth: 1,
@@ -95,8 +95,8 @@ const useStyles = makeStyles((colors) => ({
     transform: [{ scale: 0.99 }],
   },
   iconWrap: {
-    width: 56,
-    height: 56,
+    width: 58,
+    height: 58,
     borderRadius: radius.md,
     backgroundColor: colors.brandTertiary,
     alignItems: "center",
@@ -104,18 +104,19 @@ const useStyles = makeStyles((colors) => ({
   },
   body: {
     flex: 1,
-    gap: 2,
+    gap: 3,
   },
   title: {
     fontFamily: fontFamily.textBold,
     color: colors.onSurface,
     fontSize: fontSize.xl,
     lineHeight: fontSize.xl * 1.2,
+    letterSpacing: -0.3,
   },
   description: {
     fontFamily: fontFamily.text,
     color: colors.muted,
-    fontSize: fontSize.base,
-    lineHeight: fontSize.base * 1.35,
+    fontSize: 13,
+    lineHeight: 18,
   },
 }));

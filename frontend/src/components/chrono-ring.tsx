@@ -26,8 +26,8 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
   const ringPath = `M ${size / 2} ${size / 2 - r} A ${r} ${r} 0 0 1 ${size / 2} ${size / 2 + r} A ${r} ${r} 0 0 1 ${size / 2} ${size / 2 - r}`;
   const angle = (p * 360 - 90) * (Math.PI / 180);
   const dot = { x: size / 2 + r * Math.cos(angle), y: size / 2 + r * Math.sin(angle) };
-  const base = Math.min(fontSize["4xl"], size * 0.36);
-  const fontScale = time.length > 5 ? 0.7 : 1;
+  const base = Math.min(78, size * 0.275);
+  const fontScale = time.length > 5 ? 0.72 : 1;
   return (
     <View style={[styles.wrap, { width: size, height: size }]} testID={testID}>
       <Svg width={size} height={size} style={styles.svg}>
@@ -56,7 +56,7 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
         <Circle cx={dot.x} cy={dot.y} r={stroke * 0.55} fill={accent ?? colors.brandPrimary} />
       </Svg>
       <Text style={styles.caption}>{caption.toUpperCase()}</Text>
-      <Text style={[styles.time, { fontSize: base * fontScale, lineHeight: base * fontScale * 1.05 }]} testID="live-time">
+      <Text style={[styles.time, { fontSize: base * fontScale, lineHeight: base * fontScale * 1.02 }]} testID="live-time">
         {time}
       </Text>
       <Text style={styles.status} numberOfLines={1}>{status}</Text>
@@ -67,13 +67,14 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
 const useStyles = makeStyles((colors) => ({
   wrap: { alignItems: "center", justifyContent: "center", alignSelf: "center" },
   svg: { position: "absolute", top: 0, left: 0 },
-  caption: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 3.4, color: colors.muted, textTransform: "uppercase" },
+  caption: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, letterSpacing: 3.6, color: colors.muted, textTransform: "uppercase" },
   time: {
     fontFamily: fontFamily.display,
     color: colors.onSurface,
-    letterSpacing: 1,
+    letterSpacing: 0,
+    marginVertical: 2,
     // @ts-ignore react-native fontVariant tuple
     fontVariant: ["tabular-nums"],
   },
-  status: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, maxWidth: 140, textAlign: "center" },
+  status: { fontFamily: fontFamily.text, fontSize: fontSize.lg, color: colors.muted, maxWidth: 170, textAlign: "center" },
 }));

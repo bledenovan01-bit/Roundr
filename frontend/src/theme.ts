@@ -12,17 +12,17 @@ export type ColorScheme = "light" | "dark";
 
 const dark = {
   // ---------------------------------------------------------------------------
-  // Surfaces
+  // Surfaces — nuit de stade : noir bleuté, cartes légèrement plus claires
   // ---------------------------------------------------------------------------
-  surface: "#0B0F0D",
+  surface: "#080B0F",
   onSurface: "#FFFFFF",
-  surfaceSecondary: "#161B19",
+  surfaceSecondary: "#101519",
   onSurfaceSecondary: "#F4F4F5",
-  surfaceTertiary: "#232A27",
+  surfaceTertiary: "#191F26",
   onSurfaceTertiary: "#E4E4E7",
   surfaceInverse: "#FFFFFF",
   onSurfaceInverse: "#000000",
-  muted: "#9AA39F",
+  muted: "#8B949E",
 
   // ---------------------------------------------------------------------------
   // Brand: neon green (maquettes Roundr) sur fond quasi noir
@@ -33,7 +33,7 @@ const dark = {
   onBrandPrimary: "#06210F",
   brandSecondary: "#22B85A",
   onBrandSecondary: "#06210F",
-  brandTertiary: "#0F2A1A",
+  brandTertiary: "#0D2318",
   onBrandTertiary: "#6FF5A0",
 
   // Accents des modes (maquettes)
@@ -58,9 +58,9 @@ const dark = {
   // ---------------------------------------------------------------------------
   // Lines
   // ---------------------------------------------------------------------------
-  border: "#262D2A",
-  borderStrong: "#3A433F",
-  divider: "#1F2623",
+  border: "#1D242B",
+  borderStrong: "#2C3641",
+  divider: "#161C22",
 };
 
 export type ThemeColors = typeof dark;
@@ -81,9 +81,10 @@ export const spacing = {
 } as const;
 
 export const radius = {
-  sm: 8,
-  md: 14,
-  lg: 20,
+  sm: 10,
+  md: 16,
+  lg: 22,
+  xl: 28,
   pill: 999,
 } as const;
 
@@ -96,12 +97,20 @@ export const fontFamily = {
 export const fontSize = {
   sm: 12,
   base: 14,
-  lg: 16,
-  xl: 20,
-  "2xl": 28,
+  lg: 17,
+  xl: 21,
+  "2xl": 30,
   "3xl": 48,
   "4xl": 80,
   giant: 140,
+} as const;
+
+// Cibles tactiles et hauteurs de contrôles (cohérence inter-écrans).
+export const control = {
+  chip: 54,
+  row: 56,
+  button: 64,
+  icon: 46,
 } as const;
 
 export function setColorScheme(scheme: ColorScheme) {

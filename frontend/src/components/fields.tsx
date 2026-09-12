@@ -7,7 +7,7 @@ import MaterialCommunityIcons from "@react-native-vector-icons/material-design-i
 
 import { TEAM_PALETTE } from "@/src/domain/defaults";
 import type { EndRules, Team } from "@/src/domain/types";
-import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { fontFamily, fontSize, control, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 
 export function Section({ title, children, hint }: { title: string; children: React.ReactNode; hint?: string }) {
   const styles = useStyles();
@@ -65,9 +65,9 @@ export function ChoiceRow<T extends string | number>({
                 setShowCustom(false);
                 onChange(o.value);
               }}
-              style={[styles.chip, active && { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary }]}
+              style={[styles.chip, active && styles.chipActive]}
             >
-              <Text style={[styles.chipLabel, active && { color: colors.onBrandPrimary }]}>{o.label}</Text>
+              <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
             </Pressable>
           );
         })}
@@ -75,9 +75,9 @@ export function ChoiceRow<T extends string | number>({
           <Pressable
             testID={`${testID ?? label}-custom`}
             onPress={() => setShowCustom(true)}
-            style={[styles.chip, showCustom && { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary }]}
+            style={[styles.chip, showCustom && styles.chipActive]}
           >
-            <Text style={[styles.chipLabel, showCustom && { color: colors.onBrandPrimary }]}>Perso</Text>
+            <Text style={[styles.chipLabel, showCustom && styles.chipLabelActive]}>Perso</Text>
           </Pressable>
         ) : null}
       </View>
@@ -164,7 +164,8 @@ export function ToggleRow({ label, value, onChange, hint, testID }: { label: str
         value={value}
         onValueChange={onChange}
         trackColor={{ true: colors.brandPrimary, false: colors.surfaceTertiary }}
-        thumbColor={colors.onSurface}
+        thumbColor={value ? colors.onBrandPrimary : colors.onSurface}
+        ios_backgroundColor={colors.surfaceTertiary}
       />
     </Pressable>
   );
@@ -187,9 +188,9 @@ export function Segmented<T extends string | number>({ label, options, value, on
                 Haptics.selectionAsync().catch(() => {});
                 onChange(o.value);
               }}
-              style={[styles.segmentItem, active && { backgroundColor: colors.brandPrimary }]}
+              style={[styles.segmentItem, active && styles.segmentItemActive]}
             >
-              <Text style={[styles.chipLabel, active && { color: colors.onBrandPrimary }]}>{o.label}</Text>
+              <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
             </Pressable>
           );
         })}
@@ -324,25 +325,49 @@ export function ErrorText({ children, testID }: { children: string; testID?: str
 const useStyles = makeStyles((colors) => ({
   section: { gap: spacing.md },
   sectionHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
-  sectionTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.5, color: colors.muted, textTransform: "uppercase" },
+  sectionTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.8, color: colors.muted, textTransform: "uppercase" },
   sectionHint: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
-  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.md, padding: spacing.lg, gap: spacing.lg, borderWidth: 1, borderColor: colors.border },
-  field: { gap: spacing.sm },
+  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.xl, borderWidth: 1, borderColor: colors.border },
+  field: { gap: spacing.md },
   fieldLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
-  hint: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.4 },
+  hint: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.45 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
-  chip: { minHeight: 48, paddingHorizontal: spacing.lg, borderRadius: radius.sm, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
+  chip: {
+    minHeight: control.chip,
+    minWidth: 82,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.md,
+    backgroundColor: colors.surfaceTertiary,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  chipActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
   checkChip: { flexDirection: "row", gap: spacing.sm, paddingHorizontal: spacing.md },
-  chipLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurface },
+  chipLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurfaceTertiary },
+  chipLabelActive: { color: colors.brandPrimary },
   inputRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
-  input: { minHeight: 52, minWidth: 96, paddingHorizontal: spacing.md, borderRadius: radius.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.textBold, fontSize: fontSize.lg },
+  input: {
+    minHeight: control.chip,
+    minWidth: 100,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.borderStrong,
+    color: colors.onSurface,
+    fontFamily: fontFamily.textBold,
+    fontSize: fontSize.lg,
+  },
   suffix: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
-  rowBetween: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md, minHeight: 48 },
+  rowBetween: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md, minHeight: control.row },
   stepper: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
-  stepBtn: { width: 48, height: 48, borderRadius: radius.sm, backgroundColor: colors.surfaceTertiary, alignItems: "center", justifyContent: "center" },
-  stepValue: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface, minWidth: 40, textAlign: "center" },
-  segment: { flexDirection: "row", backgroundColor: colors.surfaceTertiary, borderRadius: radius.sm, padding: 4, gap: 4 },
-  segmentItem: { flex: 1, minHeight: 44, borderRadius: radius.sm - 2, alignItems: "center", justifyContent: "center" },
+  stepBtn: { width: control.icon, height: control.icon, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
+  stepValue: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface, minWidth: 44, textAlign: "center" },
+  segment: { flexDirection: "row", backgroundColor: colors.surfaceTertiary, borderRadius: radius.md, padding: 5, gap: 5, borderWidth: 1, borderColor: colors.border },
+  segmentItem: { flex: 1, minHeight: 48, borderRadius: radius.sm, alignItems: "center", justifyContent: "center" },
+  segmentItemActive: { backgroundColor: colors.brandTertiary, borderWidth: 2, borderColor: colors.brandPrimary },
   teamRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
-  colorDot: { width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: colors.borderStrong },
+  colorDot: { width: control.icon, height: control.icon, borderRadius: radius.pill, borderWidth: 2, borderColor: colors.borderStrong },
 }));

@@ -13,7 +13,7 @@ import type { AnyConfig, CustomConfig, Team } from "@/src/domain/types";
 import { validateConfig } from "@/src/domain/validate";
 import { ClassicForm, CupForm, CustomForm, MaracanaForm, SurvieForm } from "@/src/features/config-forms";
 import { getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
-import { fontFamily, fontSize, makeStyles, spacing, useTheme } from "@/src/theme";
+import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 
 export default function ConfigScreen() {
   const styles = useStyles();
@@ -160,12 +160,12 @@ export default function ConfigScreen() {
 const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
   scroll: { paddingHorizontal: spacing.lg, gap: spacing.lg },
-  header: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  header: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.xs },
   backBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center", marginLeft: -spacing.sm },
-  title: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"], color: colors.onSurface },
-  subtitle: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
+  title: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"], color: colors.onSurface, letterSpacing: -0.6 },
+  subtitle: { fontFamily: fontFamily.text, fontSize: fontSize.base + 1, color: colors.muted, marginTop: 2 },
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
-  input: { minHeight: 52, paddingHorizontal: spacing.md, borderRadius: 8, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.textBold, fontSize: fontSize.lg },
-  errors: { gap: spacing.xs, padding: spacing.md, borderRadius: 8, borderWidth: 1, borderColor: colors.error, backgroundColor: colors.surfaceSecondary },
+  input: { minHeight: 54, paddingHorizontal: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.textBold, fontSize: fontSize.lg },
+  errors: { gap: spacing.xs, padding: spacing.lg, borderRadius: radius.md, borderWidth: 1, borderColor: colors.error, backgroundColor: colors.surfaceSecondary },
   cta: { position: "absolute", left: 0, right: 0, bottom: 0, paddingHorizontal: spacing.lg, paddingTop: spacing.md, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border },
 }));
