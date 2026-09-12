@@ -14,6 +14,7 @@ export type GameMode = {
   title: string;
   description: string;
   icon: IconName;
+  accent: "modeClassique" | "modeMaracana" | "modeCup" | "modeSurvie" | "modeCustom";
 };
 
 // Static catalogue of the 5 modes shipped in Roundr V0.
@@ -21,32 +22,37 @@ export type GameMode = {
 export const GAME_MODES: GameMode[] = [
   {
     id: "classique",
-    title: "Match Classique",
-    description: "1 match, 2 équipes, périodes chronométrées.",
-    icon: "whistle",
+    title: "Match classique",
+    description: "2 équipes · chrono rapide",
+    icon: "soccer-field",
+    accent: "modeClassique",
   },
   {
     id: "maracana",
     title: "Maracana",
-    description: "Rotations continues, 3 à 8 équipes, vainqueur reste.",
+    description: "Rotations automatiques · 3 à 8 équipes",
     icon: "sync",
+    accent: "modeMaracana",
   },
   {
     id: "cup",
     title: "Cup",
-    description: "Poules puis phases finales, 4 à 32 équipes.",
+    description: "Poules + phases finales · 4 à 32 équipes",
     icon: "trophy",
+    accent: "modeCup",
   },
   {
     id: "survie",
     title: "Survie",
-    description: "Élimination directe, 2 à 32 équipes.",
-    icon: "sword-cross",
+    description: "Élimination directe · 2 à 32 équipes",
+    icon: "fire",
+    accent: "modeSurvie",
   },
   {
     id: "custom",
     title: "Custom",
-    description: "Chrono libre, périodes et pauses au choix.",
+    description: "Chrono personnalisable · presets",
     icon: "tune-variant",
+    accent: "modeCustom",
   },
 ];

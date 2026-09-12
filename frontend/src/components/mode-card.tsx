@@ -19,6 +19,8 @@ type Props = {
   onPress: () => void;
   index?: number;
   testID?: string;
+  accent?: string;
+  dominant?: boolean;
 };
 
 export function ModeCard({
@@ -28,6 +30,8 @@ export function ModeCard({
   onPress,
   index = 0,
   testID,
+  accent,
+  dominant,
 }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
@@ -42,13 +46,17 @@ export function ModeCard({
       <Pressable
         testID={testID}
         onPress={handlePress}
-        style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+        style={({ pressed }) => [
+          styles.card,
+          dominant && { borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary },
+          pressed && styles.pressed,
+        ]}
       >
-        <View style={styles.iconWrap}>
+        <View style={[styles.iconWrap, { backgroundColor: accent ?? colors.brandPrimary }]}>
           <MaterialCommunityIcons
             name={iconName}
-            size={32}
-            color={colors.brandPrimary}
+            size={30}
+            color={colors.onBrandPrimary}
           />
         </View>
         <View style={styles.body}>
@@ -71,7 +79,7 @@ export function ModeCard({
 
 const useStyles = makeStyles((colors) => ({
   card: {
-    minHeight: 88,
+    minHeight: 84,
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.lg,
@@ -99,12 +107,10 @@ const useStyles = makeStyles((colors) => ({
     gap: 2,
   },
   title: {
-    fontFamily: fontFamily.display,
+    fontFamily: fontFamily.textBold,
     color: colors.onSurface,
-    fontSize: fontSize["2xl"],
-    lineHeight: fontSize["2xl"] * 1.05,
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
+    fontSize: fontSize.xl,
+    lineHeight: fontSize.xl * 1.2,
   },
   description: {
     fontFamily: fontFamily.text,

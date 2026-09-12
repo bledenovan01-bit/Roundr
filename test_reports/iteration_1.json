@@ -1,0 +1,58 @@
+{
+  "summary": "Testé Roundr V0 (Expo web preview, viewport mobile 390x844) sur les parcours end-to-end demandés. Accueil, 5 cartes modes, résumé/standings/presets vides, navigation config → live, score, pause/reprise, correction, persistance après reload (chrono + score + session active), résumé preset dans Mes chronos, validation d'erreur Cup pour combinaison impossible et suppression preset : tous OK. Le confirm end-match (Alert.alert destructive) et donc le passage /live → transition → /summary n'a pas pu être validé en web preview car react-native-web n'invoque pas le bouton destructif d'Alert.alert au clic (limitation RN-web, pas un bug applicatif ; à tester sur téléphone/Expo Go). Un warning DOM 'Invalid DOM property transform-origin' apparait à chaque rendu du ChronoRing (react-native-svg <Circle origin> sur web) — non bloquant mais affiché comme toast rouge par LogBox.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "ChronoRing (react-native-svg Circle)",
+        "issue": "Console error 'Invalid DOM property transform-origin. Did you mean transformOrigin?' émis en boucle sur /live et affiché comme toast rouge par LogBox du preview web. Vient de la prop `origin` passée à <Circle> (react-native-svg convertit en transform-origin, non reconnu par React DOM). Reference: src/components/chrono-ring.tsx:41",
+        "testID": "live-chrono",
+        "priority": "MEDIUM"
+      },
+      {
+        "component": "SummaryScreen empty state",
+        "issue": "Sur /summary sans session, le texte 'Aucun résumé disponible.' est collé au bord gauche (padding shorthand écrasé par paddingTop dans le style array). Reference: app/summary.tsx:28",
+        "testID": "",
+        "priority": "LOW"
+      },
+      {
+        "component": "StandingsScreen empty state",
+        "issue": "Sur /standings sans session, 'Aucune session.' affiché en haut sans padding horizontal (même pattern que summary). À vérifier dans app/standings.tsx.",
+        "testID": "",
+        "priority": "LOW"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Fin de match → transition → /summary",
+        "issue": "Bouton `live-end` déclenche Alert.alert(..destructive..) sur web. react-native-web n'invoque pas le onPress destructif au clic Playwright/confirm. Impossible de valider en preview web : Transition panel, launch-next, end-session et /summary avec vrai résumé. À valider sur Expo Go/build natif.",
+        "affected_testIDs": ["live-end", "transition-panel", "end-session", "see-summary", "summary-share", "summary-replay"]
+      }
+    ],
+    "design_issues": [
+      {
+        "screen": "/live",
+        "issues": ["LogBox affiche un toast rouge persistant à cause du warning transform-origin — à corriger pour un rendu propre en preview web"]
+      }
+    ],
+    "react_native_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Éliminer le warning DOM 'transform-origin' du ChronoRing : soit remplacer <Circle origin=... rotation=-90 /> par une <G transform=`rotate(-90 cx cy)`> englobant le Circle, soit passer `transform={[{rotate:'-90deg'}]}` via style RN, soit filtrer la prop sur web. Fichier: /app/frontend/src/components/chrono-ring.tsx:41.",
+    "Ajouter un padding horizontal (spacing.lg / xl) sur les états vides de /summary et /standings pour éviter que le texte colle au bord gauche.",
+    "Valider manuellement sur Expo Go (téléphone) : fin de match (Alert), transition entre matchs, résumé, partage PNG via expo-sharing, sons WAV. Ces parcours ne sont pas testables via react-native-web (Alert.alert avec plusieurs boutons)."
+  ],
+  "critical_code_review_comments": [
+    "live.tsx fait 469 lignes — approche encore acceptable (<700) mais commence à mélanger plusieurs responsabilités (rendu, transition, TAB, tie-choice). Envisager d'extraire TieChoice + Transition dans /app/frontend/src/features.",
+    "share() dans summary.tsx catch silencieux (`catch {}`) — masque l'erreur de capture ; logger en console pour debug futur.",
+    "Alert.prompt (presets.tsx:41) n'existe pas sur Android/web — le fallback `router.push('/config/custom?preset=...')` existe déjà, OK."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (offline app)", "frontend": "85%"},
+  "seed_data_creation": "Aucune. localStorage.clear() entre chaque scénario pour isoler les tests.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "L'app est 100% offline (AsyncStorage roundr.session.v1, roundr.presets.v1). Pas de backend. Alert.alert avec plusieurs boutons ne fonctionne pas via Playwright sur react-native-web : d.accept() sur browser dialog n'invoque pas le onPress destructif. Pour tester end-match/transition/summary en web, il faudrait soit stubber Alert.alert, soit exposer un mode debug qui skip la confirmation. Sinon, tester sur Expo Go. Le testID des steppers suit la convention `<name>-minus|-value|-plus` (ex: teams-minus). Le testID de la route survie est `/config/survie` (français). Validation Cup impossible reproduite avec 6 équipes / 2 poules / 3 qualifiés → message 'X qualifiés ne forment pas un tableau complet.'.",
+  "rca_of_issue": "Warning 'transform-origin': react-native-svg 15.x traduit la prop `origin` de <Circle> en attribut DOM `transform-origin` (valide en CSS SVG mais rejeté par le validateur d'attributs de React DOM). Reproduit sur chaque rendu du chrono. Mitigation : envelopper le Circle animé dans un <G rotation={-90} originX={size/2} originY={size/2}> ou reformuler la rotation via strokeDashoffset seul sans rotation (dessiner l'anneau à partir du haut en ajustant l'ordre du dasharray)."
+}

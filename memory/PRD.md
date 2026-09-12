@@ -28,19 +28,34 @@ Défini par mobile_design_agent (personnalité "7 Dark-First Utility") dans `/ap
 ## Séquence prompts (roadmap)
 - **Prompt 00** ✅ Audit existant, registre écarts (bootstrap Expo trouvé, remplacé)
 - **Prompt 01** ✅ Accueil (E01) + composants visuels partagés
-- Prompt 02 ⏳ Moteur chrono commun
-- Prompt 03 ⏳ Sauvegarde/restauration locale (AsyncStorage)
-- Prompt 04 ⏳ Match Classique bout en bout
-- Prompt 05 ⏳ Sons + validation mobile
-- Prompt 06 ⏳ Conditions de fin + correction scores
-- Prompt 07 ⏳ Custom + Mes chronos
-- Prompt 08 ⏳ Résultats/classements partagés
-- Prompt 09 ⏳ Maracana
-- Prompt 10 ⏳ Élimination/TAB/Survie
-- Prompt 11-12 ⏳ Cup poules + finales
-- Prompt 13 ⏳ Transitions
-- Prompt 14 ⏳ Résumés + carte de partage
-- Prompt 15 ⏳ Recette
+- **Prompt 02** ✅ Moteur chrono commun (pure state machine + hook React + démo /live)
+- **Prompt 03** ✅ Sauvegarde/restauration locale (`src/store/session-store.ts`, AsyncStorage, advance() unique au retour, sauvegarde illisible conservée à part)
+- **Prompt 04** ✅ Match Classique bout en bout (config → live → résumé, C02–C04, C21)
+- **Prompt 05** ✅ Sons WAV synthétisés (`assets/sounds`, expo-audio mixWithOthers, C19 dédup, pas de rafale) — NON TESTÉ sur téléphone
+- **Prompt 06** ✅ Cases de fin indépendantes, buts seul (C06), correction C16 (`correctLast`)
+- **Prompt 07** ✅ Custom (split C05) + Mes chronos (`/presets`, C23)
+- **Prompt 08** ✅ Classements 3/1/0 (`src/domain/standings.ts`, C13, ex æquo)
+- **Prompt 09** ✅ Maracana (`src/domain/maracana.ts`, MA-01..05, C07–C10, extension 2 min, ajout d'équipe)
+- **Prompt 10** ✅ Élimination/TAB/Survie (`src/domain/bracket.ts`, exemptions, petite finale, C11, C15)
+- **Prompt 11-12** ✅ Cup poules + qualification + finales (`src/domain/cup.ts`, C12–C15, choix explicite ex æquo)
+- **Prompt 13** ✅ Préparation par paliers (`src/domain/preparation.ts`, C18) + transitions E07
+- **Prompt 14** ✅ Résumés (`src/domain/summary.ts`) + carte PNG (react-native-view-shot + expo-sharing)
+- **Prompt 15** ⏳ Recette : tests moteur `scripts/test-domain.ts` (tous verts) ; tests téléphone (audio, arrière-plan, mode avion) NON TESTÉS — protocole à exécuter par l'utilisateur
+
+## Identité visuelle (maquettes fournies)
+Fond quasi noir #0B0F0D, cartes #161B19, accent vert néon #3DF27C, accents par mode (vert/bleu/violet/orange/gris), anneau de progression autour du chrono.
+
+## Architecture
+- `src/chrono/engine.ts` : machine à états temps (Date.now())
+- `src/domain/*` : types, session (moteur de session pur, `advance(session, now)` idempotent), maracana, bracket, cup, standings, summary, validate, preparation
+- `src/store/session-store.ts` : store externe + persistance + déclenchement des sons par diff d'état
+- Écrans : `/` accueil, `/config/[mode]`, `/live` (E03–E07 + TAB + choix ex æquo), `/standings` (E08), `/summary` (E09/E11), `/presets` (E10)
+
+## Limites connues / conventions à confirmer
+- Croisements de phase finale : défaut C15 (extrêmes), pas d'édition manuelle en V0
+- Tirage manuel = ordre des équipes dans la config (pas de placement case par case)
+- Audio écran verrouillé / arrière-plan : non garanti, à tester sur build
+- Renommage preset : Alert.prompt iOS ; Android passe par l'écran d'édition
 
 ## Écrans livrés (V0 sprint 01)
 - E01 Accueil : logo Roundr, tagline, section "Reprendre la session" (conditionnelle), 5 cartes modes (Classique, Maracana, Cup, Survie, Custom), section "Mes chronos" (empty state)

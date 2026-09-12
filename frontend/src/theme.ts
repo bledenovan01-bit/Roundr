@@ -14,27 +14,34 @@ const dark = {
   // ---------------------------------------------------------------------------
   // Surfaces
   // ---------------------------------------------------------------------------
-  surface: "#000000",
+  surface: "#0B0F0D",
   onSurface: "#FFFFFF",
-  surfaceSecondary: "#151515",
+  surfaceSecondary: "#161B19",
   onSurfaceSecondary: "#F4F4F5",
-  surfaceTertiary: "#27272A",
+  surfaceTertiary: "#232A27",
   onSurfaceTertiary: "#E4E4E7",
   surfaceInverse: "#FFFFFF",
   onSurfaceInverse: "#000000",
-  muted: "#A1A1AA",
+  muted: "#9AA39F",
 
   // ---------------------------------------------------------------------------
-  // Brand: high-visibility orange for sunlight readability
+  // Brand: neon green (maquettes Roundr) sur fond quasi noir
   // ---------------------------------------------------------------------------
-  brand: "#FF5000",
-  onBrand: "#FFFFFF",
-  brandPrimary: "#FF5000",
-  onBrandPrimary: "#FFFFFF",
-  brandSecondary: "#CC4000",
-  onBrandSecondary: "#FFFFFF",
-  brandTertiary: "#331000",
-  onBrandTertiary: "#FF8A4D",
+  brand: "#3DF27C",
+  onBrand: "#06210F",
+  brandPrimary: "#3DF27C",
+  onBrandPrimary: "#06210F",
+  brandSecondary: "#22B85A",
+  onBrandSecondary: "#06210F",
+  brandTertiary: "#0F2A1A",
+  onBrandTertiary: "#6FF5A0",
+
+  // Accents des modes (maquettes)
+  modeClassique: "#3DF27C",
+  modeMaracana: "#2F7BFF",
+  modeCup: "#8B5CF6",
+  modeSurvie: "#FF8A1F",
+  modeCustom: "#6B7280",
 
   // ---------------------------------------------------------------------------
   // Status
@@ -51,9 +58,9 @@ const dark = {
   // ---------------------------------------------------------------------------
   // Lines
   // ---------------------------------------------------------------------------
-  border: "#27272A",
-  borderStrong: "#3F3F46",
-  divider: "#1F1F2F",
+  border: "#262D2A",
+  borderStrong: "#3A433F",
+  divider: "#1F2623",
 };
 
 export type ThemeColors = typeof dark;
@@ -74,9 +81,9 @@ export const spacing = {
 } as const;
 
 export const radius = {
-  sm: 4,
-  md: 8,
-  lg: 16,
+  sm: 8,
+  md: 14,
+  lg: 20,
   pill: 999,
 } as const;
 
@@ -97,7 +104,7 @@ export const fontSize = {
   giant: 140,
 } as const;
 
-export function setColorScheme(scheme: ColorScheme | null) {
+export function setColorScheme(scheme: ColorScheme) {
   Appearance.setColorScheme?.(scheme);
 }
 

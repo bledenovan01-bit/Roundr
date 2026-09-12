@@ -6,7 +6,9 @@ import { StatusBar } from "expo-status-bar";
 import { LogBox, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { loadStore } from "@/src/store/session-store";
 
 import { ErrorBoundary } from "@/src/components/error-boundary";
 import { queryClient } from "@/src/query-client";
@@ -24,27 +26,32 @@ export default function RootLayout() {
     "Manrope-Bold": require("../assets/fonts/Manrope-Bold.ttf"),
   });
 
+  const [storeReady, setStoreReady] = useState(false);
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    loadStore().finally(() => setStoreReady(true));
+  }, []);
+
+  useEffect(() => {
+    if ((fontsLoaded || fontError) && storeReady) {
       SplashScreen.hideAsync().catch(() => {});
     }
-  }, [fontsLoaded, fontError]);
+  }, [fontsLoaded, fontError, storeReady]);
 
-  if (!fontsLoaded && !fontError) {
+  if ((!fontsLoaded && !fontError) || !storeReady) {
     // Return an empty black view while splash is still up.
-    return <View style={{ flex: 1, backgroundColor: "#000000" }} />;
+    return <View style={{ flex: 1, backgroundColor: "#0B0F0D" }} />;
   }
 
   return (
     <ErrorBoundary>
-      <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#000000" }}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#0B0F0D" }}>
         <SafeAreaProvider>
           <QueryClientProvider client={queryClient}>
             <StatusBar style="light" />
             <Stack
               screenOptions={{
                 headerShown: false,
-                contentStyle: { backgroundColor: "#000000" },
+                contentStyle: { backgroundColor: "#0B0F0D" },
                 animation: "slide_from_right",
               }}
             />
