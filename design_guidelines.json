@@ -1,0 +1,141 @@
+{
+  "app_name": "Roundr",
+  "personality": "7 Dark-First Utility",
+  "personality_one_liner": "A high-visibility, rugged sports command center designed for instant readability and effortless operation in direct sunlight.",
+  "color": {
+    "surface": "#000000",
+    "onSurface": "#FFFFFF",
+    "surfaceSecondary": "#151515",
+    "onSurfaceSecondary": "#F4F4F5",
+    "surfaceTertiary": "#27272A",
+    "onSurfaceTertiary": "#E4E4E7",
+    "surfaceInverse": "#FFFFFF",
+    "onSurfaceInverse": "#000000",
+    "brand": "#FF5000",
+    "brandPrimary": "#FF5000",
+    "onBrandPrimary": "#FFFFFF",
+    "brandSecondary": "#CC4000",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "#331000",
+    "onBrandTertiary": "#FF8A4D",
+    "success": "#10B981",
+    "onSuccess": "#FFFFFF",
+    "warning": "#F59E0B",
+    "onWarning": "#FFFFFF",
+    "error": "#EF4444",
+    "onError": "#FFFFFF",
+    "info": "#3B82F6",
+    "onInfo": "#FFFFFF",
+    "border": "#27272A",
+    "borderStrong": "#3F3F46",
+    "divider": "#1F1F2F",
+    "muted": "#A1A1AA",
+    "onBrand": "#FFFFFF"
+  },
+  "typography": {
+    "displayFontFamily": "BarlowCondensed_700Bold",
+    "textFontFamily": "Manrope_500Medium",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 28,
+      "3xl": 48,
+      "4xl": 80,
+      "giant": 140
+    }
+  },
+  "spacing": {
+    "rule": "Generous hit targets, tight component spacing. Touch targets must be minimum 56pt, score targets much larger (100pt+).",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 4,
+    "md": 8,
+    "lg": 16,
+    "pill": 999
+  },
+  "shadow_tier": "0",
+  "navigation": "stack_only",
+  "icon_set": "MaterialCommunityIcons",
+  "glassmorphism": {
+    "enabled": false,
+    "do's": [],
+    "dont's": [
+      "No glassmorphism on the pitch. Pure contrast and solid surfaces for readability in direct sunlight."
+    ]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "haptics": {
+    "score_add": "impactHeavy",
+    "timer_toggle": "impactMedium",
+    "mode_select": "selection",
+    "button_press": "impactLight"
+  },
+  "screens": [
+    {
+      "name": "Home (E01)",
+      "purpose": "Launchpad for organizers to pick a game mode quickly or resume an ongoing session.",
+      "states": {
+        "loading": "Centered brand-colored spinner.",
+        "empty": "N/A - Home is static mode choices.",
+        "error": "Error toast if session restore fails."
+      },
+      "layout": "Vertical ScrollView. Top header: App logo (Roundr) left aligned. Section 1 (Conditional): 'Reprendre la session' (Resume) card - brandPrimary background, huge impact. Section 2: 'Modes de jeu' (Game Modes) - 5 stacked cards (Classique, Maracana, Cup, Survie, Custom). Each card has a distinct icon (MaterialCommunityIcons), bold BarlowCondensed title, and a short Manrope description. Section 3 (Conditional): 'Mes chronos' (Custom presets) - horizontal scrolling list of pills or small cards. Bottom footer: subtle version/info text."
+    },
+    {
+      "name": "Live Match (E03)",
+      "purpose": "The core timing and scorekeeping view, built for extreme visibility at 5 meters distance.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Top half: GIANT Chrono timer using BarlowCondensed_700Bold at size 140+. Fills 40-50% of the screen vertically. Middle: Two massive score buttons side by side (width 48%). Tapping anywhere in the box adds +1 score. Bottom: Next match/rotation preview and a large pause/menu button."
+    }
+  ],
+  "components": {
+    "ModeCard": "Stack layout, surfaceSecondary bg, 8px radius (md). Left side: large icon (MaterialCommunityIcons, brand color). Right side: Title (BarlowCondensed) and short description (Manrope muted text). Minimum height 80pt.",
+    "GiantChrono": "Text component, color onSurface (white), tabular numbers (fontVariant: ['tabular-nums']), size 140+. Must be legible from meters away.",
+    "ScoreButton": "Massive touch target (flex: 1 in a row). Background surfaceSecondary. Contains Team Name, massive Score number (BarlowCondensed), and a subtle '+1' watermark or icon. Active feedback is a background flash to brandTertiary and heavy haptic.",
+    "PrimaryButton": "Height 60pt (extra large for dirty/wet hands). Background brandPrimary, Text onBrandPrimary. Radius md.",
+    "BottomSheet": "Used for configuration and pause menus. Dark solid background (surfaceTertiary) with no blur."
+  },
+  "images": {
+    "pitch_background": {
+      "url": "https://images.unsplash.com/photo-1556056504-5c7696c4c28d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwyfHxhbWF0ZXVyJTIwZm9vdGJhbGwlMjBwaXRjaCUyMHRleHR1cmUlMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc4OTIyNjg2NXww&ixlib=rb-4.1.0&q=85",
+      "alt": "Aerial view of an illuminated amateur football pitch"
+    },
+    "carbon_texture": {
+      "url": "https://images.unsplash.com/photo-1637004732258-4b792ce8f474?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwxfHxkYXJrJTIwY2FyYm9uJTIwZmliZXIlMjBzcG9ydHMlMjB0ZXh0dXJlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzg5MjI2ODg2fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Dark carbon fiber sports texture abstract"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Load 'BarlowCondensed_700Bold' and 'Manrope_500Medium' using @expo-google-fonts.",
+    "The app MUST be in Dark Mode natively. Set the root background to '#000000'. Contrast is king.",
+    "Focus first on building E01 (Home Screen). Ensure the layout matches the 'layout' description: conditional resume card -> game mode cards -> custom presets.",
+    "Every interactive element (ModeCards, Buttons) must have a min-height of 56pt, ideally 60pt for better pitch-side usability.",
+    "Do NOT use glassmorphism. It reduces readability in direct sunlight. Stick to solid dark surfaces.",
+    "Use tabular-nums for any timers or changing digits to prevent horizontal jittering.",
+    "Implement haptics heavily. Adding a score or pressing play/pause on the timer should trigger `impactHeavy`.",
+    "Images provided (pitch_background, carbon_texture) can be used as subtle background textures (at 10-15% opacity) inside the Resume card or Header to give a sporty feel."
+  ]
+}
