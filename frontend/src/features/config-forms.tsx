@@ -1,6 +1,7 @@
 // Formulaires de configuration par mode (§5). Un seul écran, options
 // dépliées sur place, temps d'abord (UX-01/UX-02).
 import { Text, View } from "react-native";
+import { useContext } from "react";
 
 import { Card, ChoiceRow, Disclosure, Divider, EndRulesField, NumberInput, Section, Segmented, Stepper, ToggleRow } from "@/src/components/fields";
 import { bestNextCount, groupSizes, recommendCup } from "@/src/domain/cup";
@@ -9,6 +10,7 @@ import { classicBreakDefault } from "@/src/domain/defaults";
 import { byeCount, roundName } from "@/src/domain/bracket";
 import type { AnyConfig, ClassicConfig, CupConfig, CustomConfig, DrawRule, MaracanaConfig, RoundMinutes, SurvieConfig } from "@/src/domain/types";
 import { fontFamily, fontSize, makeStyles, spacing } from "@/src/theme";
+import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
 type FormProps<T extends AnyConfig> = { config: T; onChange: (c: T) => void };
 
@@ -48,7 +50,7 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
           />
           {config.periods === 2 ? (
             <>
-              <Text style={styles.note}>{`Chaque mi-temps : ${mm}:${String(ss).padStart(2, "0")} · pause exclue du total.`}</Text>
+              <Text testID="classic-periods-note" style={styles.note}>{`Chaque mi-temps : ${mm}:${String(ss).padStart(2, "0")} · pause exclue du total.`}</Text>
               <Divider />
               <ChoiceRow
                 label="Pause entre les mi-temps"
@@ -180,7 +182,7 @@ export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
         <Card>
           <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
           <Divider />
-          <Text style={styles.note}>Score obligatoire. Préparation automatique du prochain match.</Text>
+          <Text testID="maracana-options-note" style={styles.note}>Score obligatoire. Préparation automatique du prochain match.</Text>
         </Card>
       </Section>
     </View>
@@ -342,7 +344,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
   );
 }
 
-const useStyles = makeStyles((colors) => ({
+const useBaseStyles = makeStyles((colors) => ({
   formStack: { gap: spacing.xl },
   fieldGap: { gap: spacing.md },
   label: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
@@ -351,3 +353,9 @@ const useStyles = makeStyles((colors) => ({
   periodRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   periodLabel: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.onSurface },
 }));
+
+function useStyles() {
+  const base = useBaseStyles();
+  const refined = useContext(TypographyPreview);
+  return refined ? { ...base, note: [base.note, refinedType.secondary] } : base;
+}

@@ -24,6 +24,8 @@ export default function RootLayout() {
     "BarlowCondensed-Bold": require("../assets/fonts/BarlowCondensed-Bold.ttf"),
     "Manrope-Medium": require("../assets/fonts/Manrope-Medium.ttf"),
     "Manrope-Bold": require("../assets/fonts/Manrope-Bold.ttf"),
+    "ManropeRefined-Medium": require("../assets/fonts/ManropeRefined-Medium.ttf"),
+    "ManropeRefined-Bold": require("../assets/fonts/ManropeRefined-Bold.ttf"),
   });
 
   const [storeReady, setStoreReady] = useState(false);

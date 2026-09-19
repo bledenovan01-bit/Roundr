@@ -2,10 +2,9 @@ import { Pressable, Text, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
 
 import {
-  fontFamily,
-  fontSize,
   makeStyles,
   radius,
   spacing,
@@ -60,10 +59,10 @@ export function ModeCard({
           />
         </View>
         <View style={styles.body}>
-          <Text style={styles.title} numberOfLines={1}>
+          <Text testID={`${testID}-title`} style={styles.title} numberOfLines={2}>
             {title}
           </Text>
-          <Text style={styles.description} numberOfLines={2}>
+          <Text testID={`${testID}-description`} style={styles.description} numberOfLines={2}>
             {description}
           </Text>
         </View>
@@ -109,14 +108,14 @@ const useStyles = makeStyles((colors) => ({
   title: {
     fontFamily: fontFamily.textBold,
     color: colors.onSurface,
-    fontSize: fontSize.xl,
-    lineHeight: fontSize.xl * 1.2,
+    fontSize: 23,
+    lineHeight: 29,
     letterSpacing: -0.3,
   },
   description: {
     fontFamily: fontFamily.text,
     color: colors.muted,
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 12,
+    lineHeight: 17,
   },
 }));

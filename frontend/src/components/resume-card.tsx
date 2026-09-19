@@ -1,9 +1,9 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
+import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
 
 import {
-  fontFamily,
   fontSize,
   makeStyles,
   radius,
@@ -21,6 +21,7 @@ type Props = {
 export function ResumeCard({ modeLabel, subtitle, onPress, testID }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const { width } = useWindowDimensions();
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
@@ -42,16 +43,16 @@ export function ResumeCard({ modeLabel, subtitle, onPress, testID }: Props) {
           />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title} numberOfLines={1}>
+          <Text testID={`${testID}-title`} style={[styles.title, width < 360 && styles.titleCompact]}>
             Reprendre la session en cours
           </Text>
-          <Text style={styles.subtitle} numberOfLines={1}>
+          <Text testID={`${testID}-subtitle`} style={styles.subtitle}>
             {modeLabel} · {subtitle}
           </Text>
         </View>
       </View>
       <View style={styles.statusPill}>
-        <Text style={styles.statusLabel}>En cours</Text>
+        <Text testID={`${testID}-status`} style={styles.statusLabel}>En cours</Text>
       </View>
       <MaterialCommunityIcons
         name="chevron-right"
@@ -107,12 +108,15 @@ const useStyles = makeStyles((colors) => ({
   },
   title: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize.lg,
+    fontSize: 16,
+    lineHeight: 21,
     color: colors.onSurface,
   },
+  titleCompact: { fontSize: 14, lineHeight: 19 },
   subtitle: {
     fontFamily: fontFamily.text,
-    fontSize: fontSize.base,
+    fontSize: 12,
+    lineHeight: 18,
     color: colors.muted,
     marginTop: 2,
   },

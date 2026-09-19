@@ -13,8 +13,8 @@ import { formatMMSS } from "@/src/chrono/format";
 import { elapsedMs } from "@/src/chrono/engine";
 import { presetMeta } from "@/src/features/preset-meta";
 import { useStore } from "@/src/store/session-store";
+import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
 import {
-  fontFamily,
   fontSize,
   makeStyles,
   radius,
@@ -74,9 +74,9 @@ export default function HomeScreen() {
           testID="home-header"
         >
           <View style={styles.brandRow}>
-            <Text style={styles.brandName}>Roundr<Text style={{ color: colors.brandPrimary }}>.</Text></Text>
+            <Text testID="home-wordmark" style={styles.brandName}>Roundr<Text style={{ color: colors.brandPrimary }}>.</Text></Text>
           </View>
-          <Text style={styles.tagline}>Plus de jeu. Moins d’organisation.</Text>
+          <Text testID="home-tagline" style={styles.tagline}>Plus de jeu. Moins d’organisation.</Text>
         </Animated.View>
 
         {/* Resume session (conditional) */}
@@ -100,7 +100,7 @@ export default function HomeScreen() {
         {/* Modes de jeu */}
         <View style={styles.section} testID="modes-section">
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Choisis ton mode</Text>
+            <Text testID="home-modes-title" style={styles.sectionTitle}>Choisis ton mode</Text>
           </View>
           <View style={styles.modesList}>
             {GAME_MODES.map((mode, index) => (
@@ -123,7 +123,7 @@ export default function HomeScreen() {
         {presets.length > 0 ? (
           <View style={styles.section} testID="presets-section">
             <Pressable style={styles.sectionHeader} onPress={() => router.push("/presets" as never)} testID="presets-manage">
-              <Text style={styles.sectionTitle}>Mes chronos</Text>
+              <Text testID="home-presets-title" style={styles.sectionTitle}>Mes chronos</Text>
               <Text style={[styles.sectionHint, { color: colors.brandPrimary }]}>Gérer ›</Text>
             </Pressable>
             <ScrollView
@@ -152,8 +152,8 @@ export default function HomeScreen() {
               />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.emptyPresetsTitle}>Mes chronos</Text>
-              <Text style={styles.emptyPresetsSubtitle}>
+              <Text testID="home-empty-presets-title" style={styles.emptyPresetsTitle}>Mes chronos</Text>
+              <Text testID="home-empty-presets-subtitle" style={styles.emptyPresetsSubtitle}>
                 Vos formats sauvegardés
               </Text>
             </View>
@@ -213,14 +213,15 @@ const useStyles = makeStyles((colors) => ({
   },
   brandName: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize["3xl"] - 6,
-    lineHeight: (fontSize["3xl"] - 6) * 1.1,
+    fontSize: 44,
+    lineHeight: 50,
     color: colors.onSurface,
     letterSpacing: -1.4,
   },
   tagline: {
     fontFamily: fontFamily.text,
-    fontSize: fontSize.lg,
+    fontSize: 14,
+    lineHeight: 20,
     color: colors.muted,
   },
   resumeWrap: {},
@@ -234,8 +235,8 @@ const useStyles = makeStyles((colors) => ({
   },
   sectionTitle: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize["2xl"],
-    lineHeight: fontSize["2xl"] * 1.15,
+    fontSize: 32,
+    lineHeight: 40,
     letterSpacing: -0.6,
     color: colors.onSurface,
   },
@@ -272,12 +273,14 @@ const useStyles = makeStyles((colors) => ({
   },
   emptyPresetsTitle: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize.lg,
+    fontSize: 20,
+    lineHeight: 26,
     color: colors.onSurface,
   },
   emptyPresetsSubtitle: {
     fontFamily: fontFamily.text,
-    fontSize: fontSize.base,
+    fontSize: 12,
+    lineHeight: 18,
     color: colors.muted,
     marginTop: 2,
   },

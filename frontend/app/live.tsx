@@ -17,7 +17,8 @@ import { prepLeadMs } from "@/src/domain/preparation";
 import * as S from "@/src/domain/session";
 import type { Session, Team } from "@/src/domain/types";
 import { archiveSession, dispatchSession, tick, useStore } from "@/src/store/session-store";
-import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { TypographyPreview, refinedFontFamily as fontFamily } from "@/src/typography-preview";
 
 const TEAM_COL = 68;
 
@@ -176,6 +177,7 @@ export default function LiveScreen() {
   const ringSize = Math.min(268, width - spacing.lg * 2);
 
   return (
+    <TypographyPreview.Provider value={true}>
     <View style={[styles.root, { paddingTop: insets.top }]}>
       <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + spacing["2xl"] }]} showsVerticalScrollIndicator={false}>
         {/* Header */}
@@ -184,11 +186,11 @@ export default function LiveScreen() {
             <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
           </Pressable>
           <View style={{ alignItems: "center", flex: 1 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm, maxWidth: "100%" }}>
               <MaterialCommunityIcons name={mode.icon} size={18} color={accent} />
-              <Text style={styles.modeTitle}>{mode.title.toUpperCase()}</Text>
+              <Text testID="live-title" style={styles.modeTitle} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>{mode.title.toUpperCase()}</Text>
             </View>
-            <Text style={styles.matchLabel}>{match.label}</Text>
+            <Text testID="live-match-label" style={styles.matchLabel}>{match.label}</Text>
           </View>
           <Pressable testID="live-standings" onPress={() => router.push("/standings" as never)} hitSlop={12} style={[styles.iconBtn, single && { opacity: 0 }]} disabled={single}>
             <MaterialCommunityIcons name="podium" size={26} color={colors.onSurface} />
@@ -239,8 +241,8 @@ export default function LiveScreen() {
         {next && live.stage !== "finished" ? (
           <View style={styles.nextCard} testID="next-card">
             <View style={styles.rowBetween}>
-              <Text style={styles.nextTitle}>Prochain match</Text>
-              <Text style={styles.nextMeta}>{live.end.byTime ? `${next.durationMin} min` : "Ensuite"}</Text>
+              <Text testID="live-next-title" style={styles.nextTitle}>Prochain match</Text>
+              <Text testID="live-next-duration" style={styles.nextMeta}>{live.end.byTime ? `${next.durationMin} min` : "Ensuite"}</Text>
             </View>
             {next.certain ? (
               <View style={styles.nextTeamRow}>
@@ -283,11 +285,11 @@ export default function LiveScreen() {
               style={[styles.ctrl, styles.ctrlSecondary]}
             >
               <MaterialCommunityIcons name={paused ? "play" : "pause"} size={24} color={colors.onSurface} />
-              <Text style={styles.ctrlLabel}>{paused ? "Reprendre" : "Pause"}</Text>
+              <Text testID="live-pause-label" style={styles.ctrlLabel} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{paused ? "Reprendre" : "Pause"}</Text>
             </Pressable>
             <Pressable testID="live-end" onPress={confirmEnd} style={[styles.ctrl, styles.ctrlPrimary]}>
               <MaterialCommunityIcons name="stop" size={22} color={colors.onBrandPrimary} />
-              <Text style={[styles.ctrlLabel, { color: colors.onBrandPrimary }]}>Fin du match</Text>
+              <Text testID="live-end-label" style={[styles.ctrlLabel, styles.ctrlPrimaryLabel, width < 360 && styles.ctrlPrimaryLabelCompact]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>Fin du match</Text>
             </Pressable>
           </View>
         ) : null}
@@ -365,12 +367,15 @@ export default function LiveScreen() {
         onClose={() => setGiant(false)}
       />
     </View>
+    </TypographyPreview.Provider>
   );
 }
 
 function TeamColumn({ team, score, side, canScore, correcting, finished }: { team: Team | null; score: number; side: 0 | 1; canScore: boolean; correcting: boolean; finished: boolean }) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const { width } = useWindowDimensions();
+  const scoreSize = Math.min(72, width * 0.18) / Math.max(1, String(score).length / 1.5);
   const act = (delta: 1 | -1) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => {});
     dispatchSession((s, now) => (finished ? S.correctLast(s, side, delta, now) : S.goal(s, side, delta, now)));
@@ -381,8 +386,8 @@ function TeamColumn({ team, score, side, canScore, correcting, finished }: { tea
       <View style={[styles.jersey, { borderColor: team?.color ?? colors.border }]}>
         <MaterialCommunityIcons name="tshirt-crew" size={26} color={team?.color ?? colors.muted} />
       </View>
-      <Text style={styles.teamName} numberOfLines={1}>{team?.name?.toUpperCase()}</Text>
-      <Text style={styles.score} testID={`score-${side}`}>{score}</Text>
+      <Text testID={`live-team-${side}-name`} style={[styles.teamName, (team?.name.length ?? 0) > 10 && styles.teamNameLong]}>{team?.name?.toUpperCase()}</Text>
+      <Text style={[styles.score, { fontSize: scoreSize, lineHeight: scoreSize }]} testID={`score-${side}`}>{score}</Text>
       {canScore || canCorrectFinished ? (
         <View style={{ gap: spacing.xs }}>
           <Pressable testID={`goal-${side}`} onPress={() => act(1)} style={[styles.plus, { borderColor: team?.color ?? colors.borderStrong }, correcting && { borderColor: colors.brandPrimary }]}>
@@ -479,21 +484,22 @@ const useStyles = makeStyles((colors) => ({
   scroll: { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, gap: spacing.lg, flexGrow: 1 },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   iconBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  modeTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, letterSpacing: 1.6 },
+  modeTitle: { fontFamily: fontFamily.textBold, fontSize: 20, lineHeight: 26, color: colors.onSurface, letterSpacing: 0.4, flexShrink: 1 },
   brandFooter: { alignItems: "center", gap: spacing.xs, paddingTop: spacing.lg, marginTop: "auto" },
   brandTagline: { fontFamily: fontFamily.text, fontSize: 10, color: colors.muted, letterSpacing: 2.2 },
   brandWordmark: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface, letterSpacing: -0.8 },
   nextTeamRow: { flexDirection: "row", alignItems: "center", gap: spacing.md },
   nextJersey: { width: 40, height: 40, borderRadius: 20, borderWidth: 2, alignItems: "center", justifyContent: "center", backgroundColor: colors.surface },
   vs: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.muted, letterSpacing: 1.2 },
-  matchLabel: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
+  matchLabel: { fontFamily: fontFamily.text, fontSize: 13, lineHeight: 19, color: colors.muted },
   errorBanner: { flexDirection: "row", gap: spacing.sm, alignItems: "center", padding: spacing.md, borderRadius: radius.sm, backgroundColor: colors.error },
   errorText: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onError },
   arena: { alignItems: "center", justifyContent: "center", marginTop: spacing.sm },
   teamSlot: { position: "absolute", top: 0, bottom: 0, width: TEAM_COL, justifyContent: "center" },
   teamCol: { width: TEAM_COL, alignItems: "center", gap: spacing.sm },
   jersey: { width: 54, height: 54, borderRadius: 27, borderWidth: 3, alignItems: "center", justifyContent: "center", backgroundColor: colors.surfaceSecondary },
-  teamName: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onSurface, letterSpacing: 0.8, maxWidth: TEAM_COL },
+  teamName: { fontFamily: fontFamily.textBold, fontSize: 14, lineHeight: 18, color: colors.onSurface, letterSpacing: 0.1, maxWidth: TEAM_COL, textAlign: "center" },
+  teamNameLong: { fontSize: 12, lineHeight: 16 },
   score: {
     fontFamily: fontFamily.display,
     fontSize: 72,
@@ -507,15 +513,15 @@ const useStyles = makeStyles((colors) => ({
   plusLabel: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface },
   teamsLine: { textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },
   correctLink: { flexDirection: "row", alignSelf: "center", alignItems: "center", gap: spacing.xs, minHeight: 40, paddingHorizontal: spacing.md },
-  correctLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurfaceTertiary },
+  correctLabel: { fontFamily: fontFamily.textBold, fontSize: 13, lineHeight: 19, color: colors.muted },
   nextCard: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
   rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  nextTitle: { fontFamily: fontFamily.text, fontSize: fontSize.base + 1, color: colors.muted },
-  nextMeta: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.muted },
+  nextTitle: { fontFamily: fontFamily.textBold, fontSize: 16, lineHeight: 22, color: colors.onSurfaceTertiary },
+  nextMeta: { fontFamily: fontFamily.text, fontSize: 12, lineHeight: 18, color: colors.muted },
   nextTeams: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, letterSpacing: 0.6 },
   prepBanner: { flexDirection: "row", alignItems: "center", gap: spacing.md, padding: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary },
   prepTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
-  prepSub: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
+  prepSub: { fontFamily: fontFamily.text, fontSize: 12, lineHeight: 18, color: colors.muted },
   controls: { flexDirection: "row", gap: spacing.md },
   ctrl: { flex: 1, minHeight: 68, borderRadius: radius.lg, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
   ctrlSecondary: { backgroundColor: colors.surfaceSecondary, borderWidth: 1, borderColor: colors.borderStrong },
@@ -544,13 +550,15 @@ const useStyles = makeStyles((colors) => ({
     borderColor: colors.border,
     backgroundColor: colors.surfaceSecondary,
   },
-  ctrlLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl - 2, color: colors.onSurface },
+  ctrlLabel: { fontFamily: fontFamily.textBold, fontSize: 17, lineHeight: 24, color: colors.onSurface, flexShrink: 1 },
+  ctrlPrimaryLabel: { fontSize: 20, lineHeight: 28, color: colors.onBrandPrimary },
+  ctrlPrimaryLabelCompact: { fontSize: 16, lineHeight: 24 },
   panel: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
-  panelTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.5, color: colors.brandPrimary, textTransform: "uppercase" },
-  panelHint: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted, lineHeight: fontSize.base * 1.4 },
+  panelTitle: { fontFamily: fontFamily.textBold, fontSize: 20, lineHeight: 26, letterSpacing: 0.8, color: colors.brandPrimary, textTransform: "uppercase" },
+  panelHint: { fontFamily: fontFamily.text, fontSize: 12, color: colors.muted, lineHeight: 18 },
   result: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"] + 4, color: colors.onSurface },
   tabRow: { flexDirection: "row", gap: spacing.md },
-  tabTeam: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onSurface },
+  tabTeam: { fontFamily: fontFamily.textBold, fontSize: 14, lineHeight: 20, color: colors.onSurface },
   tabInput: { minHeight: 64, borderRadius: radius.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.display, fontSize: fontSize["2xl"], textAlign: "center" },
   linksRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md },
   link: { flexDirection: "row", alignItems: "center", gap: spacing.xs, minHeight: 44, paddingHorizontal: spacing.sm },

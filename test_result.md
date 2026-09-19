@@ -110,8 +110,25 @@ user_problem_statement: |
     - Sélection des couleurs de maillot des équipes avant le coup d'envoi.
     - Extension du système de style aux écrans Classement, Résumé, Mes chronos, et configs Cup/Survie.
     - Vérifier que la logique métier (rotations, chrono, sessions, navigation) n'a PAS régressé.
+  Lot actuel : AFFINAGE TYPOGRAPHIQUE UNIQUEMENT sur Accueil, Live,
+  configuration Match classique et configuration Maracana. Références jointes
+  récupérées et examinées. Garder les autres écrans inchangés jusqu'à approbation.
 
 frontend:
+  - task: "Passe typographique limitée aux quatre écrans approuvés"
+    implemented: true
+    working: true
+    file: "app/index.tsx, app/live.tsx, app/config/[mode].tsx, src/typography-preview.ts, src/components/{chrono-ring,mode-card,fields,primary-button,resume-card,preset-pill}.tsx, src/features/config-forms.tsx, app/_layout.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: true
+        -agent: "main"
+        -comment: "QA iteration_4 : domaine, chrono, TypeScript et flux fonctionnels passent. Petites troncatures corrigées (mode sur2 lignes, reprise sans ellipse, noms d'équipe complets à taille adaptée). Self-tests finaux à320 et390 : textes complets mesurés, noms jusqu'à18 caractères et score10 sans débordement, CTA Fin du match complet, reprise conserve2–1 et relance le chrono. Captures finales quatre écrans produites. Preview diagnostiquée saine après un incident réseau transitoire ; aucune modification infra. Attente de validation visuelle utilisateur avant extension."
+        -working: "NA"
+        -agent: "main"
+        -comment: "Les Manrope existantes sont variables et leur défaut est ExtraLight/200, même le fichier nommé Bold. Instances statiques 500/700 avec alias séparés ajoutées pour ces quatre écrans seulement, sans modifier les fontes originales ni les tokens globaux. Chrono 73.7 -> 104 pt à 390pt, scores responsive, titres/CTA renforcés, métadonnées réduites. Aucun moteur, store, règle, navigation, marge ou padding modifié. Opt-in Context pour les composants partagés, faux en Cup/Survie/Custom. Smoke captures quatre écrans OK, lint + tsc OK. À 320pt un CTA tronqué a été corrigé avec une taille compacte 16pt. Vérifier les autres textes longs/petits écrans."
   - task: "Chrono géant plein écran depuis live"
     implemented: true
     working: "NA"
@@ -149,18 +166,18 @@ frontend:
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 3
+  test_sequence: 4
   run_ui: true
 
 test_plan:
   current_focus:
-    - "Chrono géant plein écran depuis live"
-    - "Sélection couleurs de maillot des équipes"
-    - "Extension style : Classement, Résumé, Mes chronos, configs Cup/Survie"
+    - "Passe typographique limitée aux quatre écrans approuvés"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
+    -agent: "main"
+    -message: "Tester uniquement le lot typographique actuel et sa non-régression. Captures Home, Live classique/Maracana, configs classique/Maracana à 390 et 320 (aussi 360/430 si possible). Inspecter troncature/chevauchements, tailles et graisses effectives, chrono pause/reprise, score +1/correction/double chiffres, couleurs/noms, paramètres de config. Vérifier Cup/Survie/Custom et Résumé/Classement/Mes chronos toujours avec alias Manrope originaux. Fonctionnalités 100% locales, pas d'auth ni de backend à tester. Alert.alert natifs non testables sur preview web. Ne pas modifier le code ni les règles."
     -agent: "main"
     -message: "Lot visuel + 2 nouveautés (chrono géant, couleurs équipes). Tests unitaires domaine + chrono OK, home rend conforme. Lancer non-régression front sur les flux : config classique/maracana/cup/survie -> live -> chrono géant open/close -> couleurs équipes -> classement/résumé/mes chronos. NB: preview web ne peut pas déclencher les Alert.alert destructifs (fin de match), ni valider audio natif / partage PNG natif — ne pas les marquer en échec."

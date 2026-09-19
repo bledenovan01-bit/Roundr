@@ -1,6 +1,6 @@
 // Composants de formulaire partagés (E02) : grandes cibles tactiles, options
 // dépliables sur place, aucun écran intermédiaire.
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
@@ -8,14 +8,15 @@ import MaterialCommunityIcons from "@react-native-vector-icons/material-design-i
 import { TEAM_PALETTE } from "@/src/domain/defaults";
 import type { EndRules, Team } from "@/src/domain/types";
 import { fontFamily, fontSize, control, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
 export function Section({ title, children, hint }: { title: string; children: React.ReactNode; hint?: string }) {
   const styles = useStyles();
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{title}</Text>
-        {hint ? <Text style={styles.sectionHint}>{hint}</Text> : null}
+        <Text testID={`section-${title.toLowerCase().replace(/\s+/g, "-")}-title`} style={styles.sectionTitle}>{title}</Text>
+        {hint ? <Text testID={`section-${title.toLowerCase().replace(/\s+/g, "-")}-hint`} style={styles.sectionHint}>{hint}</Text> : null}
       </View>
       {children}
     </View>
@@ -51,7 +52,7 @@ export function ChoiceRow<T extends string | number>({
   const [draft, setDraft] = useState(String(value));
   return (
     <View style={styles.field} testID={testID}>
-      <Text style={styles.fieldLabel}>{label}</Text>
+      <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
       <View style={styles.chips}>
         {options.map((o) => {
           const active = !showCustom && o.value === value;
@@ -66,7 +67,7 @@ export function ChoiceRow<T extends string | number>({
               }}
               style={[styles.chip, active && styles.chipActive]}
             >
-              <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
+              <Text testID={`${testID ?? label}-${o.value}-label`} style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
             </Pressable>
           );
         })}
@@ -76,7 +77,7 @@ export function ChoiceRow<T extends string | number>({
             onPress={() => setShowCustom(true)}
             style={[styles.chip, showCustom && styles.chipActive]}
           >
-            <Text style={[styles.chipLabel, showCustom && styles.chipLabelActive]}>Perso</Text>
+            <Text testID={`${testID ?? label}-custom-label`} style={[styles.chipLabel, showCustom && styles.chipLabelActive]}>Perso</Text>
           </Pressable>
         ) : null}
       </View>
@@ -138,8 +139,8 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
   return (
     <View style={styles.rowBetween}>
       <View style={{ flex: 1 }}>
-        <Text style={styles.fieldLabel}>{label}</Text>
-        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+        <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
+        {hint ? <Text testID={`${testID ?? label}-hint`} style={styles.hint}>{hint}</Text> : null}
       </View>
       <View style={styles.stepper}>
         {btn(-1, "minus")}
@@ -155,8 +156,8 @@ export function ToggleRow({ label, value, onChange, hint, testID }: { label: str
   return (
     <Pressable onPress={() => onChange(!value)} style={styles.rowBetween} testID={testID}>
       <View style={{ flex: 1 }}>
-        <Text style={styles.fieldLabel}>{label}</Text>
-        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+        <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
+        {hint ? <Text testID={`${testID ?? label}-hint`} style={styles.hint}>{hint}</Text> : null}
       </View>
       <Toggle value={value} onChange={onChange} />
     </Pressable>
@@ -190,7 +191,7 @@ export function Segmented<T extends string | number>({ label, options, value, on
   const styles = useStyles();
   return (
     <View style={styles.field}>
-      {label ? <Text style={styles.fieldLabel}>{label}</Text> : null}
+      {label ? <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text> : null}
       <View style={styles.segment}>
         {options.map((o) => {
           const active = o.value === value;
@@ -204,7 +205,7 @@ export function Segmented<T extends string | number>({ label, options, value, on
               }}
               style={[styles.segmentItem, active && styles.segmentItemActive]}
             >
-              <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
+              <Text testID={`${testID ?? label}-${o.value}-label`} style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
             </Pressable>
           );
         })}
@@ -220,7 +221,7 @@ export function EndRulesField({ value, onChange, note }: { value: EndRules; onCh
   const invalid = !value.byTime && value.goalTarget == null;
   return (
     <View style={styles.field}>
-      <Text style={styles.fieldLabel}>Fin du match</Text>
+      <Text testID="end-rules-label" style={styles.fieldLabel}>Fin du match</Text>
       <View style={styles.chips}>
         <CheckChip testID="end-time" label="Au temps" checked={value.byTime} onPress={() => onChange({ ...value, byTime: !value.byTime })} />
         <CheckChip testID="end-goals" label="Premier à X buts" checked={value.goalTarget != null} onPress={() => onChange({ ...value, goalTarget: value.goalTarget == null ? 3 : null })} />
@@ -239,7 +240,7 @@ export function EndRulesField({ value, onChange, note }: { value: EndRules; onCh
       {invalid ? (
         <Text style={[styles.hint, { color: colors.error }]} testID="end-rules-error">Active au moins une condition de fin.</Text>
       ) : null}
-      {note ? <Text style={styles.hint}>{note}</Text> : null}
+      {note ? <Text testID="end-rules-note" style={styles.hint}>{note}</Text> : null}
     </View>
   );
 }
@@ -261,7 +262,7 @@ function CheckChip({ label, checked, onPress, testID }: { label: string; checked
         size={24}
         color={checked ? colors.brandPrimary : colors.muted}
       />
-      <Text style={[styles.tileLabel, checked && styles.chipLabelActive]}>{label}</Text>
+      <Text testID={`${testID}-label`} style={[styles.tileLabel, checked && styles.chipLabelActive]}>{label}</Text>
     </Pressable>
   );
 }
@@ -362,7 +363,7 @@ export function ErrorText({ children, testID }: { children: string; testID?: str
   );
 }
 
-const useStyles = makeStyles((colors) => ({
+const useBaseStyles = makeStyles((colors) => ({
   section: { gap: spacing.md },
   sectionHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
   sectionTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.8, color: colors.muted, textTransform: "uppercase" },
@@ -434,3 +435,21 @@ const useStyles = makeStyles((colors) => ({
   swatch: { width: 40, height: 40, borderRadius: radius.pill, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "transparent" },
   swatchActive: { borderColor: colors.onSurface },
 }));
+
+function useStyles() {
+  const base = useBaseStyles();
+  const refined = useContext(TypographyPreview);
+  const { colors } = useTheme();
+  if (!refined) return base;
+  return {
+    ...base,
+    sectionTitle: [base.sectionTitle, refinedType.sectionTitle, { color: colors.onSurfaceTertiary }],
+    sectionHint: [base.sectionHint, refinedType.secondary],
+    fieldLabel: [base.fieldLabel, refinedType.fieldLabel],
+    hint: [base.hint, refinedType.secondary],
+    chipLabel: [base.chipLabel, refinedType.control],
+    tileLabel: [base.tileLabel, refinedType.tile],
+    input: [base.input, refinedType.control],
+    suffix: [base.suffix, refinedType.secondary],
+  };
+}

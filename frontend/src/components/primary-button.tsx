@@ -1,5 +1,7 @@
 import { Pressable, Text, View, ActivityIndicator } from "react-native";
+import { useContext } from "react";
 import * as Haptics from "expo-haptics";
+import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
 import {
   fontFamily,
@@ -34,6 +36,7 @@ export function PrimaryButton({
 }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const refined = useContext(TypographyPreview);
 
   const handlePress = () => {
     if (disabled || loading) return;
@@ -73,7 +76,7 @@ export function PrimaryButton({
       ) : (
         <View style={styles.inner}>
           {leadingIcon}
-          <Text style={[styles.label, textByVariant]}>{label}</Text>
+          <Text testID={`${testID}-label`} style={[styles.label, textByVariant, refined && (variant === "primary" ? refinedType.primaryButton : refinedType.secondaryButton)]}>{label}</Text>
         </View>
       )}
     </Pressable>

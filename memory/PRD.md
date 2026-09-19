@@ -85,3 +85,18 @@ Comptes utilisateurs, cloud, sync multi-organisateurs, stats par joueur, multi-t
 - NOUVEAUTÉ Couleurs de maillot : sélection d'une couleur par équipe en config avant le coup d'envoi, reflétée en live (jersey + bouton +1)
 - Validation : tests unitaires domaine + chrono OK ; non-régression front testing_agent 13/13 OK
 - À valider sur device réel (non testable en preview web) : lisibilité extérieure, audio WAV natif, partage PNG natif, Alert.alert destructifs
+
+## Passe typographique ciblée — en attente d'avis visuel
+- Demande : uniquement tailles, hiérarchie, graisses et interlignage, à partir des captures jointes. Périmètre : Accueil, Live commun, configuration Match classique, configuration Maracana. Ne pas étendre aux autres écrans sans validation utilisateur.
+- Références consultées : `application_sportive_roundr_sur_terrain_nocturne.png`, `interface_de_match_de_football_sur_smartphone.png`, `présentation_cinématique_de_l_app_roundr.png` (assets du projet).
+- Cause du texte trop fin : les deux fichiers Manrope nommés Medium/Bold sont des polices variables dont la graisse par défaut est 200 (ExtraLight). Deux instances statiques locales 500/700 ont été générées depuis la fonte embarquée avec des noms internes distincts. Aucun téléchargement de police, aucune intégration.
+- Architecture de présentation : `src/typography-preview.ts` fournit les alias `ManropeRefined-Medium/Bold` et un contexte opt-in. Chargement dans `app/_layout.tsx`. Contexte actif uniquement pour Live et les configs classique/Maracana ; composants exclusifs à l'accueil utilisent les nouveaux alias directement. Tokens globaux, fontes d'origine, configuration Cup/Survie/Custom, Résumé, Classement, Mes chronos et composant Chrono Géant conservés.
+- Échelle : chrono live 104pt au lieu de 73,7pt à largeur390 (environ +41%), adaptable aux petits écrans et formats longs ; scores environ70pt, adaptés aux nombres de plusieurs chiffres ; titres32pt ; modes23pt ; sections18pt ; libellés17pt ; CTA principal20pt ; sous-titres/aides12–13pt. Manrope conserve sa famille, Barlow Condensed Bold reste utilisé pour le chrono et les scores.
+- Mise en page : aucun changement de cartes, anneau, navigation, icônes, paddings ou marges. Seuls les textes longs peuvent revenir à la ligne (cartes d'accueil/reprise et équipes) ; CTA Live compact16pt à320. Aucun changement de logique, moteur, règles, stockage, réseau ou données utilisateur.
+- Vérification : rapport `/app/test_reports/iteration_4.json` — tests domaine/chrono et TypeScript OK, flux pause/reprise, buts/correction, retour/reprise, chrono géant et configurations OK, confinement typographique confirmé sur Cup. Troncatures mineures signalées corrigées ensuite et revérifiées en captures à320 : textes complets, noms jusqu'à18 caractères, score10, CTA complet, aucun débordement horizontal. Captures finales des quatre écrans à390 produites.
+- Incident ponctuel d'aperçu pendant QA : contrôle de diagnostic effectué, service/public URL sains, aucune modification d'infrastructure nécessaire. Doublons de testID observés uniquement sur les écrans empilés pendant la navigation Expo, pas dans un même écran ; assertions ciblées sur l'écran actif.
+
+### Suite (ne pas implémenter sans demande)
+- P0 : recueillir l'avis utilisateur sur ces quatre écrans.
+- P1 : appliquer la hiérarchie validée aux autres écrans seulement après accord.
+- P2 : vérifier le rendu natif et la lisibilité sur le terrain ; audio/partage natifs restent dans la recette téléphone existante.

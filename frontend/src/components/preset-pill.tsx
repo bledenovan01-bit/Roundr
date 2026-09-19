@@ -1,9 +1,9 @@
 import { Pressable, Text, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
+import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
 
 import {
-  fontFamily,
   fontSize,
   makeStyles,
   radius,
@@ -39,10 +39,10 @@ export function PresetPill({ name, meta, onPress, testID }: Props) {
         color={colors.brandPrimary}
       />
       <View style={styles.body}>
-        <Text style={styles.name} numberOfLines={1}>
+        <Text testID={`${testID}-name`} style={styles.name} numberOfLines={1}>
           {name}
         </Text>
-        <Text style={styles.meta} numberOfLines={1}>
+        <Text testID={`${testID}-meta`} style={styles.meta} numberOfLines={1}>
           {meta}
         </Text>
       </View>
@@ -72,7 +72,8 @@ const useStyles = makeStyles((colors) => ({
   },
   name: {
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize.base,
+    fontSize: 16,
+    lineHeight: 22,
     color: colors.onSurface,
   },
   meta: {

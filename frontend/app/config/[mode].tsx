@@ -14,6 +14,7 @@ import { validateConfig } from "@/src/domain/validate";
 import { ClassicForm, CupForm, CustomForm, MaracanaForm, SurvieForm } from "@/src/features/config-forms";
 import { getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
 export default function ConfigScreen() {
   const styles = useStyles();
@@ -101,8 +102,10 @@ export default function ConfigScreen() {
 
   const ctaLabel = config.mode === "classique" || config.mode === "custom" ? "Lancer le match" : config.mode === "maracana" ? "Lancer la session" : "Lancer le tournoi";
   const reorderable = (config.mode === "survie" || config.mode === "cup") && config.draw === "manual";
+  const refinedTypography = config.mode === "classique" || config.mode === "maracana";
 
   return (
+    <TypographyPreview.Provider value={refinedTypography}>
     <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <ScrollView contentContainerStyle={[styles.scroll, { paddingTop: insets.top + spacing.md, paddingBottom: insets.bottom + 120 }]} keyboardShouldPersistTaps="handled">
         <View style={styles.header}>
@@ -110,8 +113,8 @@ export default function ConfigScreen() {
             <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
           </Pressable>
           <View style={{ flex: 1 }}>
-            <Text style={styles.title}>{preset ? preset.name : mode?.title ?? "Mode"}</Text>
-            <Text style={styles.subtitle}>{preset ? "Preset Custom" : mode?.description}</Text>
+            <Text testID="config-title" style={[styles.title, refinedTypography && refinedType.pageTitle]} numberOfLines={refinedTypography ? 1 : undefined} adjustsFontSizeToFit={refinedTypography} minimumFontScale={0.8}>{preset ? preset.name : mode?.title ?? "Mode"}</Text>
+            <Text testID="config-subtitle" style={[styles.subtitle, refinedTypography && refinedType.subtitle]}>{preset ? "Preset Custom" : mode?.description}</Text>
           </View>
         </View>
 
@@ -154,6 +157,7 @@ export default function ConfigScreen() {
         <PrimaryButton testID="config-launch" label={ctaLabel} onPress={launch} disabled={attempted && errors.length > 0} />
       </View>
     </KeyboardAvoidingView>
+    </TypographyPreview.Provider>
   );
 }
 
