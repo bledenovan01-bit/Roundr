@@ -101,3 +101,66 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: |
+  Roundr V0 — app Expo/React Native 100% hors-ligne (aucun backend, compte, cloud, API).
+  Persistance locale via AsyncStorage. Thème sombre premium, accents vert néon.
+  Dernier lot à valider (non-régression, changements essentiellement VISUELS) :
+    - Chrono géant (affichage plein écran depuis l'écran live).
+    - Sélection des couleurs de maillot des équipes avant le coup d'envoi.
+    - Extension du système de style aux écrans Classement, Résumé, Mes chronos, et configs Cup/Survie.
+    - Vérifier que la logique métier (rotations, chrono, sessions, navigation) n'a PAS régressé.
+
+frontend:
+  - task: "Chrono géant plein écran depuis live"
+    implemented: true
+    working: "NA"
+    file: "src/components/giant-chrono.tsx, app/live.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "main"
+        -comment: "Nouveau composant Modal plein écran. Ouverture/fermeture confirmée en smoke test précédent (giant: 07:55, closed ok). À valider en non-régression."
+  - task: "Sélection couleurs de maillot des équipes"
+    implemented: true
+    working: "NA"
+    file: "src/components/fields.tsx, app/config/[mode].tsx, app/live.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "main"
+        -comment: "Palette de swatches ajoutée. Smoke test 'palette ok'. À valider que la sélection persiste et s'affiche en live sans casser la config."
+  - task: "Extension style : Classement, Résumé, Mes chronos, configs Cup/Survie"
+    implemented: true
+    working: "NA"
+    file: "app/standings.tsx, app/summary.tsx, app/presets.tsx, app/config/[mode].tsx, src/features/config-forms.tsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "main"
+        -comment: "Restyle visuel aligné au design system. Smoke tests standings/cup/survie ok. À valider non-régression fonctionnelle."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 3
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Chrono géant plein écran depuis live"
+    - "Sélection couleurs de maillot des équipes"
+    - "Extension style : Classement, Résumé, Mes chronos, configs Cup/Survie"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+    -agent: "main"
+    -message: "Lot visuel + 2 nouveautés (chrono géant, couleurs équipes). Tests unitaires domaine + chrono OK, home rend conforme. Lancer non-régression front sur les flux : config classique/maracana/cup/survie -> live -> chrono géant open/close -> couleurs équipes -> classement/résumé/mes chronos. NB: preview web ne peut pas déclencher les Alert.alert destructifs (fin de match), ni valider audio natif / partage PNG natif — ne pas les marquer en échec."

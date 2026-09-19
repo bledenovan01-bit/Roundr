@@ -210,25 +210,52 @@ export function SurvieForm({ config, onChange }: FormProps<SurvieConfig>) {
   const set = (p: Partial<SurvieConfig>) => onChange({ ...config, ...p });
   const byes = byeCount(config.teamCount);
   return (
-    <Card>
-      {config.end.byTime ? (
-        <ChoiceRow label="Durée des matchs" testID="duration" options={MATCH_MIN} value={config.matchMin} onChange={(n) => set({ matchMin: n })} custom={{ min: 1, onChange: (n) => set({ matchMin: n }) }} suffix="min" />
-      ) : null}
-      <EndRulesField value={config.end} onChange={(end) => set({ end })} />
-      <Stepper label="Nombre d’équipes" testID="teams" value={config.teamCount} min={2} max={32} onChange={(n) => set({ teamCount: n })} hint={byes > 0 ? `${byes} exemption${byes > 1 ? "s" : ""} au premier tour · ${config.teamCount - 1} matchs` : `${config.teamCount - 1} matchs`} />
-      <Segmented label="Égalité" testID="draw-rule" options={DRAW_RULES} value={config.drawRule} onChange={(v) => set({ drawRule: v })} />
-      {config.drawRule === "extraThenShootout" ? (
-        <ChoiceRow label="Durée de prolongation" testID="extra" options={[1, 2, 3, 5].map((n) => ({ value: n, label: `${n} min` }))} value={config.extraMin} onChange={(n) => set({ extraMin: n })} custom={{ min: 1, onChange: (n) => set({ extraMin: n }) }} suffix="min" />
-      ) : null}
-      {config.teamCount >= 4 ? <ToggleRow testID="toggle-small-final" label="Match pour la 3e place" value={config.smallFinal} onChange={(v) => set({ smallFinal: v })} /> : <Text style={styles.note}>Petite finale indisponible à moins de 4 équipes.</Text>}
-      <Segmented label="Tirage" testID="draw" options={[{ value: "random", label: "Aléatoire" }, { value: "manual", label: "Manuel (ordre des équipes)" }]} value={config.draw} onChange={(v) => set({ draw: v })} />
-      <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
-      {config.end.byTime ? (
-        <Disclosure title="Options avancées : durées par tour" testID="advanced">
-          <RoundDurations teamCount={config.teamCount} value={config.roundMinutes} onChange={(roundMinutes) => set({ roundMinutes })} base={config.matchMin} />
-        </Disclosure>
-      ) : null}
-    </Card>
+    <View style={styles.formStack}>
+      <Section title="Temps de jeu">
+        <Card>
+          {config.end.byTime ? (
+            <>
+              <ChoiceRow label="Durée des matchs" testID="duration" options={MATCH_MIN} value={config.matchMin} onChange={(n) => set({ matchMin: n })} custom={{ min: 1, onChange: (n) => set({ matchMin: n }) }} suffix="min" />
+              <Divider />
+            </>
+          ) : null}
+          <EndRulesField value={config.end} onChange={(end) => set({ end })} />
+        </Card>
+      </Section>
+      <Section title="Tableau">
+        <Card>
+          <Stepper label="Nombre d’équipes" testID="teams" value={config.teamCount} min={2} max={32} onChange={(n) => set({ teamCount: n })} hint={byes > 0 ? `${byes} exemption${byes > 1 ? "s" : ""} au premier tour · ${config.teamCount - 1} matchs` : `${config.teamCount - 1} matchs`} />
+          <Divider />
+          <Segmented label="Tirage" testID="draw" options={[{ value: "random", label: "Aléatoire" }, { value: "manual", label: "Manuel (ordre des équipes)" }]} value={config.draw} onChange={(v) => set({ draw: v })} />
+          <Divider />
+          {config.teamCount >= 4 ? <ToggleRow testID="toggle-small-final" label="Match pour la 3e place" value={config.smallFinal} onChange={(v) => set({ smallFinal: v })} /> : <Text style={styles.note}>Petite finale indisponible à moins de 4 équipes.</Text>}
+        </Card>
+      </Section>
+      <Section title="Égalité">
+        <Card>
+          <Segmented label="Départage" testID="draw-rule" options={DRAW_RULES} value={config.drawRule} onChange={(v) => set({ drawRule: v })} />
+          {config.drawRule === "extraThenShootout" ? (
+            <>
+              <Divider />
+              <ChoiceRow label="Durée de prolongation" testID="extra" options={[1, 2, 3, 5].map((n) => ({ value: n, label: `${n} min` }))} value={config.extraMin} onChange={(n) => set({ extraMin: n })} custom={{ min: 1, onChange: (n) => set({ extraMin: n }) }} suffix="min" />
+            </>
+          ) : null}
+        </Card>
+      </Section>
+      <Section title="Options">
+        <Card>
+          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
+          {config.end.byTime ? (
+            <>
+              <Divider />
+              <Disclosure title="Options avancées : durées par tour" testID="advanced">
+                <RoundDurations teamCount={config.teamCount} value={config.roundMinutes} onChange={(roundMinutes) => set({ roundMinutes })} base={config.matchMin} />
+              </Disclosure>
+            </>
+          ) : null}
+        </Card>
+      </Section>
+    </View>
   );
 }
 
@@ -241,45 +268,77 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
   const perGroupMatches = sizes.reduce((a, n) => a + (n * (n - 1)) / 2, 0) * (config.doubleRound ? 2 : 1);
   const totalQualified = config.groups * config.qualifiersPerGroup + extra;
   return (
-    <Card>
-      {config.end.byTime ? (
-        <ChoiceRow label="Durée des matchs de poule" testID="duration" options={MATCH_MIN} value={config.matchMin} onChange={(n) => set({ matchMin: n })} custom={{ min: 1, onChange: (n) => set({ matchMin: n }) }} suffix="min" />
-      ) : null}
-      <EndRulesField value={config.end} onChange={(end) => set({ end })} />
-      <Stepper
-        label="Nombre d’équipes"
-        testID="teams"
-        value={config.teamCount}
-        min={4}
-        max={32}
-        onChange={(n) => {
-          const r = recommendCup(n);
-          set({ teamCount: n, groups: r.groups, qualifiersPerGroup: r.qualifiersPerGroup });
-        }}
-      />
-      <Stepper label="Poules" testID="groups" value={config.groups} min={1} max={Math.max(1, Math.floor(config.teamCount / 2))} onChange={(n) => set({ groups: n })} hint={`Recommandé : ${rec.groups} · tailles ${sizes.join("/")} · ${perGroupMatches} matchs`} />
-      <Segmented label="Format des poules" testID="format" options={[{ value: "single", label: "Aller simple" }, { value: "double", label: "Aller-retour" }]} value={config.doubleRound ? "double" : "single"} onChange={(v) => set({ doubleRound: v === "double" })} />
-      <Stepper label="Qualifiés par poule" testID="qualifiers" value={config.qualifiersPerGroup} min={1} max={Math.min(...sizes)} onChange={(n) => set({ qualifiersPerGroup: n })} hint={extra > 0 ? `${config.groups * config.qualifiersPerGroup} directs + ${extra} meilleur${extra > 1 ? "s" : ""} suivant${extra > 1 ? "s" : ""} → ${totalQualified} en phase finale` : `${totalQualified} équipes en phase finale`} />
-      <Segmented label="Égalité en phase finale" testID="draw-rule" options={DRAW_RULES} value={config.drawRule} onChange={(v) => set({ drawRule: v })} />
-      {config.drawRule === "extraThenShootout" ? (
-        <ChoiceRow label="Durée de prolongation" testID="extra" options={[1, 2, 3, 5].map((n) => ({ value: n, label: `${n} min` }))} value={config.extraMin} onChange={(n) => set({ extraMin: n })} custom={{ min: 1, onChange: (n) => set({ extraMin: n }) }} suffix="min" />
-      ) : null}
-      {totalQualified >= 4 ? <ToggleRow testID="toggle-small-final" label="Match pour la 3e place" value={config.smallFinal} onChange={(v) => set({ smallFinal: v })} /> : null}
-      <Segmented label="Répartition" testID="draw" options={[{ value: "random", label: "Aléatoire" }, { value: "manual", label: "Manuelle (ordre)" }]} value={config.draw} onChange={(v) => set({ draw: v })} />
-      <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
-      <Disclosure title="Options avancées" testID="advanced">
-        {config.end.byTime ? (
-          <ToggleRow testID="toggle-group-additional" label="Additionnel ouvert en poules" hint="À zéro le chrono monte jusqu’à la fin manuelle ; le nul reste possible. Si « Premier à X buts » est actif, l’atteindre termine le match même pendant l’additionnel." value={config.groupAdditional} onChange={(v) => set({ groupAdditional: v })} />
-        ) : null}
-        {config.end.byTime ? (
-          <>
-            <Text style={styles.label}>Durées par tour</Text>
-            <RoundDurations teamCount={totalQualified} value={config.roundMinutes} onChange={(roundMinutes) => set({ roundMinutes })} base={config.matchMin} />
-          </>
-        ) : null}
-        <Text style={styles.note}>Croisements par défaut : 1er de poule contre 2e d’une autre poule (A1–B2, B1–A2 à 8 équipes).</Text>
-      </Disclosure>
-    </Card>
+    <View style={styles.formStack}>
+      <Section title="Temps de jeu">
+        <Card>
+          {config.end.byTime ? (
+            <>
+              <ChoiceRow label="Durée des matchs de poule" testID="duration" options={MATCH_MIN} value={config.matchMin} onChange={(n) => set({ matchMin: n })} custom={{ min: 1, onChange: (n) => set({ matchMin: n }) }} suffix="min" />
+              <Divider />
+            </>
+          ) : null}
+          <EndRulesField value={config.end} onChange={(end) => set({ end })} />
+        </Card>
+      </Section>
+      <Section title="Poules">
+        <Card>
+          <Stepper
+            label="Nombre d’équipes"
+            testID="teams"
+            value={config.teamCount}
+            min={4}
+            max={32}
+            onChange={(n) => {
+              const r = recommendCup(n);
+              set({ teamCount: n, groups: r.groups, qualifiersPerGroup: r.qualifiersPerGroup });
+            }}
+          />
+          <Divider />
+          <Stepper label="Poules" testID="groups" value={config.groups} min={1} max={Math.max(1, Math.floor(config.teamCount / 2))} onChange={(n) => set({ groups: n })} hint={`Recommandé : ${rec.groups} · tailles ${sizes.join("/")} · ${perGroupMatches} matchs`} />
+          <Divider />
+          <Segmented label="Format des poules" testID="format" options={[{ value: "single", label: "Aller simple" }, { value: "double", label: "Aller-retour" }]} value={config.doubleRound ? "double" : "single"} onChange={(v) => set({ doubleRound: v === "double" })} />
+          <Divider />
+          <Segmented label="Répartition" testID="draw" options={[{ value: "random", label: "Aléatoire" }, { value: "manual", label: "Manuelle (ordre)" }]} value={config.draw} onChange={(v) => set({ draw: v })} />
+        </Card>
+      </Section>
+      <Section title="Phase finale">
+        <Card>
+          <Stepper label="Qualifiés par poule" testID="qualifiers" value={config.qualifiersPerGroup} min={1} max={Math.min(...sizes)} onChange={(n) => set({ qualifiersPerGroup: n })} hint={extra > 0 ? `${config.groups * config.qualifiersPerGroup} directs + ${extra} meilleur${extra > 1 ? "s" : ""} suivant${extra > 1 ? "s" : ""} → ${totalQualified} en phase finale` : `${totalQualified} équipes en phase finale`} />
+          <Divider />
+          <Segmented label="Égalité en phase finale" testID="draw-rule" options={DRAW_RULES} value={config.drawRule} onChange={(v) => set({ drawRule: v })} />
+          {config.drawRule === "extraThenShootout" ? (
+            <>
+              <Divider />
+              <ChoiceRow label="Durée de prolongation" testID="extra" options={[1, 2, 3, 5].map((n) => ({ value: n, label: `${n} min` }))} value={config.extraMin} onChange={(n) => set({ extraMin: n })} custom={{ min: 1, onChange: (n) => set({ extraMin: n }) }} suffix="min" />
+            </>
+          ) : null}
+          {totalQualified >= 4 ? (
+            <>
+              <Divider />
+              <ToggleRow testID="toggle-small-final" label="Match pour la 3e place" value={config.smallFinal} onChange={(v) => set({ smallFinal: v })} />
+            </>
+          ) : null}
+        </Card>
+      </Section>
+      <Section title="Options">
+        <Card>
+          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
+          <Divider />
+          <Disclosure title="Options avancées" testID="advanced">
+            {config.end.byTime ? (
+              <ToggleRow testID="toggle-group-additional" label="Additionnel ouvert en poules" hint="À zéro le chrono monte jusqu’à la fin manuelle ; le nul reste possible. Si « Premier à X buts » est actif, l’atteindre termine le match même pendant l’additionnel." value={config.groupAdditional} onChange={(v) => set({ groupAdditional: v })} />
+            ) : null}
+            {config.end.byTime ? (
+              <>
+                <Text style={styles.label}>Durées par tour</Text>
+                <RoundDurations teamCount={totalQualified} value={config.roundMinutes} onChange={(roundMinutes) => set({ roundMinutes })} base={config.matchMin} />
+              </>
+            ) : null}
+            <Text style={styles.note}>Croisements par défaut : 1er de poule contre 2e d’une autre poule (A1–B2, B1–A2 à 8 équipes).</Text>
+          </Disclosure>
+        </Card>
+      </Section>
+    </View>
   );
 }
 

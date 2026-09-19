@@ -67,23 +67,23 @@ function StandingsTable({ session, title, teamIds, matches, qualifiers }: { sess
     <View style={styles.card} testID={`table-${title}`}>
       <Text style={styles.cardTitle}>{title}</Text>
       <View style={styles.row}>
-        <Text style={[styles.cellHead, { width: 28 }]}>#</Text>
-        <Text style={[styles.cellHead, { flex: 1 }]}>Équipe</Text>
-        <Text style={styles.cellHead}>J</Text>
-        <Text style={[styles.cellHead, { width: 56 }]}>V-N-D</Text>
-        <Text style={[styles.cellHead, { width: 52 }]}>BP-BC</Text>
-        <Text style={styles.cellHead}>+/-</Text>
-        <Text style={[styles.cellHead, { width: 36, color: colors.brandPrimary }]}>Pts</Text>
+        <Text style={[styles.cellHead, { width: 24 }]}>#</Text>
+        <Text style={[styles.cellHead, { flex: 1, textAlign: "left" }]}>Équipe</Text>
+        <Text style={[styles.cellHead, { width: 20 }]}>J</Text>
+        <Text style={[styles.cellHead, { width: 50 }]}>V-N-D</Text>
+        <Text style={[styles.cellHead, { width: 44 }]}>BP-BC</Text>
+        <Text style={[styles.cellHead, { width: 26 }]}>+/-</Text>
+        <Text style={[styles.cellHead, { width: 30, color: colors.brandPrimary }]}>Pts</Text>
       </View>
       {rows.map((r, i) => (
-        <View key={r.teamId} style={[styles.row, qualifiers != null && i < qualifiers && { backgroundColor: colors.brandTertiary }]}>
-          <Text style={[styles.cell, { width: 28 }]}>{r.rank}{r.tied ? "=" : ""}</Text>
+        <View key={r.teamId} style={[styles.row, i % 2 === 1 && styles.rowAlt, qualifiers != null && i < qualifiers && { backgroundColor: colors.brandTertiary }]}>
+          <Text style={[styles.cell, { width: 24 }]}>{r.rank}{r.tied ? "=" : ""}</Text>
           <Text style={[styles.cell, styles.cellName, { flex: 1 }]} numberOfLines={1}>{name(r.teamId)}</Text>
-          <Text style={styles.cell}>{r.played}</Text>
-          <Text style={[styles.cell, { width: 56 }]}>{r.wins}-{r.draws}-{r.losses}</Text>
-          <Text style={[styles.cell, { width: 52 }]}>{r.gf}-{r.gc}</Text>
-          <Text style={styles.cell}>{r.gd > 0 ? `+${r.gd}` : r.gd}</Text>
-          <Text style={[styles.cell, styles.cellName, { width: 36, color: colors.brandPrimary }]}>{r.points}</Text>
+          <Text style={[styles.cell, { width: 20 }]}>{r.played}</Text>
+          <Text style={[styles.cell, { width: 50 }]}>{r.wins}-{r.draws}-{r.losses}</Text>
+          <Text style={[styles.cell, { width: 44 }]}>{r.gf}-{r.gc}</Text>
+          <Text style={[styles.cell, { width: 26 }]}>{r.gd > 0 ? `+${r.gd}` : r.gd}</Text>
+          <Text style={[styles.cell, styles.cellName, { width: 30, textAlign: "center", color: colors.brandPrimary }]}>{r.points}</Text>
         </View>
       ))}
       {rows.some((r) => r.tied) ? <Text style={styles.note}>= : ex æquo (aucun départage arbitraire).</Text> : null}
@@ -147,20 +147,21 @@ function ResultsList({ session }: { session: Session }) {
 
 const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
-  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: spacing.lg },
-  iconBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  title: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },
+  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: spacing.lg, paddingVertical: spacing.sm },
+  iconBtn: { width: 46, height: 46, alignItems: "center", justifyContent: "center" },
+  title: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"] - 4, color: colors.onSurface, letterSpacing: -0.4 },
   scroll: { padding: spacing.lg, gap: spacing.lg },
-  empty: { fontFamily: fontFamily.text, color: colors.muted, textAlign: "center", padding: spacing.xl },
-  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.md, padding: spacing.lg, gap: spacing.sm, borderWidth: 1, borderColor: colors.border },
-  cardTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.5, color: colors.brandPrimary, textTransform: "uppercase" },
-  row: { flexDirection: "row", alignItems: "center", minHeight: 40, gap: spacing.xs, borderRadius: radius.sm, paddingHorizontal: spacing.xs },
-  cellHead: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, width: 28, textAlign: "center" },
-  cell: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.onSurface, width: 28, textAlign: "center" },
-  cellName: { fontFamily: fontFamily.textBold, textAlign: "left" },
+  empty: { fontFamily: fontFamily.text, fontSize: fontSize.lg, color: colors.muted, textAlign: "center", paddingVertical: spacing.xl },
+  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.sm, borderWidth: 1, borderColor: colors.border },
+  cardTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.8, color: colors.brandPrimary, textTransform: "uppercase", marginBottom: spacing.xs },
+  row: { flexDirection: "row", alignItems: "center", minHeight: 44, gap: 2, borderRadius: radius.sm, paddingHorizontal: spacing.xs },
+  rowAlt: { backgroundColor: colors.surface },
+  cellHead: { fontFamily: fontFamily.textBold, fontSize: 11, color: colors.muted, width: 24, textAlign: "center", letterSpacing: 0.4 },
+  cell: { fontFamily: fontFamily.text, fontSize: 13, color: colors.onSurfaceTertiary, width: 24, textAlign: "center" },
+  cellName: { fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, textAlign: "left", color: colors.onSurface },
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
-  roundTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurface, marginTop: spacing.sm },
-  matchLine: { flexDirection: "row", alignItems: "center", gap: spacing.sm, minHeight: 44, paddingHorizontal: spacing.md, borderRadius: radius.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
-  matchTeam: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.onSurface },
-  matchScore: { fontFamily: fontFamily.display, fontSize: fontSize.xl, color: colors.onSurface, minWidth: 48, textAlign: "center" },
+  roundTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, marginTop: spacing.md },
+  matchLine: { flexDirection: "row", alignItems: "center", gap: spacing.sm, minHeight: 52, paddingHorizontal: spacing.md, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
+  matchTeam: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.onSurface },
+  matchScore: { fontFamily: fontFamily.display, fontSize: fontSize.xl + 4, color: colors.onSurface, minWidth: 56, textAlign: "center" },
 }));

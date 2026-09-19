@@ -75,3 +75,13 @@ Fond quasi noir #0B0F0D, cartes #161B19, accent vert néon #3DF27C, accents par 
 
 ## Hors périmètre V0 (rappel)
 Comptes utilisateurs, cloud, sync multi-organisateurs, stats par joueur, multi-terrains, notifications push, arbitrage assisté, IA.
+
+
+## Refonte visuelle + nouveautés (sprint visuel)
+- Refonte visuelle sans changement fonctionnel : Accueil, configs, Live (ring plus épais/piste discrète, score agrandi, glow "Fin du match"), switches custom, tuiles sélectionnables, séparateurs/titres de sections
+- Fond photo terrain nocturne sombre et subtil sur l'accueil (`assets/images/pitch-night.png`)
+- Extension du style : Classement, Résumé, Mes chronos, configs Cup/Survie
+- NOUVEAUTÉ Chrono géant : affichage plein écran du chrono depuis l'écran live (`src/components/giant-chrono.tsx`) — Modal, temps lisible à plusieurs mètres, pause/reprise + fermeture sans régression
+- NOUVEAUTÉ Couleurs de maillot : sélection d'une couleur par équipe en config avant le coup d'envoi, reflétée en live (jersey + bouton +1)
+- Validation : tests unitaires domaine + chrono OK ; non-régression front testing_agent 13/13 OK
+- À valider sur device réel (non testable en preview web) : lisibilité extérieure, audio WAV natif, partage PNG natif, Alert.alert destructifs

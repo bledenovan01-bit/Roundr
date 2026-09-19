@@ -9,6 +9,7 @@ import MaterialCommunityIcons from "@react-native-vector-icons/material-design-i
 import { elapsedMs } from "@/src/chrono/engine";
 import { formatMMSS } from "@/src/chrono/format";
 import { ChronoRing } from "@/src/components/chrono-ring";
+import { GiantChrono } from "@/src/components/giant-chrono";
 import { PrimaryButton } from "@/src/components/primary-button";
 import { GAME_MODES } from "@/src/data/modes";
 import { TEAM_PALETTE } from "@/src/domain/defaults";
@@ -30,6 +31,7 @@ export default function LiveScreen() {
   const saveError = useStore((s) => s.saveError);
   const { width } = useWindowDimensions();
   const [correcting, setCorrecting] = useState(false);
+  const [giant, setGiant] = useState(false);
   const [tab, setTab] = useState<[string, string]>(["", ""]);
 
   const live = session?.live ?? null;
@@ -290,6 +292,13 @@ export default function LiveScreen() {
           </View>
         ) : null}
 
+        {inPlay ? (
+          <Pressable testID="live-giant" onPress={() => setGiant(true)} style={styles.correctPill}>
+            <MaterialCommunityIcons name="arrow-expand-all" size={18} color={colors.brandPrimary} />
+            <Text style={[styles.correctLabel, { color: colors.brandPrimary }]}>Chrono géant</Text>
+          </Pressable>
+        ) : null}
+
         {live.stage === "break" ? (
           <PrimaryButton testID="skip-break" label="Passer la pause" variant="secondary" onPress={() => dispatchSession((s, t) => S.startNextPeriod({ ...s, live: { ...s.live!, stage: "awaitPeriod", periodIndex: s.live!.periodIndex + 1 } }, t))} />
         ) : null}
@@ -343,6 +352,18 @@ export default function LiveScreen() {
           </Text>
         </View>
       </ScrollView>
+
+      <GiantChrono
+        visible={giant}
+        time={time}
+        caption={caption}
+        status={status}
+        scoreLine={live.scoreOn ? `${live.score[0]} – ${live.score[1]}` : null}
+        paused={paused}
+        canPause={inPlay}
+        onTogglePause={() => dispatchSession(paused ? S.resume : S.pause)}
+        onClose={() => setGiant(false)}
+      />
     </View>
   );
 }

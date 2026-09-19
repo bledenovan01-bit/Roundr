@@ -46,7 +46,6 @@ export function ChoiceRow<T extends string | number>({
   testID?: string;
 }) {
   const styles = useStyles();
-  const { colors } = useTheme();
   const isCustom = !options.some((o) => o.value === value);
   const [showCustom, setShowCustom] = useState(isCustom);
   const [draft, setDraft] = useState(String(value));
@@ -189,7 +188,6 @@ export function Divider() {
 
 export function Segmented<T extends string | number>({ label, options, value, onChange, testID }: { label?: string; options: { value: T; label: string }[]; value: T; onChange: (v: T) => void; testID?: string }) {
   const styles = useStyles();
-  const { colors } = useTheme();
   return (
     <View style={styles.field}>
       {label ? <Text style={styles.fieldLabel}>{label}</Text> : null}
@@ -272,6 +270,7 @@ function CheckChip({ label, checked, onPress, testID }: { label: string; checked
 export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onChange: (t: Team[]) => void; reorder?: boolean }) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const [palette, setPalette] = useState<number | null>(null);
   const move = (i: number, dir: -1 | 1) => {
     const j = i + dir;
     if (j < 0 || j >= teams.length) return;
@@ -279,36 +278,57 @@ export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onCha
     [copy[i], copy[j]] = [copy[j], copy[i]];
     onChange(copy);
   };
+  const setColor = (i: number, color: string) => {
+    onChange(teams.map((x, k) => (k === i ? { ...x, color } : x)));
+    setPalette(null);
+  };
   return (
-    <View style={{ gap: spacing.sm }}>
+    <View style={{ gap: spacing.md }}>
       {teams.map((t, i) => (
-        <View key={t.id} style={styles.teamRow}>
-          <Pressable
-            testID={`team-color-${i}`}
-            onPress={() => {
-              const idx = TEAM_PALETTE.indexOf(t.color);
-              const color = TEAM_PALETTE[(idx + 1) % TEAM_PALETTE.length];
-              onChange(teams.map((x, k) => (k === i ? { ...x, color } : x)));
-            }}
-            style={[styles.colorDot, { backgroundColor: t.color }]}
-          />
-          <TextInput
-            testID={`team-name-${i}`}
-            value={t.name}
-            onChangeText={(name) => onChange(teams.map((x, k) => (k === i ? { ...x, name } : x)))}
-            style={[styles.input, { flex: 1 }]}
-            placeholder={`Équipe ${i + 1}`}
-            placeholderTextColor={colors.muted}
-            maxLength={18}
-          />
-          {reorder ? (
-            <View style={{ flexDirection: "row", gap: spacing.xs }}>
-              <Pressable onPress={() => move(i, -1)} style={styles.stepBtn} testID={`team-up-${i}`}>
-                <MaterialCommunityIcons name="chevron-up" size={22} color={colors.onSurface} />
-              </Pressable>
-              <Pressable onPress={() => move(i, 1)} style={styles.stepBtn} testID={`team-down-${i}`}>
-                <MaterialCommunityIcons name="chevron-down" size={22} color={colors.onSurface} />
-              </Pressable>
+        <View key={t.id} style={{ gap: spacing.sm }}>
+          <View style={styles.teamRow}>
+            <Pressable
+              testID={`team-color-${i}`}
+              onPress={() => {
+                Haptics.selectionAsync().catch(() => {});
+                setPalette((p) => (p === i ? null : i));
+              }}
+              style={[styles.jerseyBtn, { borderColor: t.color }]}
+            >
+              <MaterialCommunityIcons name="tshirt-crew" size={24} color={t.color} />
+            </Pressable>
+            <TextInput
+              testID={`team-name-${i}`}
+              value={t.name}
+              onChangeText={(name) => onChange(teams.map((x, k) => (k === i ? { ...x, name } : x)))}
+              style={[styles.input, { flex: 1 }]}
+              placeholder={`Équipe ${i + 1}`}
+              placeholderTextColor={colors.muted}
+              maxLength={18}
+            />
+            {reorder ? (
+              <View style={{ flexDirection: "row", gap: spacing.xs }}>
+                <Pressable onPress={() => move(i, -1)} style={styles.stepBtn} testID={`team-up-${i}`}>
+                  <MaterialCommunityIcons name="chevron-up" size={22} color={colors.onSurface} />
+                </Pressable>
+                <Pressable onPress={() => move(i, 1)} style={styles.stepBtn} testID={`team-down-${i}`}>
+                  <MaterialCommunityIcons name="chevron-down" size={22} color={colors.onSurface} />
+                </Pressable>
+              </View>
+            ) : null}
+          </View>
+          {palette === i ? (
+            <View style={styles.swatchRow} testID={`team-palette-${i}`}>
+              {TEAM_PALETTE.map((color, ci) => (
+                <Pressable
+                  key={color}
+                  testID={`team-swatch-${i}-${ci}`}
+                  onPress={() => setColor(i, color)}
+                  style={[styles.swatch, { backgroundColor: color }, t.color === color && styles.swatchActive]}
+                >
+                  {t.color === color ? <MaterialCommunityIcons name="check" size={18} color={colors.onBrandPrimary} /> : null}
+                </Pressable>
+              ))}
             </View>
           ) : null}
         </View>
@@ -409,5 +429,8 @@ const useStyles = makeStyles((colors) => ({
   segmentItem: { flex: 1, minHeight: 48, borderRadius: radius.sm, alignItems: "center", justifyContent: "center" },
   segmentItemActive: { backgroundColor: colors.brandTertiary, borderWidth: 2, borderColor: colors.brandPrimary },
   teamRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
-  colorDot: { width: control.icon, height: control.icon, borderRadius: radius.pill, borderWidth: 2, borderColor: colors.borderStrong },
+  jerseyBtn: { width: 52, height: 52, borderRadius: radius.pill, borderWidth: 2.5, alignItems: "center", justifyContent: "center", backgroundColor: colors.surface },
+  swatchRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, paddingLeft: 60 },
+  swatch: { width: 40, height: 40, borderRadius: radius.pill, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "transparent" },
+  swatchActive: { borderColor: colors.onSurface },
 }));
