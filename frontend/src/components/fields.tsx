@@ -60,6 +60,9 @@ export function ChoiceRow<T extends string | number>({
             <Pressable
               key={String(o.value)}
               testID={`${testID ?? label}-${o.value}`}
+              accessibilityRole="radio"
+              accessibilityState={{ checked: active }}
+              aria-checked={active}
               onPress={() => {
                 Haptics.selectionAsync().catch(() => {});
                 setShowCustom(false);
@@ -74,6 +77,9 @@ export function ChoiceRow<T extends string | number>({
         {custom ? (
           <Pressable
             testID={`${testID ?? label}-custom`}
+            accessibilityRole="radio"
+            accessibilityState={{ checked: showCustom }}
+            aria-checked={showCustom}
             onPress={() => setShowCustom(true)}
             style={[styles.chip, showCustom && styles.chipActive]}
           >
@@ -109,7 +115,8 @@ export function NumberInput({ value, onChange, suffix, testID, placeholder }: { 
         keyboardType="number-pad"
         placeholder={placeholder}
         placeholderTextColor={colors.muted}
-        style={styles.input}
+        style={[styles.input, styles.numericInput]}
+        accessibilityLabel={testID ?? placeholder ?? "Valeur numérique"}
         selectTextOnFocus
       />
       {suffix ? <Text style={styles.suffix}>{suffix}</Text> : null}
@@ -125,6 +132,10 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
     return (
       <Pressable
         testID={`${testID ?? label}-${icon}`}
+        accessibilityRole="button"
+        accessibilityLabel={`${delta < 0 ? "Diminuer" : "Augmenter"} : ${label}`}
+        accessibilityState={{ disabled }}
+        aria-disabled={disabled}
         disabled={disabled}
         onPress={() => {
           Haptics.selectionAsync().catch(() => {});
@@ -137,8 +148,8 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
     );
   };
   return (
-    <View style={styles.rowBetween}>
-      <View style={{ flex: 1 }}>
+    <View style={styles.stepperRow}>
+      <View style={styles.stepperLabel}>
         <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
         {hint ? <Text testID={`${testID ?? label}-hint`} style={styles.hint}>{hint}</Text> : null}
       </View>
@@ -154,30 +165,39 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
 export function ToggleRow({ label, value, onChange, hint, testID }: { label: string; value: boolean; onChange: (v: boolean) => void; hint?: string; testID?: string }) {
   const styles = useStyles();
   return (
-    <Pressable onPress={() => onChange(!value)} style={styles.rowBetween} testID={testID}>
-      <View style={{ flex: 1 }}>
+    <Pressable onPress={() => onChange(!value)} style={styles.rowBetween} testID={testID} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: value }} aria-checked={value}>
+      <View style={{ flex: 1, minWidth: 0 }}>
         <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
         {hint ? <Text testID={`${testID ?? label}-hint`} style={styles.hint}>{hint}</Text> : null}
       </View>
-      <Toggle value={value} onChange={onChange} />
+      <View style={styles.toggleTarget} pointerEvents="none" accessible={false}>
+        <View style={[styles.track, value && styles.trackOn]}>
+          <View style={[styles.thumb, value && styles.thumbOn]} />
+        </View>
+      </View>
     </Pressable>
   );
 }
 
 // Interrupteur maison (maquettes) : piste sombre, pastille verte à l'état actif.
-export function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
+export function Toggle({ value, onChange, testID = "toggle", label = "Activer l’option" }: { value: boolean; onChange: (v: boolean) => void; testID?: string; label?: string }) {
   const styles = useStyles();
   return (
     <Pressable
+      testID={testID}
       accessibilityRole="switch"
+      accessibilityLabel={label}
       accessibilityState={{ checked: value }}
+      aria-checked={value}
       onPress={() => {
         Haptics.selectionAsync().catch(() => {});
         onChange(!value);
       }}
-      style={[styles.track, value && styles.trackOn]}
+      style={styles.toggleTarget}
     >
-      <View style={[styles.thumb, value && styles.thumbOn]} />
+      <View style={[styles.track, value && styles.trackOn]}>
+        <View style={[styles.thumb, value && styles.thumbOn]} />
+      </View>
     </Pressable>
   );
 }
@@ -190,7 +210,7 @@ export function Divider() {
 export function Segmented<T extends string | number>({ label, options, value, onChange, testID }: { label?: string; options: { value: T; label: string }[]; value: T; onChange: (v: T) => void; testID?: string }) {
   const styles = useStyles();
   return (
-    <View style={styles.field}>
+    <View testID={`${testID ?? label}-group`} style={styles.field}>
       {label ? <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text> : null}
       <View style={styles.segment}>
         {options.map((o) => {
@@ -199,11 +219,14 @@ export function Segmented<T extends string | number>({ label, options, value, on
             <Pressable
               key={String(o.value)}
               testID={`${testID ?? label}-${o.value}`}
+              accessibilityRole="radio"
+              accessibilityState={{ checked: active }}
+              aria-checked={active}
               onPress={() => {
                 Haptics.selectionAsync().catch(() => {});
                 onChange(o.value);
               }}
-              style={[styles.segmentItem, active && styles.segmentItemActive]}
+              style={[styles.segmentItem, options.some((option) => option.label.length > 16) && styles.segmentItemLong, active && styles.segmentItemActive]}
             >
               <Text testID={`${testID ?? label}-${o.value}-label`} style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
             </Pressable>
@@ -251,6 +274,10 @@ function CheckChip({ label, checked, onPress, testID }: { label: string; checked
   return (
     <Pressable
       testID={testID}
+      accessibilityRole="checkbox"
+      accessibilityLabel={label}
+      accessibilityState={{ checked }}
+      aria-checked={checked}
       onPress={() => {
         Haptics.selectionAsync().catch(() => {});
         onPress();
@@ -290,6 +317,10 @@ export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onCha
           <View style={styles.teamRow}>
             <Pressable
               testID={`team-color-${i}`}
+              accessibilityRole="button"
+              accessibilityLabel={`Couleur de ${t.name}`}
+              accessibilityState={{ expanded: palette === i }}
+              aria-expanded={palette === i}
               onPress={() => {
                 Haptics.selectionAsync().catch(() => {});
                 setPalette((p) => (p === i ? null : i));
@@ -300,19 +331,20 @@ export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onCha
             </Pressable>
             <TextInput
               testID={`team-name-${i}`}
+              accessibilityLabel={`Nom de l’équipe ${i + 1}`}
               value={t.name}
               onChangeText={(name) => onChange(teams.map((x, k) => (k === i ? { ...x, name } : x)))}
-              style={[styles.input, { flex: 1 }]}
+              style={[styles.input, styles.teamInput]}
               placeholder={`Équipe ${i + 1}`}
               placeholderTextColor={colors.muted}
               maxLength={18}
             />
             {reorder ? (
-              <View style={{ flexDirection: "row", gap: spacing.xs }}>
-                <Pressable onPress={() => move(i, -1)} style={styles.stepBtn} testID={`team-up-${i}`}>
+              <View style={styles.reorderActions}>
+                <Pressable onPress={() => move(i, -1)} style={styles.stepBtn} testID={`team-up-${i}`} accessibilityRole="button" accessibilityLabel={`Monter ${t.name}`}>
                   <MaterialCommunityIcons name="chevron-up" size={22} color={colors.onSurface} />
                 </Pressable>
-                <Pressable onPress={() => move(i, 1)} style={styles.stepBtn} testID={`team-down-${i}`}>
+                <Pressable onPress={() => move(i, 1)} style={styles.stepBtn} testID={`team-down-${i}`} accessibilityRole="button" accessibilityLabel={`Descendre ${t.name}`}>
                   <MaterialCommunityIcons name="chevron-down" size={22} color={colors.onSurface} />
                 </Pressable>
               </View>
@@ -324,6 +356,10 @@ export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onCha
                 <Pressable
                   key={color}
                   testID={`team-swatch-${i}-${ci}`}
+                  accessibilityRole="radio"
+                  accessibilityLabel={`Couleur ${ci + 1} pour ${t.name}`}
+                  accessibilityState={{ checked: t.color === color }}
+                  aria-checked={t.color === color}
                   onPress={() => setColor(i, color)}
                   style={[styles.swatch, { backgroundColor: color }, t.color === color && styles.swatchActive]}
                 >
@@ -344,8 +380,8 @@ export function Disclosure({ title, children, testID }: { title: string; childre
   const [open, setOpen] = useState(false);
   return (
     <View>
-      <Pressable onPress={() => setOpen((o) => !o)} style={styles.rowBetween} testID={testID}>
-        <Text style={styles.fieldLabel}>{title}</Text>
+      <Pressable onPress={() => setOpen((o) => !o)} style={styles.rowBetween} testID={testID} accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ expanded: open }} aria-expanded={open}>
+        <Text testID={`${testID}-title`} style={[styles.fieldLabel, { flex: 1 }]}>{title}</Text>
         <MaterialCommunityIcons name={open ? "chevron-up" : "chevron-down"} size={26} color={colors.muted} />
       </Pressable>
       {open ? <View style={{ gap: spacing.md, paddingTop: spacing.sm }}>{children}</View> : null}
@@ -365,17 +401,19 @@ export function ErrorText({ children, testID }: { children: string; testID?: str
 
 const useBaseStyles = makeStyles((colors) => ({
   section: { gap: spacing.md },
-  sectionHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
+  sectionHeader: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, justifyContent: "space-between", alignItems: "baseline" },
   sectionTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.8, color: colors.muted, textTransform: "uppercase" },
   sectionHint: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
   card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.xl, borderWidth: 1, borderColor: colors.border },
   field: { gap: spacing.md },
-  fieldLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
+  fieldLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, flexShrink: 1, minWidth: 0 },
   hint: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.45 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
   chip: {
     minHeight: control.chip,
     minWidth: 82,
+    maxWidth: "100%",
+    paddingVertical: spacing.sm,
     paddingHorizontal: spacing.lg,
     borderRadius: radius.md,
     backgroundColor: colors.surfaceTertiary,
@@ -394,6 +432,7 @@ const useBaseStyles = makeStyles((colors) => ({
     alignItems: "center",
     gap: spacing.sm,
     paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
     borderRadius: radius.md,
     backgroundColor: colors.surfaceTertiary,
     borderWidth: 1,
@@ -402,13 +441,15 @@ const useBaseStyles = makeStyles((colors) => ({
   tileActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
   tileLabel: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.onSurfaceTertiary },
   track: { width: 58, height: 34, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.borderStrong, padding: 3, justifyContent: "center" },
+  toggleTarget: { width: 58, minHeight: 44, justifyContent: "center", flexShrink: 0 },
   trackOn: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary },
   thumb: { width: 26, height: 26, borderRadius: radius.pill, backgroundColor: colors.muted },
   thumbOn: { backgroundColor: colors.onBrandPrimary, alignSelf: "flex-end" },
   dividerLine: { height: 1, backgroundColor: colors.divider, marginVertical: -spacing.xs },
-  chipLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurfaceTertiary },
+  chipLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurfaceTertiary, textAlign: "center", flexShrink: 1, maxWidth: "100%" },
   chipLabelActive: { color: colors.brandPrimary },
-  inputRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  inputRow: { flexDirection: "row", alignItems: "center", flexShrink: 1, maxWidth: "100%", gap: spacing.sm },
+  numericInput: { width: 100, flexShrink: 1, maxWidth: "100%" },
   input: {
     minHeight: control.chip,
     minWidth: 100,
@@ -423,16 +464,21 @@ const useBaseStyles = makeStyles((colors) => ({
   },
   suffix: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
   rowBetween: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md, minHeight: control.row },
-  stepper: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  stepperRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: spacing.md, minHeight: control.row },
+  stepperLabel: { flexGrow: 1, flexBasis: 128, minWidth: 0 },
+  stepper: { flexDirection: "row", alignItems: "center", gap: spacing.sm, flexShrink: 0 },
   stepBtn: { width: 52, height: 52, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
   stepValue: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"] + 8, color: colors.onSurface, minWidth: 52, textAlign: "center" },
-  segment: { flexDirection: "row", backgroundColor: colors.surfaceTertiary, borderRadius: radius.md, padding: 5, gap: 5, borderWidth: 1, borderColor: colors.border },
-  segmentItem: { flex: 1, minHeight: 48, borderRadius: radius.sm, alignItems: "center", justifyContent: "center" },
+  segment: { flexDirection: "row", flexWrap: "wrap", backgroundColor: colors.surfaceTertiary, borderRadius: radius.md, padding: 5, gap: 5, borderWidth: 1, borderColor: colors.border },
+  segmentItem: { flexGrow: 1, flexBasis: 108, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.sm, paddingVertical: spacing.sm, borderRadius: radius.sm, alignItems: "center", justifyContent: "center" },
+  segmentItemLong: { flexBasis: 144 },
   segmentItemActive: { backgroundColor: colors.brandTertiary, borderWidth: 2, borderColor: colors.brandPrimary },
-  teamRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  teamRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: spacing.sm },
+  teamInput: { flexGrow: 1, flexBasis: 140, minWidth: 140, maxWidth: "100%" },
+  reorderActions: { flexDirection: "row", gap: spacing.xs, marginLeft: "auto" },
   jerseyBtn: { width: 52, height: 52, borderRadius: radius.pill, borderWidth: 2.5, alignItems: "center", justifyContent: "center", backgroundColor: colors.surface },
   swatchRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, paddingLeft: 60 },
-  swatch: { width: 40, height: 40, borderRadius: radius.pill, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "transparent" },
+  swatch: { width: 44, height: 44, borderRadius: radius.pill, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "transparent" },
   swatchActive: { borderColor: colors.onSurface },
 }));
 

@@ -113,8 +113,27 @@ user_problem_statement: |
   Lot actuel : AFFINAGE TYPOGRAPHIQUE UNIQUEMENT sur Accueil, Live,
   configuration Match classique et configuration Maracana. Références jointes
   récupérées et examinées. Garder les autres écrans inchangés jusqu'à approbation.
+  NOUVELLE DEMANDE : audit responsive UNIQUEMENT sur tous les écrans V0.
+  Corriger débordements, troncatures, retours à la ligne, cibles tactiles,
+  safe areas et incohérences en portrait320–430 + paysage. Garder direction
+  visuelle, hiérarchie (chrono dominant), navigation et logique fonctionnelle.
+  La demande Google sign-in est PAUSÉE, aucune intégration auth à faire.
 
 frontend:
+  - task: "Audit responsive de tous les écrans V0"
+    implemented: true
+    working: true
+    file: "app/{index,live,standings,summary,presets}.tsx, app/config/[mode].tsx, src/layout.ts, src/components/*, src/features/config-forms.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: true
+        -agent: "main"
+        -comment: "iteration_5 + followup.md : matrice6formats/tousécrans sansdébordementhorizontal, trois observations corrigées etselfvérifiées. Paysage568 : arène268 àx16/y8, équipes12–10etnoms longs dansécran ; champ/pied à320x400 séparés8,375pt ; descriptionshomepleine largeur sansréductiontypo. Étatsaccessiblesaria vérifiés aprèsajoutaliasesRN/RNW. Résuméréelrempli contrôlé320/390/paysageparroutedirecte. ATTENTION défautfonctionnelpréexistanthorspérimètre : finCustomobjectif1retourneHome plutôtqueSummary (raceeffet/sessionnull, confirmébaseline535bec5). Navigationinchangéeparconsigneutilisateur, approbationnécessairepourcorriger ; nepasannoncertousparcoursOK."
+        -working: "NA"
+        -agent: "main"
+        -comment: "Audit code + captures320 : dépassements durées de tours/éditeur équipes manuel, commandes Chrono Géant hors écran paysage confirmés. Correctifs : safeSides et largeur utile max760 ; footer config en flux dans KeyboardAvoidingView ; champs numériques100pt, choix repliables, réordonnancement et actions presets repliables ; zones tactiles44+ et labels d'accessibilité ; classementcompact sans masquer les colonnes ; carteRésumé hauteurmin au lieu ratiofixe ; chrono104 conservé à320/360 en plaçant équipes dessous, arène mesurée pour noms/corrections ; géant2colonnes paysage avecfermetureenflux etproviderSafeArea modal. Aucun moteur/store/navigation/fontes/couleurs/orientation native modifiés. Smoke tests effets320/paysage568 réussis, attendreQA exhaustive incluant étatsrares viafixtures de test isolées."
   - task: "Passe typographique limitée aux quatre écrans approuvés"
     implemented: true
     working: true
@@ -166,17 +185,21 @@ frontend:
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 4
+  test_sequence: 5
   run_ui: true
 
 test_plan:
   current_focus:
-    - "Passe typographique limitée aux quatre écrans approuvés"
+    - "Audit responsive de tous les écrans V0"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
+    -agent: "main"
+    -message: "Auditresponsive terminé ; consulter iteration_5_followup.md pour correctifs/vérifications etlimites. Défautpréexistant d'ouverture automatiquerésumé découvert ensuite, NONMODIFIÉ car horspérimètre. ArchiveSession vide sessionetdéclencheseconde navigationaccueil ; avanttoutecorrectiondemanderaccordscopefonctionnel. Pasd'intégrationGoogle, tâchepausée."
+    -agent: "main"
+    -message: "QA responsive exhaustif demandé, frontend only offline. Vérifier tous les V0 : home vide/reprise/presets, 5configs etoptionsavancées + erreurs, live scoreon/off/correction/TAB/transition/égalité/préparation/additionnel/pause, giantportrait+paysage, classement Maracana/poulesCup/tableauKO, résuméclassic/tournoi/longcontenu, presetsvidesetpleins. Matrice320x568,360x800,390x844,430x932,568x320,844x390. Fixtures danscontextesbrowserisolés pourétatsrares, pasdeproductionseed niAPI. Une capturegéant peut être prise pendant fade (fond transparent temporaire) : attendre fin réelle animation ou screenshot animations=disabled. Alert.alert audio partage natifs sont limitesdevice, nepasmodifier. Rapporterlimitesréelles."
     -agent: "main"
     -message: "Tester uniquement le lot typographique actuel et sa non-régression. Captures Home, Live classique/Maracana, configs classique/Maracana à 390 et 320 (aussi 360/430 si possible). Inspecter troncature/chevauchements, tailles et graisses effectives, chrono pause/reprise, score +1/correction/double chiffres, couleurs/noms, paramètres de config. Vérifier Cup/Survie/Custom et Résumé/Classement/Mes chronos toujours avec alias Manrope originaux. Fonctionnalités 100% locales, pas d'auth ni de backend à tester. Alert.alert natifs non testables sur preview web. Ne pas modifier le code ni les règles."
     -agent: "main"

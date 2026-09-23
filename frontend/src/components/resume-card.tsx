@@ -1,7 +1,8 @@
-import { Pressable, Text, View, useWindowDimensions } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
+import { useScreenLayout } from "@/src/layout";
 
 import {
   fontSize,
@@ -21,7 +22,7 @@ type Props = {
 export function ResumeCard({ modeLabel, subtitle, onPress, testID }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
-  const { width } = useWindowDimensions();
+  const { compact } = useScreenLayout();
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
@@ -31,10 +32,12 @@ export function ResumeCard({ modeLabel, subtitle, onPress, testID }: Props) {
   return (
     <Pressable
       testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={`Reprendre la session. ${modeLabel}. ${subtitle}`}
       onPress={handlePress}
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.card, compact && styles.cardCompact, pressed && styles.pressed]}
     >
-      <View style={styles.left}>
+      <View style={[styles.left, compact && styles.compactHeading]}>
         <View style={styles.badge}>
           <MaterialCommunityIcons
             name="play"
@@ -42,23 +45,25 @@ export function ResumeCard({ modeLabel, subtitle, onPress, testID }: Props) {
             color={colors.brandPrimary}
           />
         </View>
-        <View style={{ flex: 1 }}>
-          <Text testID={`${testID}-title`} style={[styles.title, width < 360 && styles.titleCompact]}>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Text testID={`${testID}-title`} style={styles.title}>
             Reprendre la session en cours
           </Text>
-          <Text testID={`${testID}-subtitle`} style={styles.subtitle}>
+          {!compact ? <Text testID={`${testID}-subtitle`} style={styles.subtitle}>
             {modeLabel} · {subtitle}
-          </Text>
+          </Text> : null}
         </View>
+        {compact ? <MaterialCommunityIcons name="chevron-right" size={24} color={colors.muted} /> : null}
       </View>
-      <View style={styles.statusPill}>
+      {compact ? <Text testID={`${testID}-subtitle`} style={styles.subtitle}>{modeLabel} · {subtitle}</Text> : null}
+      <View style={[styles.statusPill, compact && styles.inlineStatus]}>
         <Text testID={`${testID}-status`} style={styles.statusLabel}>En cours</Text>
       </View>
-      <MaterialCommunityIcons
+      {!compact ? <MaterialCommunityIcons
         name="chevron-right"
         size={24}
         color={colors.muted}
-      />
+      /> : null}
     </Pressable>
   );
 }
@@ -80,6 +85,8 @@ const useStyles = makeStyles((colors) => ({
   pressed: {
     backgroundColor: colors.surfaceTertiary,
   },
+  cardCompact: { flexDirection: "column", alignItems: "stretch" },
+  compactHeading: { flexGrow: 0, flexShrink: 0, flexBasis: "auto" },
   left: {
     flexDirection: "row",
     alignItems: "center",
@@ -112,7 +119,7 @@ const useStyles = makeStyles((colors) => ({
     lineHeight: 21,
     color: colors.onSurface,
   },
-  titleCompact: { fontSize: 14, lineHeight: 19 },
+  inlineStatus: { alignSelf: "flex-start" },
   subtitle: {
     fontFamily: fontFamily.text,
     fontSize: 12,

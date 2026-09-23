@@ -100,3 +100,25 @@ Comptes utilisateurs, cloud, sync multi-organisateurs, stats par joueur, multi-t
 - P0 : recueillir l'avis utilisateur sur ces quatre écrans.
 - P1 : appliquer la hiérarchie validée aux autres écrans seulement après accord.
 - P2 : vérifier le rendu natif et la lisibilité sur le terrain ; audio/partage natifs restent dans la recette téléphone existante.
+
+## Audit responsive V0 — réalisé
+- Demande utilisateur : audit responsive seulement, tous les écrans V0, téléphones320–430pt en portrait et paysage, sans changement fonctionnel ni direction visuelle. Échanges en français. La demande précédente d'intégration Google est **mise en pause**, aucune auth ajoutée.
+- `src/layout.ts` : largeur utile limitée à760pt en paysage, marges latérales issues des safe areas, détection compacte prenant en compte le facteur de texte. Appliqué à Accueil, configurations, Live, Classement, Résumé, Mes chronos.
+- Formulaires : champs numériques bornés, choix/équipes/réordonnancement/périodes repliables ; textes sans troncature ; CTA en flux normal sous le ScrollView dans KeyboardAvoidingView, séparé de8pt de la zone défilante. Pas de pied absolu masquant un champ. Palette44pt.
+- Live : chiffres104pt conservés à320/360/390/430 ; équipes sous l'anneau si la largeur est insuffisante, disposition latérale habituelle à390+. En paysage, anneau268pt à gauche et navigation/équipes à droite pour rentrer dans le premier écran568×320. Hauteur mesurée des colonnes évite les collisions en correction/noms longs. Chrono/règles inchangés.
+- Chrono Géant : SafeAreaProvider propre au modal, fermeture48pt dans le flux ; commandes à côté des chiffres en paysage ; défilement de secours sans réduction globale des textes.
+- Classement : en étroit, identité/points puis toutes les statistiques conservées (2×2 à320, une ligne si place). Table classique conservée en large. Matchs, scores TAB et noms peuvent revenir à la ligne.
+- Résumé : hauteur minimale au lieu d'un ratio rigide, carte grandit avec titres/stats/podium ; boutons restent après la carte. Mes chronos : cinq actions repliables. Accueil compact : métadonnées de reprise pleine largeur, descriptions de mode gagnent de la place sans diminuer la typo.
+- Accessibilité : cibles44+, labels d'icônes et états natifs ; alias aria compatibles RN/RNW ajoutés (RNW n'exposait pas accessibilityState seul). Interrupteurs/choix vérifiés. Aucun changement des fontes ni des couleurs, des routes ni des moteurs.
+- QA : `/app/test_reports/iteration_5.json` + `/app/test_reports/iteration_5_followup.md`. Matrice320×568,360×800,390×844,430×932,568×320,844×390. Trois observations de densité corrigées et revérifiées ; lint/TypeScript/tests domaine et chrono passent. Résumé rempli via vraie session vérifié séparément après accès direct à sa route.
+- Limites : preuve web seulement pour clavier/safe areas ; VoiceOver/TalkBack, encoches réelles et fonctionnalités natives à valider sur appareil. Portrait natif de l'app conservé, paysage déjà autorisé sur le modal géant. Parcours complet d'égalité Cup non exercé en UI (règles testées).
+
+### Défaut préexistant découvert — hors périmètre de cet audit
+- **Ouverture automatique du résumé après fin simple** : peut revenir à l'accueil. Reproduit par Custom objectif1 puis but. Effet préexistant dans `app/live.tsx`, confirmé identique au baseline535bec5 : archiveSession met session à null, l'effet se relance et sa branche absence de session remplace la navigation `/summary` par `/`.
+- **NON CORRIGÉ intentionnellement** : la consigne interdit de modifier le fonctionnement/la navigation. Le rendu du résumé archivé est vérifié via sa route existante. Demander l'accord pour une correction fonctionnelle distincte ; ne pas déclarer ce parcours OK.
+
+### Priorités après l'audit
+- P0 : recueillir la validation visuelle des adaptations responsive.
+- P1 soumis à accord : corriger le défaut préexistant d'ouverture automatique du résumé, puis tester la vraie fin de match.
+- P1 soumis à accord : éventuelle extension de la typographie aux autres écrans (non incluse dans cet audit).
+- P2 : recette sur téléphone pour clavier, safe areas, accessibilité native, audio et partage.

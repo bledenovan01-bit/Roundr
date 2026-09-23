@@ -3,6 +3,7 @@ import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
+import { useScreenLayout } from "@/src/layout";
 
 import {
   makeStyles,
@@ -34,6 +35,7 @@ export function ModeCard({
 }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const { compact } = useScreenLayout();
 
   const handlePress = () => {
     Haptics.selectionAsync().catch(() => {});
@@ -44,6 +46,8 @@ export function ModeCard({
     <Animated.View entering={FadeInDown.delay(index * 60).duration(360)}>
       <Pressable
         testID={testID}
+        accessibilityRole="button"
+        accessibilityLabel={`${title}. ${description}`}
         onPress={handlePress}
         style={({ pressed }) => [
           styles.card,
@@ -59,18 +63,21 @@ export function ModeCard({
           />
         </View>
         <View style={styles.body}>
-          <Text testID={`${testID}-title`} style={styles.title} numberOfLines={2}>
+          <View style={compact ? styles.compactTitleRow : undefined}>
+          <Text testID={`${testID}-title`} style={[styles.title, compact && styles.compactTitle]}>
             {title}
           </Text>
-          <Text testID={`${testID}-description`} style={styles.description} numberOfLines={2}>
+          {compact ? <MaterialCommunityIcons name="chevron-right" size={28} color={colors.muted} /> : null}
+          </View>
+          <Text testID={`${testID}-description`} style={styles.description}>
             {description}
           </Text>
         </View>
-        <MaterialCommunityIcons
+        {!compact ? <MaterialCommunityIcons
           name="chevron-right"
           size={28}
           color={colors.muted}
-        />
+        /> : null}
       </Pressable>
     </Animated.View>
   );
@@ -103,8 +110,11 @@ const useStyles = makeStyles((colors) => ({
   },
   body: {
     flex: 1,
+    minWidth: 0,
     gap: 3,
   },
+  compactTitleRow: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
+  compactTitle: { flex: 1, minWidth: 0 },
   title: {
     fontFamily: fontFamily.textBold,
     color: colors.onSurface,

@@ -1,7 +1,7 @@
 // E03–E07 — Live commun, pause, pause entre périodes, départage, transition.
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { Alert, AppState, Platform, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions } from "react-native";
+import { Alert, AppState, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
@@ -19,6 +19,7 @@ import type { Session, Team } from "@/src/domain/types";
 import { archiveSession, dispatchSession, tick, useStore } from "@/src/store/session-store";
 import { fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedFontFamily as fontFamily } from "@/src/typography-preview";
+import { layoutStyles, useScreenLayout } from "@/src/layout";
 
 const TEAM_COL = 68;
 
@@ -30,7 +31,12 @@ export default function LiveScreen() {
   const session = useStore((s) => s.session);
   const now = useStore((s) => s.now);
   const saveError = useStore((s) => s.saveError);
-  const { width } = useWindowDimensions();
+  const { safeSides, contentWidth, landscape, compact: smallLayout } = useScreenLayout();
+  const compact = smallLayout || contentWidth < 380;
+  const compactTeams = compact || landscape;
+  // Measured presentation height prevents correction controls / long names
+  // overflowing the arena. This never affects the match or chrono state.
+  const [teamHeights, setTeamHeights] = useState<[number, number]>([0, 0]);
   const [correcting, setCorrecting] = useState(false);
   const [giant, setGiant] = useState(false);
   const [tab, setTab] = useState<[string, string]>(["", ""]);
@@ -174,28 +180,42 @@ export default function LiveScreen() {
   const prepActive = live.firedAlerts.includes("prep") && live.stage !== "finished" && next;
   const remainingMs = live.stage === "period" && live.end.byTime ? Math.max(0, target - el) : null;
   const teamColor = (label: string) => session.teams.find((t) => t.name === label)?.color ?? null;
-  const ringSize = Math.min(268, width - spacing.lg * 2);
+  const ringSize = Math.min(268, contentWidth - spacing.lg * 2);
+  const measureTeam = (side: 0 | 1, height: number) => setTeamHeights((prev) => prev[side] === height ? prev : side === 0 ? [height, prev[1]] : [prev[0], height]);
+
+  const liveHeader = (
+    <View style={styles.header}>
+      <Pressable testID="live-back" onPress={() => router.replace("/" as never)} hitSlop={12} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel="Retour accueil">
+        <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
+      </Pressable>
+      <View style={{ alignItems: "center", flex: 1, minWidth: 0 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm, maxWidth: "100%" }}>
+          <MaterialCommunityIcons name={mode.icon} size={18} color={accent} />
+          <Text testID="live-title" accessibilityRole="header" style={styles.modeTitle}>{mode.title.toUpperCase()}</Text>
+        </View>
+        <Text testID="live-match-label" style={styles.matchLabel}>{match.label}</Text>
+      </View>
+      <Pressable testID="live-standings" onPress={() => router.push("/standings" as never)} hitSlop={12} style={[styles.iconBtn, single && { opacity: 0 }]} disabled={single} accessibilityRole="button" accessibilityLabel="Voir le classement" accessibilityElementsHidden={single} aria-hidden={single} importantForAccessibility={single ? "no-hide-descendants" : "auto"}>
+        <MaterialCommunityIcons name="podium" size={26} color={colors.onSurface} />
+      </Pressable>
+    </View>
+  );
+  const scoreTeams = live.scoreOn ? (
+    <View testID="live-score-teams" style={compactTeams ? styles.teamsBelow : styles.teamOverlay}>
+      <View style={compactTeams ? layoutStyles.flexible : [styles.teamSlot, { left: 0 }]}>
+        <TeamColumn team={teamA} score={live.score[0]} side={0} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} compact={compactTeams} onHeight={(height) => measureTeam(0, height)} />
+      </View>
+      <View style={compactTeams ? layoutStyles.flexible : [styles.teamSlot, { right: 0 }]}>
+        <TeamColumn team={teamB} score={live.score[1]} side={1} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} compact={compactTeams} onHeight={(height) => measureTeam(1, height)} />
+      </View>
+    </View>
+  ) : null;
 
   return (
     <TypographyPreview.Provider value={true}>
-    <View style={[styles.root, { paddingTop: insets.top }]}>
-      <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + spacing["2xl"] }]} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Pressable testID="live-back" onPress={() => router.replace("/" as never)} hitSlop={12} style={styles.iconBtn}>
-            <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
-          </Pressable>
-          <View style={{ alignItems: "center", flex: 1 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm, maxWidth: "100%" }}>
-              <MaterialCommunityIcons name={mode.icon} size={18} color={accent} />
-              <Text testID="live-title" style={styles.modeTitle} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>{mode.title.toUpperCase()}</Text>
-            </View>
-            <Text testID="live-match-label" style={styles.matchLabel}>{match.label}</Text>
-          </View>
-          <Pressable testID="live-standings" onPress={() => router.push("/standings" as never)} hitSlop={12} style={[styles.iconBtn, single && { opacity: 0 }]} disabled={single}>
-            <MaterialCommunityIcons name="podium" size={26} color={colors.onSurface} />
-          </Pressable>
-        </View>
+    <KeyboardAvoidingView testID="live-screen" style={[styles.root, safeSides, { paddingTop: insets.top }]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <ScrollView testID="live-scroll" style={layoutStyles.scroll} contentContainerStyle={[layoutStyles.content, styles.scroll, { paddingBottom: insets.bottom + spacing["2xl"] }]} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+        {!landscape ? liveHeader : null}
 
         {saveError ? (
           <View style={styles.errorBanner} testID="save-error">
@@ -205,7 +225,8 @@ export default function LiveScreen() {
         ) : null}
 
         {/* Score + chrono — le chrono domine l'écran (maquette live) */}
-        <View style={[styles.arena, { height: ringSize }]}>
+        <View testID="live-match-hero" style={landscape ? styles.heroLandscape : undefined}>
+        <View testID="live-arena" style={[styles.arena, landscape ? [styles.arenaLandscape, { width: ringSize, height: ringSize }] : compact ? styles.arenaStacked : { height: Math.max(ringSize, ...teamHeights) }]}>
           <ChronoRing
             time={time}
             caption={caption}
@@ -215,23 +236,16 @@ export default function LiveScreen() {
             accent={paused ? colors.muted : colors.brandPrimary}
             testID="live-chrono"
           />
-          {live.scoreOn ? (
-            <>
-              <View style={[styles.teamSlot, { left: 0 }]}>
-                <TeamColumn team={teamA} score={live.score[0]} side={0} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} />
-              </View>
-              <View style={[styles.teamSlot, { right: 0 }]}>
-                <TeamColumn team={teamB} score={live.score[1]} side={1} canScore={canScore} correcting={correcting} finished={live.stage === "finished"} />
-              </View>
-            </>
-          ) : null}
+          {!landscape ? scoreTeams : null}
+        </View>
+        {landscape ? <View style={styles.heroRail}>{liveHeader}{scoreTeams}</View> : null}
         </View>
         {!live.scoreOn ? (
           <Text style={styles.teamsLine}>{teamA?.name} <Text style={{ color: colors.muted }}>vs</Text> {teamB?.name}</Text>
         ) : null}
 
         {live.scoreOn && live.stage !== "shootout" ? (
-          <Pressable testID="toggle-correct" onPress={() => setCorrecting((c) => !c)} style={styles.correctPill}>
+          <Pressable testID="toggle-correct" onPress={() => setCorrecting((c) => !c)} style={styles.correctPill} accessibilityRole="button" accessibilityLabel={correcting ? "Terminer la correction" : "Corriger le score"} accessibilityState={{ expanded: correcting }} aria-expanded={correcting}>
             <MaterialCommunityIcons name={correcting ? "check" : "pencil-outline"} size={16} color={colors.muted} />
             <Text style={styles.correctLabel}>{correcting ? "Terminer la correction" : "Corriger le score"}</Text>
           </Pressable>
@@ -245,15 +259,19 @@ export default function LiveScreen() {
               <Text testID="live-next-duration" style={styles.nextMeta}>{live.end.byTime ? `${next.durationMin} min` : "Ensuite"}</Text>
             </View>
             {next.certain ? (
-              <View style={styles.nextTeamRow}>
+              <View style={[styles.nextTeamRow, compact && styles.nextTeamRowStacked]}>
+                <View style={styles.nextTeamIdentity}>
                 <View style={[styles.nextJersey, { borderColor: teamColor(next.aLabel) ?? colors.borderStrong }]}>
                   <MaterialCommunityIcons name="tshirt-crew" size={20} color={teamColor(next.aLabel) ?? colors.muted} />
                 </View>
-                <Text style={styles.nextTeams} numberOfLines={1}>{next.aLabel.toUpperCase()}</Text>
+                <Text testID="next-team-0" style={[styles.nextTeams, layoutStyles.flexible]}>{next.aLabel.toUpperCase()}</Text>
+                </View>
                 <Text style={styles.vs}>VS</Text>
-                <Text style={[styles.nextTeams, { flex: 1, textAlign: "right" }]} numberOfLines={1}>{next.bLabel.toUpperCase()}</Text>
+                <View style={styles.nextTeamIdentity}>
+                <Text testID="next-team-1" style={[styles.nextTeams, layoutStyles.flexible, { textAlign: "right" }]}>{next.bLabel.toUpperCase()}</Text>
                 <View style={[styles.nextJersey, { borderColor: teamColor(next.bLabel) ?? colors.borderStrong }]}>
                   <MaterialCommunityIcons name="tshirt-crew" size={20} color={teamColor(next.bLabel) ?? colors.muted} />
+                </View>
                 </View>
               </View>
             ) : (
@@ -278,24 +296,26 @@ export default function LiveScreen() {
           <View style={styles.controls}>
             <Pressable
               testID={paused ? "live-resume" : "live-pause"}
+              accessibilityRole="button"
+              accessibilityLabel={paused ? "Reprendre le chrono" : "Mettre le chrono en pause"}
               onPress={() => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
                 dispatchSession(paused ? S.resume : S.pause);
               }}
-              style={[styles.ctrl, styles.ctrlSecondary]}
+              style={[styles.ctrl, styles.ctrlSecondary, compact && styles.ctrlStacked]}
             >
               <MaterialCommunityIcons name={paused ? "play" : "pause"} size={24} color={colors.onSurface} />
-              <Text testID="live-pause-label" style={styles.ctrlLabel} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{paused ? "Reprendre" : "Pause"}</Text>
+              <Text testID="live-pause-label" style={styles.ctrlLabel}>{paused ? "Reprendre" : "Pause"}</Text>
             </Pressable>
-            <Pressable testID="live-end" onPress={confirmEnd} style={[styles.ctrl, styles.ctrlPrimary]}>
+            <Pressable testID="live-end" onPress={confirmEnd} style={[styles.ctrl, styles.ctrlPrimary, compact && styles.ctrlStacked]} accessibilityRole="button" accessibilityLabel="Fin du match">
               <MaterialCommunityIcons name="stop" size={22} color={colors.onBrandPrimary} />
-              <Text testID="live-end-label" style={[styles.ctrlLabel, styles.ctrlPrimaryLabel, width < 360 && styles.ctrlPrimaryLabelCompact]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>Fin du match</Text>
+              <Text testID="live-end-label" style={[styles.ctrlLabel, styles.ctrlPrimaryLabel]}>Fin du match</Text>
             </Pressable>
           </View>
         ) : null}
 
         {inPlay ? (
-          <Pressable testID="live-giant" onPress={() => setGiant(true)} style={styles.correctPill}>
+          <Pressable testID="live-giant" onPress={() => setGiant(true)} style={styles.correctPill} accessibilityRole="button" accessibilityLabel="Ouvrir le chrono géant">
             <MaterialCommunityIcons name="arrow-expand-all" size={18} color={colors.brandPrimary} />
             <Text style={[styles.correctLabel, { color: colors.brandPrimary }]}>Chrono géant</Text>
           </Pressable>
@@ -315,9 +335,10 @@ export default function LiveScreen() {
             <View style={styles.tabRow}>
               {[0, 1].map((i) => (
                 <View key={i} style={{ flex: 1, gap: spacing.xs }}>
-                  <Text style={styles.tabTeam} numberOfLines={1}>{(i === 0 ? teamA : teamB)?.name}</Text>
+                  <Text testID={`tab-team-${i}`} style={styles.tabTeam}>{(i === 0 ? teamA : teamB)?.name}</Text>
                   <TextInput
                     testID={`tab-${i}`}
+                    accessibilityLabel={`Tirs au but : ${(i === 0 ? teamA : teamB)?.name}`}
                     value={tab[i]}
                     onChangeText={(t) => setTab((prev) => (i === 0 ? [t.replace(/\D/g, ""), prev[1]] : [prev[0], t.replace(/\D/g, "")]))}
                     keyboardType="number-pad"
@@ -366,40 +387,44 @@ export default function LiveScreen() {
         onTogglePause={() => dispatchSession(paused ? S.resume : S.pause)}
         onClose={() => setGiant(false)}
       />
-    </View>
+    </KeyboardAvoidingView>
     </TypographyPreview.Provider>
   );
 }
 
-function TeamColumn({ team, score, side, canScore, correcting, finished }: { team: Team | null; score: number; side: 0 | 1; canScore: boolean; correcting: boolean; finished: boolean }) {
+function TeamColumn({ team, score, side, canScore, correcting, finished, compact, onHeight }: { team: Team | null; score: number; side: 0 | 1; canScore: boolean; correcting: boolean; finished: boolean; compact: boolean; onHeight: (height: number) => void }) {
   const styles = useStyles();
   const { colors } = useTheme();
-  const { width } = useWindowDimensions();
-  const scoreSize = Math.min(72, width * 0.18) / Math.max(1, String(score).length / 1.5);
+  const { contentWidth } = useScreenLayout();
+  const scoreSize = (compact ? 72 : Math.min(72, contentWidth * 0.18)) / Math.max(1, String(score).length / 1.5);
   const act = (delta: 1 | -1) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => {});
     dispatchSession((s, now) => (finished ? S.correctLast(s, side, delta, now) : S.goal(s, side, delta, now)));
   };
   const canCorrectFinished = finished && correcting;
   return (
-    <View style={styles.teamCol}>
+    <View testID={`live-team-${side}`} onLayout={(event) => onHeight(Math.ceil(event.nativeEvent.layout.height))} style={[styles.teamCol, compact && styles.teamColCompact]}>
+      <View style={[styles.teamIdentity, compact && styles.teamIdentityCompact]}>
       <View style={[styles.jersey, { borderColor: team?.color ?? colors.border }]}>
         <MaterialCommunityIcons name="tshirt-crew" size={26} color={team?.color ?? colors.muted} />
       </View>
-      <Text testID={`live-team-${side}-name`} style={[styles.teamName, (team?.name.length ?? 0) > 10 && styles.teamNameLong]}>{team?.name?.toUpperCase()}</Text>
+      <Text testID={`live-team-${side}-name`} style={[styles.teamName, (team?.name.length ?? 0) > 10 && styles.teamNameLong, compact && styles.teamNameCompact]}>{team?.name?.toUpperCase()}</Text>
+      </View>
+      <View style={[styles.scoreActions, compact && styles.scoreActionsCompact]}>
       <Text style={[styles.score, { fontSize: scoreSize, lineHeight: scoreSize }]} testID={`score-${side}`}>{score}</Text>
       {canScore || canCorrectFinished ? (
         <View style={{ gap: spacing.xs }}>
-          <Pressable testID={`goal-${side}`} onPress={() => act(1)} style={[styles.plus, { borderColor: team?.color ?? colors.borderStrong }, correcting && { borderColor: colors.brandPrimary }]}>
+          <Pressable testID={`goal-${side}`} onPress={() => act(1)} style={[styles.plus, { borderColor: team?.color ?? colors.borderStrong }, correcting && { borderColor: colors.brandPrimary }]} accessibilityRole="button" accessibilityLabel={`Ajouter un but : ${team?.name}`}>
             <Text style={styles.plusLabel}>+1</Text>
           </Pressable>
           {correcting ? (
-            <Pressable testID={`ungoal-${side}`} onPress={() => act(-1)} style={[styles.plus, styles.minus]} disabled={score <= 0}>
+            <Pressable testID={`ungoal-${side}`} onPress={() => act(-1)} style={[styles.plus, styles.minus]} disabled={score <= 0} accessibilityRole="button" accessibilityLabel={`Retirer un but : ${team?.name}`} accessibilityState={{ disabled: score <= 0 }} aria-disabled={score <= 0}>
               <Text style={[styles.plusLabel, { color: score <= 0 ? colors.muted : colors.error }]}>−1</Text>
             </Pressable>
           ) : null}
         </View>
       ) : null}
+      </View>
     </View>
   );
 }
@@ -432,18 +457,18 @@ function Transition({ session, next, onNext, onEndSession, onAddTeam, onSummary,
         </>
       ) : null}
       <View style={styles.linksRow}>
-        <Pressable onPress={onStandings} style={styles.link} testID="transition-standings">
+        <Pressable onPress={onStandings} style={styles.link} testID="transition-standings" accessibilityRole="button" accessibilityLabel={session.mode === "maracana" ? "Classement" : "Tableau"}>
           <MaterialCommunityIcons name="podium" size={18} color={colors.brandPrimary} />
           <Text style={styles.linkLabel}>{session.mode === "maracana" ? "Classement" : "Tableau"}</Text>
         </Pressable>
         {session.mode === "maracana" && session.teams.length < 8 ? (
-          <Pressable onPress={onAddTeam} style={styles.link} testID="add-team">
+          <Pressable onPress={onAddTeam} style={styles.link} testID="add-team" accessibilityRole="button" accessibilityLabel="Ajouter une équipe">
             <MaterialCommunityIcons name="account-multiple-plus" size={18} color={colors.brandPrimary} />
             <Text style={styles.linkLabel}>Ajouter une équipe</Text>
           </Pressable>
         ) : null}
         {!complete ? (
-          <Pressable onPress={onEndSession} style={styles.link} testID="end-session">
+          <Pressable onPress={onEndSession} style={styles.link} testID="end-session" accessibilityRole="button" accessibilityLabel="Terminer la session">
             <MaterialCommunityIcons name="flag-checkered" size={18} color={colors.error} />
             <Text style={[styles.linkLabel, { color: colors.error }]}>Terminer la session</Text>
           </Pressable>
@@ -467,7 +492,7 @@ function TieChoice({ session }: { session: Session }) {
         {tc.candidates.map((id) => {
           const on = picked.includes(id);
           return (
-            <Pressable key={id} testID={`tie-${id}`} onPress={() => setPicked((p) => (on ? p.filter((x) => x !== id) : p.length < tc.slots ? [...p, id] : p))} style={[styles.tieRow, on && { borderColor: colors.brandPrimary }]}>
+            <Pressable key={id} testID={`tie-${id}`} onPress={() => setPicked((p) => (on ? p.filter((x) => x !== id) : p.length < tc.slots ? [...p, id] : p))} style={[styles.tieRow, on && { borderColor: colors.brandPrimary }]} accessibilityRole="checkbox" accessibilityLabel={S.teamName(session, id)} accessibilityState={{ checked: on }} aria-checked={on}>
               <MaterialCommunityIcons name={on ? "checkbox-marked" : "checkbox-blank-outline"} size={22} color={on ? colors.brandPrimary : colors.muted} />
               <Text style={styles.tieName}>{S.teamName(session, id)}</Text>
             </Pressable>
@@ -484,22 +509,36 @@ const useStyles = makeStyles((colors) => ({
   scroll: { paddingHorizontal: spacing.lg, paddingTop: spacing.sm, gap: spacing.lg, flexGrow: 1 },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   iconBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  modeTitle: { fontFamily: fontFamily.textBold, fontSize: 20, lineHeight: 26, color: colors.onSurface, letterSpacing: 0.4, flexShrink: 1 },
+  modeTitle: { fontFamily: fontFamily.textBold, fontSize: 20, lineHeight: 26, color: colors.onSurface, letterSpacing: 0.4, flexShrink: 1, textAlign: "center" },
   brandFooter: { alignItems: "center", gap: spacing.xs, paddingTop: spacing.lg, marginTop: "auto" },
-  brandTagline: { fontFamily: fontFamily.text, fontSize: 10, color: colors.muted, letterSpacing: 2.2 },
+  brandTagline: { fontFamily: fontFamily.text, fontSize: 10, color: colors.muted, letterSpacing: 2.2, textAlign: "center" },
   brandWordmark: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface, letterSpacing: -0.8 },
   nextTeamRow: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  nextTeamRowStacked: { flexDirection: "column", alignItems: "stretch" },
+  nextTeamIdentity: { flex: 1, minWidth: 0, flexDirection: "row", alignItems: "center", gap: spacing.md },
   nextJersey: { width: 40, height: 40, borderRadius: 20, borderWidth: 2, alignItems: "center", justifyContent: "center", backgroundColor: colors.surface },
-  vs: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.muted, letterSpacing: 1.2 },
+  vs: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.muted, letterSpacing: 1.2, textAlign: "center" },
   matchLabel: { fontFamily: fontFamily.text, fontSize: 13, lineHeight: 19, color: colors.muted },
   errorBanner: { flexDirection: "row", gap: spacing.sm, alignItems: "center", padding: spacing.md, borderRadius: radius.sm, backgroundColor: colors.error },
   errorText: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onError },
-  arena: { alignItems: "center", justifyContent: "center", marginTop: spacing.sm },
+  arena: { alignItems: "center", justifyContent: "center", marginTop: spacing.sm, alignSelf: "center", width: "100%", maxWidth: 480 },
+  arenaStacked: { gap: spacing.lg },
+  arenaLandscape: { marginTop: 0, flexShrink: 0 },
+  heroLandscape: { flexDirection: "row", alignItems: "center", gap: spacing.lg },
+  heroRail: { flex: 1, minWidth: 0, gap: spacing.lg },
+  teamOverlay: { position: "absolute", top: 0, bottom: 0, left: 0, right: 0 },
+  teamsBelow: { width: "100%", flexDirection: "row", gap: spacing.lg, alignItems: "flex-start" },
   teamSlot: { position: "absolute", top: 0, bottom: 0, width: TEAM_COL, justifyContent: "center" },
   teamCol: { width: TEAM_COL, alignItems: "center", gap: spacing.sm },
+  teamColCompact: { width: "100%" },
+  teamIdentity: { alignItems: "center", gap: spacing.sm },
+  teamIdentityCompact: { flexDirection: "row", width: "100%" },
+  scoreActions: { alignItems: "center", gap: spacing.sm },
+  scoreActionsCompact: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", width: "100%" },
   jersey: { width: 54, height: 54, borderRadius: 27, borderWidth: 3, alignItems: "center", justifyContent: "center", backgroundColor: colors.surfaceSecondary },
   teamName: { fontFamily: fontFamily.textBold, fontSize: 14, lineHeight: 18, color: colors.onSurface, letterSpacing: 0.1, maxWidth: TEAM_COL, textAlign: "center" },
   teamNameLong: { fontSize: 12, lineHeight: 16 },
+  teamNameCompact: { flex: 1, minWidth: 0, maxWidth: "100%" },
   score: {
     fontFamily: fontFamily.display,
     fontSize: 72,
@@ -513,17 +552,18 @@ const useStyles = makeStyles((colors) => ({
   plusLabel: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"], color: colors.onSurface },
   teamsLine: { textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },
   correctLink: { flexDirection: "row", alignSelf: "center", alignItems: "center", gap: spacing.xs, minHeight: 40, paddingHorizontal: spacing.md },
-  correctLabel: { fontFamily: fontFamily.textBold, fontSize: 13, lineHeight: 19, color: colors.muted },
+  correctLabel: { flexShrink: 1, textAlign: "center", fontFamily: fontFamily.textBold, fontSize: 13, lineHeight: 19, color: colors.muted },
   nextCard: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
-  rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  rowBetween: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, justifyContent: "space-between", alignItems: "center" },
   nextTitle: { fontFamily: fontFamily.textBold, fontSize: 16, lineHeight: 22, color: colors.onSurfaceTertiary },
   nextMeta: { fontFamily: fontFamily.text, fontSize: 12, lineHeight: 18, color: colors.muted },
   nextTeams: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, letterSpacing: 0.6 },
   prepBanner: { flexDirection: "row", alignItems: "center", gap: spacing.md, padding: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary },
   prepTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
   prepSub: { fontFamily: fontFamily.text, fontSize: 12, lineHeight: 18, color: colors.muted },
-  controls: { flexDirection: "row", gap: spacing.md },
-  ctrl: { flex: 1, minHeight: 68, borderRadius: radius.lg, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
+  controls: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md },
+  ctrl: { flexGrow: 1, flexBasis: 150, minWidth: 0, minHeight: 68, paddingHorizontal: spacing.sm, paddingVertical: spacing.md, borderRadius: radius.lg, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm },
+  ctrlStacked: { flexBasis: "100%" },
   ctrlSecondary: { backgroundColor: colors.surfaceSecondary, borderWidth: 1, borderColor: colors.borderStrong },
   ctrlPrimary: {
     backgroundColor: colors.brandPrimary,
@@ -544,25 +584,26 @@ const useStyles = makeStyles((colors) => ({
     alignItems: "center",
     gap: spacing.sm,
     minHeight: 44,
+    maxWidth: "100%",
+    paddingVertical: spacing.sm,
     paddingHorizontal: spacing.lg,
     borderRadius: radius.pill,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.surfaceSecondary,
   },
-  ctrlLabel: { fontFamily: fontFamily.textBold, fontSize: 17, lineHeight: 24, color: colors.onSurface, flexShrink: 1 },
+  ctrlLabel: { fontFamily: fontFamily.textBold, fontSize: 17, lineHeight: 24, color: colors.onSurface, flexShrink: 1, textAlign: "center" },
   ctrlPrimaryLabel: { fontSize: 20, lineHeight: 28, color: colors.onBrandPrimary },
-  ctrlPrimaryLabelCompact: { fontSize: 16, lineHeight: 24 },
   panel: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
   panelTitle: { fontFamily: fontFamily.textBold, fontSize: 20, lineHeight: 26, letterSpacing: 0.8, color: colors.brandPrimary, textTransform: "uppercase" },
   panelHint: { fontFamily: fontFamily.text, fontSize: 12, color: colors.muted, lineHeight: 18 },
   result: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"] + 4, color: colors.onSurface },
   tabRow: { flexDirection: "row", gap: spacing.md },
   tabTeam: { fontFamily: fontFamily.textBold, fontSize: 14, lineHeight: 20, color: colors.onSurface },
-  tabInput: { minHeight: 64, borderRadius: radius.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.display, fontSize: fontSize["2xl"], textAlign: "center" },
+  tabInput: { width: "100%", minWidth: 0, minHeight: 64, borderRadius: radius.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.display, fontSize: fontSize["2xl"], textAlign: "center" },
   linksRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md },
-  link: { flexDirection: "row", alignItems: "center", gap: spacing.xs, minHeight: 44, paddingHorizontal: spacing.sm },
-  linkLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.brandPrimary },
+  link: { flexDirection: "row", alignItems: "center", gap: spacing.xs, minHeight: 44, maxWidth: "100%", paddingHorizontal: spacing.sm, paddingVertical: spacing.sm },
+  linkLabel: { flexShrink: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.brandPrimary },
   tieRow: { flexDirection: "row", alignItems: "center", gap: spacing.md, minHeight: 52, paddingHorizontal: spacing.md, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
-  tieName: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
+  tieName: { flex: 1, minWidth: 0, fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
 }));

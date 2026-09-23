@@ -350,8 +350,8 @@ const useBaseStyles = makeStyles((colors) => ({
   label: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.4 },
   error: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.error },
-  periodRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  periodLabel: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.onSurface },
+  periodRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: spacing.md },
+  periodLabel: { flexGrow: 1, flexBasis: 100, minWidth: 0, fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.onSurface },
 }));
 
 function useStyles() {

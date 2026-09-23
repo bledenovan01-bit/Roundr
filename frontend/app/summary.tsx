@@ -13,11 +13,13 @@ import { createSession } from "@/src/domain/session";
 import { buildSummary } from "@/src/domain/summary";
 import { discardSession, getStoreState, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { layoutStyles, useScreenLayout } from "@/src/layout";
 
 export default function SummaryScreen() {
   const styles = useStyles();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
+  const { safeSides, contentWidth } = useScreenLayout();
   const router = useRouter();
   const session = useStore((s) => s.lastSummary);
   const cardRef = useRef<View>(null);
@@ -25,21 +27,18 @@ export default function SummaryScreen() {
 
   if (!session) {
     return (
-      <View
-        style={[
-          styles.root,
-          {
-            paddingTop: insets.top + spacing.xl,
-            paddingHorizontal: spacing.xl,
-            paddingBottom: spacing.xl,
-            justifyContent: "center",
-            gap: spacing.lg,
-          },
+      <ScrollView
+        testID="summary-empty"
+        style={[styles.root, safeSides]}
+        contentContainerStyle={[
+          layoutStyles.content,
+          styles.emptyContent,
+          { paddingTop: insets.top + spacing.xl, paddingBottom: insets.bottom + spacing.xl },
         ]}
       >
-        <Text style={styles.sub}>Aucun résumé disponible.</Text>
-        <PrimaryButton label="Accueil" onPress={() => router.replace("/" as never)} />
-      </View>
+        <Text testID="summary-empty-label" style={styles.sub}>Aucun résumé disponible.</Text>
+        <PrimaryButton testID="summary-empty-home" label="Accueil" onPress={() => router.replace("/" as never)} />
+      </ScrollView>
     );
   }
   const mode = GAME_MODES.find((m) => m.id === session.mode)!;
@@ -78,27 +77,27 @@ export default function SummaryScreen() {
   };
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top }]}>
-      <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + spacing["2xl"] }]}>
+    <View testID="summary-screen" style={[styles.root, safeSides, { paddingTop: insets.top }]}>
+      <ScrollView testID="summary-scroll" contentContainerStyle={[layoutStyles.content, styles.scroll, { paddingBottom: insets.bottom + spacing["2xl"] }]}>
         <View style={styles.header}>
           <Text style={styles.eyebrow}>{mode.title.toUpperCase()}</Text>
-          <Text style={styles.title}>{summary.title}</Text>
+          <Text testID="summary-title" accessibilityRole="header" style={styles.title}>{summary.title}</Text>
           {summary.interrupted ? <Text style={[styles.sub, { color: colors.warning }]}>Interrompu · résultats réels conservés, aucun champion fictif.</Text> : null}
         </View>
 
         {/* Carte de partage (E11) — capturée en PNG */}
-        <View ref={cardRef} collapsable={false} style={styles.card} testID="share-card">
+        <View ref={cardRef} collapsable={false} style={[styles.card, { minHeight: Math.min(contentWidth - spacing.lg * 2, 430) / 0.8 }]} testID="share-card">
           <View style={styles.cardTop}>
             <Text style={styles.brand}>Roundr<Text style={{ color: colors.brandPrimary }}>.</Text></Text>
             <Text style={styles.cardMode}>{mode.title}</Text>
           </View>
-          <Text style={styles.cardHeadline} numberOfLines={3} adjustsFontSizeToFit>{summary.headline}</Text>
-          {summary.sub ? <Text style={styles.cardSub}>{summary.sub}</Text> : null}
+          <Text testID="summary-headline" style={styles.cardHeadline}>{summary.headline}</Text>
+          {summary.sub ? <Text testID="summary-subheadline" style={styles.cardSub}>{summary.sub}</Text> : null}
           <View style={styles.statsRow}>
-            {summary.stats.map((s) => (
+            {summary.stats.map((s, i) => (
               <View key={s.label} style={styles.stat}>
-                <Text style={styles.statValue}>{s.value}</Text>
-                <Text style={styles.statLabel}>{s.label}</Text>
+                <Text testID={`summary-stat-${i}-value`} style={styles.statValue}>{s.value}</Text>
+                <Text testID={`summary-stat-${i}-label`} style={styles.statLabel}>{s.label}</Text>
               </View>
             ))}
           </View>
@@ -112,12 +111,12 @@ export default function SummaryScreen() {
           <Text style={styles.tagline}>PLUS DE JEU. MOINS D’ORGANISATION.</Text>
         </View>
 
-        <View style={styles.actions}>
+        <View testID="summary-actions" style={styles.actions}>
           {single ? <PrimaryButton testID="summary-replay" label="Rejouer" onPress={replay} /> : null}
           {!single ? <PrimaryButton testID="summary-new" label="Nouvelle session" onPress={() => router.replace(`/config/${session.mode}` as never)} /> : null}
           {single ? <PrimaryButton testID="summary-new" label="Nouveau match" variant="secondary" onPress={() => router.replace(`/config/${session.mode}` as never)} /> : null}
           {!single ? (
-            <Pressable testID="summary-details" onPress={() => router.push("/standings" as never)} style={styles.link}>
+            <Pressable testID="summary-details" onPress={() => router.push("/standings" as never)} style={styles.link} accessibilityRole="button" accessibilityLabel={session.mode === "maracana" ? "Classement complet et résultats" : "Tableau et résultats"}>
               <MaterialCommunityIcons name="podium" size={20} color={colors.brandPrimary} />
               <Text style={styles.linkLabel}>{session.mode === "maracana" ? "Classement complet & résultats" : "Tableau & résultats"}</Text>
             </Pressable>
@@ -132,24 +131,25 @@ export default function SummaryScreen() {
 
 const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
+  emptyContent: { flexGrow: 1, justifyContent: "center", paddingHorizontal: spacing.xl, gap: spacing.lg },
   scroll: { padding: spacing.lg, gap: spacing.xl },
   header: { gap: spacing.xs },
   eyebrow: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 2.2, color: colors.brandPrimary },
   title: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"], color: colors.onSurface, letterSpacing: -0.6 },
   sub: { fontFamily: fontFamily.text, fontSize: fontSize.base + 1, color: colors.muted },
-  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.xl, padding: spacing.xl, gap: spacing.lg, borderWidth: 1.5, borderColor: colors.brandPrimary, aspectRatio: 0.8, justifyContent: "space-between" },
-  cardTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.xl, padding: spacing.xl, gap: spacing.lg, borderWidth: 1.5, borderColor: colors.brandPrimary, justifyContent: "space-between" },
+  cardTop: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, justifyContent: "space-between", alignItems: "center" },
   brand: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"] - 2, color: colors.onSurface, letterSpacing: -0.8 },
-  cardMode: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.8, color: colors.muted, textTransform: "uppercase" },
+  cardMode: { flexShrink: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.8, color: colors.muted, textTransform: "uppercase" },
   cardHeadline: { fontFamily: fontFamily.display, fontSize: fontSize["3xl"], lineHeight: fontSize["3xl"] * 1.02, color: colors.onSurface },
   cardSub: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl - 2, color: colors.brandPrimary },
   statsRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md },
-  stat: { minWidth: "44%", flexGrow: 1, padding: spacing.md, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
+  stat: { flexBasis: 128, minWidth: 0, flexGrow: 1, padding: spacing.md, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   statValue: { fontFamily: fontFamily.display, fontSize: fontSize["2xl"] + 2, color: colors.onSurface },
   statLabel: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
   podium: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl - 2, color: colors.onSurface },
-  tagline: { fontFamily: fontFamily.text, fontSize: 10, letterSpacing: 2.2, color: colors.muted },
+  tagline: { fontFamily: fontFamily.text, fontSize: 10, letterSpacing: 2.2, color: colors.muted, textAlign: "center" },
   actions: { gap: spacing.md },
   link: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm, minHeight: 52 },
-  linkLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.brandPrimary },
+  linkLabel: { flexShrink: 1, minWidth: 0, textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.brandPrimary },
 }));

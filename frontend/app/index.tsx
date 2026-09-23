@@ -14,6 +14,7 @@ import { elapsedMs } from "@/src/chrono/engine";
 import { presetMeta } from "@/src/features/preset-meta";
 import { useStore } from "@/src/store/session-store";
 import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
+import { layoutStyles, useScreenLayout } from "@/src/layout";
 import {
   fontSize,
   makeStyles,
@@ -26,6 +27,7 @@ export default function HomeScreen() {
   const styles = useStyles();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
+  const { safeSides } = useScreenLayout();
   const router = useRouter();
   const session = useStore((s) => s.session);
   const presets = useStore((s) => s.presets);
@@ -51,7 +53,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top }]}>
+    <View testID="home-screen" style={[styles.root, safeSides, { paddingTop: insets.top }]}>
       <View style={styles.hero}>
         <Image source={require("@/assets/images/pitch-night.png")} style={styles.heroImage} resizeMode="cover" />
         <LinearGradient
@@ -61,7 +63,9 @@ export default function HomeScreen() {
         />
       </View>
       <ScrollView
+        testID="home-scroll"
         contentContainerStyle={[
+          layoutStyles.content,
           styles.scroll,
           { paddingBottom: insets.bottom + spacing["2xl"] },
         ]}
@@ -122,7 +126,7 @@ export default function HomeScreen() {
         {/* Mes chronos (conditional presets) */}
         {presets.length > 0 ? (
           <View style={styles.section} testID="presets-section">
-            <Pressable style={styles.sectionHeader} onPress={() => router.push("/presets" as never)} testID="presets-manage">
+            <Pressable style={styles.sectionHeader} onPress={() => router.push("/presets" as never)} testID="presets-manage" accessibilityRole="button" accessibilityLabel="Gérer mes chronos">
               <Text testID="home-presets-title" style={styles.sectionTitle}>Mes chronos</Text>
               <Text style={[styles.sectionHint, { color: colors.brandPrimary }]}>Gérer ›</Text>
             </Pressable>
@@ -143,7 +147,7 @@ export default function HomeScreen() {
             </ScrollView>
           </View>
         ) : (
-          <Pressable style={styles.emptyPresets} testID="presets-empty" onPress={() => router.push("/presets" as never)}>
+          <Pressable style={styles.emptyPresets} testID="presets-empty" onPress={() => router.push("/presets" as never)} accessibilityRole="button" accessibilityLabel="Mes chronos, formats sauvegardés">
             <View style={styles.emptyPresetsIcon}>
               <MaterialCommunityIcons
                 name="clock-outline"
@@ -229,6 +233,9 @@ const useStyles = makeStyles((colors) => ({
     gap: spacing.md,
   },
   sectionHeader: {
+    minHeight: 44,
+    flexWrap: "wrap",
+    gap: spacing.sm,
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
@@ -290,6 +297,7 @@ const useStyles = makeStyles((colors) => ({
     gap: spacing.xs,
   },
   footerTagline: {
+    textAlign: "center",
     fontFamily: fontFamily.text,
     fontSize: 10,
     color: colors.muted,

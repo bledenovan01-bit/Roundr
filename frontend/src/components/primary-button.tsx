@@ -62,6 +62,11 @@ export function PrimaryButton({
   return (
     <Pressable
       testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
+      aria-disabled={!!(disabled || loading)}
+      aria-busy={!!loading}
       onPress={handlePress}
       disabled={disabled || loading}
       style={({ pressed }) => [
@@ -88,10 +93,14 @@ const useStyles = makeStyles((colors) => ({
     minHeight: control.button,
     borderRadius: radius.lg,
     paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    maxWidth: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
   inner: {
+    maxWidth: "100%",
+    minWidth: 0,
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.sm,
@@ -117,6 +126,9 @@ const useStyles = makeStyles((colors) => ({
     opacity: 0.4,
   },
   label: {
+    flexShrink: 1,
+    minWidth: 0,
+    textAlign: "center",
     fontFamily: fontFamily.textBold,
     fontSize: fontSize.xl - 2,
     letterSpacing: 0.2,

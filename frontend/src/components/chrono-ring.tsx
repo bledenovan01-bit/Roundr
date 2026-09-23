@@ -1,5 +1,5 @@
 // Anneau de progression + chrono géant (maquette live).
-import { Text, View, useWindowDimensions } from "react-native";
+import { Text, View } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 
 import { makeStyles, useTheme } from "@/src/theme";
@@ -18,7 +18,6 @@ type Props = {
 export function ChronoRing({ time, caption, status, progress, size = 280, accent, testID }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
-  const { width } = useWindowDimensions();
   const stroke = 14;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
@@ -28,9 +27,9 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
   const ringPath = `M ${size / 2} ${size / 2 - r} A ${r} ${r} 0 0 1 ${size / 2} ${size / 2 + r} A ${r} ${r} 0 0 1 ${size / 2} ${size / 2 - r}`;
   const angle = (p * 360 - 90) * (Math.PI / 180);
   const dot = { x: size / 2 + r * Math.cos(angle), y: size / 2 + r * Math.sin(angle) };
-  // Typography only: leave the ring and side columns in place, fit between scores.
-  const base = Math.min(104, size * 0.39, (width - 148) / 2.25);
-  const fontScale = time.length > 5 ? 0.72 : 1;
+  // Compact screens move scores below the ring instead of shrinking the timer.
+  const base = Math.min(104, size * 0.39);
+  const fontScale = time.length > 5 ? Math.min(0.72, 5 / time.length) : 1;
   return (
     <View style={[styles.wrap, { width: size, height: size }]} testID={testID}>
       <Svg width={size} height={size} style={styles.svg}>
@@ -58,11 +57,11 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
         {/* Repère de tête (maquette) */}
         <Circle cx={dot.x} cy={dot.y} r={stroke * 0.55} fill={accent ?? colors.brandPrimary} />
       </Svg>
-      <Text testID="live-time-caption" style={styles.caption}>{caption.toUpperCase()}</Text>
-      <Text style={[styles.time, { fontSize: base * fontScale, lineHeight: base * fontScale * 1.02 }]} testID="live-time">
+      <Text testID="live-time-caption" style={[styles.caption, { maxWidth: size - 40 }]}>{caption.toUpperCase()}</Text>
+      <Text maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} style={[styles.time, { fontSize: base * fontScale, lineHeight: base * fontScale * 1.02 }]} testID="live-time">
         {time}
       </Text>
-      <Text testID="live-time-status" style={styles.status} numberOfLines={1}>{status}</Text>
+      <Text testID="live-time-status" style={styles.status}>{status}</Text>
     </View>
   );
 }
@@ -70,7 +69,7 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
 const useStyles = makeStyles((colors) => ({
   wrap: { alignItems: "center", justifyContent: "center", alignSelf: "center" },
   svg: { position: "absolute", top: 0, left: 0 },
-  caption: { fontFamily: fontFamily.textBold, fontSize: 11, lineHeight: 16, letterSpacing: 2, color: colors.muted, textTransform: "uppercase" },
+  caption: { fontFamily: fontFamily.textBold, fontSize: 11, lineHeight: 16, letterSpacing: 2, color: colors.muted, textTransform: "uppercase", textAlign: "center" },
   time: {
     fontFamily: fontFamily.display,
     color: colors.onSurface,

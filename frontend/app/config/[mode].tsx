@@ -15,11 +15,13 @@ import { ClassicForm, CupForm, CustomForm, MaracanaForm, SurvieForm } from "@/sr
 import { getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
+import { layoutStyles, useScreenLayout } from "@/src/layout";
 
 export default function ConfigScreen() {
   const styles = useStyles();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
+  const { safeSides } = useScreenLayout();
   const router = useRouter();
   const params = useLocalSearchParams<{ mode: GameModeId; preset?: string; replay?: string }>();
   const mode = GAME_MODES.find((m) => m.id === params.mode);
@@ -106,14 +108,14 @@ export default function ConfigScreen() {
 
   return (
     <TypographyPreview.Provider value={refinedTypography}>
-    <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <ScrollView contentContainerStyle={[styles.scroll, { paddingTop: insets.top + spacing.md, paddingBottom: insets.bottom + 120 }]} keyboardShouldPersistTaps="handled">
+    <KeyboardAvoidingView style={[styles.root, safeSides]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <ScrollView testID="config-scroll" style={layoutStyles.scroll} contentContainerStyle={[layoutStyles.content, styles.scroll, { paddingTop: insets.top + spacing.md, paddingBottom: spacing.xl }]} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
         <View style={styles.header}>
-          <Pressable testID="config-back" onPress={() => router.back()} style={styles.backBtn} hitSlop={12}>
+          <Pressable testID="config-back" onPress={() => router.back()} style={styles.backBtn} hitSlop={12} accessibilityRole="button" accessibilityLabel="Retour">
             <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
           </Pressable>
-          <View style={{ flex: 1 }}>
-            <Text testID="config-title" style={[styles.title, refinedTypography && refinedType.pageTitle]} numberOfLines={refinedTypography ? 1 : undefined} adjustsFontSizeToFit={refinedTypography} minimumFontScale={0.8}>{preset ? preset.name : mode?.title ?? "Mode"}</Text>
+          <View style={layoutStyles.flexible}>
+            <Text testID="config-title" accessibilityRole="header" style={[styles.title, refinedTypography && refinedType.pageTitle]}>{preset ? preset.name : mode?.title ?? "Mode"}</Text>
             <Text testID="config-subtitle" style={[styles.subtitle, refinedTypography && refinedType.subtitle]}>{preset ? "Preset Custom" : mode?.description}</Text>
           </View>
         </View>
@@ -132,6 +134,7 @@ export default function ConfigScreen() {
             {(config as CustomConfig).savePreset || preset ? (
               <TextInput
                 testID="preset-name"
+                accessibilityLabel="Nom du preset"
                 value={(config as CustomConfig).presetName}
                 onChangeText={(t) => setConfig({ ...config, presetName: t } as AnyConfig)}
                 placeholder="Nom du preset"
@@ -146,14 +149,14 @@ export default function ConfigScreen() {
 
         {attempted && errors.length ? (
           <View style={styles.errors} testID="config-errors">
-            {errors.map((e) => (
-              <ErrorText key={e}>{e}</ErrorText>
+            {errors.map((e, i) => (
+              <ErrorText key={e} testID={`config-error-${i}`}>{e}</ErrorText>
             ))}
           </View>
         ) : null}
       </ScrollView>
 
-      <View style={[styles.cta, { paddingBottom: insets.bottom + spacing.md }]}>
+      <View testID="config-footer" style={[layoutStyles.content, styles.cta, { paddingBottom: insets.bottom + spacing.md }]}>
         <PrimaryButton testID="config-launch" label={ctaLabel} onPress={launch} disabled={attempted && errors.length > 0} />
       </View>
     </KeyboardAvoidingView>
@@ -171,5 +174,5 @@ const useStyles = makeStyles((colors) => ({
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
   input: { minHeight: 54, paddingHorizontal: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.textBold, fontSize: fontSize.lg },
   errors: { gap: spacing.xs, padding: spacing.lg, borderRadius: radius.md, borderWidth: 1, borderColor: colors.error, backgroundColor: colors.surfaceSecondary },
-  cta: { position: "absolute", left: 0, right: 0, bottom: 0, paddingHorizontal: spacing.lg, paddingTop: spacing.md, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border },
+  cta: { marginTop: spacing.sm, paddingHorizontal: spacing.lg, paddingTop: spacing.md, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border },
 }));

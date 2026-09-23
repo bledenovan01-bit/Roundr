@@ -2,6 +2,7 @@ import { Pressable, Text, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
+import { useScreenLayout } from "@/src/layout";
 
 import {
   fontSize,
@@ -21,6 +22,7 @@ type Props = {
 export function PresetPill({ name, meta, onPress, testID }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const { contentWidth } = useScreenLayout();
 
   const handlePress = () => {
     Haptics.selectionAsync().catch(() => {});
@@ -30,8 +32,10 @@ export function PresetPill({ name, meta, onPress, testID }: Props) {
   return (
     <Pressable
       testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={`${name}. ${meta}`}
       onPress={handlePress}
-      style={({ pressed }) => [styles.pill, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.pill, { maxWidth: contentWidth - spacing.lg * 2 }, pressed && styles.pressed]}
     >
       <MaterialCommunityIcons
         name="timer-outline"
@@ -39,10 +43,10 @@ export function PresetPill({ name, meta, onPress, testID }: Props) {
         color={colors.brandPrimary}
       />
       <View style={styles.body}>
-        <Text testID={`${testID}-name`} style={styles.name} numberOfLines={1}>
+        <Text testID={`${testID}-name`} style={styles.name}>
           {name}
         </Text>
-        <Text testID={`${testID}-meta`} style={styles.meta} numberOfLines={1}>
+        <Text testID={`${testID}-meta`} style={styles.meta}>
           {meta}
         </Text>
       </View>
@@ -68,6 +72,8 @@ const useStyles = makeStyles((colors) => ({
     backgroundColor: colors.surfaceTertiary,
   },
   body: {
+    flexShrink: 1,
+    minWidth: 0,
     gap: 2,
   },
   name: {

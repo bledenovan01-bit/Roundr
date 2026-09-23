@@ -5,6 +5,7 @@
 import { reloadAppAsync } from "expo";
 import { Component, type ErrorInfo, type PropsWithChildren, useState } from "react";
 import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { makeStyles } from "@/src/theme";
 
@@ -27,7 +28,7 @@ export class ErrorBoundary extends Component<PropsWithChildren, ErrorBoundarySta
 
   render() {
     if (this.state.error) {
-      return <ErrorFallback error={this.state.error} resetError={this.resetError} />;
+      return <SafeAreaProvider><ErrorFallback error={this.state.error} resetError={this.resetError} /></SafeAreaProvider>;
     }
     return this.props.children;
   }
@@ -35,6 +36,7 @@ export class ErrorBoundary extends Component<PropsWithChildren, ErrorBoundarySta
 
 function ErrorFallback({ error, resetError }: { error: Error; resetError: () => void }) {
   const styles = useStyles();
+  const insets = useSafeAreaInsets();
   const [showDetails, setShowDetails] = useState(false);
 
   const handleReload = async () => {
@@ -47,7 +49,7 @@ function ErrorFallback({ error, resetError }: { error: Error; resetError: () => 
   };
 
   return (
-    <View style={styles.container} testID="error-fallback">
+    <ScrollView style={styles.root} contentContainerStyle={[styles.container, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24, paddingLeft: insets.left + 24, paddingRight: insets.right + 24 }]} testID="error-fallback">
       <View style={styles.content}>
         <Text style={styles.title}>Something went wrong</Text>
         <Text style={styles.message}>Please reload the app to continue.</Text>
@@ -61,28 +63,31 @@ function ErrorFallback({ error, resetError }: { error: Error; resetError: () => 
           <Text style={styles.buttonText}>Reload app</Text>
         </Pressable>
         {__DEV__ ? (
-          <Pressable onPress={() => setShowDetails((v) => !v)} accessibilityRole="button" hitSlop={8}>
+          <Pressable testID="error-fallback-details" onPress={() => setShowDetails((v) => !v)} accessibilityRole="button" accessibilityState={{ expanded: showDetails }} aria-expanded={showDetails} style={styles.detailsButton}>
             <Text style={styles.detailsToggle}>{showDetails ? "Hide details" : "Show details"}</Text>
           </Pressable>
         ) : null}
       </View>
       {__DEV__ && showDetails ? (
-        <ScrollView style={styles.details} contentContainerStyle={styles.detailsContent}>
+        <ScrollView nestedScrollEnabled style={styles.details} contentContainerStyle={styles.detailsContent}>
           <Text selectable style={styles.detailsText}>
             {error.stack ?? error.message}
           </Text>
         </ScrollView>
       ) : null}
-    </View>
+    </ScrollView>
   );
 }
 
 const useStyles = makeStyles((colors) => ({
+  root: { flex: 1, backgroundColor: colors.surface },
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: colors.surface,
     justifyContent: "center",
-    padding: 24,
+    width: "100%",
+    maxWidth: 760,
+    alignSelf: "center",
   },
   content: {
     alignItems: "center",
@@ -111,6 +116,8 @@ const useStyles = makeStyles((colors) => ({
     paddingHorizontal: 24,
     paddingVertical: 14,
     minWidth: 180,
+    minHeight: 44,
+    maxWidth: "100%",
   },
   buttonPressed: {
     opacity: 0.85,
@@ -127,6 +134,7 @@ const useStyles = makeStyles((colors) => ({
     textDecorationLine: "underline",
     paddingVertical: 8,
   },
+  detailsButton: { minHeight: 44, justifyContent: "center" },
   details: {
     marginTop: 16,
     maxHeight: 260,

@@ -11,11 +11,13 @@ import type { Preset } from "@/src/domain/types";
 import { presetMeta } from "@/src/features/preset-meta";
 import { discardSession, getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { layoutStyles, useScreenLayout } from "@/src/layout";
 
 export default function PresetsScreen() {
   const styles = useStyles();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
+  const { safeSides } = useScreenLayout();
   const router = useRouter();
   const presets = useStore((s) => s.presets);
 
@@ -46,15 +48,15 @@ export default function PresetsScreen() {
   };
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top }]}>
-      <View style={styles.header}>
-        <Pressable testID="presets-back" onPress={() => router.back()} hitSlop={12} style={styles.iconBtn}>
+    <View testID="presets-screen" style={[styles.root, safeSides, { paddingTop: insets.top }]}>
+      <View style={[layoutStyles.content, styles.header]}>
+        <Pressable testID="presets-back" onPress={() => router.back()} hitSlop={12} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel="Retour">
           <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
         </Pressable>
-        <Text style={styles.title}>Mes chronos</Text>
+        <Text testID="presets-title" accessibilityRole="header" style={styles.title}>Mes chronos</Text>
         <View style={styles.iconBtn} />
       </View>
-      <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + spacing["2xl"] }]}>
+      <ScrollView testID="presets-scroll" contentContainerStyle={[layoutStyles.content, styles.scroll, { paddingBottom: insets.bottom + spacing["2xl"] }]}>
         {presets.length === 0 ? (
           <View style={styles.empty}>
             <MaterialCommunityIcons name="timer-plus-outline" size={32} color={colors.muted} />
@@ -66,23 +68,23 @@ export default function PresetsScreen() {
           presets.map((p) => (
             <View key={p.id} style={styles.card} testID={`preset-${p.id}`}>
               <View style={{ flex: 1, gap: 2 }}>
-                <Text style={styles.name}>{p.name}</Text>
-                <Text style={styles.meta}>{presetMeta(p)}{p.teams ? ` · ${p.teams.map((t) => t.name).join(" / ")}` : ""}</Text>
+                <Text testID={`preset-name-${p.id}`} style={styles.name}>{p.name}</Text>
+                <Text testID={`preset-meta-${p.id}`} style={styles.meta}>{presetMeta(p)}{p.teams ? ` · ${p.teams.map((t) => t.name).join(" / ")}` : ""}</Text>
               </View>
               <View style={styles.actions}>
-                <Pressable testID={`preset-launch-${p.id}`} onPress={() => launch(p)} style={[styles.action, { backgroundColor: colors.brandPrimary }]}>
+                <Pressable testID={`preset-launch-${p.id}`} onPress={() => launch(p)} style={[styles.action, { backgroundColor: colors.brandPrimary }]} accessibilityRole="button" accessibilityLabel={`Lancer ${p.name}`}>
                   <MaterialCommunityIcons name="play" size={24} color={colors.onBrandPrimary} />
                 </Pressable>
-                <Pressable testID={`preset-edit-${p.id}`} onPress={() => router.push(`/config/custom?preset=${p.id}` as never)} style={styles.action}>
+                <Pressable testID={`preset-edit-${p.id}`} onPress={() => router.push(`/config/custom?preset=${p.id}` as never)} style={styles.action} accessibilityRole="button" accessibilityLabel={`Modifier ${p.name}`}>
                   <MaterialCommunityIcons name="pencil-outline" size={22} color={colors.onSurface} />
                 </Pressable>
-                <Pressable testID={`preset-rename-${p.id}`} onPress={() => rename(p)} style={styles.action}>
+                <Pressable testID={`preset-rename-${p.id}`} onPress={() => rename(p)} style={styles.action} accessibilityRole="button" accessibilityLabel={`Renommer ${p.name}`}>
                   <MaterialCommunityIcons name="form-textbox" size={22} color={colors.onSurface} />
                 </Pressable>
-                <Pressable testID={`preset-duplicate-${p.id}`} onPress={() => duplicate(p)} style={styles.action}>
+                <Pressable testID={`preset-duplicate-${p.id}`} onPress={() => duplicate(p)} style={styles.action} accessibilityRole="button" accessibilityLabel={`Dupliquer ${p.name}`}>
                   <MaterialCommunityIcons name="content-copy" size={22} color={colors.onSurface} />
                 </Pressable>
-                <Pressable testID={`preset-delete-${p.id}`} onPress={() => remove(p)} style={styles.action}>
+                <Pressable testID={`preset-delete-${p.id}`} onPress={() => remove(p)} style={styles.action} accessibilityRole="button" accessibilityLabel={`Supprimer ${p.name}`}>
                   <MaterialCommunityIcons name="trash-can-outline" size={22} color={colors.error} />
                 </Pressable>
               </View>
@@ -98,7 +100,7 @@ const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: spacing.lg, paddingVertical: spacing.sm },
   iconBtn: { width: 46, height: 46, alignItems: "center", justifyContent: "center" },
-  title: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"] - 4, color: colors.onSurface, letterSpacing: -0.4 },
+  title: { flex: 1, minWidth: 0, textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"] - 4, color: colors.onSurface, letterSpacing: -0.4 },
   scroll: { padding: spacing.lg, gap: spacing.md },
   empty: { alignItems: "center", gap: spacing.md, padding: spacing.xl, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceSecondary },
   emptyTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface },
@@ -106,6 +108,6 @@ const useStyles = makeStyles((colors) => ({
   card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
   name: { fontFamily: fontFamily.textBold, fontSize: fontSize.xl, color: colors.onSurface, letterSpacing: -0.3 },
   meta: { fontFamily: fontFamily.text, fontSize: fontSize.base, color: colors.muted },
-  actions: { flexDirection: "row", gap: spacing.sm },
+  actions: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
   action: { width: 52, height: 52, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
 }));
