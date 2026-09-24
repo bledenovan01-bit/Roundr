@@ -66,6 +66,7 @@ function StandingsTable({ session, title, teamIds, matches, qualifiers }: { sess
   const { contentWidth, fontScale } = useScreenLayout();
   const compact = contentWidth / fontScale < 560;
   const rows = computeStandings(teamIds, matches);
+  const qualified = (id: string) => session.cup?.phase === "knockout" && session.cup.qualifiedIds.includes(id);
   const name = (id: string) => session.teams.find((t) => t.id === id)?.name ?? "?";
   return (
     <View style={styles.card} testID={`table-${title}`}>
@@ -82,7 +83,7 @@ function StandingsTable({ session, title, teamIds, matches, qualifiers }: { sess
         <Text style={[styles.cellHead, { width: 30, color: colors.brandPrimary }]}>Pts</Text>
       </View>
       {rows.map((r, i) => (
-        compact ? <CompactStandingRow key={r.teamId} row={r} name={name(r.teamId)} testID={`standing-${title}-${r.teamId}`} alternate={i % 2 === 1} qualified={qualifiers != null && i < qualifiers} /> : <View key={r.teamId} style={[styles.row, i % 2 === 1 && styles.rowAlt, qualifiers != null && i < qualifiers && { backgroundColor: colors.brandTertiary }]}>
+        compact ? <CompactStandingRow key={r.teamId} row={r} name={name(r.teamId)} testID={`standing-${title}-${r.teamId}`} alternate={i % 2 === 1} qualified={!!qualified(r.teamId)} /> : <View key={r.teamId} style={[styles.row, i % 2 === 1 && styles.rowAlt, qualified(r.teamId) && { backgroundColor: colors.brandTertiary }]}>
           <Text style={[styles.cell, { width: 24 }]}>{r.rank}{r.tied ? "=" : ""}</Text>
           <Text testID={`standing-${title}-${r.teamId}-name`} style={[styles.cell, styles.cellName, { flex: 1 }]}>{name(r.teamId)}</Text>
           <Text style={[styles.cell, { width: 20 }]}>{r.played}</Text>
@@ -93,6 +94,7 @@ function StandingsTable({ session, title, teamIds, matches, qualifiers }: { sess
         </View>
       ))}
       {rows.some((r) => r.tied) ? <Text style={styles.note}>= : ex æquo (aucun départage arbitraire).</Text> : null}
+      {qualifiers != null ? <Text style={styles.note}>{session.cup?.phase === "knockout" ? "En vert : qualifiés confirmés." : `${qualifiers} place(s) directe(s) par poule · classement provisoire.`}</Text> : null}
     </View>
   );
 }
@@ -197,3 +199,5 @@ const useStyles = makeStyles((colors) => ({
   matchTeam: { flex: 1, minWidth: 0, fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.onSurface },
   matchScore: { flexShrink: 1, maxWidth: "38%", fontFamily: fontFamily.display, fontSize: fontSize.xl + 4, color: colors.onSurface, minWidth: 56, textAlign: "center" },
 }));
+
+

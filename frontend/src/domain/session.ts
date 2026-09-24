@@ -267,7 +267,7 @@ function fireAlerts(session: Session, live: Live, target: number, el: number, no
   const remaining = target - el;
   const keys: string[] = [];
   const prefix = `${live.stage}${live.periodIndex}`;
-  const thresholds = [Math.floor(target / 2), ...CONVENTIONS.ALERT_THRESHOLDS_MS].filter((t) => t < target);
+  const thresholds = CONVENTIONS.ALERT_THRESHOLDS_MS.filter((t) => t < target);
   thresholds.forEach((t) => {
     if (remaining <= t) keys.push(`${prefix}:${t}`);
   });
@@ -293,7 +293,7 @@ function concludePlay(session: Session, at: number, reason: "regulation" | "manu
   const draw = live.scoreOn && sa === sb;
 
   if (live.stage === "period") {
-    if (draw && live.maracanaExtension && !live.extensionUsed && sa === 0) {
+    if (reason === "regulation" && draw && live.maracanaExtension && !live.extensionUsed && sa === 0) {
       // MA-02 : extension unique de 2 min à but décisif.
       return setLive(session, { ...enterStage(live, "extra", CONVENTIONS.MARACANA_EXTENSION_MS, at), extraMs: CONVENTIONS.MARACANA_EXTENSION_MS, extensionUsed: true }, at);
     }
@@ -392,19 +392,26 @@ function tryQualify(session: Session, chosen: string[] = []): Session {
   if (groupMatches.some((m) => m.status !== "finished")) return session;
   const c = session.config;
   if (c.mode !== "cup") return session;
-  const q = computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, chosen);
-  if (q.kind === "tie") return { ...session, cup: { ...cup, tieChoice: { candidates: q.candidates, slots: q.slots, context: q.context } } };
+  const choices = { ...cup.qualificationChoices };
+  if (cup.tieChoice && chosen.length) {
+    const valid = [...new Set(chosen)].filter((id) => cup.tieChoice!.candidates.includes(id));
+    if (valid.length !== cup.tieChoice.slots) return session;
+    choices[cup.tieChoice.context] = valid;
+  }
+  const q = computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, Object.values(choices).flat());
+  if (q.kind === "tie") return { ...session, cup: { ...cup, qualificationChoices: choices, tieChoice: { candidates: q.candidates, slots: q.slots, context: q.context } } };
   const bracket = buildBracket(q.seeds, { smallFinal: c.smallFinal, startOrder: groupMatches.length + 1, idPrefix: "k" });
   return {
     ...session,
     matches: [...groupMatches, ...bracket],
-    cup: { ...cup, phase: "knockout", tieChoice: null, qualifiedIds: q.seeds.map((sl) => (sl.kind === "team" ? sl.teamId : "")) },
+    cup: { ...cup, qualificationChoices: choices, phase: "knockout", tieChoice: null, qualifiedIds: q.seeds.map((sl) => (sl.kind === "team" ? sl.teamId : "")) },
     lastEvent: "Phase de poules terminée",
   };
 }
 
 export function resolveTieChoice(session: Session, chosen: string[], now: number): Session {
-  return { ...tryQualify({ ...session, cup: { ...session.cup!, tieChoice: null } }, chosen), updatedAt: now };
+  if (!session.cup?.tieChoice) return session;
+  return { ...tryQualify(session, chosen), updatedAt: now };
 }
 
 // ---------------------------------------------------------------------------
@@ -464,7 +471,7 @@ export function endManual(session: Session, now: number): Session {
 
 export function submitShootout(session: Session, a: number, b: number, now: number): Session {
   const live = session.live;
-  if (!live || live.stage !== "shootout" || a === b || a < 0 || b < 0) return session;
+  if (!live || live.stage !== "shootout" || !Number.isSafeInteger(a) || !Number.isSafeInteger(b) || a === b || a < 0 || b < 0) return session;
   const matches = session.matches.map((m) => (m.id === live.matchId ? { ...m, shootout: [a, b] as [number, number] } : m));
   return finishMatch({ ...session, matches }, now, "shootout", false);
 }
@@ -513,9 +520,10 @@ export function correctLast(session: Session, side: 0 | 1, delta: 1 | -1, now: n
   if (score[side] === live.score[side]) return session;
   const match = currentMatch(session)!;
   const restored: Session = { ...session, matches: session.preFinish.matches, maracana: session.preFinish.maracana, cup: session.preFinish.cup, preFinish: null };
-  const decisive = match.finishReason === "goalTarget" || match.finishReason === "goldenGoal" || match.finishReason === "extension";
   const stillReached = live.end.goalTarget != null && (score[0] >= live.end.goalTarget || score[1] >= live.end.goalTarget);
-  if (decisive && !stillReached) {
+  const cancelledTarget = match.finishReason === "goalTarget" && !stillReached;
+  const cancelledDecisiveGoal = (match.finishReason === "goldenGoal" || (match.finishReason === "extension" && match.winnerId != null)) && score[0] === score[1] && !stillReached;
+  if (cancelledTarget || cancelledDecisiveGoal) {
     // Le but décisif est annulé : match restauré en pause à l'instant exact.
     const prev = live.prevStage ?? "period";
     const phase = prev === "period" ? "paused" : prev;
@@ -523,8 +531,40 @@ export function correctLast(session: Session, side: 0 | 1, delta: 1 | -1, now: n
     const playedMs = live.playedMs - (live.finishCount ? live.chrono.accumulatedMs : 0);
     return setLive(restored, { ...live, stage: prev, prevStage: null, finishCount: false, score, chrono, playedMs, finishedAt: null }, now);
   }
+  // A corrected knockout draw must be settled before it can feed the bracket.
+  if (live.drawRule && score[0] === score[1] && match.finishReason !== "shootout") {
+    const base: Live = { ...live, score, stage: "shootout", prevStage: null, finishCount: false, finishedAt: null, chrono: { ...live.chrono, runningSince: null, phase: "paused", finishReason: null } };
+    const pending = setLive(restored, base, now);
+    if (live.prevStage === "period") {
+      return tiebreak(setLive(restored, { ...base, stage: "period" }, now), now);
+    }
+    return pending;
+  }
+  // Once the corrected game score is decisive, old penalties no longer decide it.
+  if (match.finishReason === "shootout" && score[0] !== score[1]) {
+    const matches = restored.matches.map((m) => m.id === live.matchId ? { ...m, shootout: null } : m);
+    return finishMatch(setLive({ ...restored, matches }, { ...unfinishedLive({ ...live, score }), stage: "period" }, now), live.finishedAt ?? now, "manual", false);
+  }
   const reFinished = setLive(restored, unfinishedLive({ ...live, score }), now);
   return finishMatch(reFinished, live.finishedAt ?? now, match.finishReason, live.finishCount);
+}
+
+// Restart only the current match; retain all earlier results and the draw.
+export function restartCurrent(session: Session, now: number): Session {
+  if (!session.live) return session;
+  const original = session.live.stage === "finished" && session.preFinish
+    ? { ...session, ...session.preFinish } : session;
+  const match = currentMatch(original);
+  if (!match) return session;
+  const fresh: Match = { ...match, status: "live", score: null, shootout: null, winnerId: null, finishReason: null, playedMs: 0, finishedAt: null };
+  const base = { ...original, status: "active" as const, endedAt: null, preFinish: null, lastEvent: null, matches: original.matches.map((m) => m.id === match.id ? fresh : m) };
+  return setLive(base, buildLive(base, fresh, now), now);
+}
+
+export function correctShootout(session: Session, now: number): Session {
+  if (!session.live || session.live.stage !== "finished" || !session.preFinish || currentMatch(session)?.finishReason !== "shootout") return session;
+  const restored = { ...session, ...session.preFinish, preFinish: null };
+  return setLive(restored, { ...session.live, stage: "shootout", prevStage: null, finishedAt: null, finishCount: false, chrono: { ...session.live.chrono, phase: "paused", runningSince: null, finishReason: null } }, now);
 }
 
 // Ramène un live finalisé à l'étape précédente (pour re-finaliser).
@@ -547,6 +587,7 @@ export function addMaracanaTeam(session: Session, team: Team, now: number): Sess
   const restored: Session = {
     ...session,
     teams: [...session.teams, team],
+    config: { ...session.config, teamCount: session.teams.length + 1 } as AnyConfig,
     matches: session.preFinish.matches,
     maracana: maracanaAddTeam(session.preFinish.maracana!, team.id),
     preFinish: null,
@@ -604,3 +645,5 @@ export function liveTeams(session: Session): [Team | null, Team | null] {
 }
 
 export { resolveSlot };
+
+

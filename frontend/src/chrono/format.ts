@@ -9,6 +9,10 @@ export function formatMMSS(ms: number): string {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
+export function formatRemaining(ms: number): string {
+  return formatMMSS(Math.ceil(Math.max(0, ms) / 1000) * 1000);
+}
+
 // HH:MM:SS variant when a session runs over an hour (rare in amateur play).
 export function formatHHMMSS(ms: number): string {
   const safe = Math.max(0, Math.floor(ms / 1000));
@@ -48,3 +52,5 @@ export function phaseLabel(
       return "";
   }
 }
+
+

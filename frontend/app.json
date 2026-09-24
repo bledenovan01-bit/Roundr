@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "frontend",
+    "name": "Roundr",
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -40,11 +40,33 @@
       "expo-web-browser",
       "expo-status-bar",
       "@react-native-vector-icons/material-design-icons",
-      "expo-audio",
-      "expo-sharing"
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
+      "expo-sharing",
+      [
+        "expo-notifications",
+        {
+          "sounds": [
+            "./assets/sounds/whistle.wav",
+            "./assets/sounds/final.wav",
+            "./assets/sounds/prep.wav",
+            "./assets/sounds/alert180.wav",
+            "./assets/sounds/alert120.wav",
+            "./assets/sounds/alert60.wav",
+            "./assets/sounds/alert30.wav"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
     }
   }
 }
+

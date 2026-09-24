@@ -3,7 +3,7 @@ import type { Group, Match, Slot } from "./types";
 import { compareAcrossGroups, computeStandings, type StandingRow } from "./standings";
 import { nextPow2 } from "./bracket";
 
-export const GROUP_LETTERS = "ABCDEFGH";
+export const GROUP_LETTERS = "ABCDEFGHIJKLMNOP";
 
 // C12 — nombre de poules recommandé : puissance de 2, ≥2 équipes par poule,
 // taille moyenne la plus proche de 4, égalité vers le moins de poules.
@@ -173,3 +173,5 @@ export function computeQualification(
   }
   return { kind: "seeds", seeds };
 }
+
+

@@ -38,3 +38,9 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+
+test-results/
+playwright-report/
+dist-native/
+

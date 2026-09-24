@@ -89,16 +89,17 @@ export function ChoiceRow<T extends string | number>({
       </View>
       {showCustom && custom ? (
         <NumberInput
-          value={draft}
+          value={Number.isFinite(value) ? String(value) : draft}
           onChange={(t) => {
             setDraft(t);
-            const n = parseInt(t, 10);
-            if (!Number.isNaN(n) && n >= custom.min && (custom.max == null || n <= custom.max)) custom.onChange(n);
+            const n = t.trim() === "" ? NaN : Number(t);
+            custom.onChange(Number.isSafeInteger(n) && n >= custom.min && (custom.max == null || n <= custom.max) ? n : NaN);
           }}
           suffix={suffix}
           testID={`${testID ?? label}-custom-input`}
         />
       ) : null}
+      {showCustom && !Number.isFinite(value) ? <Text style={[styles.hint, { color: "#EF4444" }]}>Saisis un nombre entier valide.</Text> : null}
     </View>
   );
 }
@@ -499,3 +500,5 @@ function useStyles() {
     suffix: [base.suffix, refinedType.secondary],
   };
 }
+
+
