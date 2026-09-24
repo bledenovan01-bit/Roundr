@@ -1,15 +1,17 @@
+import { Alert } from '@/src/components/confirm';
 // E10 — Mes chronos : presets Custom locaux (C23).
 import { useRouter } from "expo-router";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import {  Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
 import { PrimaryButton } from "@/src/components/primary-button";
 import { defaultTeams, uid } from "@/src/domain/defaults";
 import { createSession } from "@/src/domain/session";
+import { validateConfig } from "@/src/domain/validate";
 import type { Preset } from "@/src/domain/types";
 import { presetMeta } from "@/src/features/preset-meta";
-import { discardSession, getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
+import { getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 
@@ -23,12 +25,14 @@ export default function PresetsScreen() {
 
   const launch = (p: Preset) => {
     const go = () => {
-      startSession(createSession({ ...p.config, savePreset: false }, p.teams ?? defaultTeams("custom", 2), Date.now()));
-      router.replace("/live" as never);
+      const teams = p.teams ?? defaultTeams("custom", 2);
+      const errors = validateConfig(p.config, teams);
+      if (errors.length) { Alert.alert("Preset à corriger", errors.join("\n")); return; }
+      if (startSession(createSession({ ...p.config, savePreset: false }, teams, Date.now()))) router.replace("/live" as never);
     };
     const active = getStoreState().session;
     if (active && active.status === "active") {
-      Alert.alert("Session en cours", "Remplacer la session active ?", [{ text: "Annuler", style: "cancel" }, { text: "Remplacer", style: "destructive", onPress: () => { discardSession(); go(); } }]);
+      Alert.alert("Session en cours", "Remplacer la session active ?", [{ text: "Annuler", style: "cancel" }, { text: "Remplacer", style: "destructive", onPress: () => { go(); } }]);
       return;
     }
     go();
@@ -111,3 +115,5 @@ const useStyles = makeStyles((colors) => ({
   actions: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
   action: { width: 52, height: 52, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.border, alignItems: "center", justifyContent: "center" },
 }));
+
+

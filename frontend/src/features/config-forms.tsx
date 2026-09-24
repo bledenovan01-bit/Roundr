@@ -11,6 +11,7 @@ import { byeCount, roundName } from "@/src/domain/bracket";
 import type { AnyConfig, ClassicConfig, CupConfig, CustomConfig, DrawRule, MaracanaConfig, RoundMinutes, SurvieConfig } from "@/src/domain/types";
 import { fontFamily, fontSize, makeStyles, spacing } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
+import { formatMMSS } from "@/src/chrono/format";
 
 type FormProps<T extends AnyConfig> = { config: T; onChange: (c: T) => void };
 
@@ -109,24 +110,24 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
                       <Text style={styles.periodLabel}>Période {i + 1}</Text>
                       <NumberInput
                         testID={`period-${i}`}
-                        value={String(Math.round(sec / 60))}
+                        value={String(sec)}
                         onChange={(t) => {
                           const copy = [...config.periodSec];
-                          copy[i] = Math.max(0, parseInt(t || "0", 10)) * 60;
+                          copy[i] = Math.max(0, parseInt(t || "0", 10));
                           set({ periodSec: copy });
                         }}
-                        suffix="min"
+                        suffix="s"
                       />
                     </View>
                   ))}
                   {delta !== 0 ? (
                     <Text style={styles.error} testID="split-error">{`Somme ${Math.round(config.periodSec.reduce((a, b) => a + b, 0) / 60)} min ≠ total ${config.totalMin} min (${delta > 0 ? "+" : ""}${delta / 60} min).`}</Text>
                   ) : (
-                    <Text style={styles.note}>Somme correcte : {config.periodSec.map((s) => Math.round(s / 60)).join(" + ")} min.</Text>
+                    <Text style={styles.note}>Somme correcte : {config.periodSec.map((s) => formatMMSS(s * 1000)).join(" + ")}.</Text>
                   )}
                 </View>
               ) : (
-                <Text style={styles.note}>{config.periodSec.map((s) => Math.round(s / 60)).join(" + ")} min</Text>
+                <Text style={styles.note}>{config.periodSec.map((s) => formatMMSS(s * 1000)).join(" + ")} (min:s)</Text>
               )}
               <ChoiceRow
                 label="Pause entre périodes"
@@ -359,3 +360,5 @@ function useStyles() {
   const refined = useContext(TypographyPreview);
   return refined ? { ...base, note: [base.note, refinedType.secondary] } : base;
 }
+
+

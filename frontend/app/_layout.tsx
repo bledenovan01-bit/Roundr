@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 
 import { loadStore } from "@/src/store/session-store";
+import { SessionLifecycle } from "@/src/components/session-lifecycle";
 
 import { ErrorBoundary } from "@/src/components/error-boundary";
 import { queryClient } from "@/src/query-client";
@@ -49,6 +50,7 @@ export default function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#0B0F0D" }}>
         <SafeAreaProvider>
           <QueryClientProvider client={queryClient}>
+            <SessionLifecycle />
             <StatusBar style="light" />
             <Stack
               screenOptions={{
@@ -63,3 +65,5 @@ export default function RootLayout() {
     </ErrorBoundary>
   );
 }
+
+

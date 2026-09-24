@@ -51,8 +51,8 @@ function ErrorFallback({ error, resetError }: { error: Error; resetError: () => 
   return (
     <ScrollView style={styles.root} contentContainerStyle={[styles.container, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24, paddingLeft: insets.left + 24, paddingRight: insets.right + 24 }]} testID="error-fallback">
       <View style={styles.content}>
-        <Text style={styles.title}>Something went wrong</Text>
-        <Text style={styles.message}>Please reload the app to continue.</Text>
+        <Text style={styles.title}>Une erreur est survenue</Text>
+        <Text style={styles.message}>Recharge l’application pour continuer.</Text>
         {__DEV__ ? <Text style={styles.devMessage}>{error.message}</Text> : null}
         <Pressable
           onPress={handleReload}
@@ -60,11 +60,11 @@ function ErrorFallback({ error, resetError }: { error: Error; resetError: () => 
           accessibilityRole="button"
           style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
         >
-          <Text style={styles.buttonText}>Reload app</Text>
+          <Text style={styles.buttonText}>Recharger</Text>
         </Pressable>
         {__DEV__ ? (
           <Pressable testID="error-fallback-details" onPress={() => setShowDetails((v) => !v)} accessibilityRole="button" accessibilityState={{ expanded: showDetails }} aria-expanded={showDetails} style={styles.detailsButton}>
-            <Text style={styles.detailsToggle}>{showDetails ? "Hide details" : "Show details"}</Text>
+            <Text style={styles.detailsToggle}>{showDetails ? "Masquer les détails" : "Afficher les détails"}</Text>
           </Pressable>
         ) : null}
       </View>
@@ -153,3 +153,5 @@ const useStyles = makeStyles((colors) => ({
     fontFamily: Platform.select({ ios: "Menlo", default: "monospace" }),
   },
 }));
+
+

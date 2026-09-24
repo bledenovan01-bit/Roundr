@@ -1,6 +1,7 @@
+import { Alert } from '@/src/components/confirm';
 import { useMemo, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import {  KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
@@ -32,7 +33,7 @@ export default function ConfigScreen() {
   const replayFrom = params.replay ? getStoreState().lastSummary : null;
 
   const [config, setConfig] = useState<AnyConfig>(() => {
-    if (preset) return { ...preset.config, savePreset: false };
+    if (preset) return { ...preset.config, presetName: preset.name, savePreset: false };
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.config;
     return defaultConfig(params.mode ?? "classique");
   });
@@ -48,7 +49,8 @@ export default function ConfigScreen() {
   const alignedTeams = useMemo(() => {
     if (teams.length === count) return teams;
     const base = defaultTeams(config.mode, count);
-    return base.map((t, i) => teams[i] ?? t);
+    const used = new Set(teams.slice(0, count).map(t => t.id));
+    return base.map((t, i) => teams[i] ?? { ...t, id: used.has(t.id) ? uid() : t.id });
   }, [teams, count, config.mode]);
 
   const errors = validateConfig(config, alignedTeams);
@@ -63,8 +65,7 @@ export default function ConfigScreen() {
         const c = config as CustomConfig;
         setPresets([...getStoreState().presets, { id: uid(), name: c.presetName.trim(), config: { ...c, savePreset: false }, teams: c.customTeams ? alignedTeams : null, createdAt: now }]);
       }
-      startSession(session);
-      router.replace("/live" as never);
+      if (startSession(session)) router.replace("/live" as never);
     };
     if (activeSession && activeSession.status === "active") {
       // C03 — ne jamais écraser silencieusement une session active.
@@ -81,7 +82,7 @@ export default function ConfigScreen() {
     if (config.mode !== "custom") return;
     setAttempted(true);
     const c = config as CustomConfig;
-    if (!c.presetName.trim()) return;
+    if (!c.presetName.trim() || errors.length) return;
     const others = preset ? presets.filter((p) => p.id !== preset.id) : presets;
     setPresets([...others, { id: preset?.id ?? uid(), name: c.presetName.trim(), config: { ...c, savePreset: false }, teams: c.customTeams ? alignedTeams : null, createdAt: preset?.createdAt ?? Date.now() }]);
     router.back();
@@ -176,3 +177,5 @@ const useStyles = makeStyles((colors) => ({
   errors: { gap: spacing.xs, padding: spacing.lg, borderRadius: radius.md, borderWidth: 1, borderColor: colors.error, backgroundColor: colors.surfaceSecondary },
   cta: { marginTop: spacing.sm, paddingHorizontal: spacing.lg, paddingTop: spacing.md, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border },
 }));
+
+

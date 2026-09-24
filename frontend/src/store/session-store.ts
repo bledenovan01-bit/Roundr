@@ -1,165 +1,95 @@
-// Roundr V0 — Store local unique (session active + dernier résumé + presets).
-// §10 / C20 : persistance à chaque mutation utile, erreurs signalées, aucune
-// sauvegarde lisible n'est écrasée par une sauvegarde vide.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSyncExternalStore } from "react";
-
 import { playSound } from "@/src/audio/sounds";
+import { sessionSound } from "@/src/audio/events";
+import { createClockGuard } from "../chrono/clock-guard";
 import { advance } from "@/src/domain/session";
 import type { Preset, Session } from "@/src/domain/types";
-
-const KEYS = {
-  session: "roundr.session.v1",
-  summary: "roundr.summary.v1",
-  presets: "roundr.presets.v1",
-  corrupt: "roundr.session.corrupt.v1",
-};
+import { validateConfig } from "@/src/domain/validate";
+import { createPersistence, validPreset, type SavedState } from "./persistence";
 
 export type StoreState = {
-  loaded: boolean;
-  session: Session | null;
-  lastSummary: Session | null;
-  presets: Preset[];
-  saveError: string | null;
-  now: number; // horloge de rendu (tick)
+  loaded: boolean; session: Session | null; lastSummary: Session | null;
+  presets: Preset[]; saveError: string | null; now: number; archiving: boolean;
 };
-
-let state: StoreState = {
-  loaded: false,
-  session: null,
-  lastSummary: null,
-  presets: [],
-  saveError: null,
-  now: Date.now(),
-};
+let state: StoreState = { loaded: false, session: null, lastSummary: null, presets: [], saveError: null, now: Date.now(), archiving: false };
 const listeners = new Set<() => void>();
-
-function emit() {
-  listeners.forEach((l) => l());
+const persistence = createPersistence(AsyncStorage);
+let loading: Promise<void> | null = null;
+const clockGuard = createClockGuard();
+export function resetClockGuard() { clockGuard.reset(); }
+let revision = 0;
+let storageReadable = true;
+function set(partial: Partial<StoreState>) { state = { ...state, ...partial }; listeners.forEach(l => l()); }
+function snapshot(partial: Partial<SavedState> = {}): SavedState {
+  return { version: 2, session: state.session, lastSummary: state.lastSummary, presets: state.presets, ...partial };
 }
-function set(partial: Partial<StoreState>) {
-  state = { ...state, ...partial };
-  emit();
-}
-
-async function persist(key: string, value: unknown) {
+async function persist(data = snapshot()): Promise<boolean> {
+  const current = ++revision;
   try {
-    if (value == null) await AsyncStorage.removeItem(key);
-    else await AsyncStorage.setItem(key, JSON.stringify(value));
-    if (state.saveError) set({ saveError: null });
-  } catch (e) {
-    set({ saveError: `Sauvegarde impossible (${key.split(".")[1]})` });
-  }
-}
-
-function parse<T>(raw: string | null): { value: T | null; corrupt: boolean } {
-  if (raw == null) return { value: null, corrupt: false };
-  try {
-    return { value: JSON.parse(raw) as T, corrupt: false };
+    await persistence.save(data);
+    if (current === revision) set({ saveError: null });
+    return true;
   } catch {
-    return { value: null, corrupt: true };
+    set({ saveError: "Sauvegarde impossible. Garde l’application ouverte et réessaie." });
+    return false;
   }
 }
-
-// Restauration : reconstitue le chrono et traite une fin franchie UNE fois.
-export async function loadStore(): Promise<void> {
-  if (state.loaded) return;
-  let saveError: string | null = null;
-  let session: Session | null = null;
-  let lastSummary: Session | null = null;
-  let presets: Preset[] = [];
-  try {
-    const [rs, rsum, rp] = await Promise.all([
-      AsyncStorage.getItem(KEYS.session),
-      AsyncStorage.getItem(KEYS.summary),
-      AsyncStorage.getItem(KEYS.presets),
-    ]);
-    const ps = parse<Session>(rs);
-    if (ps.corrupt && rs) {
-      // Conserver la sauvegarde illisible au lieu de l'effacer (C20).
-      await AsyncStorage.setItem(KEYS.corrupt, rs).catch(() => {});
-      saveError = "Session sauvegardée illisible : conservée à part, non restaurée.";
-    }
-    session = ps.value && ps.value.status === "active" ? advance(ps.value, Date.now()) : ps.value;
-    lastSummary = parse<Session>(rsum).value;
-    presets = parse<Preset[]>(rp).value ?? [];
-  } catch {
-    saveError = "Lecture du stockage local impossible.";
-  }
-  set({ loaded: true, session, lastSummary, presets, saveError, now: Date.now() });
-  if (session) void persist(KEYS.session, session);
+export function retrySave() { return storageReadable ? persist() : Promise.resolve(false); }
+export function loadStore(): Promise<void> {
+  if (state.loaded) return Promise.resolve();
+  if (loading) return loading;
+  loading = (async () => {
+    try {
+      const { data, warning } = await persistence.load();
+      const now = Date.now();
+      const session = data.session?.status === "active" ? advance(data.session, now) : data.session;
+      set({ ...data, session, loaded: true, now, saveError: warning });
+      // Do not overwrite a recoverable/corrupt snapshot just by opening the app.
+      if (!warning) await persist();
+    } catch { storageReadable = false; set({ loaded: true, saveError: "Lecture du stockage local impossible. Réouvre l’application avant de lancer une nouvelle session." }); }
+  })();
+  return loading;
 }
-
-// Sons déclenchés par différence d'état (dédupliqués côté moteur, C19).
-function emitSounds(prev: Session | null, next: Session | null, silent: boolean) {
-  if (silent || !next?.config.sounds || !next.live) return;
-  const pl = prev?.live;
-  const nl = next.live;
-  if (pl?.matchId === nl.matchId && pl.stage !== "finished" && nl.stage === "finished") {
-    void playSound("final");
-    return;
-  }
-  if (pl?.matchId === nl.matchId && pl.stage === "period" && (nl.stage === "break" || nl.stage === "awaitPeriod" || nl.stage === "additional" || nl.stage === "extra" || nl.stage === "golden" || nl.stage === "shootout")) {
-    void playSound("whistle");
-    return;
-  }
-  const fresh = pl?.matchId === nl.matchId ? nl.firedAlerts.filter((k) => !pl.firedAlerts.includes(k)) : [];
-  if (!fresh.length) return;
-  // Une seule annonce par lot : pas de rafale au retour d'arrière-plan.
-  void playSound(fresh.some((k) => k.startsWith("prep")) && fresh.length === 1 ? "prep" : "alert");
-}
-
 export function dispatchSession(fn: (s: Session, now: number) => Session, opts: { silent?: boolean } = {}) {
   const prev = state.session;
-  if (!prev) return;
+  if (!prev || state.archiving) return;
   const now = Date.now();
-  const next = advance(fn(prev, now), now);
-  if (next === prev) {
-    set({ now });
-    return;
-  }
-  emitSounds(prev, next, !!opts.silent);
+  const adjusted = clockGuard.reconcile(prev, now, performance.now());
+  const current = advance(adjusted, now);
+  const next = advance(fn(current, now), now);
+  const sound = !opts.silent && next.config.sounds ? sessionSound(prev, next) : null;
+  if (sound) void playSound(sound);
   set({ session: next, now });
-  void persist(KEYS.session, next);
+  if (next !== prev) void persist();
 }
-
-export function tick() {
-  dispatchSession((s) => s);
-}
-
-export function startSession(session: Session) {
+export function tick() { dispatchSession(s => s); }
+export function startSession(session: Session): boolean {
+  if (!state.loaded || !storageReadable || state.archiving) return false;
+  const errors = validateConfig(session.config, session.teams);
+  if (errors.length) { set({ saveError: errors.join(" ") }); return false; }
+  clockGuard.reset();
   set({ session, now: Date.now() });
-  void persist(KEYS.session, session);
+  if (session.config.sounds) void playSound("whistle");
+  void persist();
+  return true;
 }
-
-// Fin de session : la session devient le dernier résumé (C20).
-export function archiveSession(finished: Session) {
-  set({ session: null, lastSummary: finished });
-  void persist(KEYS.session, null);
-  void persist(KEYS.summary, finished);
+export async function archiveSession(finished: Session): Promise<boolean> {
+  if (state.archiving) return false;
+  set({ archiving: true });
+  const saved = await persist(snapshot({ session: null, lastSummary: finished }));
+  if (saved) set({ session: null, lastSummary: finished, archiving: false });
+  else set({ archiving: false });
+  return saved;
 }
-
-export function discardSession() {
-  set({ session: null });
-  void persist(KEYS.session, null);
+export function discardSession() { if (!state.archiving) { set({ session: null }); void persist(); } }
+export function setPresets(presets: Preset[]): boolean {
+  if (!state.loaded || !storageReadable || state.archiving || !presets.every(validPreset)) return false;
+  set({ presets }); void persist(); return true;
 }
-
-export function setPresets(presets: Preset[]) {
-  set({ presets });
-  void persist(KEYS.presets, presets);
-}
-
-export function getStoreState() {
-  return state;
-}
-
+export function getStoreState() { return state; }
 export function useStore<T>(selector: (s: StoreState) => T): T {
-  return useSyncExternalStore(
-    (l) => {
-      listeners.add(l);
-      return () => listeners.delete(l);
-    },
-    () => selector(state),
-    () => selector(state),
-  );
+  return useSyncExternalStore(l => { listeners.add(l); return () => { listeners.delete(l); }; }, () => selector(state), () => selector(state));
 }
+
+

@@ -1,7 +1,8 @@
+import { Alert } from '@/src/components/confirm';
 // E09 / E11 — Fin de session, résumé par mode, carte de partage PNG locale.
 import { useRef, useState } from "react";
 import { useRouter } from "expo-router";
-import { Alert, Platform, Pressable, ScrollView, Text, View } from "react-native";
+import {  Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { captureRef } from "react-native-view-shot";
@@ -11,7 +12,7 @@ import { PrimaryButton } from "@/src/components/primary-button";
 import { GAME_MODES } from "@/src/data/modes";
 import { createSession } from "@/src/domain/session";
 import { buildSummary } from "@/src/domain/summary";
-import { discardSession, getStoreState, startSession, useStore } from "@/src/store/session-store";
+import { getStoreState, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 
@@ -48,12 +49,11 @@ export default function SummaryScreen() {
   // C21 — Rejouer : même configuration et équipes, nouvelle session à zéro.
   const replay = () => {
     const go = () => {
-      startSession(createSession(session.config, session.teams, Date.now()));
-      router.replace("/live" as never);
+      if (startSession(createSession(session.config, session.teams, Date.now()))) router.replace("/live" as never);
     };
     const active = getStoreState().session;
     if (active && active.status === "active") {
-      Alert.alert("Session en cours", "Remplacer la session active ?", [{ text: "Annuler", style: "cancel" }, { text: "Remplacer", style: "destructive", onPress: () => { discardSession(); go(); } }]);
+      Alert.alert("Session en cours", "Remplacer la session active ?", [{ text: "Annuler", style: "cancel" }, { text: "Remplacer", style: "destructive", onPress: () => { go(); } }]);
       return;
     }
     go();
@@ -153,3 +153,5 @@ const useStyles = makeStyles((colors) => ({
   link: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: spacing.sm, minHeight: 52 },
   linkLabel: { flexShrink: 1, minWidth: 0, textAlign: "center", fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.brandPrimary },
 }));
+
+

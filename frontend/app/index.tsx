@@ -9,7 +9,7 @@ import { ModeCard } from "@/src/components/mode-card";
 import { PresetPill } from "@/src/components/preset-pill";
 import { ResumeCard } from "@/src/components/resume-card";
 import { GAME_MODES, type GameModeId } from "@/src/data/modes";
-import { formatMMSS } from "@/src/chrono/format";
+import { formatRemaining } from "@/src/chrono/format";
 import { elapsedMs } from "@/src/chrono/engine";
 import { presetMeta } from "@/src/features/preset-meta";
 import { useStore } from "@/src/store/session-store";
@@ -30,6 +30,7 @@ export default function HomeScreen() {
   const { safeSides } = useScreenLayout();
   const router = useRouter();
   const session = useStore((s) => s.session);
+  const now = useStore(s => s.now);
   const presets = useStore((s) => s.presets);
   const saveError = useStore((s) => s.saveError);
   const activeMode = session ? GAME_MODES.find((m) => m.id === session.mode) : null;
@@ -38,7 +39,7 @@ export default function HomeScreen() {
     const live = session.live;
     const match = session.matches.find((m) => m.id === live.matchId);
     if (live.stage === "finished") return `${match?.label ?? ""} terminé · transition`;
-    if (live.stage === "period" && live.end.byTime) return `${match?.label ?? ""} · ${formatMMSS(Math.max(0, live.periodMs[live.periodIndex] - elapsedMs(live.chrono, Date.now())))} restantes${live.chrono.runningSince == null ? " · en pause" : ""}`;
+    if (live.stage === "period" && live.end.byTime) return `${match?.label ?? ""} · ${formatRemaining(Math.max(0, live.periodMs[live.periodIndex] - elapsedMs(live.chrono, now)))} restantes${live.chrono.runningSince == null ? " · en pause" : ""}`;
     return `${match?.label ?? ""} · ${session.teams.length} équipes`;
   })();
 
@@ -318,3 +319,5 @@ const useStyles = makeStyles((colors) => ({
     borderRadius: 8,
   },
 }));
+
+

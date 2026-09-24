@@ -169,6 +169,7 @@ export type CupState = {
   // Égalité parfaite à la coupure (C14) : choix explicite requis.
   tieChoice: { candidates: string[]; slots: number; context: string } | null;
   qualifiedIds: string[];
+  qualificationChoices?: Record<string, string[]>;
 };
 
 export type Session = {
@@ -200,3 +201,5 @@ export type Preset = {
   teams: Team[] | null;
   createdAt: number;
 };
+
+
