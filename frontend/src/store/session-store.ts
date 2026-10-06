@@ -101,7 +101,7 @@ function emitSounds(prev: Session | null, next: Session | null, silent: boolean)
     return;
   }
   if (pl?.matchId === nl.matchId && pl.stage === "period" && (nl.stage === "break" || nl.stage === "awaitPeriod" || nl.stage === "additional" || nl.stage === "extra" || nl.stage === "golden" || nl.stage === "shootout")) {
-    void playSound("whistle");
+    void playSound("gong");
     return;
   }
   if (pl?.matchId === nl.matchId && nl.score.some((score,i) => score > pl.score[i])) void playSound(getPreferences().goalSound);
@@ -110,7 +110,7 @@ function emitSounds(prev: Session | null, next: Session | null, silent: boolean)
   const fresh = pl?.matchId === nl.matchId ? nl.firedAlerts.filter((k) => !pl.firedAlerts.includes(k)) : [];
   if (!fresh.length) return;
   // Une seule annonce par lot : pas de rafale au retour d'arrière-plan.
-  void playSound(fresh.some((k) => k.startsWith("prep")) && fresh.length === 1 ? "prep" : "alert");
+  void playSound(fresh.some((k) => k.startsWith("prep")) && fresh.length === 1 ? "prep" : "gong");
 }
 
 export function dispatchSession(fn: (s: Session, now: number) => Session, opts: { silent?: boolean } = {}) {

@@ -28,12 +28,11 @@ export default function HomeScreen() {
       {saveError ? <Text style={{ color: colors.error }}>{saveError}</Text> : null}
       {session?.status === "active" ? <DesignRow testID="resume-session-card" title="Reprendre la session" detail={GAME_MODES.find(m => m.id === session.mode)?.title} onPress={() => router.push("/live")} /> : null}
       <DesignSection>MODES</DesignSection>
-      <View testID="modes-section" style={{ gap: 14 }}>{GAME_MODES.map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} onPress={() => router.push(`/config/${mode.id}` as never)} />)}</View>
+      <View testID="modes-section" style={{ gap: 14 }}>{GAME_MODES.map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} onPress={() => router.push(`/config/${mode.id}` as never)} />)}<ModeCard index={GAME_MODES.length} testID="mode-card-team-builder" title="Faire les équipes" description="Répartis les joueurs et lance une session" iconName="account-group" accent={colors.brandPrimary} onPress={() => router.push("/team-builder")} /></View>
       <View style={styles.bottom}>
         <DesignRow testID="presets-manage" title="Mes chronos" detail="Presets et sessions" onPress={() => router.push("/presets")} />
         <View style={styles.links}>
           <Pressable onPress={() => router.push("/teams")} accessibilityRole="button"><Text style={styles.link}>Équipes</Text></Pressable>
-          <Pressable onPress={() => router.push("/team-builder")} accessibilityRole="button"><Text style={styles.link}>Faire les équipes</Text></Pressable>
           <Pressable onPress={() => router.push("/settings")} accessibilityRole="button"><Text style={styles.link}>Paramètres</Text></Pressable>
         </View>
       </View>

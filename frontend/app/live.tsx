@@ -8,10 +8,11 @@ import { AppState, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
+import { liveNotice } from "@/src/domain/live-notices";
 import { elapsedMs } from "@/src/chrono/engine";
 import { formatMMSS } from "@/src/chrono/format";
 import { DesignRow } from "@/src/components/design-screen";
-import { LiveHero, NextCards, LiveControls } from "@/src/components/design-live";
+import { LiveHero, LiveControls } from "@/src/components/design-live";
 import { GiantChrono } from "@/src/components/giant-chrono";
 import { PrimaryButton } from "@/src/components/primary-button";
 import { GAME_MODES } from "@/src/data/modes";
@@ -202,12 +203,8 @@ export default function LiveScreen() {
           onGoal={(side,delta)=>dispatchSession((s,t)=>live.stage==="finished"?S.correctLast(s,side,delta,t):S.goal(s,side,delta,t))}
           onCorrect={()=>setCorrecting(!correcting)} onBack={()=>router.replace("/")}
           onMusic={()=>dispatchSession(s=>({...s,config:{...s.config,sounds:!s.config.sounds}}))}
-          onSettings={()=>router.push("/settings")} onGiant={()=>setGiant(true)}/> : null}
-        {live.stage !== "finished" && (next || (session.mode === "custom" && live.periodMs.length>1)) ? <NextCards
-          matchup={next ? `${next.aLabel} vs ${next.bLabel}` : `Pause de ${live.breakMs/60000} min`}
-          badge={next ? remainingMs != null && live.end.goalTarget == null ? `Dans ${Math.ceil(remainingMs/60000)} min` : "Ensuite" : "Après période"}
-          preparation={next ? `${next.aLabel} et ${next.bLabel} entrent sur le terrain après ce match.` : "Préparez-vous pour la prochaine période."}
-          onPress={()=>{if(!locked)router.push("/standings");}}/>:null}
+          onSettings={()=>router.push("/settings")} onGiant={()=>setGiant(true)}
+          notice={next ? { time, cue: liveNotice(remainingMs, next.durationMin, running), matchup: `${next.aLabel} vs ${next.bLabel}`, badge: remainingMs == null ? "À la fin du match" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: next.certain ? `${next.aLabel} et ${next.bLabel} : préparez-vous pour le prochain match.` : session.mode === "maracana" ? `${next.aLabel} : commencez l’échauffement. L’adversaire dépend du résultat.` : "Les équipes qualifiées pour le prochain match se préparent dès que leur place est confirmée.", locked, onPress: ()=>router.push("/standings") } : undefined}/> : null}
         {live.stage === "break" ? (
           <PrimaryButton testID="skip-break" label="Passer la pause" variant="secondary" onPress={() => dispatchSession((s, t) => S.startNextPeriod({ ...s, live: { ...s.live!, stage: "awaitPeriod", periodIndex: s.live!.periodIndex + 1 } }, t))} />
         ) : null}

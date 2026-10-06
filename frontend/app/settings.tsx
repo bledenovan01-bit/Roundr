@@ -3,7 +3,7 @@ import { DesignScreen, DesignRow, DesignSection } from "@/src/components/design-
 import { ChoiceRow, Segmented, ToggleRow } from "@/src/components/fields";
 import { getStoreState, dispatchSession } from "@/src/store/session-store";
 import { setPreferences, usePreferences } from "@/src/store/preferences";
-import { playSound } from "@/src/audio/sounds";
+import { playSound, SOUND_CATALOG } from "@/src/audio/sounds";
 import { useTheme } from "@/src/theme";
 export default function Settings(){
  const p=usePreferences();const {colors}=useTheme();
@@ -15,10 +15,12 @@ export default function Settings(){
   {p.error?<Text style={{color:colors.error}}>{p.error}</Text>:null}
   <DesignSection>SESSION</DesignSection>{toggle("sounds","Sons")}{toggle("vibrations","Vibrations")}{toggle("preparation","Alertes préparation")}{toggle("additional","Temps additionnel")}{toggle("keepAwake","Écran toujours actif")}
   <DesignSection>AUDIO</DesignSection>
-  <DesignRow title="Sifflet de début" detail={p.startSound==="whistle"?"Standard":"Court"}><Segmented value={p.startSound} options={[{value:"whistle",label:"Standard"},{value:"alert",label:"Court"}]} onChange={v=>{setPreferences({startSound:v});void playSound(v);}}/></DesignRow>
-  <DesignRow title="Sifflet de fin" detail={p.endSound==="final"?"3 coups":"Standard"}><Segmented value={p.endSound} options={[{value:"final",label:"3 coups"},{value:"whistle",label:"Standard"}]} onChange={v=>{setPreferences({endSound:v});void playSound(v);}}/></DesignRow>
-  <DesignRow title="Son de but" detail={p.goalSound==="alert"?"Standard":"Sifflet"}><Segmented value={p.goalSound} options={[{value:"alert",label:"Standard"},{value:"whistle",label:"Sifflet"}]} onChange={v=>{setPreferences({goalSound:v});void playSound(v);}}/></DesignRow>
+  <DesignRow title="Sifflet de début" detail={p.startSound==="whistle"?"Sifflet d’arbitre":"Célébration"}><Segmented value={p.startSound} options={[{value:"whistle",label:"Sifflet"},{value:"alert",label:"Fanfare"}]} onChange={v=>{setPreferences({startSound:v});void playSound(v);}}/></DesignRow>
+  <DesignRow title="Sifflet de fin" detail={p.endSound==="final"?"3 coups":"Sifflet"}><Segmented value={p.endSound} options={[{value:"final",label:"3 coups"},{value:"whistle",label:"Sifflet"}]} onChange={v=>{setPreferences({endSound:v});void playSound(v);}}/></DesignRow>
+  <DesignRow title="Son de but" detail={p.goalSound==="alert"?"Fanfare":"Sifflet"}><Segmented value={p.goalSound} options={[{value:"alert",label:"Fanfare"},{value:"whistle",label:"Sifflet"}]} onChange={v=>{setPreferences({goalSound:v});void playSound(v);}}/></DesignRow>
   <DesignRow title="Volume" detail={`${Math.round(p.volume*100)} %`}><ChoiceRow label="Volume" value={Math.round(p.volume*100)} options={[0,20,40,60,80,100].map(value=>({value,label:`${value} %`}))} onChange={v=>setPreferences({volume:v/100})}/></DesignRow>
+  <DesignSection>TOUS LES SONS</DesignSection>
+  {SOUND_CATALOG.map(sound=><DesignRow key={sound.key} title={sound.title} detail={`${sound.role} · ${sound.duration} s`} onPress={()=>void playSound(sound.key)}/>)}
   <DesignSection>ASSISTANCE</DesignSection>
   <DesignRow title="Signaler un problème" onPress={()=>void Linking.openURL("https://github.com/bledenovan01-bit/Roundr/issues/new?title=Probl%C3%A8me%20Roundr")}/>
   <DesignRow title="Envoyer un retour" onPress={()=>void Linking.openURL("https://github.com/bledenovan01-bit/Roundr/issues/new?title=Retour%20Roundr")}/>

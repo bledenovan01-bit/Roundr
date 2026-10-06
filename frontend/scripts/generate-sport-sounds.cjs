@@ -1,0 +1,8 @@
+// Original synthesized sound effects. No external samples.
+const fs=require('fs'),path=require('path');
+const src=path.resolve(__dirname,'../assets/sounds');
+const sr=44100;let seed=19483;const noise=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296*2-1};const env=(t,d)=>Math.min(1,t/.015)*Math.min(1,(d-t)/.055);
+function whistle(t,d){return env(t,d)*(.55*Math.sin(2*Math.PI*2900*t-(260/39)*Math.cos(2*Math.PI*39*t))+.22*Math.sin(2*Math.PI*4100*t)+.13*noise());}
+function gong(t,d){return env(t,d)*Math.exp(-2.2*t)*[130,203,337,521,829].reduce((v,f,i)=>v+Math.sin(2*Math.PI*f*t+2*Math.sin(t*3+i))/(i+2),0);}
+const samples={whistle:[.65,whistle],final:[1.9,(t)=>{for(const [a,d] of [[0,.26],[.5,.26],[1,.8]])if(t>=a&&t<a+d)return whistle(t-a,d);return 0;}],prep:[1.2,gong],gong:[1.8,gong],alert:[1.65,(t,d)=>{const notes=[523.25,659.25,783.99,1046.5];const k=Math.min(3,Math.floor(t/.23)),n=notes[k];return env(t,d)*Math.exp(-.65*t)*(.28*Math.sin(2*Math.PI*n*t)+.13*Math.sin(2*Math.PI*2*n*t)+.07*Math.sin(2*Math.PI*3*n*t)+.12*noise()*(.7+.3*Math.sin(t*17)));}]};
+for(const [key,[d,fn]]of Object.entries(samples)){const count=Math.floor(sr*d),b=Buffer.alloc(44+count*2);b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(1,20);b.writeUInt16LE(1,22);b.writeUInt32LE(sr,24);b.writeUInt32LE(sr*2,28);b.writeUInt16LE(2,32);b.writeUInt16LE(16,34);b.write('data',36);b.writeUInt32LE(count*2,40);const values=Array.from({length:count},(_,i)=>fn(i/sr,d));const peak=Math.max(...values.map(Math.abs).filter((_,i)=>i%2===0),.01);for(let i=0;i<count;i++)b.writeInt16LE(Math.round(Math.max(-1,Math.min(1,values[i]/peak*.82))*32767),44+i*2);fs.writeFileSync(src+'/'+key+'.wav',b);}
