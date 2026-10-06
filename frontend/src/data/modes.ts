@@ -23,7 +23,7 @@ export const GAME_MODES: GameMode[] = [
   {
     id: "classique",
     title: "Match classique",
-    description: "2 équipes · chrono rapide",
+    description: "Simple et direct",
     icon: "soccer-field",
     accent: "modeClassique",
   },
@@ -51,7 +51,7 @@ export const GAME_MODES: GameMode[] = [
   {
     id: "custom",
     title: "Custom",
-    description: "Chrono personnalisable",
+    description: "Chrono sur mesure",
     icon: "tune-variant",
     accent: "modeCustom",
   },

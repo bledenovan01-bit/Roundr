@@ -1,14 +1,12 @@
 import { Pressable, Text, View, ActivityIndicator } from "react-native";
-import { useContext } from "react";
-import * as Haptics from "expo-haptics";
-import { TypographyPreview, refinedType } from "@/src/typography-preview";
+
+import * as Haptics from "@/src/haptics";
+
 
 import {
   fontFamily,
-  fontSize,
   control,
   makeStyles,
-  radius,
   spacing,
   useTheme,
 } from "@/src/theme";
@@ -36,7 +34,7 @@ export function PrimaryButton({
 }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
-  const refined = useContext(TypographyPreview);
+
 
   const handlePress = () => {
     if (disabled || loading) return;
@@ -81,7 +79,7 @@ export function PrimaryButton({
       ) : (
         <View style={styles.inner}>
           {leadingIcon}
-          <Text testID={`${testID}-label`} style={[styles.label, textByVariant, refined && (variant === "primary" ? refinedType.primaryButton : refinedType.secondaryButton)]}>{label}</Text>
+          <Text testID={`${testID}-label`} style={[styles.label, textByVariant]}>{label}</Text>
         </View>
       )}
     </Pressable>
@@ -91,7 +89,7 @@ export function PrimaryButton({
 const useStyles = makeStyles((colors) => ({
   base: {
     minHeight: control.button,
-    borderRadius: radius.lg,
+    borderRadius: 15,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
     maxWidth: "100%",
@@ -130,8 +128,8 @@ const useStyles = makeStyles((colors) => ({
     minWidth: 0,
     textAlign: "center",
     fontFamily: fontFamily.textBold,
-    fontSize: fontSize.xl - 2,
-    letterSpacing: 0.2,
+    fontSize: 13,
+    letterSpacing: 0,
   },
   textPrimary: {
     color: colors.onBrandPrimary,

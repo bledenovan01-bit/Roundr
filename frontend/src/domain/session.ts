@@ -184,6 +184,14 @@ export function currentMatch(session: Session): Match | null {
   return session.live ? session.matches.find((m) => m.id === session.live!.matchId) ?? null : null;
 }
 
+// Replay only the current match; completed rounds and waiting teams stay intact.
+export function restartCurrent(session: Session, now: number): Session {
+  const match = currentMatch(session);
+  if (!match || session.live?.stage === "finished") return session;
+  const live = buildLive(session, match, now);
+  return { ...session, updatedAt: now, live: { ...live, chrono: { ...live.chrono, runningSince: null } } };
+}
+
 export function isPlayStage(stage: LiveStage): boolean {
   return PLAY_STAGES.includes(stage);
 }

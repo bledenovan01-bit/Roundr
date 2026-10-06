@@ -20,8 +20,8 @@ export const CONVENTIONS = {
 };
 
 export const TEAM_PALETTE = [
-  "#FF5000",
-  "#39FF14",
+  "#ff8331",
+  "#53d273",
   "#3B82F6",
   "#F59E0B",
   "#EF4444",

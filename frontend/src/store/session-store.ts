@@ -4,6 +4,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSyncExternalStore } from "react";
 
+import { getPreferences } from "./preferences";
 import { playSound } from "@/src/audio/sounds";
 import { advance } from "@/src/domain/session";
 import type { Preset, Session } from "@/src/domain/types";
@@ -47,7 +48,7 @@ async function persist(key: string, value: unknown) {
     if (value == null) await AsyncStorage.removeItem(key);
     else await AsyncStorage.setItem(key, JSON.stringify(value));
     if (state.saveError) set({ saveError: null });
-  } catch (e) {
+  } catch {
     set({ saveError: `Sauvegarde impossible (${key.split(".")[1]})` });
   }
 }
@@ -96,17 +97,20 @@ function emitSounds(prev: Session | null, next: Session | null, silent: boolean)
   const pl = prev?.live;
   const nl = next.live;
   if (pl?.matchId === nl.matchId && pl.stage !== "finished" && nl.stage === "finished") {
-    void playSound("final");
+    void playSound(getPreferences().endSound);
     return;
   }
   if (pl?.matchId === nl.matchId && pl.stage === "period" && (nl.stage === "break" || nl.stage === "awaitPeriod" || nl.stage === "additional" || nl.stage === "extra" || nl.stage === "golden" || nl.stage === "shootout")) {
-    void playSound("whistle");
+    void playSound("gong");
     return;
   }
+  if (pl?.matchId === nl.matchId && nl.score.some((score,i) => score > pl.score[i])) void playSound(getPreferences().goalSound);
+  if (pl?.matchId === nl.matchId && pl.chrono.runningSince == null && nl.chrono.runningSince != null && nl.chrono.accumulatedMs === 0) void playSound(getPreferences().startSound);
+  if (!getPreferences().preparation) return;
   const fresh = pl?.matchId === nl.matchId ? nl.firedAlerts.filter((k) => !pl.firedAlerts.includes(k)) : [];
   if (!fresh.length) return;
   // Une seule annonce par lot : pas de rafale au retour d'arrière-plan.
-  void playSound(fresh.some((k) => k.startsWith("prep")) && fresh.length === 1 ? "prep" : "alert");
+  void playSound(fresh.some((k) => k.startsWith("prep")) && fresh.length === 1 ? "prep" : "gong");
 }
 
 export function dispatchSession(fn: (s: Session, now: number) => Session, opts: { silent?: boolean } = {}) {

@@ -2,7 +2,7 @@
 // dépliables sur place, aucun écran intermédiaire.
 import { useContext, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-import * as Haptics from "expo-haptics";
+import * as Haptics from "@/src/haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
 import { TEAM_PALETTE } from "@/src/domain/defaults";
@@ -411,7 +411,7 @@ const useBaseStyles = makeStyles((colors) => ({
   chips: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
   chip: {
     minHeight: control.chip,
-    minWidth: 82,
+    minWidth: 0, flexGrow: 1,
     maxWidth: "100%",
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.lg,
@@ -422,7 +422,7 @@ const useBaseStyles = makeStyles((colors) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  chipActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
+  chipActive: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary, borderWidth: 1 },
   checkChip: { flexDirection: "row", gap: spacing.sm, paddingHorizontal: spacing.md },
   tile: {
     flex: 1,
@@ -438,7 +438,7 @@ const useBaseStyles = makeStyles((colors) => ({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  tileActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
+  tileActive: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary, borderWidth: 2 },
   tileLabel: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.onSurfaceTertiary },
   track: { width: 58, height: 34, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.borderStrong, padding: 3, justifyContent: "center" },
   toggleTarget: { width: 58, minHeight: 44, justifyContent: "center", flexShrink: 0 },
@@ -446,8 +446,8 @@ const useBaseStyles = makeStyles((colors) => ({
   thumb: { width: 26, height: 26, borderRadius: radius.pill, backgroundColor: colors.muted },
   thumbOn: { backgroundColor: colors.onBrandPrimary, alignSelf: "flex-end" },
   dividerLine: { height: 1, backgroundColor: colors.divider, marginVertical: -spacing.xs },
-  chipLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurfaceTertiary, textAlign: "center", flexShrink: 1, maxWidth: "100%" },
-  chipLabelActive: { color: colors.brandPrimary },
+  chipLabel: { fontFamily: fontFamily.textBold, fontSize: 13, color: colors.onSurfaceTertiary, textAlign: "center", flexShrink: 1, maxWidth: "100%" },
+  chipLabelActive: { color: colors.onBrandPrimary },
   inputRow: { flexDirection: "row", alignItems: "center", flexShrink: 1, maxWidth: "100%", gap: spacing.sm },
   numericInput: { width: 100, flexShrink: 1, maxWidth: "100%" },
   input: {
@@ -472,7 +472,7 @@ const useBaseStyles = makeStyles((colors) => ({
   segment: { flexDirection: "row", flexWrap: "wrap", backgroundColor: colors.surfaceTertiary, borderRadius: radius.md, padding: 5, gap: 5, borderWidth: 1, borderColor: colors.border },
   segmentItem: { flexGrow: 1, flexBasis: 108, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.sm, paddingVertical: spacing.sm, borderRadius: radius.sm, alignItems: "center", justifyContent: "center" },
   segmentItemLong: { flexBasis: 144 },
-  segmentItemActive: { backgroundColor: colors.brandTertiary, borderWidth: 2, borderColor: colors.brandPrimary },
+  segmentItemActive: { backgroundColor: colors.brandPrimary, borderWidth: 2, borderColor: colors.brandPrimary },
   teamRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: spacing.sm },
   teamInput: { flexGrow: 1, flexBasis: 140, minWidth: 140, maxWidth: "100%" },
   reorderActions: { flexDirection: "row", gap: spacing.xs, marginLeft: "auto" },

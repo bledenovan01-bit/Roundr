@@ -8,6 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 
+import { loadPreferences } from "@/src/store/preferences";
 import { loadStore } from "@/src/store/session-store";
 
 import { ErrorBoundary } from "@/src/components/error-boundary";
@@ -30,7 +31,7 @@ export default function RootLayout() {
 
   const [storeReady, setStoreReady] = useState(false);
   useEffect(() => {
-    loadStore().finally(() => setStoreReady(true));
+    Promise.all([loadStore(), loadPreferences()]).finally(() => setStoreReady(true));
   }, []);
 
   useEffect(() => {
@@ -41,19 +42,19 @@ export default function RootLayout() {
 
   if ((!fontsLoaded && !fontError) || !storeReady) {
     // Return an empty black view while splash is still up.
-    return <View style={{ flex: 1, backgroundColor: "#0B0F0D" }} />;
+    return <View style={{ flex: 1, backgroundColor: "#010a0b" }} />;
   }
 
   return (
     <ErrorBoundary>
-      <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#0B0F0D" }}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#010a0b" }}>
         <SafeAreaProvider>
           <QueryClientProvider client={queryClient}>
             <StatusBar style="light" />
             <Stack
               screenOptions={{
                 headerShown: false,
-                contentStyle: { backgroundColor: "#0B0F0D" },
+                contentStyle: { backgroundColor: "#010a0b" },
                 animation: "slide_from_right",
               }}
             />
