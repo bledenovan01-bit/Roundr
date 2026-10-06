@@ -1,0 +1,61 @@
+{
+  "summary": "Frontend-only QA executed on public preview for the requested mobile form scope. Tested mode configs (Classique, Maracana, Cup, Survie, Custom) at 320x568 and 390x844, advanced Classique Perso duration input, Custom preset conditional field + validation, teams/team-builder flows, and Classique -> Live non-regression.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Home footer links",
+        "issue": "Bottom links ('Équipes', 'Paramètres') appear below 48px touch-target guideline (small text links with light vertical padding).",
+        "testID": "N/A",
+        "priority": "MEDIUM"
+      },
+      {
+        "component": "Config back button",
+        "issue": "Back button visual size is 44x44 (below requested 48px minimum), even if hitSlop improves functional tap area.",
+        "testID": "config-back",
+        "priority": "MEDIUM"
+      },
+      {
+        "component": "TeamsEditor measurement",
+        "issue": "Direct runtime bbox measurement for TeamsEditor color/name controls was not completed after repeated selector-flow failures in automation; needs a focused retest.",
+        "testID": "team-color-0, team-name-0",
+        "priority": "LOW"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/artifacts_iter6/",
+    "/app/test_reports/artifacts_iter6_part4/",
+    "/app/test_reports/artifacts_iter6_smoke/home_390.jpeg",
+    "/app/test_reports/artifacts_iter6_part4/live_ok.jpeg"
+  ],
+  "action_items": [
+    "Increase visual touch target of small footer links on Home to meet >=48px requirement.",
+    "Adjust config back button visual frame from 44 to >=48 if strict visual rule is required.",
+    "Run a short follow-up selector-stable check to capture TeamsEditor control dimensions (team-color/team-name) and close the measurement gap."
+  ],
+  "critical_code_review_comments": [
+    "No horizontal overflow detected on requested config screens at 320x568 and 390x844 (doc/body/config scroll widths matched viewport).",
+    "Numeric/text keyboard intent is correctly configured in code for durations/scores/numbers vs names (web preview cannot render native mobile keyboard type).",
+    "Conditional Custom preset field works as expected: 'Nom du preset' appears only after toggle and local validation message is displayed when launching without name.",
+    "Not all interactive elements have testID (e.g., Home footer links), which weakens deterministic automation coverage."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_6.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only request, offline app)",
+    "frontend": "89%"
+  },
+  "seed_data_creation": "Local offline data was created through UI interactions only (teams and players) during flow validation.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Completed: mode-open matrix (5 modes x 2 viewports), Classique advanced custom duration editability and CTA reachability, Custom preset conditional validation, Equipes edit/add flow, Team Builder launch to config, and Classique launch to Live without runtime error. Limitation: Expo web preview cannot prove native keyboard layout; selector-loop limit reached on TeamsEditor bbox capture.",
+  "rca_of_issue": "RCA (remaining findings): unresolved items are mostly UI compliance gaps (strict 48px visual target and missing testIDs) rather than functional regressions. Automation instability came from accent-normalized testIDs + conditional expansion sequence in TeamsEditor path, not from confirmed business logic failure."
+}

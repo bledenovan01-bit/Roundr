@@ -122,3 +122,15 @@ Comptes utilisateurs, cloud, sync multi-organisateurs, stats par joueur, multi-t
 - P1 soumis à accord : corriger le défaut préexistant d'ouverture automatique du résumé, puis tester la vraie fin de match.
 - P1 soumis à accord : éventuelle extension de la typographie aux autres écrans (non incluse dans cet audit).
 - P2 : recette sur téléphone pour clavier, safe areas, accessibilité native, audio et partage.
+
+## Branche Figma — optimisation mobile des formulaires
+- **Source demandée et chargée** : `bledenovan01-bit/Roundr`, branche `codex/roundr-figma-redesign`, commit exact `c3324e152ec4303ca121ee16e958d9edb133699d` (`c3324e1`).
+- **Architecture** : application Expo/React Native 100% hors ligne ; règles, chronos et sessions restent dans `src/domain` / `src/store` avec persistance AsyncStorage. Aucun backend n’est requis pour les formulaires.
+- **Implémenté** : les écrans de configuration et de gestion des équipes emploient une colonne mobile de 430pt maximum, `KeyboardAvoidingView` + `ScrollView`, fermeture du clavier au glissement et CTA dans le flux défilant. Les champs numériques utilisent le clavier numérique ; les noms, le clavier texte. Les champs et boutons visuels font au moins 48pt, avec labels persistants, erreurs locales près du réglage concerné et options secondaires conditionnelles.
+- **Couverture** : Classique, Maracana, Cup, Survie, Custom, Équipes et Faire les équipes. Les liens d’accueil et retour de configuration respectent également 48pt et disposent de testID.
+- **Validation** : rapport `/app/test_reports/iteration_6.json`, TypeScript, tests domaine/chrono et lint ciblé passent. Smoke 320pt : durée personnalisée éditable, éditeur d’équipes (nom 196×48, couleur 52×52), aucun débordement horizontal. Le navigateur ne peut pas reproduire le clavier ni les safe areas natifs ; à confirmer sur téléphone.
+
+### Backlog
+- **P0** : validation sur appareil réel des claviers, safe areas et tailles de texte système.
+- **P1** : vérifier sur appareil audio et partage PNG natifs.
+- **P2** : corriger le défaut préexistant d’ouverture du résumé seulement après accord fonctionnel explicite.

@@ -32,8 +32,8 @@ export default function HomeScreen() {
       <View style={styles.bottom}>
         <DesignRow testID="presets-manage" title="Mes chronos" detail="Presets et sessions" onPress={() => router.push("/presets")} />
         <View style={styles.links}>
-          <Pressable onPress={() => router.push("/teams")} accessibilityRole="button"><Text style={styles.link}>Équipes</Text></Pressable>
-          <Pressable onPress={() => router.push("/settings")} accessibilityRole="button"><Text style={styles.link}>Paramètres</Text></Pressable>
+          <Pressable testID="home-teams-link" onPress={() => router.push("/teams")} accessibilityRole="button" accessibilityLabel="Équipes" style={styles.linkTarget}><Text testID="home-teams-link-label" style={styles.link}>Équipes</Text></Pressable>
+          <Pressable testID="home-settings-link" onPress={() => router.push("/settings")} accessibilityRole="button" accessibilityLabel="Paramètres" style={styles.linkTarget}><Text testID="home-settings-link-label" style={styles.link}>Paramètres</Text></Pressable>
         </View>
       </View>
     </ScrollView>
@@ -49,5 +49,6 @@ const useStyles = makeStyles(c => ({
   heroCopy: { fontFamily: fontFamily.text, fontSize: 13, lineHeight: 18, color: c.onSurface },
   bottom: { marginTop: "auto", paddingTop: 28, gap: 14 },
   links: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", gap: 8 },
-  link: { color: c.muted, fontFamily: fontFamily.text, fontSize: 12, paddingVertical: 8 },
+  linkTarget: { minHeight: 48, justifyContent: "center", paddingHorizontal: 8 },
+  link: { color: c.muted, fontFamily: fontFamily.text, fontSize: 12 },
 }));

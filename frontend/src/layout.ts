@@ -18,6 +18,7 @@ export function useScreenLayout() {
 
 export const layoutStyles = StyleSheet.create({
   content: { width: "100%", maxWidth: 760, alignSelf: "center" },
+  formContent: { width: "100%", maxWidth: 430, alignSelf: "center" },
   scroll: { flex: 1, minHeight: 0 },
   flexible: { flex: 1, minWidth: 0 },
 });

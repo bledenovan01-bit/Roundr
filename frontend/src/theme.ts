@@ -107,10 +107,10 @@ export const fontSize = {
 
 // Cibles tactiles et hauteurs de contrôles (cohérence inter-écrans).
 export const control = {
-  chip: 44,
+  chip: 48,
   row: 62,
-  button: 50,
-  icon: 46,
+  button: 52,
+  icon: 48,
 } as const;
 
 export function setColorScheme(scheme: ColorScheme) {

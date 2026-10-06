@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
@@ -10,33 +10,35 @@ export function DesignScreen({ title, subtitle, children, footer, testID }: { ti
   const insets = useSafeAreaInsets();
   const { safeSides } = useScreenLayout();
   const router = useRouter();
-  return <View testID={testID} style={[styles.root, safeSides]}>
-    <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={[layoutStyles.content, styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 20 }]}>
+  const screenTestID = testID ?? `screen-${title.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
+  return <KeyboardAvoidingView testID={screenTestID} style={[styles.root, safeSides]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <ScrollView testID={`${screenTestID}-scroll`} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={[layoutStyles.formContent, styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 32 }]}>
       <View style={styles.header}>
-        <Pressable onPress={() => router.canGoBack() ? router.back() : router.replace("/")} accessibilityRole="button" accessibilityLabel="Retour" hitSlop={8}><Text accessibilityRole="header" style={styles.title}>{title}</Text></Pressable>
-        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        <Pressable testID={`${screenTestID}-back-button`} onPress={() => router.canGoBack() ? router.back() : router.replace("/")} accessibilityRole="button" accessibilityLabel="Retour" hitSlop={8}><Text testID={`${screenTestID}-title`} accessibilityRole="header" style={styles.title}>{title}</Text></Pressable>
+        {subtitle ? <Text testID={`${screenTestID}-subtitle`} style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
       {children}
       {footer ? <View style={styles.footer}>{footer}</View> : null}
     </ScrollView>
-  </View>;
+  </KeyboardAvoidingView>;
 }
 
 export function DesignRow({ title, detail, onPress, children, testID }: { title: string; detail?: string; onPress?: () => void; children?: React.ReactNode; testID?: string }) {
   const styles = useDesignStyles();
   const [open, setOpen] = useState(false);
+  const rowTestID = testID ?? `design-row-${title.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
   return <View>
-    <Pressable testID={testID} disabled={!onPress && !children} onPress={onPress ?? (() => setOpen(!open))} accessibilityRole={onPress || children ? "button" : undefined} accessibilityLabel={[title, detail].filter(Boolean).join(", ")} accessibilityState={children ? { expanded: open } : undefined} style={styles.row}>
-      <View style={{ flex: 1, minWidth: 0, gap: 2 }}><Text style={styles.rowTitle}>{title}</Text>{detail ? <Text style={styles.subtitle}>{detail}</Text> : null}</View>
+    <Pressable testID={rowTestID} disabled={!onPress && !children} onPress={onPress ?? (() => setOpen(!open))} accessibilityRole={onPress || children ? "button" : undefined} accessibilityLabel={[title, detail].filter(Boolean).join(", ")} accessibilityState={children ? { expanded: open } : undefined} style={styles.row}>
+      <View style={{ flex: 1, minWidth: 0, gap: 2 }}><Text testID={`${rowTestID}-title`} style={styles.rowTitle}>{title}</Text>{detail ? <Text testID={`${rowTestID}-detail`} style={styles.subtitle}>{detail}</Text> : null}</View>
       {onPress || children ? <Text style={styles.chevron}>{open ? "⌄" : "›"}</Text> : null}
     </Pressable>
     {open ? <View style={styles.editor}>{children}</View> : null}
   </View>;
 }
 
-export function DesignSection({ children }: { children: string }) { const styles = useDesignStyles(); return <Text style={styles.section}>{children}</Text>; }
+export function DesignSection({ children }: { children: string }) { const styles = useDesignStyles(); return <Text testID={`design-section-${children.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`} style={styles.section}>{children}</Text>; }
 
-export function DesignInputStyles() { const { colors } = useTheme(); return { minHeight: 44, color: colors.onSurface, fontFamily: fontFamily.text, fontSize: 14, borderColor: colors.border, borderWidth: 1, borderRadius: 14, paddingHorizontal: 14, backgroundColor: colors.surfaceSecondary }; }
+export function DesignInputStyles() { const { colors } = useTheme(); return { minHeight: 48, color: colors.onSurface, fontFamily: fontFamily.text, fontSize: 14, borderColor: colors.border, borderWidth: 1, borderRadius: 14, paddingHorizontal: 14, backgroundColor: colors.surfaceSecondary }; }
 
 export const useDesignStyles = makeStyles(c => ({
   root: { flex: 1, backgroundColor: c.surface },

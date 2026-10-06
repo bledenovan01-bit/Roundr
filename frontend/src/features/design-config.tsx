@@ -1,6 +1,6 @@
 import { TextInput, View } from "react-native";
 import { DesignRow, DesignSection, DesignInputStyles } from "@/src/components/design-screen";
-import { ChoiceRow, EndRulesField, Segmented, Stepper, TeamsEditor, ToggleRow } from "@/src/components/fields";
+import { ChoiceRow, EndRulesField, ErrorText, Segmented, Stepper, TeamsEditor, ToggleRow } from "@/src/components/fields";
 import { ClassicForm, CupForm, CustomForm, MaracanaForm, SurvieForm } from "./config-forms";
 import { classicBreakDefault } from "@/src/domain/defaults";
 import { splitPeriods } from "@/src/domain/custom-split";
@@ -9,21 +9,26 @@ import type { AnyConfig, Team, DrawRule } from "@/src/domain/types";
 
 const DRAWS: { value: DrawRule; label: string }[] = [{ value: "shootout", label: "TAB directs" }, { value: "extraThenShootout", label: "Prolongation + TAB" }, { value: "golden", label: "Golden goal" }];
 const stateLabel = (v: boolean) => v ? "Activé" : "Désactivé";
-export function DesignConfig({ config: c, onChange, teams, onTeams }: { config: AnyConfig; onChange: (v: AnyConfig) => void; teams: Team[]; onTeams: (t: Team[]) => void }) {
+export function DesignConfig({ config: c, onChange, teams, onTeams, validationErrors = [] }: { config: AnyConfig; onChange: (v: AnyConfig) => void; teams: Team[]; onTeams: (t: Team[]) => void; validationErrors?: string[] }) {
   const input = DesignInputStyles();
   const set = (p: object) => onChange({ ...c, ...p } as AnyConfig);
+  const errorFor = (id: string, terms: string[]) => {
+    const message = validationErrors.find((error) => terms.some((term) => error.toLowerCase().includes(term.toLowerCase())));
+    return message ? <ErrorText testID={`config-validation-${id}`}>{message}</ErrorText> : null;
+  };
   const toggle = (title: string, key: "score" | "additional" | "sounds" | "smallFinal", value: boolean) => <DesignRow title={title} detail={stateLabel(value)}><ToggleRow label={title} testID={`toggle-${key}`} value={value} onChange={v => set({ [key]: v })} /></DesignRow>;
-  const duration = (value: number, change: (n: number) => void, title = "Durée") => <DesignRow title={title} detail={`${value} min`}><ChoiceRow label={title} testID="duration" value={value} onChange={change} options={[7,8,10,30].map(n => ({ value: n, label: `${n} min` }))} custom={{ min: 1, onChange: change }} suffix="min" /></DesignRow>;
-  const end = c.mode === "classique" ? null : <DesignRow title="Fin du match" detail={[c.end.byTime ? "Temps" : "", c.end.goalTarget ? `premier à ${c.end.goalTarget} buts` : ""].filter(Boolean).join(" + ") || "À configurer"}><EndRulesField value={c.end} onChange={v => set({ end: v, ...((c.mode === "custom" && v.goalTarget != null) ? { score: true } : {}) })} /></DesignRow>;
+  const duration = (value: number, change: (n: number) => void, title = "Durée") => <DesignRow title={title} detail={`${value} min`}><ChoiceRow label={title} testID="duration" value={value} onChange={change} options={[7,8,10,30].map(n => ({ value: n, label: `${n} min` }))} custom={{ min: 1, onChange: change }} suffix="min" />{errorFor("duration", ["durée totale", "durée des matchs"])}</DesignRow>;
+  const end = c.mode === "classique" ? null : <DesignRow title="Fin du match" detail={[c.end.byTime ? "Temps" : "", c.end.goalTarget ? `premier à ${c.end.goalTarget} buts` : ""].filter(Boolean).join(" + ") || "À configurer"}><EndRulesField value={c.end} onChange={v => set({ end: v, ...((c.mode === "custom" && v.goalTarget != null) ? { score: true } : {}) })} />{errorFor("end", ["condition de fin", "nombre de buts"])}</DesignRow>;
   const teamsRow = <DesignRow title={c.mode === "classique" ? "Ajouter les équipes" : c.mode === "maracana" ? "Noms et couleurs" : "Équipes"} detail={c.customTeams ? "Modifiables" : "Optionnel"}>
     <ToggleRow label="Personnaliser les équipes" testID="toggle-teams" value={c.customTeams} onChange={v => set({ customTeams: v })} />
     {c.customTeams ? <TeamsEditor teams={teams} onChange={onTeams} reorder={(c.mode === "cup" || c.mode === "survie") && c.draw === "manual"} /> : null}
+    {errorFor("teams", ["chaque équipe", "deux équipes"])}
   </DesignRow>;
   const count = (min: number) => c.mode !== "classique" && c.mode !== "custom" ? <DesignRow title={c.mode === "maracana" ? "Nombre d’équipes" : "Équipes"} detail={String(c.teamCount)}><Stepper label="Nombre d’équipes" testID="teams" min={min} max={c.mode === "maracana" ? 8 : 32} value={c.teamCount} onChange={n => set({ teamCount: n, ...(c.mode === "cup" ? recommendCup(n) : {}) })} /></DesignRow> : null;
   return <View style={{ gap: 14 }}>
     {c.mode === "classique" ? <>
       <DesignSection>DURÉE</DesignSection>
-      <ChoiceRow label="" testID="duration" value={c.totalMin} options={[10,30,45,90].map(n => ({ value: n, label: `${n} min` }))} onChange={n => set({ totalMin: n, breakMin: classicBreakDefault(n) })} />
+      <ChoiceRow label="Durée du match" testID="duration" value={c.totalMin} options={[10,30,45,90].map(n => ({ value: n, label: `${n} min` }))} onChange={n => set({ totalMin: n, breakMin: classicBreakDefault(n) })} />{errorFor("duration", ["durée totale"])}
       <DesignRow title="Format" detail={c.periods === 2 ? "2 mi-temps" : "1 période"}><Segmented testID="periods" options={[{ value: 1, label: "1 période" },{ value: 2, label: "2 mi-temps" }]} value={c.periods} onChange={v => set({ periods: v })} />{c.periods === 2 ? <ChoiceRow label="Pause" testID="break" value={c.breakMin} options={[5,10,15].map(n => ({ value: n, label: `${n} min` }))} onChange={n => set({ breakMin: n })} /> : null}</DesignRow>
       {toggle("Score", "score", c.score)}{toggle("Temps additionnel", "additional", c.additional)}{teamsRow}
     </> : c.mode === "custom" ? <>
@@ -32,7 +37,7 @@ export function DesignConfig({ config: c, onChange, teams, onTeams }: { config: 
       <DesignRow title="Répartition" detail={c.periodSec.map(s => s/60).join(" / ")}><CustomForm config={c} onChange={onChange} /></DesignRow>
       {duration(c.breakMin, n => set({ breakMin: n }),"Pauses")}
       {toggle("Score","score",c.score)}{teamsRow}{toggle("Sons","sounds",c.sounds)}
-      <DesignRow title="Sauvegarder preset" detail={c.savePreset ? "Oui" : "Non"}><ToggleRow label="Sauvegarder preset" value={c.savePreset} testID="toggle-save-preset" onChange={v => set({ savePreset: v })} /><TextInput testID="preset-name" accessibilityLabel="Nom du preset" value={c.presetName} onChangeText={v => set({ presetName: v })} placeholder="Nom du preset" style={input} maxLength={30} /></DesignRow>
+      <DesignRow title="Sauvegarder preset" detail={c.savePreset ? "Oui" : "Non"}><ToggleRow label="Sauvegarder preset" value={c.savePreset} testID="toggle-save-preset" onChange={v => set({ savePreset: v })} />{c.savePreset ? <TextInput testID="preset-name" accessibilityLabel="Nom du preset" value={c.presetName} onChangeText={v => set({ presetName: v })} placeholder="Nom du preset" style={input} maxLength={30} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" /> : null}{errorFor("preset", ["nom au preset"])}</DesignRow>
     </> : c.mode === "maracana" ? <>
       {duration(c.matchMin, n=>set({ matchMin:n }))}{end}{count(3)}{teamsRow}{toggle("Sons et alertes","sounds",c.sounds)}
     </> : <>

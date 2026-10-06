@@ -34,6 +34,7 @@ export function PrimaryButton({
 }: Props) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const buttonTestID = testID ?? `button-${label.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
 
 
   const handlePress = () => {
@@ -59,7 +60,7 @@ export function PrimaryButton({
 
   return (
     <Pressable
-      testID={testID}
+      testID={buttonTestID}
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
@@ -79,7 +80,7 @@ export function PrimaryButton({
       ) : (
         <View style={styles.inner}>
           {leadingIcon}
-          <Text testID={`${testID}-label`} style={[styles.label, textByVariant]}>{label}</Text>
+          <Text testID={`${buttonTestID}-label`} style={[styles.label, textByVariant]}>{label}</Text>
         </View>
       )}
     </Pressable>

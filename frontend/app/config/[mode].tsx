@@ -15,7 +15,7 @@ import type { AnyConfig, CustomConfig, Team } from "@/src/domain/types";
 import { validateConfig } from "@/src/domain/validate";
 import { DesignConfig } from "@/src/features/design-config";
 import { getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
-import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { control, fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 
@@ -98,7 +98,7 @@ export default function ConfigScreen() {
   return (
     <TypographyPreview.Provider value={refinedTypography}>
     <KeyboardAvoidingView style={[styles.root, safeSides]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <ScrollView testID="config-scroll" style={layoutStyles.scroll} contentContainerStyle={[layoutStyles.content, styles.scroll, { paddingTop: insets.top + 28, paddingBottom: spacing.xl }]} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+      <ScrollView testID="config-scroll" style={layoutStyles.scroll} contentContainerStyle={[layoutStyles.formContent, styles.scroll, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + spacing["3xl"] }]} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
         <View style={styles.header}>
           <Pressable testID="config-back" onPress={() => router.back()} style={styles.backBtn} hitSlop={12} accessibilityRole="button" accessibilityLabel="Retour">
             <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
@@ -109,7 +109,7 @@ export default function ConfigScreen() {
           </View>
         </View>
 
-        <DesignConfig config={config} onChange={setConfig} teams={alignedTeams} onTeams={setTeams} />
+        <DesignConfig config={config} onChange={setConfig} teams={alignedTeams} onTeams={setTeams} validationErrors={attempted ? errors : []} />
         {preset ? <PrimaryButton testID="preset-save-only" label="Enregistrer les modifications" variant="secondary" onPress={savePresetOnly} /> : null}
 
         {attempted && errors.length ? (
@@ -119,11 +119,10 @@ export default function ConfigScreen() {
             ))}
           </View>
         ) : null}
+        <View testID="config-footer" style={styles.cta}>
+          <PrimaryButton testID="config-launch" label={ctaLabel} onPress={launch} disabled={attempted && errors.length > 0} />
+        </View>
       </ScrollView>
-
-      <View testID="config-footer" style={[layoutStyles.content, styles.cta, { paddingBottom: insets.bottom + spacing.md }]}>
-        <PrimaryButton testID="config-launch" label={ctaLabel} onPress={launch} disabled={attempted && errors.length > 0} />
-      </View>
     </KeyboardAvoidingView>
     </TypographyPreview.Provider>
   );
@@ -133,11 +132,11 @@ const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
   scroll: { paddingHorizontal: 18, gap: 14, flexGrow: 1 },
   header: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.xs },
-  backBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center", marginLeft: -spacing.sm },
+  backBtn: { width: control.icon, height: control.icon, alignItems: "center", justifyContent: "center", marginLeft: -spacing.sm },
   title: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"], color: colors.onSurface, letterSpacing: -0.6 },
   subtitle: { fontFamily: fontFamily.text, fontSize: 12, color: colors.muted, marginTop: 2 },
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
   input: { minHeight: 54, paddingHorizontal: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.textBold, fontSize: fontSize.lg },
   errors: { gap: spacing.xs, padding: spacing.lg, borderRadius: radius.md, borderWidth: 1, borderColor: colors.error, backgroundColor: colors.surfaceSecondary },
-  cta: { marginTop: spacing.sm, paddingHorizontal: spacing.lg, paddingTop: spacing.md, backgroundColor: colors.surface,  },
+  cta: { marginTop: spacing.sm, paddingTop: spacing.md },
 }));

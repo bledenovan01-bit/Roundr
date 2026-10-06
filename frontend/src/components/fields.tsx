@@ -47,19 +47,20 @@ export function ChoiceRow<T extends string | number>({
   testID?: string;
 }) {
   const styles = useStyles();
+  const baseTestID = testID ?? `choice-${label.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
   const isCustom = !options.some((o) => o.value === value);
   const [showCustom, setShowCustom] = useState(isCustom);
   const [draft, setDraft] = useState(String(value));
   return (
-    <View style={styles.field} testID={testID}>
-      <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
+    <View style={styles.field} testID={baseTestID}>
+      <Text testID={`${baseTestID}-label`} style={styles.fieldLabel}>{label}</Text>
       <View style={styles.chips}>
         {options.map((o) => {
           const active = !showCustom && o.value === value;
           return (
             <Pressable
               key={String(o.value)}
-              testID={`${testID ?? label}-${o.value}`}
+              testID={`${baseTestID}-${o.value}`}
               accessibilityRole="radio"
               accessibilityState={{ checked: active }}
               aria-checked={active}
@@ -70,20 +71,20 @@ export function ChoiceRow<T extends string | number>({
               }}
               style={[styles.chip, active && styles.chipActive]}
             >
-              <Text testID={`${testID ?? label}-${o.value}-label`} style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
+              <Text testID={`${baseTestID}-${o.value}-label`} style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
             </Pressable>
           );
         })}
         {custom ? (
           <Pressable
-            testID={`${testID ?? label}-custom`}
+            testID={`${baseTestID}-custom`}
             accessibilityRole="radio"
             accessibilityState={{ checked: showCustom }}
             aria-checked={showCustom}
             onPress={() => setShowCustom(true)}
             style={[styles.chip, showCustom && styles.chipActive]}
           >
-            <Text testID={`${testID ?? label}-custom-label`} style={[styles.chipLabel, showCustom && styles.chipLabelActive]}>Perso</Text>
+            <Text testID={`${baseTestID}-custom-label`} style={[styles.chipLabel, showCustom && styles.chipLabelActive]}>Perso</Text>
           </Pressable>
         ) : null}
       </View>
@@ -96,7 +97,7 @@ export function ChoiceRow<T extends string | number>({
             if (!Number.isNaN(n) && n >= custom.min && (custom.max == null || n <= custom.max)) custom.onChange(n);
           }}
           suffix={suffix}
-          testID={`${testID ?? label}-custom-input`}
+          testID={`${baseTestID}-custom-input`}
         />
       ) : null}
     </View>
@@ -106,18 +107,20 @@ export function ChoiceRow<T extends string | number>({
 export function NumberInput({ value, onChange, suffix, testID, placeholder }: { value: string; onChange: (t: string) => void; suffix?: string; testID?: string; placeholder?: string }) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const inputTestID = testID ?? "number-input";
   return (
     <View style={styles.inputRow}>
       <TextInput
-        testID={testID}
+        testID={inputTestID}
         value={value}
         onChangeText={(t) => onChange(t.replace(/[^0-9]/g, ""))}
-        keyboardType="number-pad"
+        keyboardType="numeric"
         placeholder={placeholder}
         placeholderTextColor={colors.muted}
         style={[styles.input, styles.numericInput]}
-        accessibilityLabel={testID ?? placeholder ?? "Valeur numérique"}
+        accessibilityLabel={placeholder ?? "Valeur numérique"}
         selectTextOnFocus
+        returnKeyType="done"
       />
       {suffix ? <Text style={styles.suffix}>{suffix}</Text> : null}
     </View>
@@ -127,11 +130,12 @@ export function NumberInput({ value, onChange, suffix, testID, placeholder }: { 
 export function Stepper({ label, value, min, max, onChange, testID, hint }: { label: string; value: number; min: number; max: number; onChange: (n: number) => void; testID?: string; hint?: string }) {
   const styles = useStyles();
   const { colors } = useTheme();
+  const baseTestID = testID ?? `stepper-${label.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
   const btn = (delta: number, icon: "minus" | "plus") => {
     const disabled = delta < 0 ? value <= min : value >= max;
     return (
       <Pressable
-        testID={`${testID ?? label}-${icon}`}
+        testID={`${baseTestID}-${icon}`}
         accessibilityRole="button"
         accessibilityLabel={`${delta < 0 ? "Diminuer" : "Augmenter"} : ${label}`}
         accessibilityState={{ disabled }}
@@ -150,12 +154,12 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
   return (
     <View style={styles.stepperRow}>
       <View style={styles.stepperLabel}>
-        <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
-        {hint ? <Text testID={`${testID ?? label}-hint`} style={styles.hint}>{hint}</Text> : null}
+        <Text testID={`${baseTestID}-label`} style={styles.fieldLabel}>{label}</Text>
+        {hint ? <Text testID={`${baseTestID}-hint`} style={styles.hint}>{hint}</Text> : null}
       </View>
       <View style={styles.stepper}>
         {btn(-1, "minus")}
-        <Text style={styles.stepValue} testID={`${testID ?? label}-value`}>{value}</Text>
+        <Text style={styles.stepValue} testID={`${baseTestID}-value`}>{value}</Text>
         {btn(1, "plus")}
       </View>
     </View>
@@ -164,11 +168,12 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
 
 export function ToggleRow({ label, value, onChange, hint, testID }: { label: string; value: boolean; onChange: (v: boolean) => void; hint?: string; testID?: string }) {
   const styles = useStyles();
+  const rowTestID = testID ?? `toggle-${label.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
   return (
-    <Pressable onPress={() => onChange(!value)} style={styles.rowBetween} testID={testID} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: value }} aria-checked={value}>
+    <Pressable onPress={() => onChange(!value)} style={styles.rowBetween} testID={rowTestID} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: value }} aria-checked={value}>
       <View style={{ flex: 1, minWidth: 0 }}>
-        <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text>
-        {hint ? <Text testID={`${testID ?? label}-hint`} style={styles.hint}>{hint}</Text> : null}
+        <Text testID={`${rowTestID}-label`} style={styles.fieldLabel}>{label}</Text>
+        {hint ? <Text testID={`${rowTestID}-hint`} style={styles.hint}>{hint}</Text> : null}
       </View>
       <View style={styles.toggleTarget} pointerEvents="none" accessible={false}>
         <View style={[styles.track, value && styles.trackOn]}>
@@ -209,16 +214,17 @@ export function Divider() {
 
 export function Segmented<T extends string | number>({ label, options, value, onChange, testID }: { label?: string; options: { value: T; label: string }[]; value: T; onChange: (v: T) => void; testID?: string }) {
   const styles = useStyles();
+  const baseTestID = testID ?? `segmented-${(label ?? options.map((option) => option.label).join("-")).toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
   return (
-    <View testID={`${testID ?? label}-group`} style={styles.field}>
-      {label ? <Text testID={`${testID ?? label}-label`} style={styles.fieldLabel}>{label}</Text> : null}
+    <View testID={`${baseTestID}-group`} style={styles.field}>
+      {label ? <Text testID={`${baseTestID}-label`} style={styles.fieldLabel}>{label}</Text> : null}
       <View style={styles.segment}>
         {options.map((o) => {
           const active = o.value === value;
           return (
             <Pressable
               key={String(o.value)}
-              testID={`${testID ?? label}-${o.value}`}
+              testID={`${baseTestID}-${o.value}`}
               accessibilityRole="radio"
               accessibilityState={{ checked: active }}
               aria-checked={active}
@@ -228,7 +234,7 @@ export function Segmented<T extends string | number>({ label, options, value, on
               }}
               style={[styles.segmentItem, options.some((option) => option.label.length > 16) && styles.segmentItemLong, active && styles.segmentItemActive]}
             >
-              <Text testID={`${testID ?? label}-${o.value}-label`} style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
+              <Text testID={`${baseTestID}-${o.value}-label`} style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
             </Pressable>
           );
         })}
@@ -338,6 +344,9 @@ export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onCha
               placeholder={`Équipe ${i + 1}`}
               placeholderTextColor={colors.muted}
               maxLength={18}
+              keyboardType="default"
+              autoCapitalize="words"
+              returnKeyType="done"
             />
             {reorder ? (
               <View style={styles.reorderActions}>
@@ -441,7 +450,7 @@ const useBaseStyles = makeStyles((colors) => ({
   tileActive: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary, borderWidth: 2 },
   tileLabel: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.onSurfaceTertiary },
   track: { width: 58, height: 34, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.borderStrong, padding: 3, justifyContent: "center" },
-  toggleTarget: { width: 58, minHeight: 44, justifyContent: "center", flexShrink: 0 },
+  toggleTarget: { width: 58, minHeight: control.icon, justifyContent: "center", flexShrink: 0 },
   trackOn: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary },
   thumb: { width: 26, height: 26, borderRadius: radius.pill, backgroundColor: colors.muted },
   thumbOn: { backgroundColor: colors.onBrandPrimary, alignSelf: "flex-end" },
@@ -478,7 +487,7 @@ const useBaseStyles = makeStyles((colors) => ({
   reorderActions: { flexDirection: "row", gap: spacing.xs, marginLeft: "auto" },
   jerseyBtn: { width: 52, height: 52, borderRadius: radius.pill, borderWidth: 2.5, alignItems: "center", justifyContent: "center", backgroundColor: colors.surface },
   swatchRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, paddingLeft: 60 },
-  swatch: { width: 44, height: 44, borderRadius: radius.pill, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "transparent" },
+  swatch: { width: control.icon, height: control.icon, borderRadius: radius.pill, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "transparent" },
   swatchActive: { borderColor: colors.onSurface },
 }));
 
