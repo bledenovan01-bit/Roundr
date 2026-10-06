@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from "react-native";
-import * as Haptics from "expo-haptics";
+import * as Haptics from "@/src/haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
 import { useScreenLayout } from "@/src/layout";

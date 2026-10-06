@@ -14,30 +14,30 @@ const dark = {
   // ---------------------------------------------------------------------------
   // Surfaces — nuit de stade : noir bleuté, cartes légèrement plus claires
   // ---------------------------------------------------------------------------
-  surface: "#080B0F",
-  onSurface: "#FFFFFF",
-  surfaceSecondary: "#101519",
+  surface: "#010a0b",
+  onSurface: "#f2f8f7",
+  surfaceSecondary: "#081718",
   onSurfaceSecondary: "#F4F4F5",
-  surfaceTertiary: "#191F26",
-  onSurfaceTertiary: "#E4E4E7",
+  surfaceTertiary: "#0c1b1c",
+  onSurfaceTertiary: "#a5b5b6",
   surfaceInverse: "#FFFFFF",
   onSurfaceInverse: "#000000",
-  muted: "#8B949E",
+  muted: "#7a8d90",
 
   // ---------------------------------------------------------------------------
   // Brand: neon green (maquettes Roundr) sur fond quasi noir
   // ---------------------------------------------------------------------------
-  brand: "#3DF27C",
-  onBrand: "#06210F",
-  brandPrimary: "#3DF27C",
-  onBrandPrimary: "#06210F",
+  brand: "#5ce07d",
+  onBrand: "#03110b",
+  brandPrimary: "#5ce07d",
+  onBrandPrimary: "#03110b",
   brandSecondary: "#22B85A",
-  onBrandSecondary: "#06210F",
-  brandTertiary: "#0D2318",
+  onBrandSecondary: "#03110b",
+  brandTertiary: "#00331c",
   onBrandTertiary: "#6FF5A0",
 
   // Accents des modes (maquettes)
-  modeClassique: "#3DF27C",
+  modeClassique: "#5ce07d",
   modeMaracana: "#2F7BFF",
   modeCup: "#8B5CF6",
   modeSurvie: "#FF8A1F",
@@ -58,9 +58,9 @@ const dark = {
   // ---------------------------------------------------------------------------
   // Lines
   // ---------------------------------------------------------------------------
-  border: "#1D242B",
-  borderStrong: "#2C3641",
-  divider: "#161C22",
+  border: "#2d3e41",
+  borderStrong: "#2d3e41",
+  divider: "#2d3e41",
 };
 
 export type ThemeColors = typeof dark;
@@ -82,16 +82,16 @@ export const spacing = {
 
 export const radius = {
   sm: 10,
-  md: 16,
+  md: 18,
   lg: 22,
   xl: 28,
   pill: 999,
 } as const;
 
 export const fontFamily = {
-  display: "BarlowCondensed-Bold",
-  text: "Manrope-Medium",
-  textBold: "Manrope-Bold",
+  display: "ManropeRefined-Bold",
+  text: "ManropeRefined-Medium",
+  textBold: "ManropeRefined-Bold",
 } as const;
 
 export const fontSize = {
@@ -107,9 +107,9 @@ export const fontSize = {
 
 // Cibles tactiles et hauteurs de contrôles (cohérence inter-écrans).
 export const control = {
-  chip: 54,
-  row: 56,
-  button: 64,
+  chip: 44,
+  row: 62,
+  button: 50,
   icon: 46,
 } as const;
 

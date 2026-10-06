@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from "react-native";
-import * as Haptics from "expo-haptics";
+import * as Haptics from "@/src/haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
@@ -51,14 +51,14 @@ export function ModeCard({
         onPress={handlePress}
         style={({ pressed }) => [
           styles.card,
-          dominant && { borderColor: colors.brandPrimary, borderWidth: 2, backgroundColor: colors.brandTertiary },
+
           pressed && styles.pressed,
         ]}
       >
         <View style={[styles.iconWrap, { backgroundColor: accent ?? colors.brandPrimary }]}>
           <MaterialCommunityIcons
             name={iconName}
-            size={30}
+            size={24}
             color={colors.onBrandPrimary}
           />
         </View>
@@ -85,14 +85,14 @@ export function ModeCard({
 
 const useStyles = makeStyles((colors) => ({
   card: {
-    minHeight: 92,
+    minHeight: 62,
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.lg,
     backgroundColor: colors.surfaceSecondary,
-    borderRadius: radius.lg,
+    borderRadius: 18,
     paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.lg,
+    paddingVertical: 10,
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -101,8 +101,8 @@ const useStyles = makeStyles((colors) => ({
     transform: [{ scale: 0.99 }],
   },
   iconWrap: {
-    width: 58,
-    height: 58,
+    width: 40,
+    height: 40,
     borderRadius: radius.md,
     backgroundColor: colors.brandTertiary,
     alignItems: "center",
@@ -118,8 +118,8 @@ const useStyles = makeStyles((colors) => ({
   title: {
     fontFamily: fontFamily.textBold,
     color: colors.onSurface,
-    fontSize: 23,
-    lineHeight: 29,
+    fontSize: 14,
+    lineHeight: 19,
     letterSpacing: -0.3,
   },
   description: {

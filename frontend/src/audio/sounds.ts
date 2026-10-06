@@ -1,5 +1,6 @@
 // §9 / C19 — Audio local (WAV embarqués, aucune voix, aucun réseau).
 // Coexistence avec la musique externe : mode "mixWithOthers", jamais de stop.
+import { getPreferences } from "@/src/store/preferences";
 import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from "expo-audio";
 
 type SoundKey = "alert" | "whistle" | "final" | "prep";
@@ -36,7 +37,8 @@ export async function playSound(key: SoundKey): Promise<void> {
       p = createAudioPlayer(SOURCES[key]);
       players[key] = p;
     }
-    p.seekTo(0);
+    p.volume = getPreferences().volume;
+    await p.seekTo(0);
     p.play();
   } catch {
     // Jamais bloquant : le retour visuel reste disponible.

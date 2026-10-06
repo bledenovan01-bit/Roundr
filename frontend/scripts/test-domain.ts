@@ -233,5 +233,14 @@ function playTo(s: Session, result: [number, number], now: number): Session {
   check("AC14 : aucune fin fantôme en buts seul", g2.live!.stage === "period");
 }
 
+// Relancer réinitialise le match courant sans perdre la rotation ni les résultats.
+{
+  const s = S.goal(make(defaultConfig("maracana"), 3), 0, 1, 1_001_000);
+  const restarted = S.restartCurrent(s, 1_005_000);
+  check("Relancer : score et chrono remis à zéro", restarted.live!.score.every(v => v === 0) && restarted.live!.chrono.accumulatedMs === 0 && restarted.live!.chrono.runningSince === null);
+  check("Relancer : historique et rotation conservés", restarted.matches === s.matches && restarted.maracana === s.maracana);
+  check("Relancer : reprise possible", S.resume(restarted, 1_010_000).live!.chrono.runningSince === 1_010_000);
+}
+
 console.log(failures ? `\n${failures} échec(s)` : "\nTous les tests passent");
 process.exit(failures ? 1 : 0);
