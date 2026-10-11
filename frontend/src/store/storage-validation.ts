@@ -39,7 +39,7 @@ export function validSession(s:any):s is Session {
       !["scheduled","live","finished","bye"].includes(m.status)||!pairOK(m.score)||!pairOK(m.shootout)||
       !finite(m.playedMs)||(m.winnerId!==null&&!teamIds.has(m.winnerId)))) return false;
     const l=s.live;
-    if(l!==null&&(!record(l)||!matchIds.has(l.matchId)||!["period","break","awaitPeriod","additional","extra","golden","shootout","finished"].includes(l.stage)||
+    if(l!==null&&(!record(l)||!matchIds.has(l.matchId)||!["ready","period","break","awaitPeriod","additional","extra","golden","shootout","finished"].includes(l.stage)||
       !record(l.chrono)||!finite(l.chrono.accumulatedMs)||l.chrono.accumulatedMs<0||
       (l.chrono.runningSince!==null&&!finite(l.chrono.runningSince))||
       !Array.isArray(l.periodMs)||!l.periodMs.length||l.periodMs.some((n:any)=>!finite(n)||n<0)||

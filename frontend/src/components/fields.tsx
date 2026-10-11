@@ -375,9 +375,9 @@ export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onCha
                   accessibilityState={{ checked: t.color === color }}
                   aria-checked={t.color === color}
                   onPress={() => setColor(i, color)}
-                  style={[styles.swatch, { backgroundColor: color }, t.color === color && styles.swatchActive]}
+                  style={[styles.swatch, { backgroundColor: color, borderColor: t.color === color ? colors.brandPrimary : colors.onSurfaceTertiary }, t.color === color && styles.swatchActive]}
                 >
-                  {t.color === color ? <MaterialCommunityIcons name="check" size={18} color={colors.onBrandPrimary} /> : null}
+                  {t.color === color ? <MaterialCommunityIcons name="check" size={18} color={["#111827","#172554","#1E3A8A","#7F1D1D"].includes(color) ? "#FFFFFF" : colors.onBrandPrimary} /> : null}
                 </Pressable>
               ))}
             </View>

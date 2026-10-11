@@ -41,7 +41,6 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
             custom={{ min: 1, onChange: (n) => set({ totalMin: n, breakMin: classicBreakDefault(n) }) }}
             suffix="min"
           />
-          <Divider />
           <Segmented
             label="Format"
             testID="periods"

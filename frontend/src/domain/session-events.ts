@@ -10,10 +10,14 @@ export function sessionEvents(prev: Session | null, next: Session): SessionEvent
   const pl = prev?.id === next.id ? prev.live : null;
   const same = pl?.matchId === nl.matchId;
   const events: SessionEvent[] = [];
+  if (same && pl.stage === "ready" && nl.stage === "period") {
+    events.push({ kind: "start", message: "C’est parti !" });
+    return events;
+  }
   if (same && pl.stage !== "finished" && nl.stage === "finished") {
     events.push({ kind: "matchEnd", message: "Match terminé" });
     const upcoming = nextMatchInfo(next);
-    if (upcoming) events.push({ kind: "next", message: `Prochain match : ${upcoming.aLabel} – ${upcoming.bLabel}` });
+    if (upcoming?.certain) events.push({ kind: "next", message: `Prochain match : ${upcoming.aLabel} – ${upcoming.bLabel}` });
     return events;
   }
   if (same && pl.stage === "period" && ["break", "awaitPeriod", "additional", "extra", "golden", "shootout"].includes(nl.stage)) {
@@ -28,9 +32,9 @@ export function sessionEvents(prev: Session | null, next: Session): SessionEvent
   if (fresh.some(k => k.endsWith(":60000"))) events.push({ kind: "minute", message: "1 minute restante" });
   if (fresh.some(k => k === "prep" || k === "prep1")) {
     const upcoming = nextMatchInfo(next);
-    if (upcoming) events.push({ kind: "warmup", message: upcoming.certain
-      ? `${upcoming.aLabel} et ${upcoming.bLabel} : à l’échauffement !`
-      : `${upcoming.aLabel} : à l’échauffement ! L’adversaire dépend du résultat.` });
+    if (upcoming?.certain) events.push({ kind: "warmup", message: fresh.includes("prep1")
+      ? `${upcoming.aLabel} et ${upcoming.bLabel} : préparez-vous à entrer sur le terrain !`
+      : `${upcoming.aLabel} et ${upcoming.bLabel} : commencez l’échauffement !` });
   }
   return events;
 }

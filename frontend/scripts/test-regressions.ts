@@ -10,10 +10,44 @@ const t=1_000_000, MIN=60_000;
 const make=(c:AnyConfig,n:number)=>S.createSession(c,defaultTeams(c.mode,n),t);
 function win(s:Session,now:number) {return S.endManual(S.goal(s,0,1,now),now);}
 {
+  for (const mode of ["maracana","cup","survie"] as const) {
+    const c=defaultConfig(mode);const n="teamCount" in c?c.teamCount:2;
+    let s=make(c,n);
+    s=win(s,t+1_000);
+    const ready=S.launchNext(s,t+2_000);
+    assert.equal(ready.live?.stage,"ready",mode);
+    assert.equal(ready.live?.chrono.runningSince,null);
+    assert.equal(S.advance(ready,t+600_000),ready);
+    const started=S.startReady(ready,t+600_000);
+    assert.equal(started.live?.stage,"period");
+    assert.equal(started.live?.chrono.runningSince,t+600_000);
+    assert.equal(S.startReady(started,t+600_001),started);
+    assert(sessionEvents(ready,started).some(e=>e.kind==="start"));
+    assert(validSession(ready));
+  }
+  console.log("✓ Tournament matches stay ready until one explicit start");
+}
+{
+  const c={...defaultConfig("maracana"),matchMin:7} as AnyConfig;
+  let unknown=make(c,3);
+  unknown=S.advance(unknown,t+4*MIN);
+  assert(!unknown.live?.firedAlerts.includes("prep"));
+  assert(!sessionEvents(make(c,3),unknown).some(e=>e.kind==="warmup"));
+  let known=make(c,4);
+  known=S.pause(known,t+2*MIN);
+  assert.equal(S.advance(known,t+20*MIN),known);
+  known=S.resume(known,t+20*MIN);
+  const warm=S.advance(known,t+22*MIN);
+  assert(warm.live?.firedAlerts.includes("prep"));
+  assert(sessionEvents(known,warm).some(e=>e.kind==="warmup"));
+  assert.equal(sessionEvents(warm,warm).length,0);
+  console.log("✓ Short-match preparation waits for known teams and a running clock");
+}
+{
   const c={...defaultConfig("cup"),teamCount:8,groups:2,qualifiersPerGroup:2,draw:"manual"} as AnyConfig;
   let s=make(c,8);
   while(!s.cup?.tieChoice) {
-    s=S.endManual(s,t+1000);if(!s.cup?.tieChoice)s=S.launchNext(s,t+2000);
+    s=S.endManual(s,t+1000);if(!s.cup?.tieChoice)s=S.launchNext(s,t+2000,true);
   }
   const first=s.cup!.tieChoice!;const pick=first.candidates.slice(0,first.slots);
   s=S.resolveTieChoice(s,pick,t+3000);
@@ -42,7 +76,7 @@ function win(s:Session,now:number) {return S.endManual(S.goal(s,0,1,now),now);}
   assert.equal(corrected.matches[0].winnerId,null);
   const finished=S.submitShootout(corrected,2,3,t+3000);
   assert(finished.matches[0].winnerId);assert.equal(finished.matches[0].playedMs,originalTime);
-  const next=S.launchNext(finished,t+4000);assert(next.live!.matchId!==finished.live!.matchId);
+  const next=S.launchNext(finished,t+4000,true);assert(next.live!.matchId!==finished.live!.matchId);
   console.log("✓ Corrected knockout draw requires and resolves a tiebreak");
 }
 {
@@ -80,7 +114,7 @@ function win(s:Session,now:number) {return S.endManual(S.goal(s,0,1,now),now);}
 }
 {
   let s=make({...defaultConfig("survie"),teamCount:4,draw:"manual",drawRule:"shootout"} as AnyConfig,4);
-  s=win(s,t+1000);s=S.launchNext(s,t+2000);s=win(s,t+3000);s=S.launchNext(s,t+4000);s=win(s,t+5000);
+  s=win(s,t+1000);s=S.launchNext(s,t+2000,true);s=win(s,t+3000);s=S.launchNext(s,t+4000,true);s=win(s,t+5000);
   const champion=s.matches.find(m=>m.roundOf===2)!.winnerId;
   assert.equal(computeStandings(s.teams.map(x=>x.id),s.matches).find(r=>r.teamId===champion)!.wins,2);
   console.log("✓ Final statistics resolve teams from knockout slots");

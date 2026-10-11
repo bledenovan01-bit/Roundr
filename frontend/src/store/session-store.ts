@@ -158,7 +158,7 @@ export function tick() {
 
 export function startSession(session: Session) {
   // Every entry path opens ready: configure, saved chrono, and replay.
-  session = { ...session, live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null };
+  session = { ...session, live: session.live ? { ...session.live, stage: "ready", startedAt: 0, chrono: { ...session.live.chrono, phase: "idle", runningSince: null, accumulatedMs: 0 } } : null };
   set({ session, notice: null, now: Date.now() });
   void persist(KEYS.session, session);
 }

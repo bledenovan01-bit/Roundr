@@ -28,6 +28,10 @@ export const TEAM_PALETTE = [
   "#A855F7",
   "#14B8A6",
   "#F4F4F5",
+  "#111827", "#172554", "#1E3A8A", "#7F1D1D", "#0E7490",
+  "#6D28D9", "#6B7280", "#EC4899", "#15803D", "#84CC16",
+  "#0F766E", "#38BDF8", "#1D4ED8", "#DC2626", "#FB7185",
+  "#EA580C", "#FDBA74", "#EAB308", "#FDE047", "#A78BFA",
 ];
 
 export function uid(): string {

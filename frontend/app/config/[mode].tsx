@@ -3,19 +3,19 @@ import { getPreferences } from "@/src/store/preferences";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Alert } from "@/src/alert";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
 import { FormValidityContext, ErrorText } from "@/src/components/fields";
 import { PrimaryButton } from "@/src/components/primary-button";
 import { GAME_MODES, type GameModeId } from "@/src/data/modes";
-import { alignTeams, defaultConfig, defaultTeams, teamCountFor, uid } from "@/src/domain/defaults";
+import { alignTeams, defaultConfig, defaultTeams, teamCountFor } from "@/src/domain/defaults";
 import { createSession } from "@/src/domain/session";
 import type { AnyConfig, Team } from "@/src/domain/types";
 import { validateConfig } from "@/src/domain/validate";
 import { DesignConfig } from "@/src/features/design-config";
-import { getStoreState, setPresets, startSession, useStore } from "@/src/store/session-store";
+import { getStoreState, startSession, useStore } from "@/src/store/session-store";
 import { control, fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
@@ -26,31 +26,25 @@ export default function ConfigScreen() {
   const insets = useSafeAreaInsets();
   const { safeSides } = useScreenLayout();
   const router = useRouter();
-  const params = useLocalSearchParams<{ mode: GameModeId; preset?: string; replay?: string; teams?: string; presetNew?: string }>();
+  const params = useLocalSearchParams<{ mode: GameModeId; replay?: string; teams?: string }>();
   const mode = GAME_MODES.find((m) => m.id === params.mode);
-  const presets = useStore((s) => s.presets);
   const activeSession = useStore((s) => s.session);
   const saveError = useStore(s=>s.saveError);
 
-  const preset = params.preset ? presets.find((p) => p.id === params.preset) : null;
   const replayFrom = params.replay ? getStoreState().lastSummary : null;
 
   const [config, setConfig] = useState<AnyConfig>(() => {
-    if (preset) return preset.config.mode === "custom" ? { ...preset.config, savePreset: false } : preset.config;
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.config;
     const base = defaultConfig(params.mode ?? "classique");
     const pref = getPreferences();
     return { ...base, sounds: pref.sounds, ...(base.mode === "classique" || base.mode === "custom" ? { additional: pref.additional } : {}), ...(params.teams && base.mode !== "classique" && base.mode !== "custom" ? { teamCount: pref.teams.length } : {}), ...(params.teams ? { customTeams: true } : {}), ...(base.mode === "custom" ? { savePreset: false } : {}) };
   });
   const [teams, setTeams] = useState<Team[]>(() => {
-    if (preset?.teams) return preset.teams;
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.teams;
     if (params.teams && getPreferences().teams.length) return getPreferences().teams;
     return defaultTeams(params.mode ?? "classique", teamCountFor(config));
   });
   const [attempted, setAttempted] = useState(false);
-  const [presetName, setPresetName] = useState(preset?.name ?? "");
-  const [saving, setSaving] = useState(false);
 
   // Aligne la liste d'équipes sur le nombre configuré, en conservant les noms.
   const count = teamCountFor(config);
@@ -62,7 +56,7 @@ export default function ConfigScreen() {
     const next={...prev};if(message) next[id]=message;else delete next[id];return next;
   }),[]);
   const errors = [...validateConfig(config, alignedTeams), ...Object.values(fieldErrors)];
-  const snapshot = JSON.stringify({config,teams,presetName});
+  const snapshot = JSON.stringify({config,teams});
   const initial = useRef(snapshot);
   const leave = useUnsavedChanges(initial.current !== snapshot || Object.keys(fieldErrors).length>0);
 
@@ -86,20 +80,7 @@ export default function ConfigScreen() {
     go();
   };
 
-  const savePresetOnly = async () => {
-    setAttempted(true);
-    setSaving(true);
-    if (errors.length || !presetName.trim()) return;
-    const current = getStoreState().presets;
-    const savedConfig = config.mode === "custom" ? { ...config, savePreset: false, presetName: presetName.trim() } : config;
-    const ok = await setPresets([...current.filter(p => p.id !== preset?.id), {
-      id: preset?.id ?? uid(), name: presetName.trim(), config: savedConfig,
-      teams: alignedTeams.map(t => ({ ...t })), createdAt: preset?.createdAt ?? Date.now(),
-    }]);
-    if (ok) leave(()=>router.replace("/presets" as never));
-  };
-
-  const ctaLabel = config.mode === "classique" ? "Préparer le match" : config.mode === "custom" ? "Préparer le chrono" : config.mode === "maracana" ? "Créer la rotation" : config.mode === "cup" ? "Générer la Cup" : "Créer le tableau";
+  const ctaLabel = config.mode === "classique" ? "Lancer le match" : config.mode === "custom" ? "Préparer le chrono" : config.mode === "maracana" ? "Lancer le Maracana" : config.mode === "cup" ? "Lancer la Cup" : "Lancer le mode Survie";
   const refinedTypography = true;
 
   return (
@@ -112,8 +93,8 @@ export default function ConfigScreen() {
             <Text style={styles.note}>Retour</Text>
           </Pressable>
           <View style={layoutStyles.flexible}>
-            <Text testID="config-title" accessibilityRole="header" style={[styles.title, refinedTypography && refinedType.pageTitle]}>{preset ? preset.name : mode?.title ?? "Mode"}</Text>
-            <Text testID="config-subtitle" style={[styles.subtitle, refinedTypography && refinedType.subtitle]}>{preset ? "Configuration enregistrée" : ({ classique: "Configure puis lance quand tout le monde est prêt.", maracana: "Rotations automatiques et préparation des équipes.", cup: "Crée une compétition complète.", survie: "Perdre = sortir.", custom: "Construis exactement ton chrono." }[config.mode])}</Text>
+            <Text testID="config-title" accessibilityRole="header" style={[styles.title, refinedTypography && refinedType.pageTitle]}>{mode?.title ?? "Mode"}</Text>
+            <Text testID="config-subtitle" style={[styles.subtitle, refinedTypography && refinedType.subtitle]}>{({ classique: "Configure puis lance quand tout le monde est prêt.", maracana: "Rotations automatiques et préparation des équipes.", cup: "Crée une compétition complète.", survie: "Perdre = sortir.", custom: "Construis exactement ton chrono." }[config.mode])}</Text>
           </View>
         </View>
 
@@ -122,13 +103,6 @@ export default function ConfigScreen() {
         <DesignConfig config={config} onChange={setConfig} teams={alignedTeams} onTeams={setTeams} validationErrors={attempted ? errors : []} />
         </FormValidityContext.Provider>
         {saveError?<ErrorText>{saveError}</ErrorText>:null}
-        <View style={{ gap: 10 }}>
-          <Text style={styles.note}>Enregistrer dans Mes chronos</Text>
-          <TextInput testID="preset-name" accessibilityLabel="Nom du chrono" placeholder="Nom du chrono" placeholderTextColor={colors.muted} value={presetName} onChangeText={setPresetName} maxLength={60} style={styles.input} />
-          {saving && !presetName.trim() ? <ErrorText>Donne un nom à ce chrono.</ErrorText> : null}
-          <PrimaryButton testID="preset-save-only" label={preset ? "Enregistrer les modifications" : "Enregistrer dans Mes chronos"} variant="secondary" onPress={savePresetOnly} disabled={errors.length > 0} />
-        </View>
-
         {errors.length ? (
           <View style={styles.errors} testID="config-errors">
             {errors.map((e, i) => (

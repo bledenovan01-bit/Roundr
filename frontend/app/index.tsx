@@ -22,12 +22,11 @@ export default function HomeScreen() {
       <Text testID="home-slogan" style={styles.slogan}>Moins d’organisation, plus de jeu.</Text>
       <Text style={styles.heroCopy}>Choisis un mode, configure en quelques secondes et joue.</Text>
       {saveError ? <Text style={{ color: colors.error }}>{saveError}</Text> : null}
-      {session?.status === "active" ? <DesignRow testID="resume-session-card" title="Reprendre la session" detail={GAME_MODES.find(m => m.id === session.mode)?.title} onPress={() => router.push("/live")} /> : null}
       <DesignSection>MODES</DesignSection>
-      <View testID="modes-section" style={{ gap: 14 }}>{GAME_MODES.filter(mode => mode.id !== "custom").map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} onPress={() => router.push(`/config/${mode.id}` as never)} />)}<ModeCard index={4} testID="presets-manage" title="Mes chronos" description="Crée un chrono et retrouve tes réglages enregistrés" iconName="timer-outline" accent={colors.modeCustom} onPress={() => router.push("/presets")} /><ModeCard index={5} testID="mode-card-team-builder" title="Faire les équipes" description="Répartis les joueurs en quelques secondes" iconName="account-group" accent={colors.brandPrimary} onPress={() => router.push("/team-builder")} /></View>
+      <View testID="modes-section" style={{ gap: 14 }}>{GAME_MODES.filter(mode => mode.id !== "custom").map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} onPress={() => router.push(`/config/${mode.id}` as never)} />)}<ModeCard index={4} testID="mode-card-team-builder" title="Faire les équipes" description="Répartis les joueurs en quelques secondes" iconName="account-group" accent={colors.brandPrimary} onPress={() => router.push("/team-builder")} /></View>
+      {session?.status === "active" ? <DesignRow testID="resume-session-card" title="Reprendre la session" detail={GAME_MODES.find(m => m.id === session.mode)?.title} onPress={() => router.push("/live")} /> : null}
       <View style={styles.bottom}>
         <View style={styles.links}>
-          <Pressable testID="home-teams-link" onPress={() => router.push("/teams")} accessibilityRole="button" accessibilityLabel="Équipes" style={styles.linkTarget}><Text testID="home-teams-link-label" style={styles.link}>Équipes</Text></Pressable>
           <Pressable testID="home-settings-link" onPress={() => router.push("/settings")} accessibilityRole="button" accessibilityLabel="Paramètres" style={styles.linkTarget}><Text testID="home-settings-link-label" style={styles.link}>Paramètres</Text></Pressable>
         </View>
       </View>

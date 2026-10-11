@@ -1,14 +1,12 @@
 import { useEffect } from "react";
-import { AccessibilityInfo, AppState, Pressable, Text, View } from "react-native";
+import { AccessibilityInfo, AppState } from "react-native";
 import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { usePreferences } from "@/src/store/preferences";
 import { dismissNotice, tick, useStore } from "@/src/store/session-store";
-import { fontFamily, useTheme } from "@/src/theme";
 
 export function SessionRuntime() {
   const session=useStore(s=>s.session);const notice=useStore(s=>s.notice);
-  const p=usePreferences();const insets=useSafeAreaInsets();const {colors}=useTheme();
+  const p=usePreferences();
   const running=session?.status==="active"&&session.live?.chrono.runningSince!=null&&session.live?.stage!=="finished";
   useEffect(()=>{
     if(!running)return;
@@ -33,11 +31,5 @@ export function SessionRuntime() {
     const id=setTimeout(dismissNotice,Math.max(0,notice.until-Date.now()));
     return()=>clearTimeout(id);
   },[notice]);
-  if(!notice)return null;
-  return <View pointerEvents="box-none" style={{position:"absolute",top:insets.top+6,left:insets.left+14,right:insets.right+14,zIndex:100}}>
-    <Pressable testID="session-announcement" onPress={dismissNotice} accessibilityRole="button" accessibilityLabel={`${notice.message}. Fermer l’annonce`}
-      style={{padding:16,minHeight:48,borderRadius:16,backgroundColor:colors.brandPrimary}}>
-      <Text style={{fontFamily:fontFamily.textBold,color:colors.onBrandPrimary,textAlign:"center",fontSize:15}}>{notice.message}</Text>
-    </Pressable>
-  </View>;
+  return null;
 }

@@ -2,8 +2,6 @@ import { ChronoCarousel, type NoticeContent } from "./chrono-carousel";
 import { Image } from "expo-image";
 import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
-import { usePreferences } from "@/src/store/preferences";
-import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import type { Team } from "@/src/domain/types";
 export const LIVE_ASSETS = {
   back: require("../../assets/figma/4b8f2.svg"), music: require("../../assets/figma/ceef6.svg"), settings: require("../../assets/figma/878e0.svg"),
@@ -14,22 +12,22 @@ export const LIVE_ASSETS = {
   megaphone: require("../../assets/figma/5f2b8.svg"), pageDot: require("../../assets/figma/2edfd.svg"),
 };
 export function FigmaIcon({ source, size = 20, height = size, tint }: { source: number; size?: number; height?: number; tint?: string }) { return <Image source={source} contentFit="contain" tintColor={tint} style={{ width: size, height }} />; }
-export function LiveHero({ title, subtitle, time, caption, status, progress, teamA, teamB, score, scoreOn, canScore, correcting, locked, onGoal, onCorrect, onBack, onMusic, onSettings, onGiant, notice }: {
-  notice?: NoticeContent; title: string; subtitle: string; time: string; caption: string; status: string; progress: number; teamA: Team | null; teamB: Team | null; score: [number,number]; scoreOn: boolean; canScore: boolean; correcting: boolean; locked: boolean; onGoal: (side:0|1,delta:1|-1)=>void; onCorrect:()=>void; onBack:()=>void; onMusic:()=>void; onSettings:()=>void; onGiant:()=>void;
+export function LiveHero({ title, subtitle, time, caption, status, progress, teamA, teamB, score, scoreOn, canScore, correcting, locked, onGoal, onCorrect, onBack, onSettings, onGiant, notice }: {
+  notice?: NoticeContent; title: string; subtitle: string; time: string; caption: string; status: string; progress: number; teamA: Team | null; teamB: Team | null; score: [number,number]; scoreOn: boolean; canScore: boolean; correcting: boolean; locked: boolean; onGoal: (side:0|1,delta:1|-1)=>void; onCorrect:()=>void; onBack:()=>void; onSettings:()=>void; onGiant:()=>void;
 }) {
   const styles=useStyles(); const {colors}=useTheme();
-  const p=usePreferences();const {width,height}=useWindowDimensions();const landscape=width>height;
+  const {width,height}=useWindowDimensions();const landscape=width>height;
   return <View>
     <View style={landscape?{flexDirection:"row-reverse",alignItems:"center",gap:12}:undefined}>
-    <View style={[styles.nav,landscape&&{width:180,flexShrink:0}]}>{[[LIVE_ASSETS.back,onBack,"Retour au menu principal"],[LIVE_ASSETS.music,onMusic,"Sons"],[LIVE_ASSETS.settings,onSettings,"Paramètres"]].map(([src,fn,label],i)=><Pressable key={i} disabled={locked} onPress={fn as ()=>void} accessibilityRole="button" accessibilityLabel={i===1?(p.sounds?"Couper les sons de Roundr":"Activer les sons de Roundr"):label as string} style={[styles.navButton,i===0&&{width:78,flexDirection:"row",gap:4}]}>{i===0?<Text style={styles.subtitle}>Retour</Text>:null}{i===1?<MaterialCommunityIcons name={p.sounds?"volume-high":"volume-off"} size={22} color={colors.onSurface}/>:<FigmaIcon source={src as number}/>}</Pressable>)}</View>
-    <View style={[styles.heading,landscape&&{flex:1,flexDirection:"row",justifyContent:"center",marginTop:0}]}><FigmaIcon source={LIVE_ASSETS.mark} size={22}/><Text testID="live-title" style={[styles.title,landscape&&{fontSize:20,lineHeight:28}]}>{title.toUpperCase()}</Text><Text testID="live-match-label" style={[styles.subtitle,landscape&&{flexShrink:1}]}>{subtitle}</Text></View>
+    <View style={[styles.nav,landscape&&{width:180,flexShrink:0}]}><Pressable disabled={locked} onPress={onBack} accessibilityRole="button" accessibilityLabel="Retour au menu principal" style={[styles.navButton,{width:78,flexDirection:"row",gap:4}]}><FigmaIcon source={LIVE_ASSETS.back}/><Text style={styles.subtitle}>Retour</Text></Pressable><Pressable disabled={locked} onPress={onSettings} accessibilityRole="button" accessibilityLabel="Paramètres du match" style={styles.navButton}><FigmaIcon source={LIVE_ASSETS.settings}/></Pressable></View>
+    <View style={[styles.heading,landscape&&{flex:1,flexDirection:"row",justifyContent:"center",marginTop:0}]}><Text testID="live-title" style={[styles.title,landscape&&{fontSize:20,lineHeight:28}]}>{title.toUpperCase()}</Text><Text testID="live-match-label" style={[styles.subtitle,landscape&&{flexShrink:1}]}>{subtitle}</Text></View>
     </View>
     <View style={landscape?{flexDirection:"row",alignItems:"center",gap:24}:undefined}>
     <View style={landscape?{flex:1,minWidth:0}:undefined}>
     {scoreOn ? <View testID="live-score-teams" style={styles.teams}>
       {([teamA,teamB] as const).map((team,i)=><View key={i} style={styles.teamColumn}>
         <View testID={`live-team-${i}`} style={styles.teamCard}><View style={[styles.accent,{backgroundColor:team?.color, [i===0?"left":"right"]:0}]}/><Text testID={`live-team-${i}-name`} style={styles.teamName}>{team?.name}</Text><FigmaIcon source={i===0?LIVE_ASSETS.jerseyA:LIVE_ASSETS.jerseyB} size={45} height={47} tint={team?.color}/></View>
-        <Pressable testID={`goal-${i}`} disabled={!canScore||locked} onPress={()=>onGoal(i as 0|1,1)} accessibilityRole="button" accessibilityLabel={`Ajouter un but : ${team?.name}`} style={[styles.goal,{borderColor:team?.color,opacity:canScore?1:0.4}]}><Text style={[styles.goalLabel,{color:team?.color}]}>+1</Text></Pressable>
+        <Pressable testID={`goal-${i}`} disabled={!canScore||locked} onPress={()=>onGoal(i as 0|1,1)} accessibilityRole="button" accessibilityLabel={`Ajouter un but : ${team?.name}`} style={[styles.goal,{borderColor:team?.color,opacity:canScore?1:0.4}]}><Text style={[styles.goalLabel,{color:colors.onSurface}]}>+1</Text></Pressable>
         {correcting&&!locked ? <Pressable testID={`ungoal-${i}`} disabled={score[i]<=0} onPress={()=>onGoal(i as 0|1,-1)} accessibilityRole="button" accessibilityLabel={`Retirer un but : ${team?.name}`} style={styles.goal}><Text style={styles.subtitle}>−1</Text></Pressable>:null}
       </View>)}
       <Pressable testID="toggle-correct" disabled={locked} onPress={onCorrect} onLongPress={onCorrect} accessibilityRole="button" accessibilityLabel="Corriger le score" style={styles.score}><Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.55} style={styles.scoreText}><Text testID="score-0">{score[0]}</Text> - <Text testID="score-1">{score[1]}</Text></Text></Pressable>
@@ -37,7 +35,7 @@ export function LiveHero({ title, subtitle, time, caption, status, progress, tea
     {canScore?<Pressable testID="score-correction-button" disabled={locked} onPress={onCorrect} accessibilityRole="button" accessibilityLabel={correcting?"Fermer la correction du score":"Corriger le score"} style={{minHeight:48,justifyContent:"center",alignItems:"center"}}><Text style={styles.subtitle}>{correcting?"Terminer la correction":"Corriger le score"}</Text></Pressable>:null}
     </View>
     <View style={landscape?{flex:1,minWidth:0}:undefined}>
-    <ChronoCarousel notice={notice} locked={locked} onGiant={onGiant} onSettings={onSettings}><Pressable testID="live-giant" disabled={locked} onLongPress={onGiant} accessibilityRole="button" accessibilityLabel="Chrono ; appui long pour l’agrandir" style={styles.timer}>
+    <ChronoCarousel notice={notice} locked={locked} time={time} caption={caption} status={status} progress={progress}><Pressable testID="live-giant" disabled={locked} onLongPress={onGiant} accessibilityRole="button" accessibilityLabel="Chrono ; appui long pour l’agrandir" style={styles.timer}>
       <Text style={styles.caption}>{caption.toUpperCase()}</Text><Text testID="live-chrono-time" numberOfLines={1} adjustsFontSizeToFit style={styles.time}>{time}</Text>
       <View style={styles.track}><View testID="live-progress" style={[styles.fill,{width:`${Math.max(0,Math.min(1,progress))*100}%`}]}/></View>
       <View style={styles.status}><FigmaIcon source={LIVE_ASSETS.dot} size={19}/><Text testID="live-chrono-status" style={[styles.subtitle,{color:colors.onSurfaceTertiary}]}>{locked?"Verrouillé":status}</Text></View>
@@ -58,6 +56,7 @@ export function NextCards({ matchup, badge, preparation, onPress }: { matchup:st
 }
 export function LiveControls({ paused, ready, locked, onEnd, onLock, onRestart, onPause }: { paused:boolean; ready:boolean; locked:boolean; onEnd:()=>void; onLock:()=>void; onRestart:()=>void; onPause:()=>void }) {
  const styles=useStyles();
+ if (ready) return <View style={[styles.controls,{justifyContent:"flex-end"}]}><Pressable testID="live-resume" disabled={locked} onPress={onPause} accessibilityRole="button" accessibilityLabel="Démarrer" accessibilityState={{disabled:locked}} style={[styles.control,styles.controlPrimary,{flex:0,minWidth:110}]}><FigmaIcon source={LIVE_ASSETS.play} size={22} tint="#010a0b"/><Text style={[styles.controlLabel,styles.controlPrimaryLabel]}>Démarrer</Text></Pressable></View>;
  return <View style={styles.controls}>{[{label:"Fin",src:LIVE_ASSETS.stop,fn:onEnd,id:"live-end",weight:64},{label:locked?"Déverrouiller":"Verrouiller",src:LIVE_ASSETS.lock,fn:onLock,id:"live-lock",weight:106},{label:"Relancer",src:LIVE_ASSETS.restart,fn:onRestart,id:"live-restart",weight:91},{label:ready?"Démarrer":paused?"Reprendre":"Pause",src:paused?LIVE_ASSETS.play:LIVE_ASSETS.pause,fn:onPause,id:paused?"live-resume":"live-pause",weight:79}].map((b,i)=><Pressable key={b.id} testID={b.id} disabled={locked&&i!==1} onPress={b.fn} accessibilityRole="button" accessibilityLabel={b.label} accessibilityState={{disabled:locked&&i!==1}} style={[styles.control,{flex:b.weight},i===3&&styles.controlPrimary]}><FigmaIcon source={b.src} size={22} tint={i===3 ? "#010a0b" : undefined}/><Text style={[styles.controlLabel,i===3&&styles.controlPrimaryLabel]}>{b.label}</Text></Pressable>)}</View>;
 }
 const useStyles=makeStyles(c=>({
