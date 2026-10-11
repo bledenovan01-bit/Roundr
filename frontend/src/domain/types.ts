@@ -119,6 +119,7 @@ export type Match = {
 };
 
 export type LiveStage =
+  | "ready"
   | "period"
   | "break"
   | "awaitPeriod"

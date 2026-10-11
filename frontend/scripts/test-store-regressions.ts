@@ -48,22 +48,22 @@ async function main(){
   }
   console.log("✓ All launch paths share a ready state");
   const config={...defaultConfig("classique"),totalMin:1,periods:1,additional:false};
-  Store.startSession(make(config));Store.dispatchSession(S.resume);
+  Store.startSession(make(config));Store.dispatchSession(S.startReady);
   now+=60_001;Store.dispatchSession(S.pause);
   assert.equal(Store.getStoreState().session!.live!.stage,"finished");
-  now+=1000;Store.startSession(make(config));Store.dispatchSession(S.resume);
+  now+=1000;Store.startSession(make(config));Store.dispatchSession(S.startReady);
   now+=60_001;Store.dispatchSession((s,t)=>S.goal(s,0,1,t));
   assert.equal(Store.getStoreState().session!.live!.stage,"finished");
   assert.deepEqual(Store.getStoreState().session!.live!.score,[0,0]);
   console.log("✓ Late pause and goal cannot modify an expired phase");
   await Prefs.setPreferences({sounds:true,preparation:false,minuteSound:"gong"});
-  Store.startSession(make({...config,totalMin:2,sounds:false}));Store.dispatchSession(S.resume);
+  Store.startSession(make({...config,totalMin:2,sounds:false}));Store.dispatchSession(S.startReady);
   assert.equal(sounds.at(-1),"whistle");
   sounds.length=0;now+=60_000;Store.tick();
   assert.deepEqual(sounds,["gong"]);
   assert(Store.getStoreState().notice!.message.includes("1 minute"));
   await Prefs.setPreferences({sounds:false});sounds.length=0;
-  Store.startSession(make(config));Store.dispatchSession(S.resume);
+  Store.startSession(make(config));Store.dispatchSession(S.startReady);
   now+=60_001;Store.tick();assert.equal(sounds.length,0);
   console.log("✓ Global mute overrides old saves; preparation off preserves minute alert");
   const old=Store.getStoreState().session!;

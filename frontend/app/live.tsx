@@ -1,6 +1,6 @@
 // E03–E07 — Live commun, pause, pause entre périodes, départage, transition.
 import { useEffect, useRef, useState } from "react";
-import { setPreferences, usePreferences } from "@/src/store/preferences";
+import { usePreferences } from "@/src/store/preferences";
 import { useNavigation, useRouter } from "expo-router";
 import { Alert } from "@/src/alert";
 import { BackHandler, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
@@ -97,6 +97,10 @@ export default function LiveScreen() {
   let progress = 0;
   const target = live.periodMs[live.periodIndex] ?? 0;
   switch (live.stage) {
+    case "ready":
+      time = formatMMSS(target);
+      status = "Prêt à démarrer";
+      break;
     case "period":
       if (live.end.byTime) {
         time = formatMMSS(Math.max(0, target - el));
@@ -153,7 +157,7 @@ export default function LiveScreen() {
   }
 
   const inPlay = S.isPlayStage(live.stage);
-  const canScore = live.scoreOn && live.stage !== "shootout" && live.stage !== "finished";
+  const canScore = live.scoreOn && live.stage !== "ready" && live.stage !== "shootout" && live.stage !== "finished";
 
   const confirmEnd = () => {
     // C03 : le chrono continue pendant la confirmation.
@@ -191,14 +195,13 @@ export default function LiveScreen() {
       <ScrollView testID="live-scroll" style={layoutStyles.scroll} contentContainerStyle={[layoutStyles.content, styles.scroll, { paddingBottom: 20 }]} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
 
         {saveError ? <Text style={styles.errorText}>{saveError}</Text> : null}
-        {live.stage !== "finished" ? <LiveHero title={mode.title} subtitle={session.mode === "custom" ? `Période ${live.periodIndex+1} / ${live.periodMs.length}` : single ? paused && el===0 ? "Prêt à jouer" : "Match en cours" : match.label}
-          time={time} caption={caption} status={paused ? el===0 ? "Prêt" : "Match en pause" : status} progress={1-progress}
+        {live.stage !== "finished" ? <LiveHero title={mode.title} subtitle={live.stage === "ready" ? "Prêt à démarrer" : session.mode === "custom" ? `Période ${live.periodIndex+1} / ${live.periodMs.length}` : single ? "Match en cours" : match.label}
+          time={time} caption={caption} status={paused ? "Match en pause" : status} progress={1-progress}
           teamA={teamA} teamB={teamB} score={live.score} scoreOn={live.scoreOn} canScore={canScore} correcting={correcting} locked={locked}
           onGoal={(side,delta)=>dispatchSession((s,t)=>live.stage==="finished"?S.correctLast(s,side,delta,t):S.goal(s,side,delta,t))}
           onCorrect={()=>setCorrecting(!correcting)} onBack={()=>router.replace("/")}
-          onMusic={()=>{void setPreferences({sounds:!preferences.sounds});}}
           onSettings={()=>router.push("/settings")} onGiant={()=>setGiant(true)}
-          notice={preferences.preparation && next ? { time, cue: liveNotice(remainingMs, next.durationMin, running), matchup: `${next.aLabel} vs ${next.bLabel}`, badge: remainingMs == null ? "À la fin du match" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: next.certain ? `${next.aLabel} et ${next.bLabel} : préparez-vous pour le prochain match.` : session.mode === "maracana" ? `${next.aLabel} : commencez l’échauffement. L’adversaire dépend du résultat.` : "Les équipes qualifiées pour le prochain match se préparent dès que leur place est confirmée.", locked, onPress: ()=>router.push("/standings") } : undefined}/> : null}
+          notice={next?.certain ? { time, cue: preferences.preparation ? liveNotice(remainingMs, target/60000, running) : "chrono", matchup: `${next.aLabel} vs ${next.bLabel}`, badge: remainingMs == null ? "À venir" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: remainingMs !== null && remainingMs <= 60_000 ? `${next.aLabel} et ${next.bLabel} : préparez-vous à entrer sur le terrain !` : `${next.aLabel} et ${next.bLabel} : commencez l’échauffement !`, locked, onPress: ()=>router.push("/standings"), standingsLabel: session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Voir le classement" : "Voir le tableau" } : undefined}/> : null}
         {live.stage === "break" ? (
           <PrimaryButton testID="skip-break" label="Passer la pause" disabled={locked} variant="secondary" onPress={() => dispatchSession((s, t) => S.startNextPeriod({ ...s, live: { ...s.live!, stage: "awaitPeriod", periodIndex: s.live!.periodIndex + 1 } }, t))} />
         ) : null}
@@ -242,17 +245,17 @@ export default function LiveScreen() {
 
         {/* Transition E07 */}
         {live.stage === "finished" && !single ? (
-          <View pointerEvents={locked?"none":"auto"} accessibilityElementsHidden={locked} importantForAccessibility={locked?"no-hide-descendants":"auto"}>
-          <Transition session={session} next={next} onNext={() => dispatchSession(S.launchNext)} onEndSession={finishSession} onAddTeam={addTeam} onSummary={() => { leaving.current = true; archiveSession(S.endSession(session, Date.now())); router.replace("/summary" as never); }} onStandings={() => router.push("/standings" as never)} />
+          <View>
+          <Transition session={session} next={next} onNext={() => { setLocked(false); dispatchSession(S.launchNext); }} onEndSession={finishSession} onAddTeam={addTeam} onSummary={() => { leaving.current = true; archiveSession(S.endSession(session, Date.now())); router.replace("/summary" as never); }} onStandings={() => router.push("/standings" as never)} />
           </View>
         ) : null}
 
-        {session.cup?.tieChoice ? <View pointerEvents={locked?"none":"auto"} accessibilityElementsHidden={locked} importantForAccessibility={locked?"no-hide-descendants":"auto"}><TieChoice key={session.cup.tieChoice.context+session.cup.tieChoice.candidates.join(",")} session={session}/></View> : null}
+        {session.cup?.tieChoice ? <View><TieChoice key={session.cup.tieChoice.context+session.cup.tieChoice.candidates.join(",")} session={session}/></View> : null}
 
       </ScrollView>
 
 
-      {!inPlay?<View style={[layoutStyles.content,{paddingHorizontal:18,paddingBottom:insets.bottom+12}]}><PrimaryButton testID="live-lock" label={locked?"Déverrouiller":"Verrouiller les commandes"} variant="secondary" onPress={()=>setLocked(!locked)}/></View>:null}
+      {live.stage === "ready" ? <View style={[layoutStyles.content,{paddingHorizontal:18,paddingBottom:insets.bottom+12}]}><LiveControls paused ready locked={locked} onEnd={confirmEnd} onLock={()=>setLocked(!locked)} onRestart={()=>{}} onPause={()=>dispatchSession(S.startReady)}/></View> : null}
       {inPlay ? <View style={[layoutStyles.content,{paddingBottom:insets.bottom+14}]}><LiveControls paused={paused} ready={paused&&el===0} locked={locked} onEnd={confirmEnd} onLock={()=>setLocked(!locked)}
         onRestart={()=>Alert.alert("Relancer le match ?", "Le score et le temps du match actuel seront remis à zéro.", [{text:"Annuler",style:"cancel"},{text:"Relancer",onPress:()=>dispatchSession(S.restartCurrent)}])}
         onPause={()=>dispatchSession(paused?S.resume:S.pause)}/></View>:null}
@@ -279,6 +282,7 @@ function Transition({ session, next, onNext, onEndSession, onAddTeam, onSummary,
   const [a, b] = S.liveTeams(session);
   const complete = S.sessionComplete(session);
   const winner = match.winnerId ? S.teamName(session, match.winnerId) : null;
+  const rankingLabel = session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Classement" : "Tableau";
   return (
     <View style={{gap:14, paddingTop:12,alignItems:"stretch"}} testID="transition-panel">
       <Text style={{fontFamily:fontFamily.textBold,fontSize:24,lineHeight:33,color:colors.onSurface,textAlign:"center"}}>Match terminé</Text>
@@ -303,10 +307,10 @@ function Transition({ session, next, onNext, onEndSession, onAddTeam, onSummary,
           <PrimaryButton testID="launch-next" label="Lancer le prochain match" onPress={onNext} disabled={!next.certain} />
         </>
       ) : null}
-      <View style={styles.linksRow}>
-        <Pressable onPress={onStandings} style={styles.link} testID="transition-standings" accessibilityRole="button" accessibilityLabel={session.mode === "maracana" ? "Classement" : "Tableau"}>
+      <View style={[styles.linksRow,{justifyContent:"center"}]}>
+        <Pressable onPress={onStandings} style={styles.link} testID="transition-standings" accessibilityRole="button" accessibilityLabel={rankingLabel}>
           <MaterialCommunityIcons name="podium" size={18} color={colors.brandPrimary} />
-          <Text style={styles.linkLabel}>{session.mode === "maracana" ? "Classement" : "Tableau"}</Text>
+          <Text style={styles.linkLabel}>{rankingLabel}</Text>
         </Pressable>
         {session.mode === "maracana" && session.teams.length < 8 ? (
           <Pressable onPress={onAddTeam} style={styles.link} testID="add-team" accessibilityRole="button" accessibilityLabel="Ajouter une équipe">
@@ -448,7 +452,7 @@ const useStyles = makeStyles((colors) => ({
   tabRow: { flexDirection: "row", gap: spacing.md },
   tabTeam: { fontFamily: fontFamily.textBold, fontSize: 14, lineHeight: 20, color: colors.onSurface },
   tabInput: { width: "100%", minWidth: 0, minHeight: 64, borderRadius: radius.sm, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.display, fontSize: fontSize["2xl"], textAlign: "center" },
-  linksRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md },
+  linksRow: { flexDirection: "row", flexWrap: "wrap", justifyContent:"center", alignItems:"center", gap: spacing.md },
   link: { flexDirection: "row", alignItems: "center", gap: spacing.xs, minHeight: 44, maxWidth: "100%", paddingHorizontal: spacing.sm, paddingVertical: spacing.sm },
   linkLabel: { flexShrink: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base, color: colors.brandPrimary },
   tieRow: { flexDirection: "row", alignItems: "center", gap: spacing.md, minHeight: 52, paddingHorizontal: spacing.md, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },

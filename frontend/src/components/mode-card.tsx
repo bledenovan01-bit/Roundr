@@ -51,7 +51,7 @@ export function ModeCard({
         onPress={handlePress}
         style={({ pressed }) => [
           styles.card,
-
+          dominant && styles.dominant,
           pressed && styles.pressed,
         ]}
       >
@@ -100,6 +100,7 @@ const useStyles = makeStyles((colors) => ({
     backgroundColor: colors.surfaceTertiary,
     transform: [{ scale: 0.99 }],
   },
+  dominant: { borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary, borderWidth: 2 },
   iconWrap: {
     width: 40,
     height: 40,
