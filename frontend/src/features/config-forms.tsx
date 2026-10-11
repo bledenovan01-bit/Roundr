@@ -1,6 +1,6 @@
 // Formulaires de configuration par mode (§5). Un seul écran, options
 // dépliées sur place, temps d'abord (UX-01/UX-02).
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useContext } from "react";
 
 import { Card, ChoiceRow, Disclosure, Divider, EndRulesField, NumberInput, Section, Segmented, Stepper, ToggleRow } from "@/src/components/fields";
@@ -10,7 +10,7 @@ import { periodsDelta, splitPeriods } from "@/src/domain/custom-split";
 import { classicBreakDefault } from "@/src/domain/defaults";
 import { byeCount, roundName } from "@/src/domain/bracket";
 import type { AnyConfig, ClassicConfig, CupConfig, CustomConfig, DrawRule, MaracanaConfig, RoundMinutes, SurvieConfig } from "@/src/domain/types";
-import { fontFamily, fontSize, makeStyles, spacing } from "@/src/theme";
+import { fontFamily, fontSize, makeStyles, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
 type FormProps<T extends AnyConfig> = { config: T; onChange: (c: T) => void };
@@ -159,6 +159,7 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
 
 export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
   const styles = useStyles();
+  const {colors}=useTheme();
   const set = (p: Partial<MaracanaConfig>) => onChange({ ...config, ...p });
   return (
     <View style={styles.formStack}>
@@ -175,15 +176,14 @@ export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
       </Section>
       <Section title="Équipes">
         <Card>
-          <Stepper label="Nombre d’équipes" testID="teams" value={config.teamCount} min={3} max={8} onChange={(n) => set({ teamCount: n })} hint={config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."} />
+          <Text style={styles.label}>Nombre d’équipes</Text>
+          <Text style={styles.note}>{config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."}</Text>
+          <View style={{flexDirection:"row",gap:4}} testID="teams">
+            {[3,4,5,6,7,8].map(n=><Pressable key={n} testID={`teams-${n}`} onPress={()=>set({teamCount:n})} accessibilityRole="radio" accessibilityState={{checked:config.teamCount===n}} style={{flex:1,minWidth:0,minHeight:44,alignItems:"center",justifyContent:"center",borderRadius:8,backgroundColor:config.teamCount===n?colors.brandPrimary:colors.surfaceTertiary,borderWidth:1,borderColor:config.teamCount===n?colors.brandPrimary:colors.border}}><Text style={{fontFamily:fontFamily.textBold,color:config.teamCount===n?colors.onBrandPrimary:colors.onSurface}}>{n}</Text></Pressable>)}
+          </View>
         </Card>
       </Section>
-      <Section title="Options">
-        <Card>
-          <Divider />
-          <Text testID="maracana-options-note" style={styles.note}>Score obligatoire. Préparation automatique du prochain match.</Text>
-        </Card>
-      </Section>
+      <Text testID="maracana-options-note" style={styles.note}>Score obligatoire · Préparation automatique du prochain match.</Text>
     </View>
   );
 }
@@ -342,7 +342,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
 }
 
 const useBaseStyles = makeStyles((colors) => ({
-  formStack: { gap: spacing.xl },
+  formStack: { gap: spacing.md },
   fieldGap: { gap: spacing.md },
   label: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.4 },

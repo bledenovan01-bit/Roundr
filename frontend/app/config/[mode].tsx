@@ -17,7 +17,7 @@ import { validateConfig } from "@/src/domain/validate";
 import { DesignConfig } from "@/src/features/design-config";
 import { getStoreState, startSession, useStore } from "@/src/store/session-store";
 import { control, fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
-import { TypographyPreview, refinedType } from "@/src/typography-preview";
+import { TypographyPreview } from "@/src/typography-preview";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 
 export default function ConfigScreen() {
@@ -80,7 +80,7 @@ export default function ConfigScreen() {
     go();
   };
 
-  const ctaLabel = config.mode === "classique" ? "Lancer le match" : config.mode === "custom" ? "Préparer le chrono" : config.mode === "maracana" ? "Lancer le Maracana" : config.mode === "cup" ? "Lancer la Cup" : "Lancer le mode Survie";
+  const ctaLabel = config.mode === "custom" ? "Préparer le chrono" : "Lancer la session";
   const refinedTypography = true;
 
   return (
@@ -90,30 +90,32 @@ export default function ConfigScreen() {
         <View style={styles.header}>
           <Pressable testID="config-back" onPress={() => router.canGoBack() ? router.back() : router.replace("/")} style={styles.backBtn} hitSlop={12} accessibilityRole="button" accessibilityLabel="Retour">
             <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />
-            <Text style={styles.note}>Retour</Text>
           </Pressable>
           <View style={layoutStyles.flexible}>
-            <Text testID="config-title" accessibilityRole="header" style={[styles.title, refinedTypography && refinedType.pageTitle]}>{mode?.title ?? "Mode"}</Text>
-            <Text testID="config-subtitle" style={[styles.subtitle, refinedTypography && refinedType.subtitle]}>{({ classique: "Configure puis lance quand tout le monde est prêt.", maracana: "Rotations automatiques et préparation des équipes.", cup: "Crée une compétition complète.", survie: "Perdre = sortir.", custom: "Construis exactement ton chrono." }[config.mode])}</Text>
+            <Text testID="config-title" accessibilityRole="header" style={styles.title}>Mode {mode?.title ?? "Match"}</Text>
+            <Text testID="config-subtitle" style={styles.subtitle}>Paramètres</Text>
           </View>
+          <View style={styles.headerBalance}/>
         </View>
+
+        <View style={styles.modeIntro}><MaterialCommunityIcons name={mode?.icon ?? "soccer"} size={34} color={colors[mode?.accent ?? "modeClassique"]}/><View style={{flex:1}}><Text style={styles.modeName}>{mode?.description}</Text><Text style={styles.modeHint}>Un maximum de jeu, un minimum d’organisation.</Text></View></View>
 
         {getPreferences().teams.length>=count?<PrimaryButton label="Utiliser mes équipes enregistrées" variant="secondary" onPress={()=>{setTeams(getPreferences().teams.slice(0,count));setConfig({...config,customTeams:true});}}/>:null}
         <FormValidityContext.Provider value={reportValidity}>
         <DesignConfig config={config} onChange={setConfig} teams={alignedTeams} onTeams={setTeams} validationErrors={attempted ? errors : []} />
         </FormValidityContext.Provider>
         {saveError?<ErrorText>{saveError}</ErrorText>:null}
-        {errors.length ? (
+        {attempted && errors.length ? (
           <View style={styles.errors} testID="config-errors">
             {errors.map((e, i) => (
               <ErrorText key={e} testID={`config-error-${i}`}>{e}</ErrorText>
             ))}
           </View>
         ) : null}
-        <View testID="config-footer" style={styles.cta}>
-          <PrimaryButton testID="config-launch" label={ctaLabel} onPress={launch} disabled={errors.length > 0} />
-        </View>
       </ScrollView>
+      <View testID="config-footer" style={[styles.cta, {paddingBottom:insets.bottom+12}]}>
+        <PrimaryButton testID="config-launch" label={ctaLabel} leadingIcon={<MaterialCommunityIcons name="play" size={20} color={colors.onBrandPrimary}/>} onPress={launch} disabled={errors.length > 0} />
+      </View>
     </KeyboardAvoidingView>
     </TypographyPreview.Provider>
   );
@@ -123,11 +125,15 @@ const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
   scroll: { paddingHorizontal: 18, gap: 14, flexGrow: 1 },
   header: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.xs },
-  backBtn: { flexDirection: "row", gap: 2, minWidth: 78, height: control.icon, alignItems: "center", justifyContent: "center", marginLeft: -spacing.sm },
-  title: { fontFamily: fontFamily.textBold, fontSize: fontSize["2xl"], color: colors.onSurface, letterSpacing: -0.6 },
-  subtitle: { fontFamily: fontFamily.text, fontSize: 12, color: colors.muted, marginTop: 2 },
+  backBtn: { width: 40, height: control.icon, alignItems: "center", justifyContent: "center" },
+  headerBalance: {width:40},
+  title: { fontFamily: fontFamily.textBold, fontSize: 20, color: colors.onSurface, letterSpacing: -0.4, textAlign:"center" },
+  subtitle: { fontFamily: fontFamily.text, fontSize: 12, color: colors.muted, marginTop: 2, textAlign:"center" },
+  modeIntro: {flexDirection:"row",alignItems:"center",gap:14,paddingHorizontal:12,paddingVertical:8},
+  modeName: {fontFamily:fontFamily.textBold,fontSize:13,color:colors.onSurface},
+  modeHint: {fontFamily:fontFamily.text,fontSize:11,color:colors.muted,marginTop:3},
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
   input: { minHeight: 54, paddingHorizontal: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.borderStrong, color: colors.onSurface, fontFamily: fontFamily.textBold, fontSize: fontSize.lg },
   errors: { gap: spacing.xs, padding: spacing.lg, borderRadius: radius.md, borderWidth: 1, borderColor: colors.error, backgroundColor: colors.surfaceSecondary },
-  cta: { marginTop: spacing.sm, paddingTop: spacing.md },
+  cta: { paddingHorizontal:18,paddingTop:10,backgroundColor:colors.surface,borderTopWidth:1,borderColor:colors.border },
 }));
