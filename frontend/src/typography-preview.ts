@@ -13,9 +13,9 @@ export const refinedFontFamily = {
 
 export const refinedType = StyleSheet.create({
   pageTitle: { fontFamily: refinedFontFamily.textBold, fontSize: 24, lineHeight: 33, letterSpacing: -0.8 },
-  sectionTitle: { fontFamily: refinedFontFamily.textBold, fontSize: 18, lineHeight: 24, letterSpacing: 1 },
+  sectionTitle: { fontFamily: refinedFontFamily.textBold, fontSize: 14, lineHeight: 20, letterSpacing: 0.4 },
   fieldLabel: { fontFamily: refinedFontFamily.textBold, fontSize: 14, lineHeight: 19 },
-  control: { fontFamily: refinedFontFamily.textBold, fontSize: 17, lineHeight: 24 },
+  control: { fontFamily: refinedFontFamily.textBold, fontSize: 13, lineHeight: 19 },
   tile: { fontFamily: refinedFontFamily.textBold, fontSize: 15, lineHeight: 21 },
   secondary: { fontFamily: refinedFontFamily.text, fontSize: 12, lineHeight: 18 },
   subtitle: { fontFamily: refinedFontFamily.text, fontSize: 13, lineHeight: 19 },

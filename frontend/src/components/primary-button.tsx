@@ -80,7 +80,7 @@ export function PrimaryButton({
       ) : (
         <View style={styles.inner}>
           {leadingIcon}
-          <Text testID={`${buttonTestID}-label`} style={[styles.label, textByVariant]}>{label}</Text>
+          <Text testID={`${buttonTestID}-label`} style={[styles.label, textByVariant, disabled && styles.disabledLabel]}>{label}</Text>
         </View>
       )}
     </Pressable>
@@ -122,8 +122,11 @@ const useStyles = makeStyles((colors) => ({
     transform: [{ scale: 0.98 }],
   },
   disabled: {
-    opacity: 0.4,
+    backgroundColor: colors.surfaceTertiary,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
+  disabledLabel: {color:colors.muted},
   label: {
     flexShrink: 1,
     minWidth: 0,

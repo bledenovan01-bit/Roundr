@@ -42,6 +42,20 @@ Ce suivi ne signifie pas que toute la demande est terminée.
 
 ## Travail restant pour la demande complète
 
+Mise à jour suivante : le lecteur musical est reporté au dernier lot, à la demande de Dénovan.
+
+### Lot 4 : configurations et contrôles — reprise supplémentaire
+
+- Personnalisation des équipes directement sous l’interrupteur, dans la même carte : plus de deuxième clic pour afficher les noms et couleurs.
+- Icônes de sections pour les quatre configurations, durée et fin de match, personnalisation et sons.
+- Maracana : durée et règles de fin dans deux cartes distinctes ; conditions au temps et aux buts toujours indépendantes.
+- Typographie des titres de sections et choix plus compacte, sans diminuer les cibles tactiles.
+- CTA désactivés sur fond sombre/gris avec texte atténué ; les CTA valides restent verts.
+- Protection des zones système pendant le défilement des configurations et écrans partagés.
+- Transitions : séparation entre la véritable rencontre suivante et l’information de rotation ; verrouillage retiré lorsque le match se termine.
+- Anneau compact : largeur des légendes bornée et légende secondaire réduite sur les écrans étroits.
+- Ajout d’une suite de tests des composants des cinq configurations (contrôles conservés, équipes immédiatement visibles, CTA gris). Ces tests ne remplacent pas une recette visuelle/native.
+
 1. Valider visuellement les tailles et les configurations sur téléphone ; poursuivre la fidélité aux maquettes (densité, icônes, hiérarchie des cartes, écran d’introduction).
 2. Vérifier le carrousel par gestes, les annonces, le verrouillage et la conservation de la vue après rotation sur appareil.
 3. Choisir/intégrer des sons naturels avec droits de redistribution documentés ; écouter et ajuster chaque événement.

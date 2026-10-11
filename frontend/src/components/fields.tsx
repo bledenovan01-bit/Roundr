@@ -11,12 +11,16 @@ import { fontFamily, fontSize, control, makeStyles, radius, spacing, useTheme } 
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
 export const FormValidityContext = createContext<(id:string, message:string|null)=>void>(()=>{});
-export function Section({ title, children, hint }: { title: string; children: React.ReactNode; hint?: string }) {
+export function Section({ title, children, hint, icon }: { title: string; children: React.ReactNode; hint?: string; icon?: React.ComponentProps<typeof MaterialCommunityIcons>["name"] }) {
   const styles = useStyles();
+  const {colors}=useTheme();
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
-        <Text testID={`section-${title.toLowerCase().replace(/\s+/g, "-")}-title`} style={styles.sectionTitle}>{title}</Text>
+        <View style={{flexDirection:"row",alignItems:"center",gap:8,flexShrink:1}}>
+          {icon ? <MaterialCommunityIcons name={icon} size={20} color={colors.onSurfaceTertiary} accessible={false}/> : null}
+          <Text testID={`section-${title.toLowerCase().replace(/\s+/g, "-")}-title`} style={styles.sectionTitle}>{title}</Text>
+        </View>
         {hint ? <Text testID={`section-${title.toLowerCase().replace(/\s+/g, "-")}-hint`} style={styles.sectionHint}>{hint}</Text> : null}
       </View>
       {children}
@@ -48,13 +52,17 @@ export function ChoiceRow<T extends string | number>({
   testID?: string;
 }) {
   const styles = useStyles();
+  const {colors}=useTheme();
   const baseTestID = testID ?? `choice-${label.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
   const isCustom = !options.some((o) => o.value === value);
   const [showCustom, setShowCustom] = useState(isCustom);
   const [draft, setDraft] = useState(String(value));
   return (
     <View style={styles.field} testID={baseTestID}>
-      <Text testID={`${baseTestID}-label`} style={styles.fieldLabel}>{label}</Text>
+      <View style={{flexDirection:"row",alignItems:"center",gap:8}}>
+        {suffix === "min" ? <MaterialCommunityIcons name="timer-outline" size={20} color={colors.onSurfaceTertiary} accessible={false}/> : null}
+        <Text testID={`${baseTestID}-label`} style={styles.fieldLabel}>{label}</Text>
+      </View>
       <View style={styles.chips}>
         {options.map((o) => {
           const active = !showCustom && o.value === value;
@@ -171,11 +179,13 @@ export function Stepper({ label, value, min, max, onChange, testID, hint }: { la
   );
 }
 
-export function ToggleRow({ label, value, onChange, hint, testID }: { label: string; value: boolean; onChange: (v: boolean) => void; hint?: string; testID?: string }) {
+export function ToggleRow({ label, value, onChange, hint, testID, icon }: { label: string; value: boolean; onChange: (v: boolean) => void; hint?: string; testID?: string; icon?: React.ComponentProps<typeof MaterialCommunityIcons>["name"] }) {
   const styles = useStyles();
+  const {colors}=useTheme();
   const rowTestID = testID ?? `toggle-${label.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
   return (
     <Pressable onPress={() => onChange(!value)} style={styles.rowBetween} testID={rowTestID} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: value }} aria-checked={value}>
+      {icon ? <MaterialCommunityIcons name={icon} size={22} color={colors.onSurfaceTertiary} accessible={false}/> : null}
       <View style={{ flex: 1, minWidth: 0 }}>
         <Text testID={`${rowTestID}-label`} style={styles.fieldLabel}>{label}</Text>
         {hint ? <Text testID={`${rowTestID}-hint`} style={styles.hint}>{hint}</Text> : null}
@@ -255,7 +265,10 @@ export function EndRulesField({ value, onChange, note }: { value: EndRules; onCh
   const invalid = !value.byTime && value.goalTarget == null;
   return (
     <View style={styles.field}>
-      <Text testID="end-rules-label" style={styles.fieldLabel}>Fin du match</Text>
+      <View style={{flexDirection:"row",alignItems:"center",gap:8}}>
+        <MaterialCommunityIcons name="trophy-outline" size={20} color={colors.onSurfaceTertiary} accessible={false}/>
+        <Text testID="end-rules-label" style={styles.fieldLabel}>Fin du match</Text>
+      </View>
       <View style={styles.chips}>
         <CheckChip testID="end-time" label="Au temps" checked={value.byTime} onPress={() => onChange({ ...value, byTime: !value.byTime })} />
         <CheckChip testID="end-goals" label="Premier à X buts" checked={value.goalTarget != null} onPress={() => onChange({ ...value, goalTarget: value.goalTarget == null ? 3 : null })} />

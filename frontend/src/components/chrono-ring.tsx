@@ -29,6 +29,7 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
   const dot = { x: size / 2 + r * Math.cos(angle), y: size / 2 + r * Math.sin(angle) };
   // Same typeface and optical size as the live score (38 pt).
   const base = 38;
+  const compact = size < 170;
   const fontScale = time.length > 5 ? Math.min(1, 5 / time.length) : 1;
   return (
     <View style={[styles.wrap, { width: size, height: size }]} testID={testID}>
@@ -57,11 +58,11 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
         {/* Repère de tête (maquette) */}
         <Circle cx={dot.x} cy={dot.y} r={stroke * 0.55} fill={accent ?? colors.brandPrimary} />
       </Svg>
-      <Text testID="live-time-caption" style={[styles.caption, { maxWidth: size - 40 }]}>{caption.toUpperCase()}</Text>
+      {!compact ? <Text testID="live-time-caption" style={[styles.caption, { maxWidth: size - 54 }]}>{caption.toUpperCase()}</Text> : null}
       <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.65} maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} style={[styles.time, { maxWidth: size - 44, fontSize: base * fontScale, lineHeight: base * fontScale * 1.5 }]} testID="live-time">
         {time}
       </Text>
-      <Text testID="live-time-status" style={styles.status}>{status}</Text>
+      <Text testID="live-time-status" numberOfLines={compact ? 1 : 2} accessibilityLabel={status} style={[styles.status,{maxWidth:size-56,fontSize:compact?10:12,lineHeight:compact?14:18}]}>{status}</Text>
     </View>
   );
 }
@@ -69,7 +70,7 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
 const useStyles = makeStyles((colors) => ({
   wrap: { alignItems: "center", justifyContent: "center", alignSelf: "center" },
   svg: { position: "absolute", top: 0, left: 0 },
-  caption: { fontFamily: fontFamily.textBold, fontSize: 11, lineHeight: 16, letterSpacing: 2, color: colors.muted, textTransform: "uppercase", textAlign: "center" },
+  caption: { fontFamily: fontFamily.textBold, fontSize: 10, lineHeight: 16, letterSpacing: 1, color: colors.muted, textTransform: "uppercase", textAlign: "center" },
   time: {
     fontFamily: fontFamily.textBold,
     color: colors.onSurface,

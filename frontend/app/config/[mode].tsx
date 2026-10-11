@@ -91,8 +91,8 @@ export default function ConfigScreen() {
 
   return (
     <TypographyPreview.Provider value={refinedTypography}>
-    <KeyboardAvoidingView style={[styles.root, safeSides]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <ScrollView testID="config-scroll" style={layoutStyles.scroll} contentContainerStyle={[layoutStyles.formContent, styles.scroll, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + spacing["3xl"] }]} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+    <KeyboardAvoidingView style={[styles.root, safeSides, {paddingTop:insets.top}]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <ScrollView testID="config-scroll" style={layoutStyles.scroll} contentContainerStyle={[layoutStyles.formContent, styles.scroll, { paddingTop: 20, paddingBottom: spacing["3xl"] }]} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
         <View style={styles.header}>
           <Pressable testID="config-back" onPress={() => router.canGoBack() ? router.back() : router.replace("/")} style={styles.backBtn} hitSlop={12} accessibilityRole="button" accessibilityLabel="Retour">
             <MaterialCommunityIcons name="chevron-left" size={30} color={colors.onSurface} />

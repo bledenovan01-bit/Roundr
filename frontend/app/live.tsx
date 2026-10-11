@@ -50,6 +50,15 @@ export default function LiveScreen() {
   const live = session?.live ?? null;
   const running = !!live && live.chrono.runningSince != null && live.stage !== "finished";
 
+  useEffect(() => {
+    // A completed match must not keep blocking native back navigation or a
+    // correction that reopens the shootout screen.
+    if (live?.stage === "finished") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLocked(false);
+    }
+  }, [live?.stage]);
+
 
   useEffect(()=>{navigation.setOptions({gestureEnabled:!locked});},[navigation,locked]);
   useEffect(()=>{
@@ -284,6 +293,7 @@ function Transition({ session, next, onNext, onEndSession, onAddTeam, onSummary,
   const complete = S.sessionComplete(session);
   const winner = match.winnerId ? S.teamName(session, match.winnerId) : null;
   const rankingLabel = session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Classement" : "Tableau";
+  const following = S.followingKnownMatch(session);
   return (
     <View style={{gap:14, paddingTop:12,alignItems:"stretch"}} testID="transition-panel">
       <Text style={{fontFamily:fontFamily.textBold,fontSize:24,lineHeight:33,color:colors.onSurface,textAlign:"center"}}>Match terminé</Text>
@@ -304,10 +314,11 @@ function Transition({ session, next, onNext, onEndSession, onAddTeam, onSummary,
       ) : next && !session.cup?.tieChoice ? (
         <>
           <DesignRow title="Prochain match" detail={`${next.aLabel} vs ${next.bLabel}`} />
-          {session.lastEvent ? <DesignRow title="Match à venir ensuite" detail={session.lastEvent} /> : null}
+          {following ? <DesignRow title="Match à venir ensuite" detail={`${following.aLabel} vs ${following.bLabel}`} /> : null}
           <PrimaryButton testID="launch-next" label="Lancer le prochain match" onPress={onNext} disabled={!next.certain} />
         </>
       ) : null}
+      {session.lastEvent ? <DesignRow title={session.mode === "maracana" ? "Rotation des équipes" : "Information de session"} detail={session.lastEvent}/> : null}
       <View style={[styles.linksRow,{justifyContent:"center"}]}>
         <Pressable onPress={onStandings} style={styles.link} testID="transition-standings" accessibilityRole="button" accessibilityLabel={rankingLabel}>
           <MaterialCommunityIcons name="podium" size={18} color={colors.brandPrimary} />

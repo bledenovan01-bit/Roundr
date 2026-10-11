@@ -15,10 +15,12 @@ Module._load=function(request,parent,...args){
   if(mocks&&Object.prototype.hasOwnProperty.call(mocks,request))return mocks[request];
   return load.call(this,request,parent,...args);
 };
-Module._extensions[".ts"]=function(module,filename){
+const compile=function(module,filename){
   const source=fs.readFileSync(filename,"utf8");
   const result=ts.transpileModule(source,{fileName:filename,compilerOptions:{
-    module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true,
+    module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true,jsx:ts.JsxEmit.ReactJSX,
   }});
   module._compile(result.outputText,filename);
 };
+Module._extensions[".ts"]=compile;
+Module._extensions[".tsx"]=compile;

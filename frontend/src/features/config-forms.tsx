@@ -30,7 +30,7 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
   const ss = Math.round(half % 60);
   return (
     <View style={styles.formStack}>
-      <Section title="Temps de jeu">
+      <Section title="Temps de jeu" icon="timer-outline">
         <Card>
           <ChoiceRow
             label="Durée totale de jeu"
@@ -65,7 +65,7 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
           ) : null}
         </Card>
       </Section>
-      <Section title="Options">
+      <Section title="Options" icon="tune-variant">
         <Card>
           <ToggleRow testID="toggle-additional" label="Temps additionnel" hint="À zéro, le chrono continue en +00:01… jusqu’à la fin manuelle." value={config.additional} onChange={(v) => set({ additional: v })} />
           <Divider />
@@ -163,18 +163,17 @@ export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
   const set = (p: Partial<MaracanaConfig>) => onChange({ ...config, ...p });
   return (
     <View style={styles.formStack}>
-      <Section title="Temps de jeu">
-        <Card>
+      <Section title="Temps de jeu" icon="timer-outline">
           {config.end.byTime ? (
-            <>
+            <Card>
               <ChoiceRow label="Durée des matchs" testID="duration" options={MATCH_MIN} value={config.matchMin} onChange={(n) => set({ matchMin: n })} custom={{ min: 1, onChange: (n) => set({ matchMin: n }) }} suffix="min" />
-              <Divider />
-            </>
+            </Card>
           ) : null}
+        <Card>
           <EndRulesField value={config.end} onChange={(end) => set({ end })} note={config.teamCount === 3 && config.end.byTime ? "À 3 équipes, un 0–0 au temps déclenche une extension unique de 2 min : le premier but l’emporte (C06)." : undefined} />
         </Card>
       </Section>
-      <Section title="Équipes">
+      <Section title="Équipes" icon="account-group-outline">
         <Card>
           <Text style={styles.label}>Nombre d’équipes</Text>
           <Text style={styles.note}>{config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."}</Text>
@@ -212,7 +211,7 @@ export function SurvieForm({ config, onChange }: FormProps<SurvieConfig>) {
   const byes = byeCount(config.teamCount);
   return (
     <View style={styles.formStack}>
-      <Section title="Temps de jeu">
+      <Section title="Temps de jeu" icon="timer-outline">
         <Card>
           {config.end.byTime ? (
             <>
@@ -223,7 +222,7 @@ export function SurvieForm({ config, onChange }: FormProps<SurvieConfig>) {
           <EndRulesField value={config.end} onChange={(end) => set({ end })} />
         </Card>
       </Section>
-      <Section title="Tableau">
+      <Section title="Tableau" icon="tournament">
         <Card>
           <Stepper label="Nombre d’équipes" testID="teams" value={config.teamCount} min={2} max={32} onChange={(n) => set({ teamCount: n })} hint={byes > 0 ? `${byes} exemption${byes > 1 ? "s" : ""} au premier tour · ${config.teamCount - 1} matchs` : `${config.teamCount - 1} matchs`} />
           <Divider />
@@ -232,7 +231,7 @@ export function SurvieForm({ config, onChange }: FormProps<SurvieConfig>) {
           {config.teamCount >= 4 ? <ToggleRow testID="toggle-small-final" label="Match pour la 3e place" value={config.smallFinal} onChange={(v) => set({ smallFinal: v })} /> : <Text style={styles.note}>Petite finale indisponible à moins de 4 équipes.</Text>}
         </Card>
       </Section>
-      <Section title="Égalité">
+      <Section title="Égalité" icon="soccer">
         <Card>
           <Segmented label="Départage" testID="draw-rule" options={DRAW_RULES} value={config.drawRule} onChange={(v) => set({ drawRule: v })} />
           {config.drawRule === "extraThenShootout" ? (
@@ -243,7 +242,7 @@ export function SurvieForm({ config, onChange }: FormProps<SurvieConfig>) {
           ) : null}
         </Card>
       </Section>
-      <Section title="Options">
+      <Section title="Options" icon="tune-variant">
         <Card>
           {config.end.byTime ? (
             <>
@@ -269,7 +268,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
   const totalQualified = config.groups * config.qualifiersPerGroup + extra;
   return (
     <View style={styles.formStack}>
-      <Section title="Temps de jeu">
+      <Section title="Temps de jeu" icon="timer-outline">
         <Card>
           {config.end.byTime ? (
             <>
@@ -280,7 +279,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
           <EndRulesField value={config.end} onChange={(end) => set({ end })} />
         </Card>
       </Section>
-      <Section title="Poules">
+      <Section title="Poules" icon="account-group-outline">
         <Card>
           <Stepper
             label="Nombre d’équipes"
@@ -301,7 +300,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
           <Segmented label="Répartition" testID="draw" options={[{ value: "random", label: "Aléatoire" }, { value: "manual", label: "Manuelle (ordre)" }]} value={config.draw} onChange={(v) => set({ draw: v })} />
         </Card>
       </Section>
-      <Section title="Phase finale">
+      <Section title="Phase finale" icon="trophy-outline">
         <Card>
           <Stepper label="Qualifiés par poule" testID="qualifiers" value={config.qualifiersPerGroup} min={1} max={Math.min(...sizes)} onChange={(n) => set({ qualifiersPerGroup: n })} hint={extra > 0 ? `${config.groups * config.qualifiersPerGroup} directs + ${extra} meilleur${extra > 1 ? "s" : ""} suivant${extra > 1 ? "s" : ""} → ${totalQualified} en phase finale` : `${totalQualified} équipes en phase finale`} />
           <Divider />
@@ -320,7 +319,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
           ) : null}
         </Card>
       </Section>
-      <Section title="Options">
+      <Section title="Options" icon="tune-variant">
         <Card>
           <Divider />
           <Disclosure title="Règles et durées de la compétition" testID="advanced">

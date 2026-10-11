@@ -11,8 +11,8 @@ export function DesignScreen({ title, subtitle, children, footer, testID, onBack
   const { safeSides } = useScreenLayout();
   const router = useRouter();
   const screenTestID = testID ?? `screen-${title.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}`;
-  return <KeyboardAvoidingView testID={screenTestID} style={[styles.root, safeSides]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-    <ScrollView testID={`${screenTestID}-scroll`} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={[layoutStyles.formContent, styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 32 }]}>
+  return <KeyboardAvoidingView testID={screenTestID} style={[styles.root, safeSides, {paddingTop:insets.top}]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <ScrollView testID={`${screenTestID}-scroll`} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={[layoutStyles.formContent, styles.content, { paddingTop: 20, paddingBottom: stickyFooter ? 24 : insets.bottom + 32 }]}>
       <View style={styles.header}>
         <Pressable testID={`${screenTestID}-back-button`} onPress={onBack??(()=>router.canGoBack()?router.back():router.replace("/"))} accessibilityRole="button" accessibilityLabel={backLabel} style={styles.backButton}>
           <Text style={styles.chevron}>{backLabel==="Fermer"?"×":"‹"}</Text><Text style={styles.backLabel}>{backLabel}</Text>
