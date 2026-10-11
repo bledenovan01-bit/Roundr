@@ -29,8 +29,8 @@ export default function HomeScreen() {
       <View style={styles.welcomeBottom}><Text style={styles.welcomeTitle}>Plus de jeu.{"\n"}Moins d’organisation.</Text><Text style={styles.welcomeDetail}>Un match, un tournoi, des équipes. Tout est prêt pour jouer.</Text><Pressable testID="welcome-start" onPress={enter} accessibilityRole="button" accessibilityLabel="Commencer" style={styles.welcomeButton}><Text style={styles.welcomeButtonText}>Commencer</Text><MaterialCommunityIcons name="arrow-right" size={24} color={colors.onBrandPrimary}/></Pressable></View>
     </LinearGradient>
   </ImageBackground>;
-  return <View testID="home-screen" style={[styles.root, safeSides]}>
-    <ScrollView showsVerticalScrollIndicator={false} testID="home-scroll" contentContainerStyle={[layoutStyles.content, styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 20 }]}>
+  return <View testID="home-screen" style={[styles.root, safeSides, {paddingTop:insets.top}]}>
+    <ScrollView showsVerticalScrollIndicator={false} testID="home-scroll" contentContainerStyle={[layoutStyles.content, styles.content, { paddingTop: 20, paddingBottom: insets.bottom + 20 }]}>
       <ImageBackground source={require("../assets/images/pitch-night.png")} resizeMode="cover" imageStyle={styles.heroImage} style={styles.hero}>
         <View testID="home-header" style={styles.header}><Text testID="home-wordmark" style={styles.logo}>Roundr<Text style={{ color: colors.brandPrimary }}>.</Text></Text></View>
         <Text testID="home-slogan" style={styles.slogan}>Plus de jeu. Moins d’organisation.</Text>
@@ -40,11 +40,7 @@ export default function HomeScreen() {
       <View testID="modes-section" style={styles.modes}>{GAME_MODES.map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} dominant={index===0} onPress={() => router.push(`/config/${mode.id}` as never)} />)}</View>
       {session?.status === "active" ? <Pressable testID="resume-session-card" accessibilityRole="button" accessibilityLabel="Reprendre la session" onPress={() => router.push("/live")} style={styles.resume}><MaterialCommunityIcons name="play-circle-outline" size={36} color={colors.brandPrimary}/><View style={{flex:1}}><Text style={styles.resumeTitle}>Reprendre la session en cours</Text><Text style={styles.resumeDetail}>{GAME_MODES.find(m => m.id === session.mode)?.title}</Text></View><MaterialCommunityIcons name="chevron-right" size={24} color={colors.onSurface}/></Pressable> : null}
       <Pressable testID="mode-card-team-builder" accessibilityRole="button" onPress={() => router.push("/team-builder")} style={styles.teamBuilder}><MaterialCommunityIcons name="account-group" size={20} color={colors.brandPrimary}/><Text style={styles.teamBuilderText}>Faire les équipes</Text><MaterialCommunityIcons name="chevron-right" size={22} color={colors.muted}/></Pressable>
-      <View style={styles.bottom}>
-        <View style={styles.links}>
-          <Pressable testID="home-settings-link" onPress={() => router.push("/settings")} accessibilityRole="button" accessibilityLabel="Paramètres" style={styles.linkTarget}><Text testID="home-settings-link-label" style={styles.link}>Paramètres</Text></Pressable>
-        </View>
-      </View>
+      <Pressable testID="home-settings-link" onPress={() => router.push("/settings")} accessibilityRole="button" accessibilityLabel="Paramètres" style={styles.teamBuilder}><MaterialCommunityIcons name="cog-outline" size={20} color={colors.brandPrimary}/><Text testID="home-settings-link-label" style={styles.teamBuilderText}>Paramètres</Text><MaterialCommunityIcons name="chevron-right" size={22} color={colors.muted}/></Pressable>
     </ScrollView>
   </View>;
 }
@@ -71,8 +67,4 @@ const useStyles = makeStyles(c => ({
   resumeDetail: { fontFamily: fontFamily.text, fontSize: 11, color: c.muted, marginTop: 2 },
   teamBuilder: { minHeight: 52, flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 14, borderRadius: 14, borderColor: c.border, borderWidth: 1 },
   teamBuilderText: { flex: 1, fontFamily: fontFamily.textBold, fontSize: 13, color: c.onSurface },
-  bottom: { marginTop: "auto", paddingTop: 28, gap: 14 },
-  links: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", gap: 8 },
-  linkTarget: { minHeight: 48, justifyContent: "center", paddingHorizontal: 8 },
-  link: { color: c.muted, fontFamily: fontFamily.text, fontSize: 12 },
 }));
