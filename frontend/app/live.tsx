@@ -89,6 +89,7 @@ export default function LiveScreen() {
   const el = elapsedMs(live.chrono, now);
   const paused = S.isPaused(live);
   const next = S.nextMatchInfo(session);
+  const following = S.followingKnownMatch(session);
 
   // Affichage du temps selon l'étape.
   let time = "00:00";
@@ -201,7 +202,7 @@ export default function LiveScreen() {
           onGoal={(side,delta)=>dispatchSession((s,t)=>live.stage==="finished"?S.correctLast(s,side,delta,t):S.goal(s,side,delta,t))}
           onCorrect={()=>setCorrecting(!correcting)} onBack={()=>router.replace("/")}
           onSettings={()=>router.push("/settings")} onGiant={()=>setGiant(true)}
-          notice={next?.certain ? { time, cue: preferences.preparation ? liveNotice(remainingMs, target/60000, running) : "chrono", matchup: `${next.aLabel} vs ${next.bLabel}`, badge: remainingMs == null ? "À venir" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: remainingMs !== null && remainingMs <= 60_000 ? `${next.aLabel} et ${next.bLabel} : préparez-vous à entrer sur le terrain !` : `${next.aLabel} et ${next.bLabel} : commencez l’échauffement !`, locked, onPress: ()=>router.push("/standings"), standingsLabel: session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Voir le classement" : "Voir le tableau" } : undefined}/> : null}
+          notice={next?.certain ? { time, cue: preferences.preparation ? liveNotice(remainingMs, target/60000, running) : "chrono", matchup: `${next.aLabel} vs ${next.bLabel}`, following: following ? `${following.aLabel} vs ${following.bLabel}` : undefined, badge: remainingMs == null ? "À venir" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: remainingMs !== null && remainingMs <= 60_000 ? `${next.aLabel} et ${next.bLabel} : préparez-vous à entrer sur le terrain !` : `${next.aLabel} et ${next.bLabel} : commencez l’échauffement !`, locked, onPress: ()=>router.push("/standings"), standingsLabel: session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Voir le classement" : "Voir le tableau" } : undefined}/> : null}
         {live.stage === "break" ? (
           <PrimaryButton testID="skip-break" label="Passer la pause" disabled={locked} variant="secondary" onPress={() => dispatchSession((s, t) => S.startNextPeriod({ ...s, live: { ...s.live!, stage: "awaitPeriod", periodIndex: s.live!.periodIndex + 1 } }, t))} />
         ) : null}

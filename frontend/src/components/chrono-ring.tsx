@@ -18,7 +18,8 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
   const styles = useStyles();
   const { colors } = useTheme();
   const stroke = 14;
-  const r = (size - stroke) / 2;
+  // Leave room for the halo inside the SVG, so its edges are not clipped.
+  const r = (size - stroke * 2.6) / 2;
   const c = 2 * Math.PI * r;
   const p = Math.min(1, Math.max(0, progress));
   // Cercle tracé depuis midi dans le sens horaire (pas de rotation : évite

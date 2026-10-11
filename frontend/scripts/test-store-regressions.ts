@@ -42,6 +42,15 @@ async function main(){
   assert.equal(Prefs.getPreferences().keepAwake,false);
   assert.equal(Prefs.getPreferences().volume,1);
   console.log("✓ Corrupt session is retained and legacy Custom preset survives");
+  assert.equal(Prefs.getPreferences().chronoStyle,"classic");
+  await Prefs.setPreferences({chronoStyle:"ring"});
+  assert.equal(JSON.parse(memory.get("roundr.preferences.v1")!).chronoStyle,"ring");
+  await Prefs.loadPreferences();
+  assert.equal(Prefs.getPreferences().chronoStyle,"ring");
+  memory.set("roundr.preferences.v1",JSON.stringify({chronoStyle:"invalid"}));
+  await Prefs.loadPreferences();
+  assert.equal(Prefs.getPreferences().chronoStyle,"ring");
+  console.log("✓ Chrono view persists; invalid stored values do not replace it");
   for(const mode of ["classique","custom","maracana","cup","survie"] as const) {
     Store.startSession(make(defaultConfig(mode)));
     assert.equal(Store.getStoreState().session!.live!.chrono.runningSince,null);

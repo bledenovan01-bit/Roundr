@@ -10,6 +10,16 @@ const t=1_000_000, MIN=60_000;
 const make=(c:AnyConfig,n:number)=>S.createSession(c,defaultTeams(c.mode,n),t);
 function win(s:Session,now:number) {return S.endManual(S.goal(s,0,1,now),now);}
 {
+  const cup=make({...defaultConfig("cup"),teamCount:8,groups:2,draw:"manual"} as AnyConfig,8);
+  const following=S.followingKnownMatch(cup);
+  assert(following?.certain);
+  assert.notEqual(following?.match?.id,S.nextMatchInfo(cup)?.match?.id);
+  const survival=make({...defaultConfig("survie"),teamCount:4,draw:"manual"} as AnyConfig,4);
+  assert.equal(S.followingKnownMatch(survival),null,"Unresolved final must not be announced");
+  assert.equal(S.followingKnownMatch(make(defaultConfig("maracana"),4)),null);
+  console.log("✓ Following fixtures are shown only when both teams are known");
+}
+{
   for (const mode of ["maracana","cup","survie"] as const) {
     const c=defaultConfig(mode);const n="teamCount" in c?c.teamCount:2;
     let s=make(c,n);

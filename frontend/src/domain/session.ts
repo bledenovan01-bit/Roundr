@@ -590,6 +590,17 @@ export function addMaracanaTeam(session: Session, team: Team, now: number): Sess
 // ---------------------------------------------------------------------------
 export type NextInfo = { match: Match | null; aLabel: string; bLabel: string; durationMin: number; certain: boolean };
 
+// Do not predict winners or derive additional Maracana rotations before results.
+export function followingKnownMatch(session: Session): NextInfo | null {
+  if (session.mode !== "cup" && session.mode !== "survie") return null;
+  const scheduled = session.matches.filter(m => m.status === "scheduled").sort((a,b) => a.order-b.order);
+  const match = scheduled[1];
+  if (!match) return null;
+  const [a,b] = matchTeams(match,session.matches);
+  if (!a || !b) return null;
+  return {match,aLabel:teamName(session,a),bLabel:teamName(session,b),durationMin:matchMinutes(session,match),certain:true};
+}
+
 export function nextMatchInfo(session: Session): NextInfo | null {
   const live = session.live;
   const name = (id: string | null) => session.teams.find((t) => t.id === id)?.name ?? "?";

@@ -13,9 +13,10 @@ const events = [
 const options:{value:EventSound;label:string}[]=[{value:"off",label:"Aucun son"},...SOUND_CATALOG.map(s=>({value:s.key,label:s.title}))];
 export default function Settings(){
   const p=usePreferences();const {colors}=useTheme();
-  return <DesignScreen title="Paramètres" subtitle="Tes réglages s’appliquent à tous les modes et chronos enregistrés." testID="settings-screen">
+  return <DesignScreen title="Paramètres" subtitle="Tes réglages s’appliquent à tous les modes." testID="settings-screen">
     {p.error?<Text style={{color:colors.error}}>{p.error}</Text>:null}
     <DesignSection>CONFORT DE JEU</DesignSection>
+    <Segmented label="Affichage du chronomètre" testID="chrono-style" value={p.chronoStyle} options={[{value:"classic",label:"Classique"},{value:"ring",label:"Circulaire"}]} onChange={v=>{void setPreferences({chronoStyle:v});}}/>
     <ToggleRow label="Vibrations" value={p.vibrations} onChange={v=>{void setPreferences({vibrations:v});}}/>
     <ToggleRow label="Annonces de préparation" hint="Messages dans Roundr pour les équipes du prochain match." value={p.preparation} onChange={v=>{void setPreferences({preparation:v});}}/>
     <ToggleRow label="Temps additionnel par défaut" hint="Pour les nouveaux matchs classiques et chronos personnalisés." value={p.additional} onChange={v=>{void setPreferences({additional:v});}}/>

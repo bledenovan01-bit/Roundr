@@ -4,12 +4,13 @@ import type { Team } from "@/src/domain/types";
 import type { SoundKey } from "@/src/audio/sounds";
 export type EventSound = SoundKey | "off";
 export type Preferences = {
+  chronoStyle:"classic"|"ring";
   sounds:boolean; vibrations:boolean; preparation:boolean; additional:boolean; keepAwake:boolean;
   volume:number; startSound:EventSound; endSound:EventSound; goalSound:EventSound;
   minuteSound:EventSound; periodSound:EventSound; warmupSound:EventSound;
   teams:Team[]; players:string[]; groups:string[][]; error:string|null;
 };
-let state:Preferences={sounds:true,vibrations:true,preparation:true,additional:true,keepAwake:false,
+let state:Preferences={chronoStyle:"classic",sounds:true,vibrations:true,preparation:true,additional:true,keepAwake:false,
   volume:0.8,startSound:"whistle",endSound:"final",goalSound:"alert",minuteSound:"gong",periodSound:"gong",warmupSound:"prep",
   teams:[],players:[],groups:[],error:null};
 const listeners=new Set<()=>void>();
@@ -23,6 +24,7 @@ export async function loadPreferences(){
       const value=JSON.parse(raw);
       if(!value || typeof value!=="object" || Array.isArray(value)) throw Error("Préférences invalides");
       const clean:Partial<Preferences>={};
+      if(value.chronoStyle==="classic"||value.chronoStyle==="ring") clean.chronoStyle=value.chronoStyle;
       for(const key of ["sounds","vibrations","preparation","additional","keepAwake"] as const) {
         if(typeof value[key]==="boolean") clean[key]=value[key];
       }
