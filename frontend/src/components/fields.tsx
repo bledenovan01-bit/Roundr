@@ -1,6 +1,6 @@
 // Composants de formulaire partagés (E02) : grandes cibles tactiles, options
 // dépliables sur place, aucun écran intermédiaire.
-import { useContext, useState } from "react";
+import { createContext, useContext, useEffect, useId, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import * as Haptics from "@/src/haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
@@ -10,6 +10,7 @@ import type { EndRules, Team } from "@/src/domain/types";
 import { fontFamily, fontSize, control, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
+export const FormValidityContext = createContext<(id:string, message:string|null)=>void>(()=>{});
 export function Section({ title, children, hint }: { title: string; children: React.ReactNode; hint?: string }) {
   const styles = useStyles();
   return (
@@ -81,7 +82,7 @@ export function ChoiceRow<T extends string | number>({
             accessibilityRole="radio"
             accessibilityState={{ checked: showCustom }}
             aria-checked={showCustom}
-            onPress={() => setShowCustom(true)}
+            onPress={() => { setDraft(String(value)); setShowCustom(true); }}
             style={[styles.chip, showCustom && styles.chipActive]}
           >
             <Text testID={`${baseTestID}-custom-label`} style={[styles.chipLabel, showCustom && styles.chipLabelActive]}>Perso</Text>
@@ -90,6 +91,9 @@ export function ChoiceRow<T extends string | number>({
       </View>
       {showCustom && custom ? (
         <NumberInput
+          label={label}
+          min={custom.min}
+          max={custom.max}
           value={draft}
           onChange={(t) => {
             setDraft(t);
@@ -104,27 +108,28 @@ export function ChoiceRow<T extends string | number>({
   );
 }
 
-export function NumberInput({ value, onChange, suffix, testID, placeholder }: { value: string; onChange: (t: string) => void; suffix?: string; testID?: string; placeholder?: string }) {
-  const styles = useStyles();
-  const { colors } = useTheme();
-  const inputTestID = testID ?? "number-input";
-  return (
+export function NumberInput({ value, onChange, suffix, testID, placeholder, label, min=0, max }: {
+  value:string; onChange:(t:string)=>void; suffix?:string; testID?:string; placeholder?:string; label?:string; min?:number; max?:number;
+}) {
+  const styles=useStyles(); const {colors}=useTheme();
+  const id=useId();const report=useContext(FormValidityContext);
+  const [draft,setDraft]=useState(value);
+  useEffect(()=>setDraft(value),[value]);
+  const n=Number(draft);
+  const invalid=draft===""||!Number.isSafeInteger(n)||n<min||(max!=null&&n>max);
+  const message=invalid?`${label??placeholder??"Valeur"} : saisis un entier de ${min}${max!=null?` à ${max}`:" ou plus"}.`:null;
+  useEffect(()=>{report(id,message);return()=>report(id,null);},[id,message,report]);
+  return <View style={{gap:6}}>
     <View style={styles.inputRow}>
-      <TextInput
-        testID={inputTestID}
-        value={value}
-        onChangeText={(t) => onChange(t.replace(/[^0-9]/g, ""))}
-        keyboardType="numeric"
-        placeholder={placeholder}
-        placeholderTextColor={colors.muted}
-        style={[styles.input, styles.numericInput]}
-        accessibilityLabel={placeholder ?? "Valeur numérique"}
-        selectTextOnFocus
-        returnKeyType="done"
-      />
-      {suffix ? <Text style={styles.suffix}>{suffix}</Text> : null}
+      <TextInput testID={testID??"number-input"} value={draft}
+        onChangeText={t=>{const next=t.replace(/[^0-9]/g,"");setDraft(next);onChange(next);}}
+        keyboardType="numeric" placeholder={placeholder} placeholderTextColor={colors.muted}
+        style={[styles.input,styles.numericInput]} accessibilityLabel={label??placeholder??`Valeur en ${suffix??"unités"}`}
+        selectTextOnFocus returnKeyType="done"/>
+      {suffix?<Text style={styles.suffix}>{suffix}</Text>:null}
     </View>
-  );
+    {message?<ErrorText>{message}</ErrorText>:null}
+  </View>;
 }
 
 export function Stepper({ label, value, min, max, onChange, testID, hint }: { label: string; value: number; min: number; max: number; onChange: (n: number) => void; testID?: string; hint?: string }) {

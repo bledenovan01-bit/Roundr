@@ -5,7 +5,7 @@ import { fontFamily, makeStyles } from "@/src/theme";
 
 export type NoticeContent = { cue: Notice; time: string; matchup: string; badge: string; preparation: string; locked: boolean; onPress: () => void };
 
-export function ChronoCarousel({ children, notice }: { children: React.ReactNode; notice?: NoticeContent }) {
+export function ChronoCarousel({ children, notice, locked=false, onGiant, onSettings }: { children: React.ReactNode; notice?: NoticeContent; locked?:boolean; onGiant:()=>void; onSettings:()=>void }) {
   const styles = useStyles();
   const scroll = useRef<ScrollView>(null);
   const [width, setWidth] = useState(0);
@@ -19,13 +19,14 @@ export function ChronoCarousel({ children, notice }: { children: React.ReactNode
     return () => { sub.remove(); if (manualReturn.current) clearTimeout(manualReturn.current); };
   }, []);
   const cue = notice?.cue ?? "chrono";
+  const labels=["Chronomètre",...(notice?["Prochain match","Échauffement"]:[]),"Affichage","Sons de Roundr"];
   useEffect(() => {
     const index = cue === "next" ? 1 : cue === "warmup" ? 2 : 0;
     if (manualReturn.current) clearTimeout(manualReturn.current);
     scroll.current?.scrollTo({ x: width * index, animated: !reduceMotion });
     offset.setValue(reduceMotion || index === 0 ? 0 : 36);
     Animated.timing(offset, { toValue: 0, duration: reduceMotion ? 0 : 320, useNativeDriver: true }).start();
-  }, [cue, width, reduceMotion, offset]);
+  }, [cue, width, reduceMotion, offset, !!notice]);
   const go = (index: number) => {
     setPage(index);
     scroll.current?.scrollTo({ x: width * index, animated: !reduceMotion });
@@ -35,7 +36,7 @@ export function ChronoCarousel({ children, notice }: { children: React.ReactNode
     }, 8_000);
   };
   return <View testID="chrono-carousel" onLayout={e => setWidth(e.nativeEvent.layout.width)}>
-    <ScrollView ref={scroll} horizontal pagingEnabled scrollEnabled={!!notice && !notice.locked} showsHorizontalScrollIndicator={false}
+    <ScrollView ref={scroll} horizontal pagingEnabled scrollEnabled={!locked} showsHorizontalScrollIndicator={false}
       scrollEventThrottle={32} onScroll={e => { if (width) setPage(Math.round(e.nativeEvent.contentOffset.x / width)); }}
       onScrollEndDrag={() => { if (manualReturn.current) clearTimeout(manualReturn.current); manualReturn.current = setTimeout(() => { scroll.current?.scrollTo({x:0, animated:!reduceMotion}); setPage(0); }, 8_000); }}>
       <View accessibilityElementsHidden={page !== 0} importantForAccessibility={page !== 0 ? "no-hide-descendants" : "auto"} style={{ width: width || undefined, minHeight: 170 }} testID="chrono-page">{children}</View>
@@ -48,8 +49,20 @@ export function ChronoCarousel({ children, notice }: { children: React.ReactNode
           <Text style={styles.badge}>{notice.badge}</Text>
         </Pressable>
       </Animated.View>) : null}
+      {(["Affichage","Sons de Roundr"] as const).map((label,i)=>{
+        const index=(notice?3:1)+i;
+        return <View key={label} style={{width,justifyContent:"center",paddingVertical:14}}
+          accessibilityElementsHidden={page!==index} importantForAccessibility={page!==index?"no-hide-descendants":"auto"}>
+          <Text style={styles.compactTime}>{label}</Text>
+          <Pressable disabled={locked||page!==index} accessibilityRole="button" accessibilityLabel={i===0?"Afficher le chrono géant":"Ouvrir les paramètres audio"}
+            onPress={i===0?onGiant:onSettings} style={styles.card}>
+            <Text style={styles.title}>{i===0?"Chrono géant":"Personnaliser les sons"}</Text>
+            <Text style={styles.badge}>{i===0?"Une lecture agrandie, en portrait ou en paysage.":"Choix des sifflets, alertes et volume dans Paramètres."}</Text>
+          </Pressable>
+        </View>;
+      })}
     </ScrollView>
-    {notice ? <View style={styles.dots}>{["Chronomètre", "Prochain match", "Échauffement"].map((label, i) => <Pressable key={label} testID={`chrono-tab-${i}`} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected: page === i, disabled: notice.locked }} disabled={notice.locked} onPress={() => go(i)} style={styles.dotButton}><View style={[styles.dot, page === i && styles.active]} /></Pressable>)}</View> : null}
+    <View style={styles.dots}>{labels.map((label, i) => <Pressable key={label} testID={`chrono-tab-${i}`} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected: page === i, disabled: locked }} disabled={locked} onPress={() => go(i)} style={styles.dotButton}><View style={[styles.dot, page === i && styles.active]} /></Pressable>)}</View>
   </View>;
 }
 const useStyles = makeStyles(c => ({

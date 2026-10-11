@@ -2,7 +2,6 @@ import { useRouter } from "expo-router";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ModeCard } from "@/src/components/mode-card";
-import { PrimaryButton } from "@/src/components/primary-button";
 import { DesignRow, DesignSection } from "@/src/components/design-screen";
 import { GAME_MODES } from "@/src/data/modes";
 import { useStore } from "@/src/store/session-store";
@@ -20,17 +19,13 @@ export default function HomeScreen() {
   return <View testID="home-screen" style={[styles.root, safeSides]}>
     <ScrollView showsVerticalScrollIndicator={false} testID="home-scroll" contentContainerStyle={[layoutStyles.content, styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 20 }]}>
       <View testID="home-header" style={styles.header}><Text testID="home-wordmark" style={styles.logo}>Roundr<Text style={{ color: colors.brandPrimary }}>.</Text></Text></View>
-      <View style={styles.hero}>
-        <Text style={styles.heroTitle}>Lance ta session</Text>
-        <Text style={styles.heroCopy}>Choisis un mode, configure en quelques secondes et joue.</Text>
-        <View style={{ alignSelf: "flex-start" }}><PrimaryButton testID="home-new-session" label="Nouvelle session" onPress={() => router.push("/config/classique")} /></View>
-      </View>
+      <Text testID="home-slogan" style={styles.slogan}>Moins d’organisation, plus de jeu.</Text>
+      <Text style={styles.heroCopy}>Choisis un mode, configure en quelques secondes et joue.</Text>
       {saveError ? <Text style={{ color: colors.error }}>{saveError}</Text> : null}
       {session?.status === "active" ? <DesignRow testID="resume-session-card" title="Reprendre la session" detail={GAME_MODES.find(m => m.id === session.mode)?.title} onPress={() => router.push("/live")} /> : null}
       <DesignSection>MODES</DesignSection>
-      <View testID="modes-section" style={{ gap: 14 }}>{GAME_MODES.map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} onPress={() => router.push(`/config/${mode.id}` as never)} />)}<ModeCard index={GAME_MODES.length} testID="mode-card-team-builder" title="Faire les équipes" description="Répartis les joueurs et lance une session" iconName="account-group" accent={colors.brandPrimary} onPress={() => router.push("/team-builder")} /></View>
+      <View testID="modes-section" style={{ gap: 14 }}>{GAME_MODES.filter(mode => mode.id !== "custom").map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} onPress={() => router.push(`/config/${mode.id}` as never)} />)}<ModeCard index={4} testID="presets-manage" title="Mes chronos" description="Crée un chrono et retrouve tes réglages enregistrés" iconName="timer-outline" accent={colors.modeCustom} onPress={() => router.push("/presets")} /><ModeCard index={5} testID="mode-card-team-builder" title="Faire les équipes" description="Répartis les joueurs en quelques secondes" iconName="account-group" accent={colors.brandPrimary} onPress={() => router.push("/team-builder")} /></View>
       <View style={styles.bottom}>
-        <DesignRow testID="presets-manage" title="Mes chronos" detail="Presets et sessions" onPress={() => router.push("/presets")} />
         <View style={styles.links}>
           <Pressable testID="home-teams-link" onPress={() => router.push("/teams")} accessibilityRole="button" accessibilityLabel="Équipes" style={styles.linkTarget}><Text testID="home-teams-link-label" style={styles.link}>Équipes</Text></Pressable>
           <Pressable testID="home-settings-link" onPress={() => router.push("/settings")} accessibilityRole="button" accessibilityLabel="Paramètres" style={styles.linkTarget}><Text testID="home-settings-link-label" style={styles.link}>Paramètres</Text></Pressable>
@@ -45,6 +40,7 @@ const useStyles = makeStyles(c => ({
   header: { alignItems: "center", minHeight: 58, justifyContent: "center" },
   logo: { fontFamily: fontFamily.textBold, fontSize: 44, lineHeight: 50, letterSpacing: -1.4, color: c.onSurface, textAlign: "center" },
   hero: { backgroundColor: c.brandTertiary, borderWidth: 1, borderColor: c.brandSecondary, borderRadius: 22, padding: 16, gap: 9 },
+  slogan: { fontFamily: fontFamily.textBold, fontSize: 16, color: c.brandPrimary, textAlign: "center" },
   heroTitle: { fontFamily: fontFamily.text, fontSize: 24, color: c.onSurface },
   heroCopy: { fontFamily: fontFamily.text, fontSize: 13, lineHeight: 18, color: c.onSurface },
   bottom: { marginTop: "auto", paddingTop: 28, gap: 14 },

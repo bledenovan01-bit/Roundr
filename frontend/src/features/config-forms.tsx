@@ -5,6 +5,7 @@ import { useContext } from "react";
 
 import { Card, ChoiceRow, Disclosure, Divider, EndRulesField, NumberInput, Section, Segmented, Stepper, ToggleRow } from "@/src/components/fields";
 import { bestNextCount, groupSizes, recommendCup } from "@/src/domain/cup";
+import { formatMMSS } from "@/src/chrono/format";
 import { periodsDelta, splitPeriods } from "@/src/domain/custom-split";
 import { classicBreakDefault } from "@/src/domain/defaults";
 import { byeCount, roundName } from "@/src/domain/bracket";
@@ -71,7 +72,6 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
           <Divider />
           <ToggleRow testID="toggle-score" label="Score" value={config.score} onChange={(v) => set({ score: v })} />
           <Divider />
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
         </Card>
       </Section>
     </View>
@@ -91,7 +91,7 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
       {!goalsOnly ? (
         <View style={styles.fieldGap}>
           <Text style={styles.label}>Durée totale de jeu</Text>
-          <NumberInput testID="custom-total" value={String(config.totalMin)} onChange={(t) => setTotal(Math.max(1, parseInt(t || "1", 10)))} suffix="min" />
+          <NumberInput testID="custom-total" label="Durée totale de jeu" min={1} value={String(config.totalMin)} onChange={(t) => setTotal(Math.max(1, parseInt(t || "1", 10)))} suffix="min" />
           <Stepper label="Nombre de périodes" testID="custom-periods" value={config.periods} min={1} max={12} onChange={setPeriods} />
           {config.periods > 1 ? (
             <>
@@ -109,24 +109,26 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
                       <Text style={styles.periodLabel}>Période {i + 1}</Text>
                       <NumberInput
                         testID={`period-${i}`}
-                        value={String(Math.round(sec / 60))}
+                        label={`Durée de la période ${i+1} en secondes`}
+                        min={1}
+                        value={String(sec)}
                         onChange={(t) => {
                           const copy = [...config.periodSec];
-                          copy[i] = Math.max(0, parseInt(t || "0", 10)) * 60;
+                          copy[i] = Math.max(0, parseInt(t || "0", 10));
                           set({ periodSec: copy });
                         }}
-                        suffix="min"
+                        suffix="s"
                       />
                     </View>
                   ))}
                   {delta !== 0 ? (
                     <Text style={styles.error} testID="split-error">{`Somme ${Math.round(config.periodSec.reduce((a, b) => a + b, 0) / 60)} min ≠ total ${config.totalMin} min (${delta > 0 ? "+" : ""}${delta / 60} min).`}</Text>
                   ) : (
-                    <Text style={styles.note}>Somme correcte : {config.periodSec.map((s) => Math.round(s / 60)).join(" + ")} min.</Text>
+                    <Text style={styles.note}>Somme correcte : {config.periodSec.map((s) => formatMMSS(s*1000)).join(" + ")}.</Text>
                   )}
                 </View>
               ) : (
-                <Text style={styles.note}>{config.periodSec.map((s) => Math.round(s / 60)).join(" + ")} min</Text>
+                <Text style={styles.note}>{config.periodSec.map((s) => formatMMSS(s*1000)).join(" + ")}</Text>
               )}
               <ChoiceRow
                 label="Pause entre périodes"
@@ -152,7 +154,6 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
       />
       {config.end.byTime ? <ToggleRow testID="toggle-additional" label="Temps additionnel" hint="Dernière période uniquement, arrêt manuel." value={config.additional} onChange={(v) => set({ additional: v })} /> : null}
       <ToggleRow testID="toggle-score" label="Score" hint={config.end.goalTarget != null ? "Requis par l’objectif de buts." : undefined} value={config.score || config.end.goalTarget != null} onChange={(v) => set({ score: config.end.goalTarget != null ? true : v })} />
-      <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
     </Card>
   );
 }
@@ -180,7 +181,6 @@ export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
       </Section>
       <Section title="Options">
         <Card>
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
           <Divider />
           <Text testID="maracana-options-note" style={styles.note}>Score obligatoire. Préparation automatique du prochain match.</Text>
         </Card>
@@ -200,7 +200,7 @@ function RoundDurations({ teamCount, value, onChange, base }: { teamCount: numbe
       {rounds.map((r) => (
         <View key={r} style={styles.periodRow}>
           <Text style={styles.periodLabel}>{roundName(r)}</Text>
-          <NumberInput testID={`round-${r}`} value={String(value[r] ?? base)} onChange={(t) => onChange({ ...value, [r]: Math.max(1, parseInt(t || String(base), 10)) })} suffix="min" />
+          <NumberInput testID={`round-${r}`} label={`Durée : ${roundName(r)}`} min={1} value={String(value[r] ?? base)} onChange={(t) => onChange({ ...value, [r]: Math.max(1, parseInt(t || String(base), 10)) })} suffix="min" />
         </View>
       ))}
     </View>
@@ -246,11 +246,10 @@ export function SurvieForm({ config, onChange }: FormProps<SurvieConfig>) {
       </Section>
       <Section title="Options">
         <Card>
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
           {config.end.byTime ? (
             <>
               <Divider />
-              <Disclosure title="Options avancées : durées par tour" testID="advanced">
+              <Disclosure title="Durées par tour" testID="advanced">
                 <RoundDurations teamCount={config.teamCount} value={config.roundMinutes} onChange={(roundMinutes) => set({ roundMinutes })} base={config.matchMin} />
               </Disclosure>
             </>
@@ -324,9 +323,8 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
       </Section>
       <Section title="Options">
         <Card>
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
           <Divider />
-          <Disclosure title="Options avancées" testID="advanced">
+          <Disclosure title="Règles et durées de la compétition" testID="advanced">
             {config.end.byTime ? (
               <ToggleRow testID="toggle-group-additional" label="Additionnel ouvert en poules" hint="À zéro le chrono monte jusqu’à la fin manuelle ; le nul reste possible. Si « Premier à X buts » est actif, l’atteindre termine le match même pendant l’additionnel." value={config.groupAdditional} onChange={(v) => set({ groupAdditional: v })} />
             ) : null}

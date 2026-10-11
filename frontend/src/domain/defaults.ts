@@ -132,3 +132,14 @@ export function teamCountFor(config: AnyConfig): number {
       return config.teamCount;
   }
 }
+
+/** Preserve reordered teams and give every newly added row a unique stable ID. */
+export function alignTeams(teams:Team[], mode:ModeId, count:number):Team[] {
+  if(teams.length===count)return teams;
+  const kept=teams.slice(0,count);const ids=new Set(kept.map(t=>t.id));
+  return defaultTeams(mode,count).map((t,i)=>{
+    if(kept[i])return kept[i];
+    let id=t.id;while(ids.has(id))id+="_";ids.add(id);
+    return {...t,id};
+  });
+}

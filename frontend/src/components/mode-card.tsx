@@ -85,14 +85,14 @@ export function ModeCard({
 
 const useStyles = makeStyles((colors) => ({
   card: {
-    minHeight: 62,
+    minHeight: 84,
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.lg,
     backgroundColor: colors.surfaceSecondary,
     borderRadius: 18,
     paddingHorizontal: spacing.lg,
-    paddingVertical: 10,
+    paddingVertical: 16,
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -118,8 +118,8 @@ const useStyles = makeStyles((colors) => ({
   title: {
     fontFamily: fontFamily.textBold,
     color: colors.onSurface,
-    fontSize: 14,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
     letterSpacing: -0.3,
   },
   description: {
