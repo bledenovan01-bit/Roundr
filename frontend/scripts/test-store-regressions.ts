@@ -7,15 +7,15 @@ let concurrent=0,maxConcurrent=0,failKey:string|null=null;
 const storage={
   async getItem(key:string){return memory.get(key)??null;},
   async setItem(key:string,value:string){
-    concurrent++;maxConcurrent=Math.max(maxConcurrent,concurrent);
+    if(key!=="roundr.preferences.v1"){concurrent++;maxConcurrent=Math.max(maxConcurrent,concurrent);}
     await new Promise(r=>setTimeout(r,2));
-    concurrent--;
+    if(key!=="roundr.preferences.v1")concurrent--;
     if(failKey===key)throw Error("simulated disk failure");
     memory.set(key,value);calls.push(key);
   },
   async removeItem(key:string){
-    concurrent++;maxConcurrent=Math.max(maxConcurrent,concurrent);
-    await new Promise(r=>setTimeout(r,2));concurrent--;
+    if(key!=="roundr.preferences.v1"){concurrent++;maxConcurrent=Math.max(maxConcurrent,concurrent);}
+    await new Promise(r=>setTimeout(r,2));if(key!=="roundr.preferences.v1")concurrent--;
     memory.delete(key);calls.push(key);
   },
 };

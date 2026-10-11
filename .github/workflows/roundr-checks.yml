@@ -40,3 +40,7 @@ jobs:
         run: npm install --ignore-scripts --no-package-lock --legacy-peer-deps
       - name: Check types
         run: npm run typecheck
+      - name: Bundle Android, iOS and web
+        env:
+          CI: "1"
+        run: npx expo export --platform all --output-dir /tmp/roundr-export

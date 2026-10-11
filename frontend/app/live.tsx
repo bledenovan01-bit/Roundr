@@ -1,7 +1,7 @@
 // E03–E07 — Live commun, pause, pause entre périodes, départage, transition.
 import { useEffect, useRef, useState } from "react";
 import { setPreferences, usePreferences } from "@/src/store/preferences";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { Alert } from "@/src/alert";
 import { BackHandler, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -32,6 +32,7 @@ export default function LiveScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const navigation = useNavigation();
   const session = useStore((s) => s.session);
   const now = useStore((s) => s.now);
   const saveError = useStore((s) => s.saveError);
@@ -50,6 +51,7 @@ export default function LiveScreen() {
   const running = !!live && live.chrono.runningSince != null && live.stage !== "finished";
 
 
+  useEffect(()=>{navigation.setOptions({gestureEnabled:!locked});},[navigation,locked]);
   useEffect(()=>{
     const sub=BackHandler.addEventListener("hardwareBackPress",()=>{
       if(giant){setGiant(false);return true;}
