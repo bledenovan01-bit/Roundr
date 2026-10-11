@@ -30,6 +30,7 @@ export default function ConfigScreen() {
   const mode = GAME_MODES.find((m) => m.id === params.mode);
   const presets = useStore((s) => s.presets);
   const activeSession = useStore((s) => s.session);
+  const saveError = useStore(s=>s.saveError);
 
   const preset = params.preset ? presets.find((p) => p.id === params.preset) : null;
   const replayFrom = params.replay ? getStoreState().lastSummary : null;
@@ -120,6 +121,7 @@ export default function ConfigScreen() {
         <FormValidityContext.Provider value={reportValidity}>
         <DesignConfig config={config} onChange={setConfig} teams={alignedTeams} onTeams={setTeams} validationErrors={attempted ? errors : []} />
         </FormValidityContext.Provider>
+        {saveError?<ErrorText>{saveError}</ErrorText>:null}
         <View style={{ gap: 10 }}>
           <Text style={styles.note}>Enregistrer dans Mes chronos</Text>
           <TextInput testID="preset-name" accessibilityLabel="Nom du chrono" placeholder="Nom du chrono" placeholderTextColor={colors.muted} value={presetName} onChangeText={setPresetName} maxLength={60} style={styles.input} />

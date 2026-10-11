@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+const assert = require("node:assert/strict");
 import { alignTeams, defaultConfig, defaultTeams } from "../src/domain/defaults";
 import * as S from "../src/domain/session";
 import { sessionEvents } from "../src/domain/session-events";

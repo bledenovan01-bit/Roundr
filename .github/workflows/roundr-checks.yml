@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 22
       - name: Install isolated test compiler
-        run: npm install --prefix /tmp/roundr-tools --ignore-scripts --no-package-lock typescript
+        run: npm install --prefix /tmp/roundr-tools --ignore-scripts --no-package-lock typescript@6.0.3
       - name: Check TypeScript syntax
         working-directory: frontend
         env:

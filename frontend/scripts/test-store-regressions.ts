@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+const assert = require("node:assert/strict");
 import { defaultConfig, defaultTeams } from "../src/domain/defaults";
 import * as S from "../src/domain/session";
 const memory=new Map<string,string>();

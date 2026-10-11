@@ -5,12 +5,23 @@ const finite = (x:any) => typeof x==="number" && Number.isFinite(x);
 const teamsOK = (ts:any):ts is Team[] => Array.isArray(ts) && ts.length>=2 && ts.every(t=>record(t)&&typeof t.id==="string"&&typeof t.name==="string"&&typeof t.color==="string") && new Set(ts.map(t=>t.id)).size===ts.length;
 const modes = ["classique","custom","maracana","cup","survie"];
 function configOK(c:any, teams:Team[]) {
-  try {return record(c)&&modes.includes(c.mode)&&validateConfig(c,teams).length===0;}
+  try {
+    if(!record(c)||!modes.includes(c.mode)||typeof c.sounds!=="boolean"||typeof c.customTeams!=="boolean")return false;
+    if(c.mode==="classique"||c.mode==="custom") {
+      if(typeof c.score!=="boolean"||typeof c.additional!=="boolean")return false;
+    }
+    if(c.mode!=="classique"&&(!record(c.end)||typeof c.end.byTime!=="boolean"))return false;
+    if(c.mode==="cup"||c.mode==="survie") {
+      if(!["shootout","extraThenShootout","golden"].includes(c.drawRule)||!["manual","random"].includes(c.draw)||!record(c.roundMinutes)||typeof c.smallFinal!=="boolean")return false;
+    }
+    if(c.mode==="cup"&&(typeof c.doubleRound!=="boolean"||typeof c.groupAdditional!=="boolean"||!Number.isInteger(c.groups)||!Number.isInteger(c.qualifiersPerGroup)))return false;
+    return validateConfig(c,teams).length===0;
+  }
   catch {return false;}
 }
 export function validPreset(p:any):p is Preset {
   return record(p)&&typeof p.id==="string"&&typeof p.name==="string"&&finite(p.createdAt)&&
-    record(p.config)&&modes.includes(p.config.mode)&&(p.teams===null||teamsOK(p.teams))&&
+    record(p.config)&&modes.includes(p.config.mode)&&(!("teamCount" in p.config)||(Number.isInteger(p.config.teamCount)&&p.config.teamCount>=2&&p.config.teamCount<=32))&&(p.teams===null||teamsOK(p.teams))&&
     configOK(p.config,p.teams??Array.from({length:p.config.teamCount??2},(_,i)=>({id:`t${i+1}`,name:`Équipe ${i+1}`,color:"#ffffff"})));
 }
 export function validSession(s:any):s is Session {
@@ -35,8 +46,12 @@ export function validSession(s:any):s is Session {
       !Number.isInteger(l.periodIndex)||l.periodIndex<0||l.periodIndex>=l.periodMs.length||
       !finite(l.playedMs)||!pairOK(l.score)||l.score===null||!record(l.end)||
       !Array.isArray(l.firedAlerts)||l.firedAlerts.some((x:any)=>typeof x!=="string"))) return false;
-    if(s.mode==="maracana"&&(!record(s.maracana)||!Array.isArray(s.maracana.onField)||!Array.isArray(s.maracana.waiting)||!record(s.maracana.consecutive))) return false;
-    if(s.mode==="cup"&&(!record(s.cup)||!Array.isArray(s.cup.groups)||!["groups","knockout"].includes(s.cup.phase)||!Array.isArray(s.cup.qualifiedIds))) return false;
+    if(s.preFinish!=null) {
+      if(!record(s.preFinish)||!validSession({...s,matches:s.preFinish.matches,maracana:s.preFinish.maracana,cup:s.preFinish.cup,preFinish:null}))return false;
+    }
+    if(s.mode==="maracana"&&(!record(s.maracana)||!Array.isArray(s.maracana.onField)||!Array.isArray(s.maracana.waiting)||!record(s.maracana.consecutive)||s.maracana.onField.length!==2||[...s.maracana.onField,...s.maracana.waiting].some((id:any)=>!teamIds.has(id))||!Array.isArray(s.maracana.initialOrder)||!Array.isArray(s.maracana.lastOut))) return false;
+    if(s.mode==="cup"&&(!record(s.cup)||!Array.isArray(s.cup.groups)||!["groups","knockout"].includes(s.cup.phase)||!Array.isArray(s.cup.qualifiedIds)||s.cup.groups.some((g:any)=>!record(g)||typeof g.id!=="string"||typeof g.name!=="string"||!Array.isArray(g.teamIds)||g.teamIds.some((id:any)=>!teamIds.has(id))))) return false;
+    if(s.cup?.tieChoice!=null){const tc=s.cup.tieChoice;if(!record(tc)||!Array.isArray(tc.candidates)||tc.candidates.some((id:any)=>!teamIds.has(id))||!Number.isInteger(tc.slots)||tc.slots<1||typeof tc.context!=="string")return false;}
     return true;
   }catch{return false;}
 }

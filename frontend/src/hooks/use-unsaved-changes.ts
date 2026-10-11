@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigation } from "expo-router";
-import { usePreventRemove } from "@react-navigation/native";
+import { usePreventRemove } from "expo-router/react-navigation";
 import { Alert } from "@/src/alert";
 
 export function useUnsavedChanges(dirty:boolean) {
