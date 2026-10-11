@@ -28,6 +28,10 @@ export const TEAM_PALETTE = [
   "#A855F7",
   "#14B8A6",
   "#F4F4F5",
+  "#111827", "#172554", "#1E3A8A", "#7F1D1D", "#0E7490",
+  "#6D28D9", "#6B7280", "#EC4899", "#15803D", "#84CC16",
+  "#0F766E", "#38BDF8", "#1D4ED8", "#DC2626", "#FB7185",
+  "#EA580C", "#FDBA74", "#EAB308", "#FDE047", "#A78BFA",
 ];
 
 export function uid(): string {
@@ -131,4 +135,15 @@ export function teamCountFor(config: AnyConfig): number {
     default:
       return config.teamCount;
   }
+}
+
+/** Preserve reordered teams and give every newly added row a unique stable ID. */
+export function alignTeams(teams:Team[], mode:ModeId, count:number):Team[] {
+  if(teams.length===count)return teams;
+  const kept=teams.slice(0,count);const ids=new Set(kept.map(t=>t.id));
+  return defaultTeams(mode,count).map((t,i)=>{
+    if(kept[i])return kept[i];
+    let id=t.id;while(ids.has(id))id+="_";ids.add(id);
+    return {...t,id};
+  });
 }

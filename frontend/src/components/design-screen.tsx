@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 
-export function DesignScreen({ title, subtitle, children, footer, testID }: { title: string; subtitle?: string; children: React.ReactNode; footer?: React.ReactNode; testID?: string }) {
+export function DesignScreen({ title, subtitle, children, footer, testID, onBack, backLabel="Retour", stickyFooter=false }: { onBack?:()=>void; backLabel?:string; stickyFooter?:boolean; title: string; subtitle?: string; children: React.ReactNode; footer?: React.ReactNode; testID?: string }) {
   const styles = useDesignStyles();
   const insets = useSafeAreaInsets();
   const { safeSides } = useScreenLayout();
@@ -14,12 +14,16 @@ export function DesignScreen({ title, subtitle, children, footer, testID }: { ti
   return <KeyboardAvoidingView testID={screenTestID} style={[styles.root, safeSides]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
     <ScrollView testID={`${screenTestID}-scroll`} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={[layoutStyles.formContent, styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 32 }]}>
       <View style={styles.header}>
-        <Pressable testID={`${screenTestID}-back-button`} onPress={() => router.canGoBack() ? router.back() : router.replace("/")} accessibilityRole="button" accessibilityLabel="Retour" hitSlop={8}><Text testID={`${screenTestID}-title`} accessibilityRole="header" style={styles.title}>{title}</Text></Pressable>
+        <Pressable testID={`${screenTestID}-back-button`} onPress={onBack??(()=>router.canGoBack()?router.back():router.replace("/"))} accessibilityRole="button" accessibilityLabel={backLabel} style={{minHeight:48,flexDirection:"row",alignItems:"center",gap:6,alignSelf:"flex-start"}}>
+          <Text style={styles.chevron}>{backLabel==="Fermer"?"×":"‹"}</Text><Text style={styles.subtitle}>{backLabel}</Text>
+        </Pressable>
+        <Text testID={`${screenTestID}-title`} accessibilityRole="header" style={styles.title}>{title}</Text>
         {subtitle ? <Text testID={`${screenTestID}-subtitle`} style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
       {children}
-      {footer ? <View style={styles.footer}>{footer}</View> : null}
+      {footer&&!stickyFooter ? <View style={styles.footer}>{footer}</View> : null}
     </ScrollView>
+    {footer&&stickyFooter?<View style={[layoutStyles.formContent,{paddingHorizontal:18,paddingTop:10,paddingBottom:insets.bottom+12,gap:10}]}>{footer}</View>:null}
   </KeyboardAvoidingView>;
 }
 

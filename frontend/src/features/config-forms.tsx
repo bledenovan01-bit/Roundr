@@ -1,15 +1,16 @@
 // Formulaires de configuration par mode (§5). Un seul écran, options
 // dépliées sur place, temps d'abord (UX-01/UX-02).
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useContext } from "react";
 
 import { Card, ChoiceRow, Disclosure, Divider, EndRulesField, NumberInput, Section, Segmented, Stepper, ToggleRow } from "@/src/components/fields";
 import { bestNextCount, groupSizes, recommendCup } from "@/src/domain/cup";
+import { formatMMSS } from "@/src/chrono/format";
 import { periodsDelta, splitPeriods } from "@/src/domain/custom-split";
 import { classicBreakDefault } from "@/src/domain/defaults";
 import { byeCount, roundName } from "@/src/domain/bracket";
 import type { AnyConfig, ClassicConfig, CupConfig, CustomConfig, DrawRule, MaracanaConfig, RoundMinutes, SurvieConfig } from "@/src/domain/types";
-import { fontFamily, fontSize, makeStyles, spacing } from "@/src/theme";
+import { fontFamily, fontSize, makeStyles, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
 type FormProps<T extends AnyConfig> = { config: T; onChange: (c: T) => void };
@@ -40,7 +41,6 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
             custom={{ min: 1, onChange: (n) => set({ totalMin: n, breakMin: classicBreakDefault(n) }) }}
             suffix="min"
           />
-          <Divider />
           <Segmented
             label="Format"
             testID="periods"
@@ -71,7 +71,6 @@ export function ClassicForm({ config, onChange }: FormProps<ClassicConfig>) {
           <Divider />
           <ToggleRow testID="toggle-score" label="Score" value={config.score} onChange={(v) => set({ score: v })} />
           <Divider />
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
         </Card>
       </Section>
     </View>
@@ -91,7 +90,7 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
       {!goalsOnly ? (
         <View style={styles.fieldGap}>
           <Text style={styles.label}>Durée totale de jeu</Text>
-          <NumberInput testID="custom-total" value={String(config.totalMin)} onChange={(t) => setTotal(Math.max(1, parseInt(t || "1", 10)))} suffix="min" />
+          <NumberInput testID="custom-total" label="Durée totale de jeu" min={1} value={String(config.totalMin)} onChange={(t) => setTotal(Math.max(1, parseInt(t || "1", 10)))} suffix="min" />
           <Stepper label="Nombre de périodes" testID="custom-periods" value={config.periods} min={1} max={12} onChange={setPeriods} />
           {config.periods > 1 ? (
             <>
@@ -109,24 +108,26 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
                       <Text style={styles.periodLabel}>Période {i + 1}</Text>
                       <NumberInput
                         testID={`period-${i}`}
-                        value={String(Math.round(sec / 60))}
+                        label={`Durée de la période ${i+1} en secondes`}
+                        min={1}
+                        value={String(sec)}
                         onChange={(t) => {
                           const copy = [...config.periodSec];
-                          copy[i] = Math.max(0, parseInt(t || "0", 10)) * 60;
+                          copy[i] = Math.max(0, parseInt(t || "0", 10));
                           set({ periodSec: copy });
                         }}
-                        suffix="min"
+                        suffix="s"
                       />
                     </View>
                   ))}
                   {delta !== 0 ? (
                     <Text style={styles.error} testID="split-error">{`Somme ${Math.round(config.periodSec.reduce((a, b) => a + b, 0) / 60)} min ≠ total ${config.totalMin} min (${delta > 0 ? "+" : ""}${delta / 60} min).`}</Text>
                   ) : (
-                    <Text style={styles.note}>Somme correcte : {config.periodSec.map((s) => Math.round(s / 60)).join(" + ")} min.</Text>
+                    <Text style={styles.note}>Somme correcte : {config.periodSec.map((s) => formatMMSS(s*1000)).join(" + ")}.</Text>
                   )}
                 </View>
               ) : (
-                <Text style={styles.note}>{config.periodSec.map((s) => Math.round(s / 60)).join(" + ")} min</Text>
+                <Text style={styles.note}>{config.periodSec.map((s) => formatMMSS(s*1000)).join(" + ")}</Text>
               )}
               <ChoiceRow
                 label="Pause entre périodes"
@@ -152,13 +153,13 @@ export function CustomForm({ config, onChange }: FormProps<CustomConfig>) {
       />
       {config.end.byTime ? <ToggleRow testID="toggle-additional" label="Temps additionnel" hint="Dernière période uniquement, arrêt manuel." value={config.additional} onChange={(v) => set({ additional: v })} /> : null}
       <ToggleRow testID="toggle-score" label="Score" hint={config.end.goalTarget != null ? "Requis par l’objectif de buts." : undefined} value={config.score || config.end.goalTarget != null} onChange={(v) => set({ score: config.end.goalTarget != null ? true : v })} />
-      <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
     </Card>
   );
 }
 
 export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
   const styles = useStyles();
+  const {colors}=useTheme();
   const set = (p: Partial<MaracanaConfig>) => onChange({ ...config, ...p });
   return (
     <View style={styles.formStack}>
@@ -175,16 +176,14 @@ export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
       </Section>
       <Section title="Équipes">
         <Card>
-          <Stepper label="Nombre d’équipes" testID="teams" value={config.teamCount} min={3} max={8} onChange={(n) => set({ teamCount: n })} hint={config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."} />
+          <Text style={styles.label}>Nombre d’équipes</Text>
+          <Text style={styles.note}>{config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."}</Text>
+          <View style={{flexDirection:"row",gap:4}} testID="teams">
+            {[3,4,5,6,7,8].map(n=><Pressable key={n} testID={`teams-${n}`} onPress={()=>set({teamCount:n})} accessibilityRole="radio" accessibilityState={{checked:config.teamCount===n}} style={{flex:1,minWidth:0,minHeight:44,alignItems:"center",justifyContent:"center",borderRadius:8,backgroundColor:config.teamCount===n?colors.brandPrimary:colors.surfaceTertiary,borderWidth:1,borderColor:config.teamCount===n?colors.brandPrimary:colors.border}}><Text style={{fontFamily:fontFamily.textBold,color:config.teamCount===n?colors.onBrandPrimary:colors.onSurface}}>{n}</Text></Pressable>)}
+          </View>
         </Card>
       </Section>
-      <Section title="Options">
-        <Card>
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
-          <Divider />
-          <Text testID="maracana-options-note" style={styles.note}>Score obligatoire. Préparation automatique du prochain match.</Text>
-        </Card>
-      </Section>
+      <Text testID="maracana-options-note" style={styles.note}>Score obligatoire · Préparation automatique du prochain match.</Text>
     </View>
   );
 }
@@ -200,7 +199,7 @@ function RoundDurations({ teamCount, value, onChange, base }: { teamCount: numbe
       {rounds.map((r) => (
         <View key={r} style={styles.periodRow}>
           <Text style={styles.periodLabel}>{roundName(r)}</Text>
-          <NumberInput testID={`round-${r}`} value={String(value[r] ?? base)} onChange={(t) => onChange({ ...value, [r]: Math.max(1, parseInt(t || String(base), 10)) })} suffix="min" />
+          <NumberInput testID={`round-${r}`} label={`Durée : ${roundName(r)}`} min={1} value={String(value[r] ?? base)} onChange={(t) => onChange({ ...value, [r]: Math.max(1, parseInt(t || String(base), 10)) })} suffix="min" />
         </View>
       ))}
     </View>
@@ -246,11 +245,10 @@ export function SurvieForm({ config, onChange }: FormProps<SurvieConfig>) {
       </Section>
       <Section title="Options">
         <Card>
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
           {config.end.byTime ? (
             <>
               <Divider />
-              <Disclosure title="Options avancées : durées par tour" testID="advanced">
+              <Disclosure title="Durées par tour" testID="advanced">
                 <RoundDurations teamCount={config.teamCount} value={config.roundMinutes} onChange={(roundMinutes) => set({ roundMinutes })} base={config.matchMin} />
               </Disclosure>
             </>
@@ -324,9 +322,8 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
       </Section>
       <Section title="Options">
         <Card>
-          <ToggleRow testID="toggle-sounds" label="Sons / alertes" value={config.sounds} onChange={(v) => set({ sounds: v })} />
           <Divider />
-          <Disclosure title="Options avancées" testID="advanced">
+          <Disclosure title="Règles et durées de la compétition" testID="advanced">
             {config.end.byTime ? (
               <ToggleRow testID="toggle-group-additional" label="Additionnel ouvert en poules" hint="À zéro le chrono monte jusqu’à la fin manuelle ; le nul reste possible. Si « Premier à X buts » est actif, l’atteindre termine le match même pendant l’additionnel." value={config.groupAdditional} onChange={(v) => set({ groupAdditional: v })} />
             ) : null}
@@ -345,7 +342,7 @@ export function CupForm({ config, onChange }: FormProps<CupConfig>) {
 }
 
 const useBaseStyles = makeStyles((colors) => ({
-  formStack: { gap: spacing.xl },
+  formStack: { gap: spacing.md },
   fieldGap: { gap: spacing.md },
   label: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface },
   note: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.4 },

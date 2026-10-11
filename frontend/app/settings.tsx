@@ -1,29 +1,37 @@
-import { Linking, Text } from "react-native";
+import { Linking, Text, View } from "react-native";
 import { DesignScreen, DesignRow, DesignSection } from "@/src/components/design-screen";
-import { ChoiceRow, Segmented, ToggleRow } from "@/src/components/fields";
-import { getStoreState, dispatchSession } from "@/src/store/session-store";
-import { setPreferences, usePreferences } from "@/src/store/preferences";
+import { Segmented, ToggleRow } from "@/src/components/fields";
+import { VolumeSlider } from "@/src/components/volume-slider";
+import { PrimaryButton } from "@/src/components/primary-button";
+import { setPreferences, usePreferences, type EventSound } from "@/src/store/preferences";
 import { playSound, SOUND_CATALOG } from "@/src/audio/sounds";
 import { useTheme } from "@/src/theme";
+const events = [
+  ["startSound","Début du match"],["goalSound","But marqué"],["minuteSound","1 minute restante"],
+  ["periodSound","Fin de période"],["endSound","Fin du match"],["warmupSound","Échauffement"],
+] as const;
+const options:{value:EventSound;label:string}[]=[{value:"off",label:"Aucun son"},...SOUND_CATALOG.map(s=>({value:s.key,label:s.title}))];
 export default function Settings(){
- const p=usePreferences();const {colors}=useTheme();
- const toggle=(key:"sounds"|"vibrations"|"preparation"|"additional"|"keepAwake",title:string)=>{
-   const session=getStoreState().session;const value=key==="sounds"&&session?session.config.sounds:p[key];
-   return <DesignRow title={title} detail={value?"Activé":"Désactivé"}><ToggleRow label={title} value={value} onChange={v=>{setPreferences({[key]:v});if(key==="sounds")dispatchSession(s=>({...s,config:{...s.config,sounds:v}}));if(key==="additional")dispatchSession(s=>{ const supported=s.mode==="classique"||s.mode==="custom"||(s.mode==="cup"&&s.cup?.phase==="groups"); return supported ? {...s,config:{...s.config,...(s.mode==="cup"?{groupAdditional:v}:{additional:v})},live:s.live?{...s.live,additional:v&&s.live.end.byTime}:null} : s; });}}/></DesignRow>;
- };
- return <DesignScreen title="Paramètres" subtitle="Personnalise Roundr." testID="settings-screen">
-  {p.error?<Text style={{color:colors.error}}>{p.error}</Text>:null}
-  <DesignSection>SESSION</DesignSection>{toggle("sounds","Sons")}{toggle("vibrations","Vibrations")}{toggle("preparation","Alertes préparation")}{toggle("additional","Temps additionnel")}{toggle("keepAwake","Écran toujours actif")}
-  <DesignSection>AUDIO</DesignSection>
-  <DesignRow title="Sifflet de début" detail={p.startSound==="whistle"?"Sifflet d’arbitre":"Célébration"}><Segmented value={p.startSound} options={[{value:"whistle",label:"Sifflet"},{value:"alert",label:"Fanfare"}]} onChange={v=>{setPreferences({startSound:v});void playSound(v);}}/></DesignRow>
-  <DesignRow title="Sifflet de fin" detail={p.endSound==="final"?"3 coups":"Sifflet"}><Segmented value={p.endSound} options={[{value:"final",label:"3 coups"},{value:"whistle",label:"Sifflet"}]} onChange={v=>{setPreferences({endSound:v});void playSound(v);}}/></DesignRow>
-  <DesignRow title="Son de but" detail={p.goalSound==="alert"?"Fanfare":"Sifflet"}><Segmented value={p.goalSound} options={[{value:"alert",label:"Fanfare"},{value:"whistle",label:"Sifflet"}]} onChange={v=>{setPreferences({goalSound:v});void playSound(v);}}/></DesignRow>
-  <DesignRow title="Volume" detail={`${Math.round(p.volume*100)} %`}><ChoiceRow label="Volume" value={Math.round(p.volume*100)} options={[0,20,40,60,80,100].map(value=>({value,label:`${value} %`}))} onChange={v=>setPreferences({volume:v/100})}/></DesignRow>
-  <DesignSection>TOUS LES SONS</DesignSection>
-  {SOUND_CATALOG.map(sound=><DesignRow key={sound.key} title={sound.title} detail={`${sound.role} · ${sound.duration} s`} onPress={()=>void playSound(sound.key)}/>)}
-  <DesignSection>ASSISTANCE</DesignSection>
-  <DesignRow title="Signaler un problème" onPress={()=>void Linking.openURL("https://github.com/bledenovan01-bit/Roundr/issues/new?title=Probl%C3%A8me%20Roundr")}/>
-  <DesignRow title="Envoyer un retour" onPress={()=>void Linking.openURL("https://github.com/bledenovan01-bit/Roundr/issues/new?title=Retour%20Roundr")}/>
-  <DesignRow title="À propos de Roundr" detail="Version 1.0.0"><Text style={{color:colors.onSurface}}>Roundr — organisation des matchs et chronomètres.</Text></DesignRow>
- </DesignScreen>;
+  const p=usePreferences();const {colors}=useTheme();
+  return <DesignScreen title="Paramètres" subtitle="Tes réglages s’appliquent à tous les modes et chronos enregistrés." testID="settings-screen">
+    {p.error?<Text style={{color:colors.error}}>{p.error}</Text>:null}
+    <DesignSection>CONFORT DE JEU</DesignSection>
+    <ToggleRow label="Vibrations" value={p.vibrations} onChange={v=>{void setPreferences({vibrations:v});}}/>
+    <ToggleRow label="Annonces de préparation" hint="Messages dans Roundr pour les équipes du prochain match." value={p.preparation} onChange={v=>{void setPreferences({preparation:v});}}/>
+    <ToggleRow label="Temps additionnel par défaut" hint="Pour les nouveaux matchs classiques et chronos personnalisés." value={p.additional} onChange={v=>{void setPreferences({additional:v});}}/>
+    <ToggleRow label="Garder l’écran allumé" hint="Pendant que le chrono tourne. Désactivé : mise en veille normale du téléphone." value={p.keepAwake} onChange={v=>{void setPreferences({keepAwake:v});}}/>
+    <DesignSection>SONS DES ÉVÉNEMENTS</DesignSection>
+    <ToggleRow label="Sons de Roundr" value={p.sounds} onChange={v=>{void setPreferences({sounds:v});}}/>
+    <VolumeSlider value={p.volume} onChange={v=>{void setPreferences({volume:v});}}/>
+    {events.map(([key,title])=><DesignRow key={key} title={title} detail={options.find(o=>o.value===p[key])?.label}>
+      <View style={{gap:12}}>
+        <Segmented label={title} testID={`sound-${key}`} value={p[key]} options={options} onChange={v=>{void setPreferences({[key]:v});}}/>
+        <PrimaryButton label="Écouter ce son" variant="secondary" disabled={p[key]==="off"} onPress={()=>{const sound=p[key];if(sound!=="off")void playSound(sound);}}/>
+      </View>
+    </DesignRow>)}
+    <DesignSection>ASSISTANCE</DesignSection>
+    <DesignRow title="Signaler un problème" onPress={()=>void Linking.openURL("https://github.com/bledenovan01-bit/Roundr/issues/new?title=Probl%C3%A8me%20Roundr")}/>
+    <DesignRow title="Envoyer un retour" onPress={()=>void Linking.openURL("https://github.com/bledenovan01-bit/Roundr/issues/new?title=Retour%20Roundr")}/>
+    <DesignRow title="À propos de Roundr" detail="Version 1.0.0"><Text style={{color:colors.onSurface}}>Moins d’organisation, plus de jeu.</Text></DesignRow>
+  </DesignScreen>;
 }

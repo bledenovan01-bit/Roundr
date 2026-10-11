@@ -1,0 +1,46 @@
+name: Roundr checks
+on:
+  push:
+    branches: ["codex/roundr-test-feedback-fixes"]
+  pull_request:
+    branches: ["codex/roundr-v0-freeze-fixes"]
+permissions:
+  contents: read
+jobs:
+  domain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install isolated test compiler
+        run: npm install --prefix /tmp/roundr-tools --ignore-scripts --no-package-lock typescript@6.0.3
+      - name: Check TypeScript syntax
+        working-directory: frontend
+        env:
+          NODE_PATH: /tmp/roundr-tools/node_modules
+        run: npm run test:syntax
+      - name: Test chrono, tournaments, announcements and persistence
+        working-directory: frontend
+        env:
+          NODE_PATH: /tmp/roundr-tools/node_modules
+        run: npm test
+  typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install app dependencies
+        run: npm install --ignore-scripts --no-package-lock --legacy-peer-deps
+      - name: Check types
+        run: npm run typecheck
+      - name: Bundle Android, iOS and web
+        env:
+          CI: "1"
+        run: npx expo export --platform all --output-dir /tmp/roundr-export

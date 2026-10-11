@@ -1,6 +1,7 @@
 // SC-02 / C13 — Classement 3/1/0 : points → confrontation directe →
 // différence → buts marqués → victoires → ex æquo. Calculé depuis les
 // résultats finalisés uniquement (jamais depuis les buts live).
+import { matchTeams } from "./bracket";
 import type { Match } from "./types";
 
 export type StandingRow = {
@@ -24,8 +25,9 @@ export function finishedPairs(matches: Match[]): Finished[] {
   const out: Finished[] = [];
   for (const m of matches) {
     if (m.status !== "finished" || !m.score) continue;
-    if (m.a.kind !== "team" || m.b.kind !== "team") continue;
-    out.push({ a: m.a.teamId, b: m.b.teamId, sa: m.score[0], sb: m.score[1] });
+    const [a,b]=matchTeams(m,matches);
+    if(!a||!b)continue;
+    out.push({a,b,sa:m.score[0],sb:m.score[1]});
   }
   return out;
 }

@@ -119,6 +119,7 @@ export type Match = {
 };
 
 export type LiveStage =
+  | "ready"
   | "period"
   | "break"
   | "awaitPeriod"
@@ -169,6 +170,7 @@ export type CupState = {
   // Égalité parfaite à la coupure (C14) : choix explicite requis.
   tieChoice: { candidates: string[]; slots: number; context: string } | null;
   qualifiedIds: string[];
+  qualificationChoices?: Record<string, string[]>;
 };
 
 export type Session = {
@@ -196,7 +198,7 @@ export type Session = {
 export type Preset = {
   id: string;
   name: string;
-  config: CustomConfig;
+  config: AnyConfig;
   teams: Team[] | null;
   createdAt: number;
 };

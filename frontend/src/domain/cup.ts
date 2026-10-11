@@ -143,14 +143,16 @@ export function computeQualification(
   groups: Group[],
   matches: Match[],
   q: number,
-  chosen: string[],
+  chosen: string[] | Record<string, string[]>,
 ): Qualification {
+  const choicesFor = (context: string) => Array.isArray(chosen) ? chosen : chosen[context] ?? [];
   const standings = groups.map((g) => computeStandings(g.teamIds, matches.filter((m) => m.groupId === g.id)));
   const sameRank = (a: StandingRow, b: StandingRow) => a.rank === b.rank;
   const direct: string[][] = [];
   const leftovers: StandingRow[] = [];
   for (let gi = 0; gi < groups.length; gi++) {
-    const res = takeWithTie(standings[gi], q, sameRank, chosen, `Dernière place qualifiée · ${groups[gi].name}`);
+    const context = `Dernière place qualifiée · ${groups[gi].name}`;
+    const res = takeWithTie(standings[gi], q, sameRank, choicesFor(context), context);
     if ("kind" in res) return res;
     direct.push(res.ids);
     leftovers.push(...standings[gi].filter((r) => !res.ids.includes(r.teamId)).slice(0, 1));
@@ -167,7 +169,7 @@ export function computeQualification(
   if (extra > 0) {
     const perMatch = new Set(groups.map((g) => g.teamIds.length)).size > 1;
     const sorted = [...leftovers].sort((a, b) => compareAcrossGroups(a, b, perMatch));
-    const res = takeWithTie(sorted, extra, (a, b) => compareAcrossGroups(a, b, perMatch) === 0, chosen, "Meilleurs suivants");
+    const res = takeWithTie(sorted, extra, (a, b) => compareAcrossGroups(a, b, perMatch) === 0, choicesFor("Meilleurs suivants"), "Meilleurs suivants");
     if ("kind" in res) return res;
     seeds = seeds.concat(res.ids.map((id) => ({ kind: "team", teamId: id })));
   }

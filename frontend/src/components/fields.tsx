@@ -1,6 +1,6 @@
 // Composants de formulaire partagés (E02) : grandes cibles tactiles, options
 // dépliables sur place, aucun écran intermédiaire.
-import { useContext, useState } from "react";
+import { createContext, useContext, useEffect, useId, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import * as Haptics from "@/src/haptics";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
@@ -10,6 +10,7 @@ import type { EndRules, Team } from "@/src/domain/types";
 import { fontFamily, fontSize, control, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedType } from "@/src/typography-preview";
 
+export const FormValidityContext = createContext<(id:string, message:string|null)=>void>(()=>{});
 export function Section({ title, children, hint }: { title: string; children: React.ReactNode; hint?: string }) {
   const styles = useStyles();
   return (
@@ -81,7 +82,7 @@ export function ChoiceRow<T extends string | number>({
             accessibilityRole="radio"
             accessibilityState={{ checked: showCustom }}
             aria-checked={showCustom}
-            onPress={() => setShowCustom(true)}
+            onPress={() => { setDraft(String(value)); setShowCustom(true); }}
             style={[styles.chip, showCustom && styles.chipActive]}
           >
             <Text testID={`${baseTestID}-custom-label`} style={[styles.chipLabel, showCustom && styles.chipLabelActive]}>Perso</Text>
@@ -90,6 +91,9 @@ export function ChoiceRow<T extends string | number>({
       </View>
       {showCustom && custom ? (
         <NumberInput
+          label={label}
+          min={custom.min}
+          max={custom.max}
           value={draft}
           onChange={(t) => {
             setDraft(t);
@@ -104,27 +108,28 @@ export function ChoiceRow<T extends string | number>({
   );
 }
 
-export function NumberInput({ value, onChange, suffix, testID, placeholder }: { value: string; onChange: (t: string) => void; suffix?: string; testID?: string; placeholder?: string }) {
-  const styles = useStyles();
-  const { colors } = useTheme();
-  const inputTestID = testID ?? "number-input";
-  return (
+export function NumberInput({ value, onChange, suffix, testID, placeholder, label, min=0, max }: {
+  value:string; onChange:(t:string)=>void; suffix?:string; testID?:string; placeholder?:string; label?:string; min?:number; max?:number;
+}) {
+  const styles=useStyles(); const {colors}=useTheme();
+  const id=useId();const report=useContext(FormValidityContext);
+  const [draft,setDraft]=useState(value);
+  useEffect(()=>setDraft(value),[value]);
+  const n=Number(draft);
+  const invalid=draft===""||!Number.isSafeInteger(n)||n<min||(max!=null&&n>max);
+  const message=invalid?`${label??placeholder??"Valeur"} : saisis un entier de ${min}${max!=null?` à ${max}`:" ou plus"}.`:null;
+  useEffect(()=>{report(id,message);return()=>report(id,null);},[id,message,report]);
+  return <View style={{gap:6}}>
     <View style={styles.inputRow}>
-      <TextInput
-        testID={inputTestID}
-        value={value}
-        onChangeText={(t) => onChange(t.replace(/[^0-9]/g, ""))}
-        keyboardType="numeric"
-        placeholder={placeholder}
-        placeholderTextColor={colors.muted}
-        style={[styles.input, styles.numericInput]}
-        accessibilityLabel={placeholder ?? "Valeur numérique"}
-        selectTextOnFocus
-        returnKeyType="done"
-      />
-      {suffix ? <Text style={styles.suffix}>{suffix}</Text> : null}
+      <TextInput testID={testID??"number-input"} value={draft}
+        onChangeText={t=>{const next=t.replace(/[^0-9]/g,"");setDraft(next);onChange(next);}}
+        keyboardType="numeric" placeholder={placeholder} placeholderTextColor={colors.muted}
+        style={[styles.input,styles.numericInput]} accessibilityLabel={label??placeholder??`Valeur en ${suffix??"unités"}`}
+        selectTextOnFocus returnKeyType="done"/>
+      {suffix?<Text style={styles.suffix}>{suffix}</Text>:null}
     </View>
-  );
+    {message?<ErrorText>{message}</ErrorText>:null}
+  </View>;
 }
 
 export function Stepper({ label, value, min, max, onChange, testID, hint }: { label: string; value: number; min: number; max: number; onChange: (n: number) => void; testID?: string; hint?: string }) {
@@ -370,9 +375,9 @@ export function TeamsEditor({ teams, onChange, reorder }: { teams: Team[]; onCha
                   accessibilityState={{ checked: t.color === color }}
                   aria-checked={t.color === color}
                   onPress={() => setColor(i, color)}
-                  style={[styles.swatch, { backgroundColor: color }, t.color === color && styles.swatchActive]}
+                  style={[styles.swatch, { backgroundColor: color, borderColor: t.color === color ? colors.brandPrimary : colors.onSurfaceTertiary }, t.color === color && styles.swatchActive]}
                 >
-                  {t.color === color ? <MaterialCommunityIcons name="check" size={18} color={colors.onBrandPrimary} /> : null}
+                  {t.color === color ? <MaterialCommunityIcons name="check" size={18} color={["#111827","#172554","#1E3A8A","#7F1D1D"].includes(color) ? "#FFFFFF" : colors.onBrandPrimary} /> : null}
                 </Pressable>
               ))}
             </View>
@@ -409,12 +414,12 @@ export function ErrorText({ children, testID }: { children: string; testID?: str
 }
 
 const useBaseStyles = makeStyles((colors) => ({
-  section: { gap: spacing.md },
+  section: { gap: spacing.sm },
   sectionHeader: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, justifyContent: "space-between", alignItems: "baseline" },
   sectionTitle: { fontFamily: fontFamily.textBold, fontSize: fontSize.sm, letterSpacing: 1.8, color: colors.muted, textTransform: "uppercase" },
   sectionHint: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted },
-  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.xl, borderWidth: 1, borderColor: colors.border },
-  field: { gap: spacing.md },
+  card: { backgroundColor: colors.surfaceSecondary, borderRadius: radius.md, padding: spacing.md, gap: spacing.md, borderWidth: 1, borderColor: colors.border },
+  field: { gap: spacing.sm },
   fieldLabel: { fontFamily: fontFamily.textBold, fontSize: fontSize.lg, color: colors.onSurface, flexShrink: 1, minWidth: 0 },
   hint: { fontFamily: fontFamily.text, fontSize: fontSize.sm, color: colors.muted, lineHeight: fontSize.sm * 1.45 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
@@ -431,7 +436,7 @@ const useBaseStyles = makeStyles((colors) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  chipActive: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary, borderWidth: 1 },
+  chipActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
   checkChip: { flexDirection: "row", gap: spacing.sm, paddingHorizontal: spacing.md },
   tile: {
     flex: 1,
@@ -447,7 +452,7 @@ const useBaseStyles = makeStyles((colors) => ({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  tileActive: { backgroundColor: colors.brandPrimary, borderColor: colors.brandPrimary, borderWidth: 2 },
+  tileActive: { backgroundColor: colors.brandTertiary, borderColor: colors.brandPrimary, borderWidth: 2 },
   tileLabel: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.base + 1, color: colors.onSurfaceTertiary },
   track: { width: 58, height: 34, borderRadius: radius.pill, backgroundColor: colors.surfaceTertiary, borderWidth: 1, borderColor: colors.borderStrong, padding: 3, justifyContent: "center" },
   toggleTarget: { width: 58, minHeight: control.icon, justifyContent: "center", flexShrink: 0 },
@@ -456,7 +461,7 @@ const useBaseStyles = makeStyles((colors) => ({
   thumbOn: { backgroundColor: colors.onBrandPrimary, alignSelf: "flex-end" },
   dividerLine: { height: 1, backgroundColor: colors.divider, marginVertical: -spacing.xs },
   chipLabel: { fontFamily: fontFamily.textBold, fontSize: 13, color: colors.onSurfaceTertiary, textAlign: "center", flexShrink: 1, maxWidth: "100%" },
-  chipLabelActive: { color: colors.onBrandPrimary },
+  chipLabelActive: { color: colors.brandPrimary },
   inputRow: { flexDirection: "row", alignItems: "center", flexShrink: 1, maxWidth: "100%", gap: spacing.sm },
   numericInput: { width: 100, flexShrink: 1, maxWidth: "100%" },
   input: {
@@ -481,7 +486,7 @@ const useBaseStyles = makeStyles((colors) => ({
   segment: { flexDirection: "row", flexWrap: "wrap", backgroundColor: colors.surfaceTertiary, borderRadius: radius.md, padding: 5, gap: 5, borderWidth: 1, borderColor: colors.border },
   segmentItem: { flexGrow: 1, flexBasis: 108, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.sm, paddingVertical: spacing.sm, borderRadius: radius.sm, alignItems: "center", justifyContent: "center" },
   segmentItemLong: { flexBasis: 144 },
-  segmentItemActive: { backgroundColor: colors.brandPrimary, borderWidth: 2, borderColor: colors.brandPrimary },
+  segmentItemActive: { backgroundColor: colors.brandTertiary, borderWidth: 2, borderColor: colors.brandPrimary },
   teamRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: spacing.sm },
   teamInput: { flexGrow: 1, flexBasis: 140, minWidth: 140, maxWidth: "100%" },
   reorderActions: { flexDirection: "row", gap: spacing.xs, marginLeft: "auto" },

@@ -76,12 +76,12 @@ function playTo(s: Session, result: [number, number], now: number): Session {
   const corrected = S.correctLast(s, 0, -1, t0 + 5 * MIN);
   check("AC52 : match restauré en pause à 04:20", corrected.live!.stage === "period" && S.isPaused(corrected.live!) && S.livePlayedMs(corrected.live!, t0 + 9 * MIN) === 4 * MIN + 20_000 && corrected.matches.length === 1);
   // Continue : lancer match 2, nul 1-1 → A (présent depuis plus longtemps) sort
-  s = S.launchNext(s, t0 + 10 * MIN);
+  s = S.launchNext(s, t0 + 10 * MIN,true);
   check("match 2 live A–C", S.liveTeams(s)[0]?.id === "t1" && S.liveTeams(s)[1]?.id === "t3");
   s = playTo(s, [1, 1], t0 + 15 * MIN);
   check("AC17 : nul → A sort, C reste", s.maracana!.lastOut[0] === "t1" && s.maracana!.onField.includes("t3") && s.maracana!.onField.includes("t2"));
   // Match 3 : 0-0 au temps → extension 2 min
-  s = S.launchNext(s, t0 + 20 * MIN);
+  s = S.launchNext(s, t0 + 20 * MIN,true);
   s = S.advance(s, t0 + 29 * MIN);
   check("AC18 : 0-0 → extension 2 min", s.live!.stage === "extra" && s.live!.extraMs === 2 * MIN && s.live!.extensionUsed);
   const goalExt = S.goal(s, 1, 1, t0 + 29 * MIN);
@@ -110,7 +110,7 @@ function playTo(s: Session, result: [number, number], now: number): Session {
     const next = s.matches[s.matches.length - 1];
     const ids = [(next.a as { teamId: string }).teamId, (next.b as { teamId: string }).teamId];
     check(`MA5 rotation ${i + 1} : sortantes exclues, pas de doublon`, !ids.includes(a!.id) && !ids.includes(b!.id) && ids[0] !== ids[1]);
-    s = S.launchNext(s, t0 + i * 10 * MIN + MIN);
+    s = S.launchNext(s, t0 + i * 10 * MIN + MIN,true);
   }
 }
 
@@ -139,14 +139,14 @@ function playTo(s: Session, result: [number, number], now: number): Session {
   s = S.submitShootout(s, 4, 3, t0 + 11 * MIN);
   check("AC35 : 1-1, TAB 4-3, A avance, 2 buts de jeu", s.live!.stage === "finished" && s.matches[0].winnerId === "t1" && s.matches[0].score![0] + s.matches[0].score![1] === 2 && s.matches[0].shootout![0] === 4);
   check("durée jouée 10:00 (prolongation incluse)", s.matches[0].playedMs === 10 * MIN, s.matches[0].playedMs);
-  s = S.launchNext(s, t0 + 12 * MIN);
+  s = S.launchNext(s, t0 + 12 * MIN,true);
   s = playTo(s, [2, 0], t0 + 20 * MIN);
-  s = S.launchNext(s, t0 + 21 * MIN);
+  s = S.launchNext(s, t0 + 21 * MIN,true);
   check("AC38 : petite finale avant la finale", S.currentMatch(s)!.stage === "small");
   const [pa, pb] = S.liveTeams(s);
   check("AC38 : perdants des demies", pa?.id === "t4" && pb?.id === "t3", [pa?.id, pb?.id]);
   s = playTo(s, [1, 0], t0 + 30 * MIN);
-  s = S.launchNext(s, t0 + 31 * MIN);
+  s = S.launchNext(s, t0 + 31 * MIN,true);
   check("finale t1–t2", S.liveTeams(s)[0]?.id === "t1" && S.liveTeams(s)[1]?.id === "t2");
   s = playTo(s, [0, 1], t0 + 40 * MIN);
   check("session complète", S.sessionComplete(s));
@@ -185,7 +185,7 @@ function playTo(s: Session, result: [number, number], now: number): Session {
       tieSeen = true;
       const tc = s.cup!.tieChoice;
       s = S.resolveTieChoice(s, tc.candidates.slice(0, tc.slots), t0);
-      s = S.launchNext(s, t0);
+      s = S.launchNext(s, t0,true);
       continue;
     }
     if (m.status === "finished") break;
@@ -193,7 +193,7 @@ function playTo(s: Session, result: [number, number], now: number): Session {
     const ia = Number(a!.id.slice(1));
     const ib = Number(b!.id.slice(1));
     s = playTo(s, [ia % 3, ib % 3], t0 + i * 10 * MIN);
-    s = S.launchNext(s, t0 + i * 10 * MIN + MIN);
+    s = S.launchNext(s, t0 + i * 10 * MIN + MIN,true);
     i++;
   }
   console.log(tieSeen ? "  (AC31 : égalité à la coupure résolue par choix explicite)" : "  (pas d'égalité à la coupure)");
@@ -239,7 +239,7 @@ function playTo(s: Session, result: [number, number], now: number): Session {
   const restarted = S.restartCurrent(s, 1_005_000);
   check("Relancer : score et chrono remis à zéro", restarted.live!.score.every(v => v === 0) && restarted.live!.chrono.accumulatedMs === 0 && restarted.live!.chrono.runningSince === null);
   check("Relancer : historique et rotation conservés", restarted.matches === s.matches && restarted.maracana === s.maracana);
-  check("Relancer : reprise possible", S.resume(restarted, 1_010_000).live!.chrono.runningSince === 1_010_000);
+  check("Relancer : nouveau départ explicite", S.startReady(restarted, 1_010_000).live!.chrono.runningSince === 1_010_000);
 }
 
 console.log(failures ? `\n${failures} échec(s)` : "\nTous les tests passent");

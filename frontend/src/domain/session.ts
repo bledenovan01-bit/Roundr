@@ -80,7 +80,7 @@ export function createSession(config: AnyConfig, teams: Team[], now: number): Se
       break;
     }
   }
-  return launchNext(base, now);
+  return launchNext(base, now, true);
 }
 
 // ---------------------------------------------------------------------------
@@ -104,7 +104,7 @@ export function matchMinutes(session: Session, match: Match): number {
   }
 }
 
-function buildLive(session: Session, match: Match, now: number): Live {
+function buildLive(session: Session, match: Match, now: number, startImmediately = true): Live {
   const c = session.config;
   let periodMs: number[] = [];
   let breakMs = 0;
@@ -151,11 +151,8 @@ function buildLive(session: Session, match: Match, now: number): Live {
     }
   }
 
-  const chrono = chronoReducer(
-    chronoReducer(initialChronoState, { type: "configure", regulationDurationMs: periodMs[0], extraDurationMs: extraMs }),
-    { type: "start" },
-    now,
-  );
+  const configured = chronoReducer(initialChronoState, { type: "configure", regulationDurationMs: periodMs[0], extraDurationMs: extraMs });
+  const chrono = startImmediately ? chronoReducer(configured, { type: "start" }, now) : configured;
   return {
     matchId: match.id,
     periodMs,
@@ -166,7 +163,7 @@ function buildLive(session: Session, match: Match, now: number): Live {
     drawRule,
     extraMs,
     maracanaExtension,
-    stage: "period",
+    stage: startImmediately ? "period" : "ready",
     periodIndex: 0,
     chrono,
     playedMs: 0,
@@ -176,7 +173,7 @@ function buildLive(session: Session, match: Match, now: number): Live {
     prevStage: null,
     finishCount: false,
     finishedAt: null,
-    startedAt: now,
+    startedAt: startImmediately ? now : 0,
   };
 }
 
@@ -188,8 +185,8 @@ export function currentMatch(session: Session): Match | null {
 export function restartCurrent(session: Session, now: number): Session {
   const match = currentMatch(session);
   if (!match || session.live?.stage === "finished") return session;
-  const live = buildLive(session, match, now);
-  return { ...session, updatedAt: now, live: { ...live, chrono: { ...live.chrono, runningSince: null } } };
+  const live = buildLive(session, match, now, false);
+  return { ...session, updatedAt: now, live };
 }
 
 export function isPlayStage(stage: LiveStage): boolean {
@@ -282,8 +279,8 @@ function fireAlerts(session: Session, live: Live, target: number, el: number, no
   const isLastPeriod = live.periodIndex === live.periodMs.length - 1;
   if (isLastPeriod && session.mode !== "classique" && session.mode !== "custom") {
     const next = nextMatchInfo(session);
-    if (next && live.end.byTime) {
-      if (remaining <= prepLeadMs(next.durationMin)) keys.push("prep");
+    if (next?.certain && live.end.byTime) {
+      if (remaining <= prepLeadMs(target / 60_000)) keys.push("prep");
       if (remaining <= REMINDER_MS) keys.push("prep1");
     }
   }
@@ -400,7 +397,7 @@ function tryQualify(session: Session, chosen: string[] = []): Session {
   if (groupMatches.some((m) => m.status !== "finished")) return session;
   const c = session.config;
   if (c.mode !== "cup") return session;
-  const q = computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, chosen);
+  const q = computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? chosen);
   if (q.kind === "tie") return { ...session, cup: { ...cup, tieChoice: { candidates: q.candidates, slots: q.slots, context: q.context } } };
   const bracket = buildBracket(q.seeds, { smallFinal: c.smallFinal, startOrder: groupMatches.length + 1, idPrefix: "k" });
   return {
@@ -412,7 +409,10 @@ function tryQualify(session: Session, chosen: string[] = []): Session {
 }
 
 export function resolveTieChoice(session: Session, chosen: string[], now: number): Session {
-  return { ...tryQualify({ ...session, cup: { ...session.cup!, tieChoice: null } }, chosen), updatedAt: now };
+  const tc = session.cup?.tieChoice;
+  if (!tc || chosen.length !== tc.slots || new Set(chosen).size !== tc.slots || chosen.some(id => !tc.candidates.includes(id))) return session;
+  const qualificationChoices = { ...session.cup!.qualificationChoices, [tc.context]: [...chosen] };
+  return { ...tryQualify({ ...session, cup: { ...session.cup!, qualificationChoices, tieChoice: null } }), updatedAt: now };
 }
 
 // ---------------------------------------------------------------------------
@@ -490,14 +490,20 @@ export function hasPendingMatches(session: Session): boolean {
 }
 
 // FI-02 — Lancer le prochain match. Jamais automatique.
-export function launchNext(session: Session, now: number): Session {
+export function launchNext(session: Session, now: number, startImmediately = false): Session {
   if (session.cup?.tieChoice) return session;
   if (session.live && session.live.stage !== "finished") return session;
   const next = findNextMatch(session);
   if (!next) return session;
   const matches = session.matches.map((m) => (m.id === next.id ? { ...m, status: "live" as const } : m));
   const s = { ...session, matches, preFinish: null, lastEvent: null };
-  return setLive(s, buildLive(s, next, now), now);
+  return setLive(s, buildLive(s, next, now, startImmediately), now);
+}
+
+export function startReady(session: Session, now: number): Session {
+  const live = session.live;
+  if (!live || live.stage !== "ready") return session;
+  return setLive(session, { ...live, stage: "period", chrono: chronoReducer(live.chrono, { type: "start" }, now), startedAt: now }, now);
 }
 
 export function sessionComplete(session: Session): boolean {
@@ -522,7 +528,9 @@ export function correctLast(session: Session, side: 0 | 1, delta: 1 | -1, now: n
   const match = currentMatch(session)!;
   const restored: Session = { ...session, matches: session.preFinish.matches, maracana: session.preFinish.maracana, cup: session.preFinish.cup, preFinish: null };
   const decisive = match.finishReason === "goalTarget" || match.finishReason === "goldenGoal" || match.finishReason === "extension";
-  const stillReached = live.end.goalTarget != null && (score[0] >= live.end.goalTarget || score[1] >= live.end.goalTarget);
+  const stillReached = match.finishReason === "goalTarget"
+    ? live.end.goalTarget != null && (score[0] >= live.end.goalTarget || score[1] >= live.end.goalTarget)
+    : score[0] !== score[1];
   if (decisive && !stillReached) {
     // Le but décisif est annulé : match restauré en pause à l'instant exact.
     const prev = live.prevStage ?? "period";
@@ -531,8 +539,22 @@ export function correctLast(session: Session, side: 0 | 1, delta: 1 | -1, now: n
     const playedMs = live.playedMs - (live.finishCount ? live.chrono.accumulatedMs : 0);
     return setLive(restored, { ...live, stage: prev, prevStage: null, finishCount: false, score, chrono, playedMs, finishedAt: null }, now);
   }
-  const reFinished = setLive(restored, unfinishedLive({ ...live, score }), now);
-  return finishMatch(reFinished, live.finishedAt ?? now, match.finishReason, live.finishCount);
+  let reFinished = setLive(restored, unfinishedLive({ ...live, score, finishedAt: null }), now);
+  const at = live.finishedAt ?? now;
+  if (live.drawRule && score[0] === score[1] && !match.shootout) {
+    // A corrected draw needs a winner before dependent bracket slots can resolve.
+    const rl = reFinished.live!;
+    if (rl.stage === "extra" || rl.stage === "shootout" || rl.stage === "golden") {
+      return setLive(reFinished, { ...rl, stage: "shootout", playedMs: live.playedMs, chrono: { ...rl.chrono, runningSince: null } }, now);
+    }
+    return tiebreak(reFinished, now);
+  }
+  if (match.shootout && score[0] !== score[1]) {
+    reFinished = { ...reFinished, matches: reFinished.matches.map(m => m.id === live.matchId ? { ...m, shootout: null } : m),
+      live: { ...reFinished.live!, stage: "period", playedMs: live.playedMs } };
+    return finishMatch(reFinished, at, match.finishReason === "shootout" ? "regulation" : match.finishReason, false);
+  }
+  return finishMatch(reFinished, at, match.finishReason, live.finishCount);
 }
 
 // Ramène un live finalisé à l'étape précédente (pour re-finaliser).

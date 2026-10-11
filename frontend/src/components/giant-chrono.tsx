@@ -44,7 +44,8 @@ function GiantChronoContent({ time, caption, status, scoreLine, paused, canPause
       <View style={[styles.root, { paddingTop: insets.top + spacing.md, paddingBottom: insets.bottom + spacing.md, paddingLeft: insets.left + spacing.lg, paddingRight: insets.right + spacing.lg }]} testID="giant-chrono">
         <View style={styles.closeRow}>
         <Pressable testID="giant-close" onPress={onClose} style={styles.close} accessibilityRole="button" accessibilityLabel="Fermer le chrono géant">
-          <MaterialCommunityIcons name="arrow-collapse" size={26} color={colors.muted} />
+          <MaterialCommunityIcons name="close" size={26} color={colors.muted} />
+          <Text style={styles.status}>Fermer</Text>
         </Pressable>
         </View>
         <ScrollView testID="giant-scroll" style={styles.scroll} contentContainerStyle={[styles.body, landscape && styles.bodyLandscape]}>
@@ -76,7 +77,7 @@ const useStyles = makeStyles((colors) => ({
     backgroundColor: colors.surface,
   },
   closeRow: { alignItems: "flex-end" },
-  close: { width: 48, height: 48, alignItems: "center", justifyContent: "center" },
+  close: { flexDirection: "row", gap: 8, minWidth: 100, minHeight: 48, alignItems: "center", justifyContent: "center" },
   scroll: { flex: 1, minHeight: 0 },
   body: { flexGrow: 1, alignItems: "center", justifyContent: "center", gap: spacing.md, paddingVertical: spacing.md },
   bodyLandscape: { flexDirection: "row", gap: spacing.xl },
