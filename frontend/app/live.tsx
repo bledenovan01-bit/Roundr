@@ -282,10 +282,10 @@ function Transition({ session, next, onNext, onEndSession, onAddTeam, onSummary,
   return (
     <View style={{gap:14, paddingTop:12,alignItems:"stretch"}} testID="transition-panel">
       <Text style={{fontFamily:fontFamily.textBold,fontSize:24,lineHeight:33,color:colors.onSurface,textAlign:"center"}}>Match terminé</Text>
-      <Text style={styles.panelHint}>
+      <Text style={[styles.panelHint,{fontSize:20,lineHeight:30,color:colors.onSurface,textAlign:"center"}]}>
         {a?.name} {match.score ? `${match.score[0]} – ${match.score[1]}` : "vs"} {b?.name}
       </Text>
-      {match.shootout ? <Text style={styles.panelHint}>TAB {match.shootout[0]}–{match.shootout[1]} · {winner} qualifié</Text> : winner ? <Text style={styles.panelHint}>Vainqueur : {winner}</Text> : <Text style={styles.panelHint}>Match nul</Text>}
+      {match.shootout ? <Text style={[styles.panelHint,{textAlign:"center",fontSize:16,lineHeight:24}]}>TAB {match.shootout[0]}–{match.shootout[1]} · {winner} qualifié</Text> : winner ? <Text style={[styles.panelHint,{textAlign:"center",fontSize:16,lineHeight:24}]}>Vainqueur : {winner}</Text> : <Text style={[styles.panelHint,{textAlign:"center",fontSize:16,lineHeight:24}]}>Match nul</Text>}
       {session.live?.scoreOn?<View style={{gap:10}}>
         <Text style={[styles.panelHint,{textAlign:"center"}]}>Corriger le dernier score</Text>
         {([a,b] as const).map((team,i)=><View key={i} style={{flexDirection:"row",alignItems:"center",gap:8}}>
