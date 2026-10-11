@@ -14,6 +14,7 @@ let state:Preferences={chronoStyle:"classic",sounds:true,vibrations:true,prepara
   volume:0.8,startSound:"whistle",endSound:"final",goalSound:"alert",minuteSound:"gong",periodSound:"gong",warmupSound:"prep",
   teams:[],players:[],groups:[],error:null};
 const listeners=new Set<()=>void>();
+export function subscribePreferences(fn:()=>void){listeners.add(fn);return()=>{listeners.delete(fn);};}
 const emit=()=>listeners.forEach(fn=>fn());
 const sounds = new Set(["off","alert","whistle","final","prep","gong"]);
 const team = (t:any):t is Team => !!t && typeof t.id==="string" && typeof t.name==="string" && typeof t.color==="string";
@@ -52,4 +53,4 @@ export function setPreferences(p:Partial<Preferences>){
   return pending;
 }
 export const getPreferences=()=>state;
-export function usePreferences(){return useSyncExternalStore(fn=>{listeners.add(fn);return()=>{listeners.delete(fn);};},()=>state,()=>state);}
+export function usePreferences(){return useSyncExternalStore(subscribePreferences,()=>state,()=>state);}

@@ -1,6 +1,6 @@
 // §9 / C19 — Audio local (WAV embarqués, aucune voix, aucun réseau).
 // Coexistence avec la musique externe : mode "mixWithOthers", jamais de stop.
-import { getPreferences } from "@/src/store/preferences";
+import { getPreferences, subscribePreferences } from "@/src/store/preferences";
 import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from "expo-audio";
 
 export type SoundKey = "alert" | "whistle" | "final" | "prep" | "gong";
@@ -22,6 +22,13 @@ const SOURCES: Record<SoundKey, number> = {
 
 const players: Partial<Record<SoundKey, AudioPlayer>> = {};
 let modeReady = false;
+subscribePreferences(() => {
+  if (!getPreferences().sounds) {
+    for (const player of Object.values(players)) {
+      try { player?.pause(); } catch { /* Audio must never block the match. */ }
+    }
+  }
+});
 
 async function ensureMode() {
   if (modeReady) return;
@@ -37,8 +44,9 @@ async function ensureMode() {
   }
 }
 
-export async function playSound(key: SoundKey): Promise<void> {
+export async function playSound(key: SoundKey, preview = false): Promise<void> {
   try {
+    if (!preview && !getPreferences().sounds) return;
     await ensureMode();
     let p = players[key];
     if (!p) {
@@ -47,6 +55,8 @@ export async function playSound(key: SoundKey): Promise<void> {
     }
     p.volume = getPreferences().volume;
     await p.seekTo(0);
+    // A mute action may occur while the audio player is loading/seeking.
+    if (!preview && !getPreferences().sounds) return;
     p.play();
   } catch {
     // Jamais bloquant : le retour visuel reste disponible.

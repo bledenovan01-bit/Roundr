@@ -27,7 +27,7 @@ export default function Settings(){
     {events.map(([key,title])=><DesignRow key={key} title={title} detail={options.find(o=>o.value===p[key])?.label}>
       <View style={{gap:12}}>
         <Segmented label={title} testID={`sound-${key}`} value={p[key]} options={options} onChange={v=>{void setPreferences({[key]:v});}}/>
-        <PrimaryButton label="Écouter ce son" variant="secondary" disabled={p[key]==="off"} onPress={()=>{const sound=p[key];if(sound!=="off")void playSound(sound);}}/>
+        <PrimaryButton label="Écouter ce son" variant="secondary" disabled={p[key]==="off"} onPress={()=>{const sound=p[key];if(sound!=="off")void playSound(sound,true);}}/>
       </View>
     </DesignRow>)}
     <DesignSection>ASSISTANCE</DesignSection>
