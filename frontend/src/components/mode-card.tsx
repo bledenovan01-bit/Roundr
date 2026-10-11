@@ -7,7 +7,6 @@ import { useScreenLayout } from "@/src/layout";
 
 import {
   makeStyles,
-  radius,
   spacing,
   useTheme,
 } from "@/src/theme";
@@ -104,7 +103,7 @@ const useStyles = makeStyles((colors) => ({
   iconWrap: {
     width: 40,
     height: 40,
-    borderRadius: radius.md,
+    borderRadius: 10,
     backgroundColor: colors.brandTertiary,
     alignItems: "center",
     justifyContent: "center",

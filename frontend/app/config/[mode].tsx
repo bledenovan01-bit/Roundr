@@ -80,7 +80,13 @@ export default function ConfigScreen() {
     go();
   };
 
-  const ctaLabel = config.mode === "custom" ? "Préparer le chrono" : "Lancer la session";
+  const ctaLabel = {
+    classique: "Lancer le match",
+    maracana: "Lancer le Maracana",
+    cup: "Lancer la Cup",
+    survie: "Lancer le mode Survie",
+    custom: "Préparer le chrono",
+  }[config.mode];
   const refinedTypography = true;
 
   return (
@@ -125,8 +131,8 @@ const useStyles = makeStyles((colors) => ({
   root: { flex: 1, backgroundColor: colors.surface },
   scroll: { paddingHorizontal: 18, gap: 14, flexGrow: 1 },
   header: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginBottom: spacing.xs },
-  backBtn: { width: 40, height: control.icon, alignItems: "center", justifyContent: "center" },
-  headerBalance: {width:40},
+  backBtn: { width: 48, height: control.icon, minHeight:48, borderRadius:14, backgroundColor:colors.surfaceTertiary, borderWidth:1, borderColor:colors.border, alignItems: "center", justifyContent: "center" },
+  headerBalance: {width:48},
   title: { fontFamily: fontFamily.textBold, fontSize: 20, color: colors.onSurface, letterSpacing: -0.4, textAlign:"center" },
   subtitle: { fontFamily: fontFamily.text, fontSize: 12, color: colors.muted, marginTop: 2, textAlign:"center" },
   modeIntro: {flexDirection:"row",alignItems:"center",gap:14,paddingHorizontal:12,paddingVertical:8},

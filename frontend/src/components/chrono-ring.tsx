@@ -27,7 +27,7 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
   const angle = (p * 360 - 90) * (Math.PI / 180);
   const dot = { x: size / 2 + r * Math.cos(angle), y: size / 2 + r * Math.sin(angle) };
   // Same typeface and optical size as the live score (38 pt).
-  const base = Math.min(38, size * 0.18);
+  const base = 38;
   const fontScale = time.length > 5 ? Math.min(1, 5 / time.length) : 1;
   return (
     <View style={[styles.wrap, { width: size, height: size }]} testID={testID}>

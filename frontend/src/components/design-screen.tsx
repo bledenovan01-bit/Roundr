@@ -14,8 +14,8 @@ export function DesignScreen({ title, subtitle, children, footer, testID, onBack
   return <KeyboardAvoidingView testID={screenTestID} style={[styles.root, safeSides]} behavior={Platform.OS === "ios" ? "padding" : "height"}>
     <ScrollView testID={`${screenTestID}-scroll`} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={[layoutStyles.formContent, styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 32 }]}>
       <View style={styles.header}>
-        <Pressable testID={`${screenTestID}-back-button`} onPress={onBack??(()=>router.canGoBack()?router.back():router.replace("/"))} accessibilityRole="button" accessibilityLabel={backLabel} style={{minHeight:48,flexDirection:"row",alignItems:"center",gap:6,alignSelf:"flex-start"}}>
-          <Text style={styles.chevron}>{backLabel==="Fermer"?"×":"‹"}</Text><Text style={styles.subtitle}>{backLabel}</Text>
+        <Pressable testID={`${screenTestID}-back-button`} onPress={onBack??(()=>router.canGoBack()?router.back():router.replace("/"))} accessibilityRole="button" accessibilityLabel={backLabel} style={styles.backButton}>
+          <Text style={styles.chevron}>{backLabel==="Fermer"?"×":"‹"}</Text><Text style={styles.backLabel}>{backLabel}</Text>
         </Pressable>
         <Text testID={`${screenTestID}-title`} accessibilityRole="header" style={styles.title}>{title}</Text>
         {subtitle ? <Text testID={`${screenTestID}-subtitle`} style={styles.subtitle}>{subtitle}</Text> : null}
@@ -48,7 +48,9 @@ export const useDesignStyles = makeStyles(c => ({
   root: { flex: 1, backgroundColor: c.surface },
   content: { flexGrow: 1, paddingHorizontal: 18, gap: 14 },
   header: { minHeight: 58, gap: 4 },
-  title: { fontFamily: fontFamily.textBold, fontSize: 24, lineHeight: 33, color: c.onSurface },
+  title: { fontFamily: fontFamily.textBold, fontSize: 24, lineHeight: 33, color: c.onSurface, textAlign:"center" },
+  backButton: {minHeight:48,paddingHorizontal:12,flexDirection:"row",alignItems:"center",gap:6,alignSelf:"flex-start",borderRadius:14,backgroundColor:c.surfaceTertiary,borderWidth:1,borderColor:c.border},
+  backLabel: {fontFamily:fontFamily.textBold,fontSize:12,color:c.onSurface},
   subtitle: { fontFamily: fontFamily.text, fontSize: 12, lineHeight: 17, color: c.muted },
   row: { minHeight: 62, paddingVertical: 11, paddingHorizontal: 14, borderRadius: 18, borderWidth: 1, borderColor: c.border, backgroundColor: c.surfaceSecondary, flexDirection: "row", alignItems: "center", gap: 10 },
   rowTitle: { fontFamily: fontFamily.text, fontSize: 14, lineHeight: 19, color: c.onSurface },
