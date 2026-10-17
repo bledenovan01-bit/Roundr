@@ -31,7 +31,7 @@ Les contrôles GitHub sont déclenchés sur cette branche et sur les PR vers `ma
 
 ## Recette à exécuter sur iPhone ET Android
 
-1. En mode avion, lancer un chrono, enregistrer plusieurs tours et des scores, puis le mettre en pause. Fermer complètement l'application et la rouvrir : retrouver exactement le temps en pause, les tours et les scores. Refaire avec un chrono en marche : vérifier le temps recalculé depuis les horodatages.
+1. En mode avion, lancer le chronomètre, enregistrer plusieurs tours, puis le mettre en pause. Fermer complètement l'application et la rouvrir : retrouver exactement le temps en pause et les tours. Refaire avec un compte à rebours « Avec équipes » pour vérifier les scores. Pour chaque outil, refaire avec le chrono en marche et vérifier le temps recalculé depuis les horodatages.
 2. Mettre à jour une installation de test contenant des presets Custom. Vérifier les originaux, les nouveaux chronos et les chronos déjà renommés. Fermer/rouvrir plusieurs fois : aucun doublon. Sur une installation contenant un ancien marqueur ambigu, tester séparément « Récupérer » et « Garder ma liste », puis rouvrir.
 3. Avec une séance contenant des tours ou des scores, tenter chacun des quatre parcours de création. Annuler : reprendre la même séance, puis fermer/rouvrir et vérifier sa sauvegarde. Confirmer : retrouver une séance neuve. Un chrono neuf sans progression ne doit pas provoquer de confirmation.
 4. Si le stockage de l'appareil peut être rendu indisponible dans un environnement de test, vérifier le message d'échec puis réessayer après rétablissement. Ne pas utiliser de vraies données pour ces simulations.
