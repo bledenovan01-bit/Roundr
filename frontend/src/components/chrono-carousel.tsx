@@ -30,10 +30,11 @@ export function ChronoCarousel({ children, notice, locked=false, time, caption, 
     scroll.current?.scrollTo({ x: 0, animated: false });
     setPage(0);
   }, [width]);
-  const labels=["Chronomètre", "Chronomètre circulaire", ...(notice?["Prochain match","Échauffement"]:[])];
-  // Réf. Lovable : le carrousel ne défile JAMAIS automatiquement sur une
-  // notification. Les vues "Prochain match"/"Échauffement" restent accessibles
-  // manuellement ; les alertes ponctuelles passent par la bannière sous le chrono.
+  const labels=["Chronomètre", "Chronomètre circulaire", ...(notice?["Prochain match"]:[])];
+  // Réf. Lovable + correctif Phase 2 : le carrousel ne défile JAMAIS
+  // automatiquement sur une notification, et la vue "Échauffement" a été
+  // RETIRÉE (l'échauffement passe uniquement par la bannière temporaire verte).
+  // Seule la vue "Prochain match" reste accessible manuellement.
   const go = (index: number) => {
     setPage(index);
     scroll.current?.scrollTo({ x: width * index, animated: !reduceMotion });
@@ -48,12 +49,12 @@ export function ChronoCarousel({ children, notice, locked=false, time, caption, 
       onScrollEndDrag={e => { if (manualReturn.current) clearTimeout(manualReturn.current); if (width && Math.round(e.nativeEvent.contentOffset.x/width)>=2) manualReturn.current = setTimeout(() => { scroll.current?.scrollTo({x:0, animated:!reduceMotion}); setPage(0); }, 8_000); }}>
       <View accessibilityElementsHidden={page !== 0} importantForAccessibility={page !== 0 ? "no-hide-descendants" : "auto"} style={{ width: width || undefined, minHeight: 170 }} testID="chrono-page">{children}</View>
       <View style={{width, minHeight:170, justifyContent:"center"}} accessibilityElementsHidden={page!==1} importantForAccessibility={page!==1?"no-hide-descendants":"auto"} testID="chrono-ring-page"><ChronoRing time={time} caption={caption} status={status} progress={progress} size={Math.min(230,Math.max(140,Math.min(screenWidth-56,screenHeight>screenWidth?230:screenHeight-190)))}/></View>
-      {notice ? (["next", "warmup"] as const).map((kind, i) => <Animated.View key={kind} accessibilityElementsHidden={page !== i+2} importantForAccessibility={page !== i+2 ? "no-hide-descendants" : "auto"} style={{ width, justifyContent: "center", transform: [{ translateY: offset }] }}>
+      {notice ? (["next"] as const).map((kind, i) => <Animated.View key={kind} accessibilityElementsHidden={page !== i+2} importantForAccessibility={page !== i+2 ? "no-hide-descendants" : "auto"} style={{ width, justifyContent: "center", transform: [{ translateY: offset }] }}>
         <Text style={styles.compactTime} accessibilityLabel={`Chronomètre ${notice.time}`}>{notice.time}</Text>
-        <Pressable testID={`notice-${kind}`} accessibilityRole="button" accessibilityLabel={kind === "next" ? "Voir les prochains matchs" : "Équipes à l’échauffement"}
+        <Pressable testID={`notice-${kind}`} accessibilityRole="button" accessibilityLabel="Voir les prochains matchs"
           disabled={notice.locked || page !== i + 2} onPress={notice.onPress} style={styles.card}>
-          <Text style={styles.eyebrow}>{kind === "next" ? "PROCHAIN MATCH" : "À L’ÉCHAUFFEMENT"}</Text>
-          <Text style={styles.title}>{kind === "next" ? notice.matchup : notice.preparation}</Text>
+          <Text style={styles.eyebrow}>PROCHAIN MATCH</Text>
+          <Text style={styles.title}>{notice.matchup}</Text>
           <Text style={styles.badge}>{notice.badge}</Text>
           <Text style={styles.badge}>{notice.standingsLabel}</Text>
         </Pressable>

@@ -221,7 +221,6 @@ export default function LiveScreen() {
           onSettings={()=>router.push("/settings")} onGiant={()=>setGiant(true)}
           onToggleDisplay={()=>setShowElapsed(v=>!v)} canToggleDisplay={canToggleDisplay && !paused}
           notice={next?.certain ? { time, cue: preferences.preparation ? liveNotice(remainingMs, target/60000, running) : "chrono", matchup: `${next.aLabel} vs ${next.bLabel}`, badge: remainingMs == null ? "À venir" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: remainingMs !== null && remainingMs <= 60_000 ? `${next.aLabel} et ${next.bLabel} : préparez-vous à entrer sur le terrain !` : `${next.aLabel} et ${next.bLabel} : commencez l’échauffement !`, locked, onPress: ()=>router.push("/standings"), standingsLabel: session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Voir le classement" : "Voir le tableau" } : undefined}/> : null}
-        {live.stage !== "finished" ? <LiveNoticeBanner notice={storeNotice} /> : null}
         {live.stage === "break" ? (
           <PrimaryButton testID="skip-break" label="Passer la pause" disabled={locked} variant="secondary" onPress={() => dispatchSession((s, t) => S.startNextPeriod({ ...s, live: { ...s.live!, stage: "awaitPeriod", periodIndex: s.live!.periodIndex + 1 } }, t))} />
         ) : null}
@@ -273,6 +272,13 @@ export default function LiveScreen() {
         {session.cup?.tieChoice ? <View><TieChoice key={session.cup.tieChoice.context+session.cup.tieChoice.candidates.join(",")} session={session}/></View> : null}
 
       </ScrollView>
+
+      {/* Correctif Phase 2 : bannière de notification en OVERLAY HAUT d'écran,
+          visible sur toutes les vues du carrousel (y compris Musique), non
+          bloquante (box-none). Remplace l'ancien emplacement sous le chrono. */}
+      <View pointerEvents="box-none" style={[styles.noticeOverlay, { top: insets.top + 44, left: 16, right: 16 }]}>
+        <LiveNoticeBanner notice={storeNotice} />
+      </View>
 
 
       {live.stage === "ready" ? <View style={[layoutStyles.content,{paddingHorizontal:18,paddingBottom:insets.bottom+12}]}><LiveControls paused ready locked={locked} onEnd={confirmEnd} onLock={()=>setLocked(!locked)} onRestart={()=>{}} onPause={()=>dispatchSession(S.startReady)}/></View> : null}
@@ -392,6 +398,7 @@ const useStyles = makeStyles((colors) => ({
   matchLabel: { fontFamily: fontFamily.text, fontSize: 13, lineHeight: 19, color: colors.muted },
   errorBanner: { flexDirection: "row", gap: spacing.sm, alignItems: "center", padding: spacing.md, borderRadius: radius.sm, backgroundColor: colors.error },
   errorText: { flex: 1, fontFamily: fontFamily.textBold, fontSize: fontSize.sm, color: colors.onError },
+  noticeOverlay: { position: "absolute", zIndex: 50, elevation: 50 },
   arena: { alignItems: "center", justifyContent: "center", marginTop: spacing.sm, alignSelf: "center", width: "100%", maxWidth: 480 },
   arenaStacked: { gap: spacing.lg },
   arenaLandscape: { marginTop: 0, flexShrink: 0 },

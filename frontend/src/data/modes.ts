@@ -50,9 +50,9 @@ export const GAME_MODES: GameMode[] = [
   },
   {
     id: "custom",
-    title: "Custom",
-    description: "Chrono sur mesure",
-    icon: "tune-variant",
+    title: "Chrono libre",
+    description: "Chronomètre, rebours, intervalles",
+    icon: "timer-outline",
     accent: "modeCustom",
   },
 ];

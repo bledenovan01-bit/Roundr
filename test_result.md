@@ -120,6 +120,17 @@ user_problem_statement: |
   La demande Google sign-in est PAUSÉE, aucune intégration auth à faire.
 
 frontend:
+  - task: "Phase 2 corrections + Phase 3 Chrono libre complet"
+    implemented: true
+    working: true
+    file: "app/chrono-libre/*, src/domain/free-timer.ts, src/store/session-store.ts, src/components/{analog-chrono,live-notice-banner,chrono-carousel}.tsx, src/features/free-save.tsx, src/data/modes.ts, app/index.tsx, app/live.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: true
+        -agent: "main"
+        -comment: "CORRECTIONS PHASE 2 (vérifiées en capture): (1) bannière de notif déplacée en OVERLAY HAUT d'écran (visible sur toutes les vues, non bloquante box-none, décalée sous le header). (2) Vue 'Échauffement' RETIRÉE du carrousel (échauffement = bannière verte temporaire uniquement). PHASE 3 CHRONO LIBRE (module AUTONOME, n'affecte pas le moteur de session): hub 'Type de chrono' + Chronomètre (count-up + tours + plus rapide/plus lent) + Compte à rebours (presets 1/5/10/15/30min + steppers H/M/S + Signal de fin + Avec équipes) + Intervalles (effort/repos/réps/séries/repos-séries, presets 30-30 & Tabata, auto/manuel) + Mes chronos (enregistrer/lancer/renommer/dupliquer/supprimer) + 3 affichages (numérique/circulaire/analogique). Accueil 'Custom' renommé 'Chrono libre' -> /chrono-libre. MIGRATION NON DESTRUCTIVE versionnée: anciens presets Custom convertis en compte à rebours dans Mes chronos, UNE seule fois (flag roundr.free-presets.migrated.v1), sans doublon, originaux CONSERVÉS intacts dans roundr.presets.v1 (restauration possible). Session Chrono libre persistée (roundr.free-timer.v1) pour reprise. Écritures seulement sur actions discrètes (pas de rafale). Réinitialiser (garde score) vs Recommencer (reset score) distincts. TESTS: nouveau scripts/test-free-timer.ts (buildSteps Tabata=15 steps, auto-chaînage multi-steps, manuel, pause fige, tours rapide/lent, reset vs restart, migration, validation) TOUS verts + tous les tests existants verts. typecheck OK, lint OK. Vérifié en captures: hub, chronomètre+tours, config rebours, run analogique."
   - task: "Phase 2 — Chronomètres enrichis (centièmes, toggle restant/écoulé, notifications internes)"
     implemented: true
     working: true
@@ -234,6 +245,8 @@ test_plan:
   test_priority: "high_first"
 
 agent_communication:
+    -agent: "main"
+    -message: "PHASE 3 Chrono libre livrée + 2 corrections Phase 2. Module autonome (zéro impact sur le moteur de session matchs/tournois). Migration non destructive des presets Custom -> Mes chronos (versionnée, sans doublon, originaux conservés). Tous les tests domain/chrono/store + le nouveau test-free-timer verts; typecheck+lint OK. Vérifié en captures: hub 'Type de chrono', chronomètre (tours + rapide/lent), config compte à rebours (presets+steppers), run avec affichage analogique. NON vérifié en capture (mais logique unit-testée + partage l'écran run): intervalles en exécution, Mes chronos CRUD, migration en conditions réelles d'anciennes données. Teams scoring = basique (+1/-1). Reprise app-kill du Chrono libre = persistée mais à valider sur appareil."
     -agent: "main"
     -message: "PEAUFINAGE Phase 2 livré et vérifié en captures, référence pixel = démo Lovable publique. (A) Centièmes rendus en PETIT suffixe dé-emphasé (gris) via nouveau composant ChronoTime, toujours visibles (même '.00' à l'arrêt) comme Lovable — appliqué aux 3 vues (numérique, circulaire, géant). Vérifié: ready 10:00.00, run 09:58.16. (B) Bannière de notif: icône dans badge rond (mégaphone vert=échauffement / horloge orange=temps) + fondu de sortie. Vérifié orange '30 secondes' (classique 1min) ET vert 'commencez l'échauffement' (Cup poule, match 3min). Non bloquante, carrousel jamais auto-défilé. Non-régression: typecheck/lint/tests domain-chrono-store TOUS verts. NOTE: l'échauffement n'apparaît que lorsque le prochain match est CERTAIN (ex. poules Cup, ou Maracana une fois le vainqueur connu) — conforme à la règle 'respecter les équipes réellement prévues'. RESTE polish possible: vue analogique du chrono (prévue Phase 3 Chrono libre)."
     -agent: "main"

@@ -9,6 +9,7 @@ import { playSound } from "@/src/audio/sounds";
 import { advance } from "@/src/domain/session";
 import { sessionEvents, type SessionEvent } from "@/src/domain/session-events";
 import { validPreset, validSession } from "./storage-validation";
+import { migrateCustomPreset, validFreePreset, advanceFree, type FreeTimerPreset, type FreeTimerState } from "@/src/domain/free-timer";
 import * as Haptics from "@/src/haptics";
 import type { Preset, Session } from "@/src/domain/types";
 
@@ -17,6 +18,9 @@ const KEYS = {
   summary: "roundr.summary.v1",
   presets: "roundr.presets.v1",
   corrupt: "roundr.session.corrupt.v1",
+  freePresets: "roundr.free-presets.v1",
+  freeTimer: "roundr.free-timer.v1",
+  freeMigrated: "roundr.free-presets.migrated.v1",
 };
 
 export type StoreState = {
@@ -27,6 +31,8 @@ export type StoreState = {
   saveError: string | null;
   now: number; // horloge de rendu (tick)
   notice: { message: string; until: number; tone: "warmup" | "time" } | null;
+  freePresets: FreeTimerPreset[];
+  freeTimer: FreeTimerState | null;
 };
 
 let state: StoreState = {
@@ -37,6 +43,8 @@ let state: StoreState = {
   saveError: null,
   now: Date.now(),
   notice: null,
+  freePresets: [],
+  freeTimer: null,
 };
 const listeners = new Set<() => void>();
 
@@ -88,11 +96,16 @@ export async function loadStore(): Promise<void> {
   let session: Session | null = null;
   let lastSummary: Session | null = null;
   let presets: Preset[] = [];
+  let freePresets: FreeTimerPreset[] = [];
+  let freeTimer: FreeTimerState | null = null;
   try {
-    const [rs, rsum, rp] = await Promise.all([
+    const [rs, rsum, rp, rfp, rft, rmig] = await Promise.all([
       AsyncStorage.getItem(KEYS.session),
       AsyncStorage.getItem(KEYS.summary),
       AsyncStorage.getItem(KEYS.presets),
+      AsyncStorage.getItem(KEYS.freePresets),
+      AsyncStorage.getItem(KEYS.freeTimer),
+      AsyncStorage.getItem(KEYS.freeMigrated),
     ]);
     const ps = parse<Session>(rs, validSession);
     if (ps.corrupt && rs) {
@@ -105,7 +118,23 @@ export async function loadStore(): Promise<void> {
     const saved = parse<Preset[]>(rp, v => Array.isArray(v) && v.every(validPreset));
     lastSummary = summary.value;
     presets = saved.value ?? [];
-    for (const [key, raw, corrupt] of [[KEYS.summary, rsum, summary.corrupt], [KEYS.presets, rp, saved.corrupt]] as const) {
+    const savedFree = parse<FreeTimerPreset[]>(rfp, v => Array.isArray(v) && v.every(validFreePreset));
+    freePresets = savedFree.value ?? [];
+    const savedTimer = parse<FreeTimerState>(rft, v => !!v && typeof v === "object" && validFreePreset({ id: "x", name: "y", createdAt: 1, config: (v as { config: unknown }).config }));
+    // Reprise : si le Chrono libre tournait, on recalcule les transitions une fois.
+    freeTimer = savedTimer.value ? advanceFree(savedTimer.value, Date.now()) : null;
+    // Migration UNIQUE et non destructive des anciens presets Custom -> Mes chronos.
+    // Les presets d'origine restent intacts dans KEYS.presets (restauration possible).
+    if (rmig == null) {
+      const migrated = presets.map(migrateCustomPreset).filter((x): x is FreeTimerPreset => x != null);
+      if (migrated.length) {
+        const existingIds = new Set(freePresets.map(p => p.id));
+        const toAdd = migrated.filter(m => !existingIds.has(m.id)); // évite les doublons
+        if (toAdd.length) { freePresets = [...freePresets, ...toAdd]; void persist(KEYS.freePresets, freePresets); }
+      }
+      void persist(KEYS.freeMigrated, { at: Date.now(), count: migrated.length });
+    }
+    for (const [key, raw, corrupt] of [[KEYS.summary, rsum, summary.corrupt], [KEYS.presets, rp, saved.corrupt], [KEYS.freePresets, rfp, savedFree.corrupt]] as const) {
       if (corrupt && raw) {
         await AsyncStorage.setItem(key + ".corrupt", raw).catch(() => {});
         saveError = "Certaines données sauvegardées sont illisibles et ont été conservées à part.";
@@ -114,7 +143,7 @@ export async function loadStore(): Promise<void> {
   } catch {
     saveError = "Lecture du stockage local impossible.";
   }
-  set({ loaded: true, session, lastSummary, presets, saveError, now: Date.now() });
+  set({ loaded: true, session, lastSummary, presets, saveError, now: Date.now(), freePresets, freeTimer });
   if (session) void persist(KEYS.session, session);
 }
 
@@ -185,6 +214,38 @@ export async function setPresets(presets: Preset[]): Promise<boolean> {
   set({ presets });
   return persist(KEYS.presets, presets);
 }
+
+// --- Chrono libre : presets (Mes chronos) + session persistée ----------------
+export async function saveFreePreset(preset: FreeTimerPreset): Promise<boolean> {
+  const next = [...state.freePresets.filter(p => p.id !== preset.id), preset];
+  set({ freePresets: next });
+  return persist(KEYS.freePresets, next);
+}
+export async function deleteFreePreset(id: string): Promise<boolean> {
+  const next = state.freePresets.filter(p => p.id !== id);
+  set({ freePresets: next });
+  return persist(KEYS.freePresets, next);
+}
+export async function renameFreePreset(id: string, name: string): Promise<boolean> {
+  const next = state.freePresets.map(p => (p.id === id ? { ...p, name } : p));
+  set({ freePresets: next });
+  return persist(KEYS.freePresets, next);
+}
+// Met à jour la session Chrono libre en cours (persistée pour la reprise).
+// L'affichage haute fréquence NE passe PAS par ici : seules les actions
+// discrètes (start/pause/tour/step/reset) écrivent, évitant les rafales.
+export function setFreeTimer(ft: FreeTimerState | null): void {
+  set({ freeTimer: ft });
+  void persist(KEYS.freeTimer, ft);
+}
+// Tick logique du Chrono libre : n'écrit QUE sur transition de step / fin.
+export function tickFreeTimer(): void {
+  const ft = state.freeTimer;
+  if (!ft || !ft.running || ft.finished) return;
+  const adv = advanceFree(ft, Date.now());
+  if (adv !== ft) setFreeTimer(adv);
+}
+
 export function dismissNotice() { set({ notice: null }); }
 
 export function getStoreState() {
