@@ -119,6 +119,16 @@ test("explicit recovery preserves user presets and survives subsequent deletion"
   assert.equal(next.store.getStoreState().freePresets.length, 1);
   assert.equal(next.store.getStoreState().legacyRecovery, null);
 });
+test("deletion cannot become an accidental reimport when the marker is still failing", async () => {
+  const f = fixture(sourceMemory()); f.failedWrites.add(K.marker); await f.store.loadStore();
+  assert.equal(await f.store.deleteFreePreset("free-mig-legacy"), false);
+  assert.equal(JSON.parse(f.memory.get(K.presets)!).length, 1);
+  assert.equal(f.store.getStoreState().freePresets.length, 1);
+  f.failedWrites.clear(); assert.equal(await f.store.deleteFreePreset("free-mig-legacy"), true);
+  const restarted = fixture(f.memory); await restarted.store.loadStore();
+  assert.equal(restarted.store.getStoreState().freePresets.length, 0);
+  assert.equal(restarted.store.getStoreState().legacyRecovery, null);
+});
 test("existing migrated edits are never overwritten", async () => {
   const memory = sourceMemory(); const edited = { ...preset("free-mig-legacy"), name: "Utilisateur" };
   memory.set(K.presets, JSON.stringify([edited]));

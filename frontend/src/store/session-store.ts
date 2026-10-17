@@ -186,7 +186,7 @@ async function migratePresets(explicit?: "recover" | "skip"): Promise<boolean> {
   set({ freePresets: next });
   // Data first, marker second. Existing objects, edits and originals survive.
   if (!(await persist(KEYS.freePresets, next))) return false;
-  const marker: Marker = { version: 2, sourceIds: [...new Set([...handled, ...converted.map(p => p.id)])] };
+  const marker: Marker = { version: 2, sourceIds: [...new Set([...handled, ...converted.map(p => p.id), ...next.filter(p => p.id.startsWith("free-mig-")).map(p => p.id)])] };
   if (!(await persist(KEYS.freeMigrated, marker))) return false;
   set({ legacyRecovery: null });
   return true;
@@ -375,6 +375,12 @@ export async function saveFreePreset(preset: FreeTimerPreset): Promise<boolean> 
 }
 export async function deleteFreePreset(id: string): Promise<boolean> {
   if (!writable(KEYS.freePresets)) return false;
+  if (id.startsWith("free-mig-") && (!validMarker(migrationMarker) || !migrationMarker.sourceIds.includes(id))) {
+    // Do not make an uncommitted import disappear: without a durable receipt,
+    // a restart could interpret its deletion as an interrupted migration.
+    if (!(await migratePresets()) || !validMarker(migrationMarker) || !migrationMarker.sourceIds.includes(id)) return false;
+    if (!writable(KEYS.freePresets)) return false;
+  }
   const next = state.freePresets.filter(p => p.id !== id);
   set({ freePresets: next });
   return persist(KEYS.freePresets, next);
