@@ -26,7 +26,7 @@ export type StoreState = {
   presets: Preset[];
   saveError: string | null;
   now: number; // horloge de rendu (tick)
-  notice: { message: string; until: number } | null;
+  notice: { message: string; until: number; tone: "warmup" | "time" } | null;
 };
 
 let state: StoreState = {
@@ -125,7 +125,13 @@ function emitSounds(prev: Session | null, next: Session | null, silent: boolean)
   const events = sessionEvents(prev, next).filter(e => p.preparation || (e.kind !== "warmup" && e.kind !== "next"));
   if (!events.length) return;
   const visible = events.filter(e => e.kind !== "goal" && e.kind !== "start");
-  if (visible.length) set({ notice: { message: visible.map(e => e.message).join(" · "), until: Date.now() + 6500 } });
+  if (visible.length) {
+    // Orange = alertes de temps (minute/fin de période/fin de match),
+    // vert = échauffement/préparation du prochain match. Priorité au temps.
+    const timeKinds: SessionEvent["kind"][] = ["minute", "periodEnd", "matchEnd"];
+    const tone: "warmup" | "time" = visible.some(e => timeKinds.includes(e.kind)) ? "time" : "warmup";
+    set({ notice: { message: visible.map(e => e.message).join(" · "), until: Date.now() + 4500, tone } });
+  }
   const sounds: Partial<Record<SessionEvent["kind"], import("./preferences").EventSound>> = {
     start:p.startSound, goal:p.goalSound, minute:p.minuteSound, periodEnd:p.periodSound, matchEnd:p.endSound, warmup:p.warmupSound,
   };

@@ -9,6 +9,17 @@ export function formatMMSS(ms: number): string {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
+// MM:SS.cc — avec centièmes de seconde (réf. Lovable). Ex. "06:58.42".
+// Jamais négatif. Les centièmes sont tronqués (floor) pour un décompte franc.
+export function formatMMSScc(ms: number): string {
+  const safe = Math.max(0, ms);
+  const totalSeconds = Math.floor(safe / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const centis = Math.floor((safe % 1000) / 10);
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(centis).padStart(2, "0")}`;
+}
+
 // HH:MM:SS variant when a session runs over an hour (rare in amateur play).
 export function formatHHMMSS(ms: number): string {
   const safe = Math.max(0, Math.floor(ms / 1000));

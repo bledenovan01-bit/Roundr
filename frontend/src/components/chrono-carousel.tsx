@@ -15,21 +15,25 @@ export function ChronoCarousel({ children, notice, locked=false, time, caption, 
   const [offset] = useState(() => new Animated.Value(0));
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const manualReturn = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const centered = useRef(false);
   useEffect(() => {
     void AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
     const sub = AccessibilityInfo.addEventListener("reduceMotionChanged", setReduceMotion);
     return () => { sub.remove(); if (manualReturn.current) clearTimeout(manualReturn.current); };
   }, []);
-  const cue = notice?.cue ?? "chrono";
-  const hasNotice = !!notice;
-  const labels=["Chronomètre", "Chronomètre circulaire", ...(notice?["Prochain match","Échauffement"]:[])];
+  // Vue par défaut = chrono numérique (page 0), fixée une seule fois à la
+  // première mesure de largeur. N'interfère jamais avec la navigation manuelle
+  // ni avec les notifications (qui passent par la bannière, pas le carrousel).
   useEffect(() => {
-    const index = cue === "next" ? 2 : cue === "warmup" ? 3 : 0;
-    if (manualReturn.current) clearTimeout(manualReturn.current);
-    scroll.current?.scrollTo({ x: width * index, animated: !reduceMotion });
-    offset.setValue(reduceMotion || index === 0 ? 0 : 36);
-    Animated.timing(offset, { toValue: 0, duration: reduceMotion ? 0 : 320, useNativeDriver: true }).start();
-  }, [cue, width, reduceMotion, offset, hasNotice]);
+    if (!width || centered.current) return;
+    centered.current = true;
+    scroll.current?.scrollTo({ x: 0, animated: false });
+    setPage(0);
+  }, [width]);
+  const labels=["Chronomètre", "Chronomètre circulaire", ...(notice?["Prochain match","Échauffement"]:[])];
+  // Réf. Lovable : le carrousel ne défile JAMAIS automatiquement sur une
+  // notification. Les vues "Prochain match"/"Échauffement" restent accessibles
+  // manuellement ; les alertes ponctuelles passent par la bannière sous le chrono.
   const go = (index: number) => {
     setPage(index);
     scroll.current?.scrollTo({ x: width * index, animated: !reduceMotion });

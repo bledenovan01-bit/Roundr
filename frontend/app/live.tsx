@@ -9,7 +9,9 @@ import MaterialCommunityIcons from "@react-native-vector-icons/material-design-i
 
 import { liveNotice } from "@/src/domain/live-notices";
 import { elapsedMs } from "@/src/chrono/engine";
-import { formatMMSS } from "@/src/chrono/format";
+import { formatMMSS, formatMMSScc } from "@/src/chrono/format";
+import { useDisplayClock } from "@/src/chrono/use-display-clock";
+import { LiveNoticeBanner } from "@/src/components/live-notice-banner";
 import { DesignRow } from "@/src/components/design-screen";
 import { LiveHero, LiveControls } from "@/src/components/design-live";
 import { GiantChrono } from "@/src/components/giant-chrono";
@@ -36,6 +38,7 @@ export default function LiveScreen() {
   const session = useStore((s) => s.session);
   const now = useStore((s) => s.now);
   const saveError = useStore((s) => s.saveError);
+  const storeNotice = useStore((s) => s.notice);
   const { safeSides } = useScreenLayout();
 
 
@@ -45,10 +48,13 @@ export default function LiveScreen() {
   const [correcting, setCorrecting] = useState(false);
   const [giant, setGiant] = useState(false);
   const [locked, setLocked] = useState(false);
+  const [showElapsed, setShowElapsed] = useState(false);
   const [tab, setTab] = useState<[string, string]>(["", ""]);
 
   const live = session?.live ?? null;
   const running = !!live && live.chrono.runningSince != null && live.stage !== "finished";
+  // Horloge d'affichage haute fréquence (centièmes) — affichage seulement.
+  const clock = useDisplayClock(running);
 
 
   useEffect(()=>{navigation.setOptions({gestureEnabled:!locked});},[navigation,locked]);
@@ -86,9 +92,15 @@ export default function LiveScreen() {
 
   const match = S.currentMatch(session)!;
   const [teamA, teamB] = S.liveTeams(session);
-  const el = elapsedMs(live.chrono, now);
+  const el = elapsedMs(live.chrono, running ? clock : now);
   const paused = S.isPaused(live);
   const next = S.nextMatchInfo(session);
+
+  // Format centièmes MM:SS.cc (toujours affichés, même à l'arrêt .00 — réf.
+  // Lovable). Les centièmes sont rendus en petit suffixe par ChronoTime.
+  const fmt = (ms: number) => formatMMSScc(ms);
+  // Bascule temps restant / écoulé : uniquement quand une durée est définie.
+  const canToggleDisplay = (live.stage === "period" && live.end.byTime) || live.stage === "extra";
 
   // Affichage du temps selon l'étape.
   let time = "00:00";
@@ -98,15 +110,21 @@ export default function LiveScreen() {
   const target = live.periodMs[live.periodIndex] ?? 0;
   switch (live.stage) {
     case "ready":
-      time = formatMMSS(target);
+      time = fmt(target);
       status = "Prêt à démarrer";
       break;
     case "period":
       if (live.end.byTime) {
-        time = formatMMSS(Math.max(0, target - el));
+        if (showElapsed) {
+          time = fmt(el);
+          caption = "Temps de jeu";
+        } else {
+          time = fmt(Math.max(0, target - el));
+          caption = "Temps restant";
+        }
         progress = target ? el / target : 0;
       } else {
-        time = formatMMSS(el);
+        time = fmt(el);
         caption = "Temps de jeu";
         status = `Premier à ${live.end.goalTarget} buts`;
       }
@@ -125,19 +143,19 @@ export default function LiveScreen() {
       status = `Période ${live.periodIndex + 1}/${live.periodMs.length}`;
       break;
     case "additional":
-      time = `+${formatMMSS(el)}`;
+      time = `+${fmt(el)}`;
       caption = "Temps additionnel";
       status = paused ? "PAUSE" : "Arrêt manuel";
       progress = 1;
       break;
     case "extra":
-      time = formatMMSS(Math.max(0, live.extraMs - el));
-      caption = live.maracanaExtension ? "Extension 2 min" : "Prolongation";
+      time = showElapsed ? fmt(el) : fmt(Math.max(0, live.extraMs - el));
+      caption = live.maracanaExtension ? "Extension 2 min" : (showElapsed ? "Temps de jeu" : "Prolongation");
       status = live.maracanaExtension ? "Premier but gagnant" : paused ? "PAUSE" : "Prolongation";
       progress = el / live.extraMs;
       break;
     case "golden":
-      time = `+${formatMMSS(el)}`;
+      time = `+${fmt(el)}`;
       caption = "Golden goal";
       status = "Premier but gagnant";
       progress = 1;
@@ -201,7 +219,9 @@ export default function LiveScreen() {
           onGoal={(side,delta)=>dispatchSession((s,t)=>live.stage==="finished"?S.correctLast(s,side,delta,t):S.goal(s,side,delta,t))}
           onCorrect={()=>setCorrecting(!correcting)} onBack={()=>router.replace("/")}
           onSettings={()=>router.push("/settings")} onGiant={()=>setGiant(true)}
+          onToggleDisplay={()=>setShowElapsed(v=>!v)} canToggleDisplay={canToggleDisplay && !paused}
           notice={next?.certain ? { time, cue: preferences.preparation ? liveNotice(remainingMs, target/60000, running) : "chrono", matchup: `${next.aLabel} vs ${next.bLabel}`, badge: remainingMs == null ? "À venir" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: remainingMs !== null && remainingMs <= 60_000 ? `${next.aLabel} et ${next.bLabel} : préparez-vous à entrer sur le terrain !` : `${next.aLabel} et ${next.bLabel} : commencez l’échauffement !`, locked, onPress: ()=>router.push("/standings"), standingsLabel: session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Voir le classement" : "Voir le tableau" } : undefined}/> : null}
+        {live.stage !== "finished" ? <LiveNoticeBanner notice={storeNotice} /> : null}
         {live.stage === "break" ? (
           <PrimaryButton testID="skip-break" label="Passer la pause" disabled={locked} variant="secondary" onPress={() => dispatchSession((s, t) => S.startNextPeriod({ ...s, live: { ...s.live!, stage: "awaitPeriod", periodIndex: s.live!.periodIndex + 1 } }, t))} />
         ) : null}

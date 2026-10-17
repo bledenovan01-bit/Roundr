@@ -2,6 +2,7 @@
 import { Text, View } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 
+import { ChronoTime } from "./chrono-time";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
 
 type Props = {
@@ -57,9 +58,7 @@ export function ChronoRing({ time, caption, status, progress, size = 280, accent
         <Circle cx={dot.x} cy={dot.y} r={stroke * 0.55} fill={accent ?? colors.brandPrimary} />
       </Svg>
       <Text testID="live-time-caption" style={[styles.caption, { maxWidth: size - 40 }]}>{caption.toUpperCase()}</Text>
-      <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.65} maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} style={[styles.time, { maxWidth: size - 44, fontSize: base * fontScale, lineHeight: base * fontScale * 1.5 }]} testID="live-time">
-        {time}
-      </Text>
+      <ChronoTime numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.65} maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} time={time} style={[styles.time, { maxWidth: size - 44, fontSize: base * fontScale, lineHeight: base * fontScale * 1.5 }]} ccStyle={{ fontFamily: fontFamily.textBold, color: colors.onSurfaceTertiary, fontSize: base * fontScale * 0.52, fontVariant: ["tabular-nums"] }} testID="live-time" />
       <Text testID="live-time-status" style={styles.status}>{status}</Text>
     </View>
   );

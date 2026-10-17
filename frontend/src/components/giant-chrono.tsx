@@ -6,6 +6,7 @@ import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-cont
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
 import { fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
+import { ChronoTime } from "./chrono-time";
 
 type Props = {
   visible: boolean;
@@ -51,9 +52,7 @@ function GiantChronoContent({ time, caption, status, scoreLine, paused, canPause
         <ScrollView testID="giant-scroll" style={styles.scroll} contentContainerStyle={[styles.body, landscape && styles.bodyLandscape]}>
         <View style={[styles.timerGroup, landscape && styles.timerGroupLandscape]}>
         <Text testID="giant-caption" style={styles.caption}>{caption.toUpperCase()}</Text>
-        <Text maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} style={[styles.time, { fontSize: size, lineHeight: size }]} testID="giant-time">
-          {time}
-        </Text>
+        <ChronoTime maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} time={time} style={[styles.time, { fontSize: size, lineHeight: size }]} ccStyle={{ fontFamily: fontFamily.display, color: colors.onSurfaceTertiary, fontSize: size * 0.5, fontVariant: ["tabular-nums"] }} testID="giant-time" />
         <Text testID="giant-status" style={[styles.status, paused && { color: colors.warning }]}>{status}</Text>
         </View>
         <View style={[styles.actions, landscape && styles.actionsLandscape]}>

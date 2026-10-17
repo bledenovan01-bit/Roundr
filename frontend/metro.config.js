@@ -22,4 +22,27 @@ config.cacheStores = [
 // Reduce the number of workers to decrease resource usage
 config.maxWorkers = 2;
 
+// --- Web compat shim ---------------------------------------------------------
+// react-native-web@0.21 moved AssetRegistry from `dist/exports/AssetRegistry`
+// to `dist/modules/AssetRegistry`. Expo's web resolver still points to the old
+// path, which breaks web bundling (expo-asset -> expo-font -> vector-icons).
+// Redirect the stale path to the current one. Native platforms are untouched.
+const defaultResolveRequest = config.resolver.resolveRequest;
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (
+    platform === "web" &&
+    moduleName === "react-native-web/dist/exports/AssetRegistry"
+  ) {
+    return context.resolveRequest(
+      context,
+      "react-native-web/dist/modules/AssetRegistry",
+      platform,
+    );
+  }
+  if (defaultResolveRequest) {
+    return defaultResolveRequest(context, moduleName, platform);
+  }
+  return context.resolveRequest(context, moduleName, platform);
+};
+
 module.exports = config;

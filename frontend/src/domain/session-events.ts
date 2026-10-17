@@ -30,6 +30,7 @@ export function sessionEvents(prev: Session | null, next: Session): SessionEvent
   }
   const fresh = same ? nl.firedAlerts.filter(k => !pl.firedAlerts.includes(k)) : [];
   if (fresh.some(k => k.endsWith(":60000"))) events.push({ kind: "minute", message: "1 minute restante" });
+  if (fresh.some(k => k.endsWith(":30000"))) events.push({ kind: "minute", message: "Plus que 30 secondes" });
   if (fresh.some(k => k === "prep" || k === "prep1")) {
     const upcoming = nextMatchInfo(next);
     if (upcoming?.certain) events.push({ kind: "warmup", message: fresh.includes("prep1")
