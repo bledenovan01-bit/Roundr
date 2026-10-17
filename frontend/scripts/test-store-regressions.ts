@@ -28,7 +28,7 @@ const storage={
 const Store=require("../src/store/session-store") as typeof import("../src/store/session-store");
 const Prefs=require("../src/store/preferences") as typeof import("../src/store/preferences");
 let now=1_000_000;const originalNow=Date.now;Date.now=()=>now;
-const wait=()=>new Promise(r=>setTimeout(r,80));
+const wait=()=>Store.flushStorage();
 const make=(config:any)=>S.createSession(config,defaultTeams(config.mode,"teamCount" in config?config.teamCount:2),now);
 async function main(){
   memory.set("roundr.session.v1","{}");

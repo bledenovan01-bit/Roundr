@@ -18,9 +18,10 @@ export function SavePresetButton({ config }: { config: FreeTimerConfig }) {
   const [saved, setSaved] = useState(false);
   const count = useStore(s => s.freePresets.length);
 
-  const save = () => {
+  const save = async () => {
     const finalName = name.trim() || `Chrono ${count + 1}`;
-    void saveFreePreset({ id: `free-${Date.now().toString(36)}`, name: finalName, config, createdAt: Date.now() });
+    const success = await saveFreePreset({ id: `free-${Date.now().toString(36)}`, name: finalName, config, createdAt: Date.now() });
+    if (!success) return;
     setSaved(true); setOpen(false); setName("");
   };
 

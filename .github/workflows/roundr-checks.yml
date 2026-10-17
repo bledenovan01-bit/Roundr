@@ -1,9 +1,9 @@
 name: Roundr checks
 on:
   push:
-    branches: ["codex/roundr-test-feedback-fixes"]
+    branches: ["codex/roundr-test-feedback-fixes", "codex/roundr-storage-reliability"]
   pull_request:
-    branches: ["codex/roundr-v0-freeze-fixes"]
+    branches: ["codex/roundr-v0-freeze-fixes", "main"]
 permissions:
   contents: read
 jobs:
@@ -44,3 +44,18 @@ jobs:
         env:
           CI: "1"
         run: npx expo export --platform all --output-dir /tmp/roundr-export
+
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install app dependencies
+        run: npm install --ignore-scripts --no-package-lock --legacy-peer-deps
+      - name: Lint (existing failures remain visible)
+        run: npm run lint

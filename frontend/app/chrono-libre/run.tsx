@@ -1,9 +1,10 @@
+import { FreeStorageNotice } from "@/src/components/free-storage-notice";
 // Chrono libre — Écran d'exécution (Phase 3, réf. Lovable).
 // Gère les 3 outils : chronomètre (tours), compte à rebours, intervalles.
 // Affichages numérique / circulaire / analogique. Moteur temporel fiable.
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "expo-router";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 
@@ -108,6 +109,7 @@ export default function FreeTimerRun() {
         <View style={{ width: 30 }} />
       </View>
 
+      <FreeStorageNotice />
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         <Text style={[styles.caption, { color: stepColor }]}>{caption.toUpperCase()}</Text>
 

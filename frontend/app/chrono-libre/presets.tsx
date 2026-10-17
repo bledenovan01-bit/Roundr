@@ -1,3 +1,5 @@
+import { FreeStorageNotice } from "@/src/components/free-storage-notice";
+import { prepareFreeTimer } from "@/src/features/prepare-free-timer";
 // Chrono libre — Mes chronos (presets enregistrés). Phase 3, réf. Lovable.
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -5,8 +7,8 @@ import { Pressable, Text, TextInput, View } from "react-native";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { Alert } from "@/src/alert";
 import { DesignScreen, DesignInputStyles } from "@/src/components/design-screen";
-import { createFreeTimer, type FreeTimerConfig, type FreeTimerPreset } from "@/src/domain/free-timer";
-import { deleteFreePreset, renameFreePreset, saveFreePreset, setFreeTimer, useStore } from "@/src/store/session-store";
+import { type FreeTimerConfig, type FreeTimerPreset } from "@/src/domain/free-timer";
+import { deleteFreePreset, renameFreePreset, saveFreePreset, useStore } from "@/src/store/session-store";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
 
 function describe(c: FreeTimerConfig): string {
@@ -27,7 +29,7 @@ export default function FreePresets() {
   const [draft, setDraft] = useState("");
   const input = DesignInputStyles();
 
-  const launch = (p: FreeTimerPreset) => { setFreeTimer(createFreeTimer(p.config)); router.push("/chrono-libre/run"); };
+  const launch = (p: FreeTimerPreset) => prepareFreeTimer(p.config, () => router.push("/chrono-libre/run"));
   const duplicate = (p: FreeTimerPreset) => void saveFreePreset({ id: `free-${Date.now().toString(36)}`, name: `${p.name} (copie)`, config: p.config, createdAt: Date.now() });
   const remove = (p: FreeTimerPreset) => Alert.alert("Supprimer ce chrono ?", `« ${p.name} » sera supprimé.`, [
     { text: "Annuler", style: "cancel" },
@@ -37,8 +39,9 @@ export default function FreePresets() {
 
   return (
     <DesignScreen testID="free-presets" title="Mes chronos" subtitle={presets.length ? `${presets.length} enregistré${presets.length > 1 ? "s" : ""}` : "Aucun chrono enregistré"} onBack={() => router.replace("/chrono-libre")}>
+      <FreeStorageNotice />
       {presets.length === 0 ? (
-        <View style={styles.empty}><MaterialCommunityIcons name="bookmark-outline" size={34} color={colors.muted} /><Text style={styles.emptyText}>Aucun chrono enregistré pour l'instant. Enregistrez une configuration depuis Compte à rebours ou Intervalles.</Text></View>
+        <View style={styles.empty}><MaterialCommunityIcons name="bookmark-outline" size={34} color={colors.muted} /><Text style={styles.emptyText}>Aucun chrono enregistré pour l’instant. Enregistrez une configuration depuis Compte à rebours ou Intervalles.</Text></View>
       ) : null}
       {presets.slice().sort((a, b) => b.createdAt - a.createdAt).map(p => (
         <View key={p.id} testID={`free-preset-${p.id}`} style={styles.card}>

@@ -162,17 +162,17 @@ export function migrateCustomPreset(p: Preset): FreeTimerPreset | null {
 // --- Validation (stockage) ----------------------------------------------------
 const isFiniteNum = (x: unknown): x is number => typeof x === "number" && Number.isFinite(x);
 export function validFreeConfig(c: unknown): c is FreeTimerConfig {
-  if (!c || typeof c !== "object") return false;
+  if (!c || typeof c !== "object" || Array.isArray(c)) return false;
   const o = c as Record<string, unknown>;
   if (typeof o.withTeams !== "boolean" || typeof o.sounds !== "boolean") return false;
   if (o.display !== "numeric" && o.display !== "circular" && o.display !== "analog") return false;
   if (o.kind === "stopwatch") return true;
-  if (o.kind === "countdown") return isFiniteNum(o.durationMs) && o.durationMs > 0 && typeof o.endSignal === "boolean";
-  if (o.kind === "interval") return isFiniteNum(o.workMs) && o.workMs > 0 && isFiniteNum(o.restMs) && o.restMs >= 0 && Number.isInteger(o.reps as number) && (o.reps as number) >= 1 && Number.isInteger(o.sets as number) && (o.sets as number) >= 1 && isFiniteNum(o.restBetweenSetsMs) && (o.restBetweenSetsMs as number) >= 0 && typeof o.autoChain === "boolean" && typeof o.endSignal === "boolean";
+  if (o.kind === "countdown") return isFiniteNum(o.durationMs) && o.durationMs > 0 && o.durationMs <= Number.MAX_SAFE_INTEGER && typeof o.endSignal === "boolean";
+  if (o.kind === "interval") return isFiniteNum(o.workMs) && o.workMs > 0 && o.workMs <= Number.MAX_SAFE_INTEGER && isFiniteNum(o.restMs) && o.restMs >= 0 && o.restMs <= Number.MAX_SAFE_INTEGER && Number.isSafeInteger(o.reps) && (o.reps as number) >= 1 && Number.isSafeInteger(o.sets) && (o.sets as number) >= 1 && (o.reps as number) * (o.sets as number) <= 5000 && isFiniteNum(o.restBetweenSetsMs) && o.restBetweenSetsMs >= 0 && o.restBetweenSetsMs <= Number.MAX_SAFE_INTEGER && typeof o.autoChain === "boolean" && typeof o.endSignal === "boolean";
   return false;
 }
 export function validFreePreset(p: unknown): p is FreeTimerPreset {
   if (!p || typeof p !== "object") return false;
   const o = p as Record<string, unknown>;
-  return typeof o.id === "string" && typeof o.name === "string" && isFiniteNum(o.createdAt) && validFreeConfig(o.config);
+  return typeof o.id === "string" && o.id.length > 0 && typeof o.name === "string" && isFiniteNum(o.createdAt) && o.createdAt >= 0 && validFreeConfig(o.config);
 }
