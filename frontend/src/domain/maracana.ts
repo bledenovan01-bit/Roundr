@@ -67,35 +67,43 @@ export function rotate(
   state: MaracanaState,
   winnerId: string | null,
   matches: Match[],
+  opts?: { rotation?: "classic" | "winnerStays"; drawRule4?: "oneLeaves" | "bothLeave" },
 ): { state: MaracanaState; out: string[]; in: string[]; next: [string, string] } {
   const [a, b] = state.onField;
   const total = 2 + state.waiting.length;
   const consecutive = { ...state.consecutive, [a]: (state.consecutive[a] ?? 0) + 1, [b]: (state.consecutive[b] ?? 0) + 1 };
+  const rotation = opts?.rotation ?? "classic";
+  const drawRule4 = opts?.drawRule4 ?? "oneLeaves";
 
-  if (total <= 3) {
-    // MA-01 : le vainqueur reste ; nul = plus ancienne présence sort ; C07.
-    let out: string;
-    if (winnerId) out = winnerId === a ? b : a;
-    else if (consecutive[a] !== consecutive[b]) out = consecutive[a] > consecutive[b] ? a : b;
-    else out = state.initialOrder.indexOf(a) < state.initialOrder.indexOf(b) ? a : b;
+  // Départage de présence : la plus ancienne/longue présence sort (C07).
+  const oldestOut = (): string => {
+    if (consecutive[a] !== consecutive[b]) return consecutive[a] > consecutive[b] ? a : b;
+    return state.initialOrder.indexOf(a) < state.initialOrder.indexOf(b) ? a : b;
+  };
+  // Un seul sort : le vainqueur (ou tenant) reste, l'autre sort, le suivant entre.
+  const oneLeaves = (out: string) => {
     const stay = out === a ? b : a;
     const entering = state.waiting[0];
     consecutive[out] = 0;
     return {
-      state: {
-        ...state,
-        onField: [stay, entering],
-        waiting: [...state.waiting.slice(1), out],
-        consecutive,
-        lastOut: [out],
-      },
-      out: [out],
-      in: [entering],
-      next: [stay, entering],
+      state: { ...state, onField: [stay, entering] as [string, string], waiting: [...state.waiting.slice(1), out], consecutive, lastOut: [out] },
+      out: [out], in: [entering], next: [stay, entering] as [string, string],
     };
+  };
+
+  if (total <= 3) {
+    // MA-01 : le vainqueur reste ; nul = plus ancienne présence sort ; C07.
+    return oneLeaves(winnerId ? (winnerId === a ? b : a) : oldestOut());
   }
 
-  // MA-03 : les deux sortent, exclues du prochain match (C08).
+  // 4 équipes ou plus.
+  if (rotation === "winnerStays") {
+    if (winnerId) return oneLeaves(winnerId === a ? b : a); // le gagnant reste, le perdant sort
+    if (drawRule4 === "oneLeaves") return oneLeaves(oldestOut()); // nul : une équipe sort (départage)
+    // nul + "les deux sortent" → comme la rotation classique ci-dessous.
+  }
+
+  // Rotation classique (défaut) OU nul "les deux sortent" : MA-03, exclues du prochain (C08).
   consecutive[a] = 0;
   consecutive[b] = 0;
   const next = pickNextPair(state, state.waiting, matches);

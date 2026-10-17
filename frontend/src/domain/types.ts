@@ -47,6 +47,11 @@ export type MaracanaConfig = {
   teamCount: number;
   sounds: boolean;
   customTeams: boolean;
+  // Phase 4 (réf. Lovable) — optionnels pour compat. des anciennes données.
+  rotation?: "classic" | "winnerStays"; // défaut: classic
+  drawRule4?: "oneLeaves" | "bothLeave"; // nul en "gagnant reste" 4+ ; défaut: oneLeaves
+  launch?: "manual" | "auto" | "delay"; // défaut: manual
+  launchDelaySec?: number; // délai si launch = "delay" ; défaut: 60
 };
 
 // Durées par tour (C15) indexées par taille du tour : 2 = finale, 4 = demies, 8 = quarts…

@@ -79,6 +79,10 @@ export function defaultConfig(mode: ModeId): AnyConfig {
         teamCount: 3,
         sounds: true,
         customTeams: false,
+        rotation: "classic",
+        drawRule4: "oneLeaves",
+        launch: "manual",
+        launchDelaySec: 60,
       } satisfies MaracanaConfig;
     case "survie":
       return {

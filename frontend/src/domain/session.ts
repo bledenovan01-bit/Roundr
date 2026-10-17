@@ -380,7 +380,8 @@ function finishMatch(session: Session, at: number, reason: Match["finishReason"]
   };
 
   if (s.mode === "maracana" && s.maracana) {
-    const r = rotate(s.maracana, winnerId, matches);
+    const mc = s.config as Extract<AnyConfig, { mode: "maracana" }>;
+    const r = rotate(s.maracana, winnerId, matches, { rotation: mc.rotation, drawRule4: mc.drawRule4 });
     const n = matches.length + 1;
     matches = [...matches, blankMatch(`m${n}`, n, `Match ${n}`, r.next[0], r.next[1], "rotation")];
     const name = (id: string) => s.teams.find((t) => t.id === id)?.name ?? id;
@@ -605,6 +606,10 @@ export function nextMatchInfo(session: Session): NextInfo | null {
     const st = session.maracana;
     if (session.teams.length <= 3) {
       return { match: null, aLabel: name(st.waiting[0]), bLabel: "l’équipe qui reste", durationMin: c.matchMin, certain: false };
+    }
+    if (c.rotation === "winnerStays") {
+      // Le prochain adversaire dépend du vainqueur : incertain pendant le jeu.
+      return { match: null, aLabel: "Vainqueur", bLabel: name(st.waiting[0]), durationMin: c.matchMin, certain: false };
     }
     const pair = pickNextPair(st, st.waiting, session.matches);
     return { match: null, aLabel: name(pair[0]), bLabel: name(pair[1]), durationMin: c.matchMin, certain: true };

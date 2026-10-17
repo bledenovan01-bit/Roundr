@@ -177,7 +177,7 @@ export function MaracanaForm({ config, onChange }: FormProps<MaracanaConfig>) {
       <Section title="Équipes">
         <Card>
           <Text style={styles.label}>Nombre d’équipes</Text>
-          <Text style={styles.note}>{config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : "Les deux équipes sortent après chaque match."}</Text>
+          <Text style={styles.note}>{config.teamCount === 3 ? "Le vainqueur reste, le perdant sort." : (config.rotation ?? "classic") === "winnerStays" ? "Le gagnant reste ; le perdant sort ; la prochaine équipe entre." : "Les deux équipes sortent après chaque match."}</Text>
           <View style={{flexDirection:"row",gap:4}} testID="teams">
             {[3,4,5,6,7,8].map(n=><Pressable key={n} testID={`teams-${n}`} onPress={()=>set({teamCount:n})} accessibilityRole="radio" accessibilityState={{checked:config.teamCount===n}} style={{flex:1,minWidth:0,minHeight:44,alignItems:"center",justifyContent:"center",borderRadius:8,backgroundColor:config.teamCount===n?colors.brandPrimary:colors.surfaceTertiary,borderWidth:1,borderColor:config.teamCount===n?colors.brandPrimary:colors.border}}><Text style={{fontFamily:fontFamily.textBold,color:config.teamCount===n?colors.onBrandPrimary:colors.onSurface}}>{n}</Text></Pressable>)}
           </View>
