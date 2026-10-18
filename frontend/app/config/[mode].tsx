@@ -1,6 +1,6 @@
 import { useUnsavedChanges } from "@/src/hooks/use-unsaved-changes";
 import { getPreferences } from "@/src/store/preferences";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Alert } from "@/src/alert";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from "react-native";
@@ -57,8 +57,8 @@ export default function ConfigScreen() {
   }),[]);
   const errors = [...validateConfig(config, alignedTeams), ...Object.values(fieldErrors)];
   const snapshot = JSON.stringify({config,teams});
-  const initial = useRef(snapshot);
-  const leave = useUnsavedChanges(initial.current !== snapshot || Object.keys(fieldErrors).length>0);
+  const [initial] = useState(snapshot);
+  const leave = useUnsavedChanges(initial !== snapshot || Object.keys(fieldErrors).length>0);
 
   const launch = () => {
     setAttempted(true);

@@ -1,3 +1,5 @@
+import { FreeStorageNotice } from "@/src/components/free-storage-notice";
+import { prepareFreeTimer } from "@/src/features/prepare-free-timer";
 // Chrono libre — Configuration "Compte à rebours" (Phase 3, réf. Lovable).
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -6,9 +8,8 @@ import MaterialCommunityIcons from "@react-native-vector-icons/material-design-i
 import { DesignScreen } from "@/src/components/design-screen";
 import { Section, Stepper, ToggleRow } from "@/src/components/fields";
 import { PrimaryButton } from "@/src/components/primary-button";
-import { COUNTDOWN_PRESETS_MS, createFreeTimer, type CountdownConfig } from "@/src/domain/free-timer";
+import { COUNTDOWN_PRESETS_MS, type CountdownConfig } from "@/src/domain/free-timer";
 import { SavePresetButton } from "@/src/features/free-save";
-import { setFreeTimer } from "@/src/store/session-store";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
 
 export default function CountdownConfigScreen() {
@@ -26,11 +27,12 @@ export default function CountdownConfigScreen() {
 
   const applyPreset = (ms: number) => { setH(Math.floor(ms / 3600000)); setM(Math.floor((ms % 3600000) / 60000)); setS(Math.floor((ms % 60000) / 1000)); };
 
-  const prepare = () => { setFreeTimer(createFreeTimer(config)); router.replace("/chrono-libre/run"); };
+  const prepare = () => prepareFreeTimer(config, () => router.replace("/chrono-libre/run"));
 
   return (
     <DesignScreen testID="countdown-config" title="Compte à rebours" subtitle="Chrono libre · Réglages"
       footer={<PrimaryButton testID="countdown-prepare" label="Préparer le chrono" disabled={durationMs < 1000} leadingIcon={<MaterialCommunityIcons name="play" size={20} color={colors.onBrandPrimary} />} onPress={prepare} />} stickyFooter>
+      <FreeStorageNotice />
       <Section title="Durée" hint={`Total : ${totalLabel}`}>
         <View style={styles.presets}>
           {COUNTDOWN_PRESETS_MS.map(ms => {

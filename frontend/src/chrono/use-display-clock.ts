@@ -12,11 +12,8 @@ import { useEffect, useState } from "react";
 export function useDisplayClock(active: boolean, intervalMs = 60): number {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
-    if (!active) {
-      // Au repos (pause, prêt, terminé) : une seule lecture stable.
-      setNow(Date.now());
-      return;
-    }
+    // Inactive callers render their persisted paused time, not this clock.
+    if (!active) return;
     let mounted = true;
     let raf = 0;
     let last = 0;

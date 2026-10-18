@@ -1,3 +1,5 @@
+import { FreeStorageNotice } from "@/src/components/free-storage-notice";
+import { prepareFreeTimer } from "@/src/features/prepare-free-timer";
 // Chrono libre — Configuration "Intervalles" (Phase 3, réf. Lovable).
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -6,9 +8,8 @@ import MaterialCommunityIcons from "@react-native-vector-icons/material-design-i
 import { DesignScreen } from "@/src/components/design-screen";
 import { Section, Stepper, ToggleRow } from "@/src/components/fields";
 import { PrimaryButton } from "@/src/components/primary-button";
-import { INTERVAL_PRESETS, buildSteps, createFreeTimer, type IntervalConfig } from "@/src/domain/free-timer";
+import { INTERVAL_PRESETS, buildSteps, type IntervalConfig } from "@/src/domain/free-timer";
 import { SavePresetButton } from "@/src/features/free-save";
-import { setFreeTimer } from "@/src/store/session-store";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
 
 export default function IntervalConfigScreen() {
@@ -28,11 +29,12 @@ export default function IntervalConfigScreen() {
 
   const applyPreset = (p: typeof INTERVAL_PRESETS[number]) => { setWorkS(p.workMs / 1000); setRestS(p.restMs / 1000); setReps(p.reps); setSets(p.sets); };
 
-  const prepare = () => { setFreeTimer(createFreeTimer(config)); router.replace("/chrono-libre/run"); };
+  const prepare = () => prepareFreeTimer(config, () => router.replace("/chrono-libre/run"));
 
   return (
     <DesignScreen testID="interval-config" title="Intervalles" subtitle="Chrono libre · Réglages"
       footer={<PrimaryButton testID="interval-prepare" label="Préparer le chrono" leadingIcon={<MaterialCommunityIcons name="play" size={20} color={colors.onBrandPrimary} />} onPress={prepare} />} stickyFooter>
+      <FreeStorageNotice />
       <Section title="Préréglages">
         <View style={styles.presets}>
           {INTERVAL_PRESETS.map(p => <Pressable key={p.name} testID={`iv-preset-${p.name}`} accessibilityRole="button" onPress={() => applyPreset(p)} style={styles.chip}><Text style={styles.chipText}>{p.name}</Text></Pressable>)}
