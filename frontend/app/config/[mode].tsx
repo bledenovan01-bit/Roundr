@@ -66,8 +66,7 @@ export default function ConfigScreen() {
     const go = () => leave(() => {
       const now = Date.now();
       const session = createSession(config, alignedTeams, now);
-      startSession({ ...session, live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null });
-      router.replace("/live" as never);
+      if (startSession({ ...session, live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null })) router.replace("/live" as never);
     });
     if (activeSession && activeSession.status === "active") {
       // C03 — ne jamais écraser silencieusement une session active.

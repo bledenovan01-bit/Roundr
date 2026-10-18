@@ -6,7 +6,8 @@ import { useSyncExternalStore } from "react";
 
 import { getPreferences } from "./preferences";
 import { playSound } from "@/src/audio/sounds";
-import { advance } from "@/src/domain/session";
+import { advance, endSession, sessionComplete } from "@/src/domain/session";
+import { competitionKey, HISTORY_INDEX, HISTORY_PREFIX, isCompetition, snapshotCompetition, validCompetitionRecord, type Competition, type CompetitionRecord } from "./competition-history";
 import { sessionEvents, type SessionEvent } from "@/src/domain/session-events";
 import { validPreset, validSession } from "./storage-validation";
 import { restoreFreeTimer, validFreeTimer } from "./free-timer-validation";
@@ -39,6 +40,8 @@ export type StoreState = {
   notice: { message: string; until: number; tone: "warmup" | "time" } | null;
   freePresets: FreeTimerPreset[];
   freeTimer: FreeTimerState | null;
+  competitions: Competition[];
+  historyAvailable: boolean;
 };
 
 let state: StoreState = {
@@ -55,6 +58,8 @@ let state: StoreState = {
   notice: null,
   freePresets: [],
   freeTimer: null,
+  competitions: [],
+  historyAvailable: false,
 };
 const listeners = new Set<() => void>();
 
@@ -82,12 +87,22 @@ let migrationMarker: Marker | "legacy" | "ambiguous" | null = null;
 let loadPromise: Promise<void> | null = null;
 let retryPromise: Promise<void> | null = null;
 let replacementPromise: Promise<boolean> | null = null;
+let historyWork: Promise<unknown> = Promise.resolve();
+const deletedCompetitions = new Set<string>();
+const pendingCompetitions = new Map<string, Session>();
+let pendingSummary: Session | null = null;
 const labels: Record<string, string> = {
   [KEYS.session]: "session de match", [KEYS.summary]: "résumé", [KEYS.presets]: "anciens chronos",
   [KEYS.freePresets]: "Mes chronos", [KEYS.freeTimer]: "chrono libre", [KEYS.freeMigrated]: "migration des chronos",
   [KEYS.previousFreeTimer]: "séance précédente du chrono libre",
+  [HISTORY_INDEX]: "historique des compétitions",
 };
-function showErrors() { set({ saveError: [...new Set(errors.values())].join(" ") || null }); }
+function acceptCompetition(record: CompetitionRecord) {
+  const others = state.competitions.filter(c => c.id !== record.id);
+  if ("deleted" in record) { deletedCompetitions.add(record.id); set({ competitions: others }); }
+  else { deletedCompetitions.delete(record.id); set({ competitions: [...others, record] }); }
+}
+function showErrors() { set({ saveError: [...new Set(errors.values())].join(" ") || null, historyAvailable: known.has(HISTORY_INDEX) && ![...blocked].some(k => k === HISTORY_INDEX || k.startsWith(HISTORY_PREFIX)) }); }
 function issue(id: string, message: string) { errors.set(id, message); showErrors(); }
 function queueWrite(write: Write): Promise<boolean> {
   const operation = pendingWrite.then(async () => {
@@ -100,6 +115,7 @@ function queueWrite(write: Write): Promise<boolean> {
       if (write.raw === null) await AsyncStorage.removeItem(write.key);
       else await AsyncStorage.setItem(write.key, write.raw);
       write.succeeded = true;
+      if (write.key.startsWith(HISTORY_PREFIX) && write.raw) acceptCompetition(JSON.parse(write.raw) as CompetitionRecord);
       failedWrites.delete(write.key);
       errors.delete("write:" + write.key);
       errors.delete("input:" + write.key);
@@ -118,7 +134,7 @@ function queueWrite(write: Write): Promise<boolean> {
       return true;
     } catch {
       failedWrites.set(write.key, write);
-      issue("write:" + write.key, "Sauvegarde impossible (" + (labels[write.key] ?? "copie de secours") + "). Garde l’application ouverte et réessaie.");
+      issue("write:" + write.key, "Sauvegarde impossible (" + (write.key.startsWith(HISTORY_PREFIX) ? "historique de la compétition" : labels[write.key] ?? "copie de secours") + "). Garde l’application ouverte et réessaie.");
       return false;
     }
   });
@@ -139,9 +155,11 @@ function persist(key: string, value: unknown, prerequisite?: Promise<boolean>): 
 export async function flushStorage(): Promise<void> {
   for (;;) {
     const current = pendingWrite;
+    const history = historyWork;
     await current;
+    await history;
     if (replacementPromise) await replacementPromise;
-    if (current === pendingWrite && !replacementPromise) return;
+    if (current === pendingWrite && history === historyWork && !replacementPromise) return;
   }
 }
 function writable(...keys: string[]): boolean {
@@ -167,7 +185,7 @@ async function preserveRaw(key: string, raw: string): Promise<boolean> {
   // Content-based name plus collision check: never replace an older raw copy.
   let hash = 2166136261;
   for (let i = 0; i < raw.length; i++) hash = Math.imul(hash ^ raw.charCodeAt(i), 16777619);
-  const base = key === KEYS.session ? KEYS.corrupt : key + ".corrupt";
+  const base = key.startsWith(HISTORY_PREFIX) ? "roundr.competitions.rejected.v1." + key.slice(HISTORY_PREFIX.length) : key === KEYS.session ? KEYS.corrupt : key + ".corrupt";
   for (let i = 0; ; i++) {
     const backup = base + (i ? "." + (hash >>> 0).toString(16) + "." + i : "");
     try {
@@ -215,16 +233,26 @@ export function loadStore(): Promise<void> {
   if (replacementPromise) return replacementPromise.then(() => loadStore());
   if (loadPromise) return loadPromise;
   if (state.loaded && blocked.size === 0) return Promise.resolve();
-  const keys = state.loaded ? [...blocked] : [KEYS.session, KEYS.summary, KEYS.presets, KEYS.freePresets, KEYS.freeTimer, KEYS.freeMigrated];
+  const keys = state.loaded ? [...blocked].filter(k => k !== HISTORY_INDEX) : [KEYS.session, KEYS.summary, KEYS.presets, KEYS.freePresets, KEYS.freeTimer, KEYS.freeMigrated];
   set({ loading: true });
   loadPromise = (async () => {
     await flushStorage();
+    if (!known.has(HISTORY_INDEX) || blocked.has(HISTORY_INDEX)) {
+      try {
+        const all = await AsyncStorage.getAllKeys();
+        keys.push(...all.filter(k => k.startsWith(HISTORY_PREFIX) && !keys.includes(k)));
+        known.add(HISTORY_INDEX); blocked.delete(HISTORY_INDEX); errors.delete("read:" + HISTORY_INDEX);
+      } catch {
+        blocked.add(HISTORY_INDEX); known.delete(HISTORY_INDEX);
+        issue("read:" + HISTORY_INDEX, "Lecture de l’historique impossible. Les archives sont conservées ; réessaie.");
+      }
+    }
     const reads = await Promise.allSettled(keys.map(key => Promise.resolve().then(() => AsyncStorage.getItem(key))));
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i], read = reads[i];
       if (read.status === "rejected") {
         blocked.add(key); known.delete(key);
-        issue("read:" + key, "Lecture impossible (" + labels[key] + "). Aucune donnée n’a été remplacée. Réessaie.");
+        issue("read:" + key, "Lecture impossible (" + (key.startsWith(HISTORY_PREFIX) ? "archive de compétition" : labels[key]) + "). Aucune donnée n’a été remplacée. Réessaie.");
         continue;
       }
       errors.delete("read:" + key);
@@ -232,6 +260,7 @@ export function loadStore(): Promise<void> {
       let value: unknown = null, valid = true, repaired = false;
       try { if (raw !== null) value = JSON.parse(raw); } catch { valid = false; }
       if (raw !== null && valid) {
+        if (key.startsWith(HISTORY_PREFIX)) valid = validCompetitionRecord(value, key);
         switch (key) {
           case KEYS.session: case KEYS.summary: valid = validSession(value); break;
           case KEYS.presets: valid = arrayOf(value, validPreset); break;
@@ -253,12 +282,13 @@ export function loadStore(): Promise<void> {
         blocked.add(key); known.delete(key);
         const copied = await preserveRaw(key, raw);
         if (copied && [KEYS.session, KEYS.summary, KEYS.freeTimer].includes(key)) backedInvalid.add(key);
-        issue("invalid:" + key, "Sauvegarde illisible (" + labels[key] + "). " + (copied ? "Valeur brute conservée à part ; restauration refusée." : "Copie de secours impossible ; l’original est intact et la restauration refusée."));
+        issue("invalid:" + key, "Sauvegarde illisible (" + (key.startsWith(HISTORY_PREFIX) ? "archive de compétition" : labels[key]) + "). " + (copied ? "Valeur brute conservée à part ; restauration refusée." : "Copie de secours impossible ; l’original est intact et la restauration refusée."));
         if (key === KEYS.freeMigrated && copied) { migrationMarker = "ambiguous"; known.add(key); }
         continue;
       }
       known.add(key); blocked.delete(key); errors.delete("invalid:" + key);
       backedInvalid.delete(key);
+      if (key.startsWith(HISTORY_PREFIX) && value) acceptCompetition(value as CompetitionRecord);
       switch (key) {
         case KEYS.session: set({ session: value ? ((value as Session).status === "active" ? advance(value as Session, Date.now()) : value as Session) : null }); break;
         case KEYS.summary: set({ lastSummary: value as Session | null }); break;
@@ -279,6 +309,7 @@ export function loadStore(): Promise<void> {
     errors.delete("loading");
     errors.delete("load");
     set({ loaded: true, loading: false, now: Date.now() });
+    await backfillCompetitions();
     showErrors();
   })().catch(() => {
     // Fail closed even if an unexpected storage adapter/restore error escapes.
@@ -293,11 +324,14 @@ export function retryStorage(): Promise<void> {
   retryPromise = (async () => {
     if (loadPromise) await loadPromise;
     if (replacementPromise) await replacementPromise;
+    await historyWork;
     for (const write of [...failedWrites.values()]) {
       if (desiredWrites.get(write.key) === write) await queueWrite(write);
     }
     await loadStore();
     await migratePresets();
+    await backfillCompetitions();
+    persistPendingSummary();
     await flushStorage();
   })().finally(() => { retryPromise = null; });
   return retryPromise;
@@ -342,6 +376,9 @@ export function dispatchSession(fn: (s: Session, now: number) => Session, opts: 
   emitSounds(prev, next, !!opts.silent);
   set({ session: next, now });
   void persist(KEYS.session, next);
+  if ((next.mode === "cup" || next.mode === "survie") && next.live?.stage === "finished" && sessionComplete(next)) {
+    void archiveCompetition(endSession(next, next.live.finishedAt ?? now));
+  }
 }
 
 export function tick() {
@@ -349,19 +386,90 @@ export function tick() {
 }
 
 export function startSession(session: Session) {
-  if (!writable(KEYS.session)) return;
+  if (!writable(KEYS.session)) return false;
+  if (pendingCompetitions.size) {
+    issue("history:pending", "Une compétition attend sa sauvegarde dans l’historique. Réessaie la sauvegarde avant de commencer une nouvelle séance.");
+    return false;
+  }
   // Every entry path opens ready: configure, saved chrono, and replay.
   session = { ...session, live: session.live ? { ...session.live, stage: "ready", startedAt: 0, chrono: { ...session.live.chrono, phase: "idle", runningSince: null, accumulatedMs: 0 } } : null };
   set({ session, notice: null, now: Date.now() });
   void persist(KEYS.session, session);
+  return true;
 }
 
 // Fin de session : la session devient le dernier résumé (C20).
 export function archiveSession(finished: Session) {
   if (!writable(KEYS.session, KEYS.summary)) return;
   set({ session: null, lastSummary: finished });
+  pendingSummary = finished;
+  if (isCompetition(finished)) void archiveCompetition(finished).then(persistPendingSummary);
+  else persistPendingSummary();
+}
+
+function persistPendingSummary() {
+  if (!pendingSummary || pendingCompetitions.size) return;
+  const finished = pendingSummary; pendingSummary = null;
   const saved = persist(KEYS.summary, finished);
-  void persist(KEYS.session, null, saved);
+  if (!state.session || state.session.id === finished.id) void persist(KEYS.session, null, saved);
+}
+
+function historyTask(run: () => Promise<boolean>): Promise<boolean> {
+  const result = historyWork.then(run).catch(() => {
+    issue("history:unexpected", "L’historique n’a pas pu être enregistré. Les données de la séance sont conservées ; réessaie.");
+    return false;
+  });
+  historyWork = result;
+  return result;
+}
+function historyWritable(key: string) {
+  return known.has(HISTORY_INDEX) && !blocked.has(HISTORY_INDEX) && writable(key);
+}
+function archiveCompetition(finished: Session): Promise<boolean> {
+  if (!isCompetition(finished)) return Promise.resolve(true);
+  pendingCompetitions.set(finished.id, finished);
+  return historyTask(async () => {
+    const key = competitionKey(finished.id);
+    if (!historyWritable(key)) return false;
+    if (deletedCompetitions.has(finished.id)) { pendingCompetitions.delete(finished.id); return true; }
+    const previous = state.competitions.find(c => c.id === finished.id);
+    const record = snapshotCompetition(finished, previous);
+    const saved = !!previous && JSON.stringify(previous) === JSON.stringify(record) || await persist(key, record);
+    if (saved && pendingCompetitions.get(finished.id) === finished) pendingCompetitions.delete(finished.id);
+    if (saved && !pendingCompetitions.size) { errors.delete("history:pending"); errors.delete("history:unexpected"); }
+    showErrors();
+    return saved;
+  });
+}
+async function backfillCompetitions() {
+  const candidates = [state.lastSummary, state.session].filter((s): s is Session => s !== null);
+  for (const session of candidates) {
+    const finished = session.status === "active" && (session.mode === "cup" || session.mode === "survie") && session.live?.stage === "finished" && sessionComplete(session) ? endSession(session, session.live.finishedAt ?? session.updatedAt) : session;
+    if (isCompetition(finished) && !state.competitions.some(c => c.id === finished.id)) pendingCompetitions.set(finished.id, finished);
+  }
+  for (const finished of [...pendingCompetitions.values()]) await archiveCompetition(finished);
+  if (!pendingCompetitions.size) { errors.delete("history:pending"); persistPendingSummary(); }
+}
+export function renameCompetition(id: string, name: string): Promise<boolean> {
+  return changeCompetition(id, previous => ({ ...previous, name: name.trim().slice(0, 40) || snapshotCompetition(previous.session).name }));
+}
+export function deleteCompetition(id: string): Promise<boolean> {
+  return changeCompetition(id, () => ({ schema: 1, id, deleted: true }));
+}
+function changeCompetition(id: string, update: (previous: Competition) => CompetitionRecord): Promise<boolean> {
+  return historyTask(async () => {
+    const key = competitionKey(id);
+    if (!historyWritable(key)) return false;
+    const previous = state.competitions.find(c => c.id === id);
+    if (!previous) return false;
+    const saved = await persist(key, update(previous));
+    if (!saved) {
+      // An abandoned rename/delete must never execute later during a generic retry.
+      const failed = failedWrites.get(key);
+      if (failed && desiredWrites.get(key) === failed) failed.raw = JSON.stringify(previous);
+    }
+    return saved;
+  });
 }
 
 export function discardSession() {

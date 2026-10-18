@@ -21,7 +21,7 @@ export default function SummaryScreen(){
   const single=session.mode==="classique"||session.mode==="custom";const match=S.currentMatch(session);
   const title=single?"Match terminé":summary.interrupted?"Tournoi interrompu":session.mode==="cup"?"Champion":session.mode==="survie"?"Vainqueur":"Session terminée";
   const replay=()=>{
-    const go=()=>{startSession(S.createSession(session.config,session.teams,Date.now()));router.replace("/live");};
+    const go=()=>{if(startSession(S.createSession(session.config,session.teams,Date.now())))router.replace("/live");};
     if(getStoreState().session?.status==="active")Alert.alert("Session en cours","Remplacer la session active ?",[{text:"Annuler",style:"cancel"},{text:"Remplacer",style:"destructive",onPress:go}]);
     else go();
   };
@@ -30,7 +30,7 @@ export default function SummaryScreen(){
     const updated=S.correctLast(session,side,delta,now);
     if(updated===session)return;
     if(updated.live?.stage==="finished")archiveSession(S.endSession(updated,now));
-    else {startSession({...updated,status:"active",endedAt:null});router.replace("/live");}
+    else {if(startSession({...updated,status:"active",endedAt:null}))router.replace("/live");}
   };
   const [a,b]=S.liveTeams(session);
   return <DesignScreen title={title} subtitle={single?`${formatMMSS(match?.playedMs??0)} jouées`:`${mode.title} · résultats conservés`} testID="summary-screen" onBack={()=>router.replace("/")} backLabel="Fermer">

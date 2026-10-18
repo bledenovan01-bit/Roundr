@@ -22,6 +22,7 @@ function fixture(memory = new Map<string, string>()) {
   const keyGates = new Map<string, Promise<void>>(), writeWaiters = new Map<string, () => void>();
   let concurrent = 0, maximum = 0;
   const storage = {
+    async getAllKeys() { return [...memory.keys()]; },
     async getItem(key: string) {
       reads.push(key); if (readGate) await readGate;
       if (failedReads.has(key)) throw Error("read failed");
