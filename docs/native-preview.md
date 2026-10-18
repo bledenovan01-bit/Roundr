@@ -54,7 +54,9 @@ Les commandes ci-dessous sont des instructions pour une étape ultérieure. Les 
 
 ### 1. Ouvrir la bonne version sur l'ordinateur
 
-Installer Git et une version LTS de Node compatible avec Expo SDK 57. Ouvrir PowerShell dans le dépôt local Roundr. Ne pas utiliser un autre dossier contenant une ancienne copie.
+Prévoir un téléphone Android 7 ou plus récent, ou un iPhone sous iOS 16.4 ou plus récent, selon les minima annoncés pour Expo SDK 57. Pour le parcours iOS local alternatif, Expo indique Xcode 26.4 ou plus récent : vérifier aussi la compatibilité du Mac. Les dépendances de l'app restent à confirmer par l'installation réelle sur les modèles visés. [Compatibilité du SDK 57](https://docs.expo.dev/versions/latest/).
+
+Installer Git et Node LTS (minimum annoncé pour ce SDK : 22.13.x ; les contrôles locaux utilisent Node 24.19.0 et GitHub utilise Node 22). Ouvrir PowerShell dans le dépôt local Roundr. Ne pas utiliser un autre dossier contenant une ancienne copie.
 
 ```powershell
 git status --short
