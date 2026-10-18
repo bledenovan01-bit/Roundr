@@ -1,0 +1,27 @@
+{
+  "cli": {
+    "version": "25.2.0",
+    "requireCommit": true,
+    "appVersionSource": "local",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "preview": {
+      "distribution": "internal",
+      "developmentClient": false,
+      "environment": "preview",
+      "autoIncrement": false,
+      "android": {
+        "buildType": "apk",
+        "image": "sdk-57",
+        "resourceClass": "medium"
+      },
+      "ios": {
+        "simulator": false,
+        "buildConfiguration": "Release",
+        "image": "sdk-57",
+        "resourceClass": "medium"
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 name: Roundr checks
 on:
   push:
-    branches: ["codex/roundr-test-feedback-fixes", "codex/roundr-storage-reliability"]
+    branches: ["codex/roundr-test-feedback-fixes", "codex/roundr-storage-reliability", "codex/roundr-native-preview"]
   pull_request:
     branches: ["codex/roundr-v0-freeze-fixes", "main"]
 permissions:
@@ -37,7 +37,7 @@ jobs:
         with:
           node-version: 22
       - name: Install app dependencies
-        run: npm install --ignore-scripts --no-package-lock --legacy-peer-deps
+        run: npx --yes yarn@1.22.22 install --frozen-lockfile
       - name: Check types
         run: npm run typecheck
       - name: Bundle Android, iOS and web
@@ -56,6 +56,6 @@ jobs:
         with:
           node-version: 22
       - name: Install app dependencies
-        run: npm install --ignore-scripts --no-package-lock --legacy-peer-deps
+        run: npx --yes yarn@1.22.22 install --frozen-lockfile
       - name: Lint (existing failures remain visible)
         run: npm run lint
