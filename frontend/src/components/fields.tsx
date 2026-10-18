@@ -113,8 +113,10 @@ export function NumberInput({ value, onChange, suffix, testID, placeholder, labe
 }) {
   const styles=useStyles(); const {colors}=useTheme();
   const id=useId();const report=useContext(FormValidityContext);
-  const [draft,setDraft]=useState(value);
-  useEffect(()=>setDraft(value),[value]);
+  const [input,setInput]=useState({ source: value, draft: value });
+  if (input.source !== value) setInput({ source: value, draft: value });
+  const draft = input.source === value ? input.draft : value;
+  const setDraft = (next: string) => setInput({ source: value, draft: next });
   const n=Number(draft);
   const invalid=draft===""||!Number.isSafeInteger(n)||n<min||(max!=null&&n>max);
   const message=invalid?`${label??placeholder??"Valeur"} : saisis un entier de ${min}${max!=null?` à ${max}`:" ou plus"}.`:null;

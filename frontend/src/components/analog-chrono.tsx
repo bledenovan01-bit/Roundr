@@ -1,6 +1,6 @@
 // Affichage analogique du chrono (Chrono libre, Phase 3). Cadran + aiguilles
 // (minutes + secondes). Présentation seulement — ne calcule aucun temps.
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Svg, { Circle, Line, G } from "react-native-svg";
 import { ChronoTime } from "./chrono-time";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";

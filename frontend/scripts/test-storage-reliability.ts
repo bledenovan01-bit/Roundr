@@ -263,6 +263,63 @@ test("a delayed confirmation never replaces a newer progressed session", async (
   old.find(b => b.style === "destructive")!.onPress!(); assert.equal(f.store.getStoreState().freeTimer, current); assert.equal(f.dialogs.length, 2);
   await f.store.flushStorage();
 });
+test("failed replacement keeps the previous session and never navigates as if saved", async () => {
+  const f = fixture(); await f.store.loadStore();
+  const previous = { ...Free.createFreeTimer(Free.defaultConfig("stopwatch")), stepAccumulatedMs: 8000, laps: [4000, 8000], score: [3, 2] as [number, number] };
+  f.store.setFreeTimer(previous); await f.store.flushStorage(); const raw = f.memory.get(K.timer);
+  let navigation = 0; f.failedWrites.add(K.timer);
+  f.prepare.prepareFreeTimer(Free.defaultConfig("countdown"), () => { navigation++; });
+  await f.dialogs.at(-1)!.find(b => b.style === "destructive")!.onPress!();
+  await f.store.flushStorage();
+  assert.equal(navigation, 0, "navigation must await durable replacement");
+  assert.deepEqual(f.store.getStoreState().freeTimer, previous);
+  assert.equal(f.memory.get(K.timer), raw); assert(f.store.getStoreState().saveError);
+  assert.equal(f.memory.get("roundr.free-timer.previous.v1"), raw);
+  f.failedWrites.clear(); await f.store.retryStorage();
+  assert.equal(navigation, 0); assert.deepEqual(f.store.getStoreState().freeTimer, previous);
+  assert.equal(f.memory.get(K.timer), raw); assert.equal(f.store.getStoreState().saveError, null);
+  const restarted = fixture(new Map(f.memory)); await restarted.store.loadStore();
+  assert.deepEqual(restarted.store.getStoreState().freeTimer, previous);
+});
+test("replacement stays pending until durable write; concurrent actions cannot overwrite it", async () => {
+  const f = fixture(); await f.store.loadStore();
+  const previous = { ...Free.createFreeTimer(Free.defaultConfig("stopwatch")), score: [2, 1] as [number, number] };
+  f.store.setFreeTimer(previous); await f.store.flushStorage();
+  const gate = deferred(); f.pauseWriteKey(K.timer, gate.promise); const reached = f.watchWrite(K.timer);
+  let navigation = 0; f.prepare.prepareFreeTimer(Free.defaultConfig("countdown"), () => { navigation++; });
+  const confirmation = f.dialogs.at(-1)!.find(b => b.style === "destructive")!.onPress!(); await reached;
+  assert.equal(navigation, 0); assert.equal(f.store.getStoreState().replacingFreeTimer, true);
+  assert.deepEqual(f.store.getStoreState().freeTimer, previous);
+  assert.deepEqual(JSON.parse(f.memory.get("roundr.free-timer.previous.v1")!), previous);
+  assert.equal(f.store.setFreeTimer(null), false);
+  assert.equal(await f.store.replaceFreeTimer(null, previous), false);
+  gate.release(); await confirmation; await f.store.flushStorage();
+  assert.equal(navigation, 1); assert.equal(f.store.getStoreState().replacingFreeTimer, false);
+  assert.equal(f.store.getStoreState().freeTimer!.config.kind, "countdown");
+});
+test("failed backup prevents replacement; retrying backup never starts the candidate", async () => {
+  const f = fixture(); await f.store.loadStore();
+  const previous = { ...Free.createFreeTimer(Free.defaultConfig("stopwatch")), stepAccumulatedMs: 10, laps: [10] };
+  f.store.setFreeTimer(previous); await f.store.flushStorage(); const writes = f.writes.filter(k => k === K.timer).length;
+  f.failedWrites.add("roundr.free-timer.previous.v1");
+  assert.equal(await f.store.replaceFreeTimer(Free.createFreeTimer(Free.defaultConfig("countdown")), previous), false);
+  assert.equal(f.writes.filter(k => k === K.timer).length, writes);
+  assert.deepEqual(f.store.getStoreState().freeTimer, previous); assert(f.store.getStoreState().saveError);
+  f.failedWrites.clear(); await f.store.retryStorage();
+  assert.deepEqual(f.store.getStoreState().freeTimer, previous);
+  assert.equal(f.writes.filter(k => k === K.timer).length, writes);
+});
+test("failed destructive restart or finish retains time, laps and score", async () => {
+  const f = fixture(); await f.store.loadStore();
+  const previous = { ...Free.createFreeTimer(Free.defaultConfig("stopwatch")), stepAccumulatedMs: 8000, laps: [4000, 8000], score: [3, 2] as [number, number] };
+  f.store.setFreeTimer(previous); await f.store.flushStorage(); const raw = f.memory.get(K.timer);
+  f.failedWrites.add(K.timer);
+  for (const candidate of [Free.resetTime(previous, Date.now()), Free.restartSession(previous), null]) {
+    assert.equal(await f.store.replaceFreeTimer(candidate, previous), false);
+    assert.deepEqual(f.store.getStoreState().freeTimer, previous); assert.equal(f.memory.get(K.timer), raw);
+  }
+  f.failedWrites.clear(); await f.store.retryStorage(); assert.equal(f.memory.get(K.timer), raw);
+});
 test("rapid writes / archive then new session preserve order; failed operations remain visible", async () => {
   const f = fixture(); await f.store.loadStore(); const gate = deferred(); f.pauseWrites(gate.promise);
   const a = f.store.saveFreePreset(preset("a")), b = f.store.saveFreePreset(preset("b"));

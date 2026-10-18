@@ -24,7 +24,7 @@ import {
   toggleFree, recordLap, nextStep, resetTime, restartSession,
   type FreeTimerDisplay,
 } from "@/src/domain/free-timer";
-import { setFreeTimer, tickFreeTimer, useStore } from "@/src/store/session-store";
+import { replaceFreeTimer, setFreeTimer, tickFreeTimer, useStore } from "@/src/store/session-store";
 import { fontFamily, makeStyles, useTheme } from "@/src/theme";
 
 export default function FreeTimerRun() {
@@ -82,14 +82,14 @@ export default function FreeTimerRun() {
   const toggle = () => setFreeTimer(toggleFree(ft, Date.now()));
   const onLap = () => setFreeTimer(recordLap(ft, Date.now()));
   const onNext = () => setFreeTimer(nextStep(ft, Date.now()));
-  const onReset = () => setFreeTimer(resetTime(ft, Date.now()));
+  const onReset = () => { void replaceFreeTimer(resetTime(ft, Date.now()), ft); };
   const onRestart = () => Alert.alert("Recommencer la séance ?", "Le temps, les tours et les scores seront remis à zéro.", [
     { text: "Annuler", style: "cancel" },
-    { text: "Recommencer", style: "destructive", onPress: () => setFreeTimer(restartSession(ft)) },
+    { text: "Recommencer", style: "destructive", onPress: () => { void replaceFreeTimer(restartSession(ft), ft); } },
   ]);
   const onEnd = () => Alert.alert("Terminer le chrono ?", "La séance en cours sera fermée.", [
     { text: "Annuler", style: "cancel" },
-    { text: "Terminer", style: "destructive", onPress: () => { setFreeTimer(null); router.replace("/chrono-libre"); } },
+    { text: "Terminer", style: "destructive", onPress: async () => { if (await replaceFreeTimer(null, ft)) router.replace("/chrono-libre"); } },
   ]);
   const score = (side: 0 | 1, delta: 1 | -1) => {
     const next: [number, number] = [...ft.score] as [number, number];

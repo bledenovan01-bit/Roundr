@@ -21,12 +21,14 @@ const KEYS = {
   corrupt: "roundr.session.corrupt.v1",
   freePresets: "roundr.free-presets.v1",
   freeTimer: "roundr.free-timer.v1",
+  previousFreeTimer: "roundr.free-timer.previous.v1",
   freeMigrated: "roundr.free-presets.migrated.v1",
 };
 
 export type StoreState = {
   loaded: boolean;
   loading: boolean;
+  replacingFreeTimer: boolean;
   legacyRecovery: FreeTimerPreset[] | null;
   storageInfo: string | null;
   session: Session | null;
@@ -42,6 +44,7 @@ export type StoreState = {
 let state: StoreState = {
   loaded: false,
   loading: false,
+  replacingFreeTimer: false,
   legacyRecovery: null,
   storageInfo: null,
   session: null,
@@ -78,9 +81,11 @@ const known = new Set<string>();
 let migrationMarker: Marker | "legacy" | "ambiguous" | null = null;
 let loadPromise: Promise<void> | null = null;
 let retryPromise: Promise<void> | null = null;
+let replacementPromise: Promise<boolean> | null = null;
 const labels: Record<string, string> = {
   [KEYS.session]: "session de match", [KEYS.summary]: "résumé", [KEYS.presets]: "anciens chronos",
   [KEYS.freePresets]: "Mes chronos", [KEYS.freeTimer]: "chrono libre", [KEYS.freeMigrated]: "migration des chronos",
+  [KEYS.previousFreeTimer]: "séance précédente du chrono libre",
 };
 function showErrors() { set({ saveError: [...new Set(errors.values())].join(" ") || null }); }
 function issue(id: string, message: string) { errors.set(id, message); showErrors(); }
@@ -132,7 +137,12 @@ function persist(key: string, value: unknown, prerequisite?: Promise<boolean>): 
 // Deterministic synchronization for tests and callers; includes writes added
 // by completions, rather than guessing how long the storage device takes.
 export async function flushStorage(): Promise<void> {
-  for (;;) { const current = pendingWrite; await current; if (current === pendingWrite) return; }
+  for (;;) {
+    const current = pendingWrite;
+    await current;
+    if (replacementPromise) await replacementPromise;
+    if (current === pendingWrite && !replacementPromise) return;
+  }
 }
 function writable(...keys: string[]): boolean {
   if (!state.loaded || state.loading) {
@@ -202,6 +212,7 @@ export function resolveLegacyRecovery(recover: boolean): Promise<boolean> {
 // Concurrent loaders share one promise. Mutations fail closed while reading;
 // retries only reread failed resources, never replacing newer unrelated edits.
 export function loadStore(): Promise<void> {
+  if (replacementPromise) return replacementPromise.then(() => loadStore());
   if (loadPromise) return loadPromise;
   if (state.loaded && blocked.size === 0) return Promise.resolve();
   const keys = state.loaded ? [...blocked] : [KEYS.session, KEYS.summary, KEYS.presets, KEYS.freePresets, KEYS.freeTimer, KEYS.freeMigrated];
@@ -281,6 +292,7 @@ export function retryStorage(): Promise<void> {
   if (retryPromise) return retryPromise;
   retryPromise = (async () => {
     if (loadPromise) await loadPromise;
+    if (replacementPromise) await replacementPromise;
     for (const write of [...failedWrites.values()]) {
       if (desiredWrites.get(write.key) === write) await queueWrite(write);
     }
@@ -395,6 +407,9 @@ export async function renameFreePreset(id: string, name: string): Promise<boolea
 // L'affichage haute fréquence NE passe PAS par ici : seules les actions
 // discrètes (start/pause/tour/step/reset) écrivent, évitant les rafales.
 export function setFreeTimer(ft: FreeTimerState | null): boolean {
+  // Live actions stay immediate. This boolean means accepted in memory, never
+  // a durable-save acknowledgement. Destructive changes use replaceFreeTimer.
+  if (state.replacingFreeTimer) return false;
   if (!writable(KEYS.freeTimer)) return false;
   if (ft !== null && !validFreeTimer(ft)) {
     issue("input:" + KEYS.freeTimer, "Chrono incohérent : modification refusée pour protéger la sauvegarde.");
@@ -403,6 +418,35 @@ export function setFreeTimer(ft: FreeTimerState | null): boolean {
   set({ freeTimer: ft });
   void persist(KEYS.freeTimer, ft);
   return true;
+}
+// Keep the previous session in memory until both its backup and the new state
+// are durable. A failed candidate is never retried silently as a replacement.
+export function replaceFreeTimer(ft: FreeTimerState | null, expected: FreeTimerState | null): Promise<boolean> {
+  if (state.replacingFreeTimer || replacementPromise || !writable(KEYS.freeTimer) || state.freeTimer !== expected) return Promise.resolve(false);
+  if (ft !== null && !validFreeTimer(ft)) {
+    issue("input:" + KEYS.freeTimer, "Chrono incohérent : remplacement refusé. La séance précédente est conservée.");
+    return Promise.resolve(false);
+  }
+  const previous = state.freeTimer;
+  const previousRaw = previous === null ? null : JSON.stringify(previous);
+  const next = ft === null ? null : JSON.parse(JSON.stringify(ft)) as FreeTimerState;
+  set({ replacingFreeTimer: true });
+  replacementPromise = (async () => {
+    if (previousRaw !== null && !(await persistRaw(KEYS.previousFreeTimer, previousRaw))) return false;
+    if (!(await persist(KEYS.freeTimer, next))) {
+      // Retrying storage saves the retained session, not the rejected candidate.
+      const failed = failedWrites.get(KEYS.freeTimer);
+      if (failed && desiredWrites.get(KEYS.freeTimer) === failed) failed.raw = previousRaw;
+      issue("write:" + KEYS.freeTimer, "Remplacement non enregistré. La séance précédente est conservée. Réessaie avant de fermer l’application.");
+      return false;
+    }
+    set({ freeTimer: next });
+    return true;
+  })().finally(() => {
+    replacementPromise = null;
+    set({ replacingFreeTimer: false });
+  });
+  return replacementPromise;
 }
 // Tick logique du Chrono libre : n'écrit QUE sur transition de step / fin.
 export function tickFreeTimer(): void {

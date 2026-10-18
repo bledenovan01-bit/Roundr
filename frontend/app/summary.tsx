@@ -25,9 +25,9 @@ export default function SummaryScreen(){
     if(getStoreState().session?.status==="active")Alert.alert("Session en cours","Remplacer la session active ?",[{text:"Annuler",style:"cancel"},{text:"Remplacer",style:"destructive",onPress:go}]);
     else go();
   };
-  const correct=(side:0|1,delta:1|-1)=>{
+  const correct=(side:0|1,delta:1|-1,now:number)=>{
     if(getStoreState().session?.status==="active")return;
-    const now=Date.now();const updated=S.correctLast(session,side,delta,now);
+    const updated=S.correctLast(session,side,delta,now);
     if(updated===session)return;
     if(updated.live?.stage==="finished")archiveSession(S.endSession(updated,now));
     else {startSession({...updated,status:"active",endedAt:null});router.replace("/live");}
@@ -44,7 +44,7 @@ export default function SummaryScreen(){
     {single&&session.live?.scoreOn&&session.preFinish&&!active?<PrimaryButton label={correcting?"Fermer la correction":"Corriger le score final"} variant="secondary" onPress={()=>setCorrecting(!correcting)}/>:null}
     {correcting&&!active?([a,b] as const).map((team,i)=><View key={i} style={{gap:8}}>
       <Text style={{color:colors.onSurface}}>{team?.name}</Text>
-      <View style={{flexDirection:"row",gap:8}}><View style={{flex:1}}><PrimaryButton label="−1 but" variant="secondary" onPress={()=>correct(i as 0|1,-1)}/></View><View style={{flex:1}}><PrimaryButton label="+1 but" variant="secondary" onPress={()=>correct(i as 0|1,1)}/></View></View>
+      <View style={{flexDirection:"row",gap:8}}><View style={{flex:1}}><PrimaryButton label="−1 but" variant="secondary" onPress={()=>correct(i as 0|1,-1,Date.now())}/></View><View style={{flex:1}}><PrimaryButton label="+1 but" variant="secondary" onPress={()=>correct(i as 0|1,1,Date.now())}/></View></View>
     </View>):null}
     <PrimaryButton testID="summary-replay" label="Rejouer avec les mêmes réglages" variant="secondary" onPress={replay}/>
     {!single?<PrimaryButton testID="summary-details" label={session.mode==="maracana"?"Voir le classement":"Voir le tableau"} variant="secondary" onPress={()=>router.push("/standings?summary=1")}/>:null}
