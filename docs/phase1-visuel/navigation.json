@@ -1,0 +1,58 @@
+[
+  {
+    "mode": "classique",
+    "url": "http://127.0.0.1:8098/config/classique",
+    "screen": "- button \"Retour\"\n- heading \"Mode Match classique\" [level=1]\n- generic: Paramètres\n- generic: Simple et direct\n- generic: Un maximum de jeu, un minimum d’organisation.\n- generic: Temps de jeu\n- generic: Durée totale de jeu\n- radio \"10 min\" [checked]:"
+  },
+  {
+    "mode": "maracana",
+    "url": "http://127.0.0.1:8098/config/maracana",
+    "screen": "- button \"Retour\":\n  - generic: 󰅁\n- heading \"Mode Maracana\" [level=1]\n- generic: Paramètres\n- generic: 󰓦\n- generic: Rotations automatiques\n- generic: Un maximum de jeu, un minimum d’organisation.\n- generic: Temps de jeu\n- generic: Durée des matchs\n"
+  },
+  {
+    "mode": "cup",
+    "url": "http://127.0.0.1:8098/config/cup",
+    "screen": "- button \"Retour\":\n  - generic: 󰅁\n- heading \"Mode Cup\" [level=1]\n- generic: Paramètres\n- generic: 󰔸\n- generic: Poules + phases finales\n- generic: Un maximum de jeu, un minimum d’organisation.\n- generic: Temps de jeu\n- generic: Durée des matchs de p"
+  },
+  {
+    "mode": "survie",
+    "url": "http://127.0.0.1:8098/config/survie",
+    "screen": "- button \"Retour\":\n  - generic: 󰅁\n- heading \"Mode Survie\" [level=1]\n- generic: Paramètres\n- generic: 󰈸\n- generic: Élimination directe\n- generic: Un maximum de jeu, un minimum d’organisation.\n- generic: Temps de jeu\n- generic: Durée des matchs\n- rad"
+  },
+  {
+    "mode": "custom",
+    "url": "http://127.0.0.1:8098/chrono-libre",
+    "screen": "- button \"Retour\":\n  - generic: ‹\n  - generic: Retour\n- heading \"Chrono libre\" [level=1]\n- generic: Type de chrono\n- generic: Choisissez votre chrono. Les équipes sont facultatives.\n- button \"Chronomètre\":\n  - generic: 󰔛\n  - generic: Chronomètre\n  -"
+  },
+  {
+    "mode": "team-builder",
+    "url": "http://127.0.0.1:8098/team-builder",
+    "result": "Écran Faire les équipes atteint"
+  },
+  {
+    "mode": "settings",
+    "url": "http://127.0.0.1:8098/settings",
+    "result": "Paramètres atteints sans changement de préférence"
+  },
+  {
+    "mode": "resume-free",
+    "url": "http://127.0.0.1:8098/chrono-libre/run",
+    "result": "Chronomètre toujours prêt à 00:00, sans démarrage implicite"
+  },
+  {
+    "mode": "resume-free-landscape",
+    "url": "http://127.0.0.1:8098/chrono-libre/run",
+    "result": "Reprise par la carte paysage, chrono toujours prêt à 00:00"
+  },
+  {
+    "path": "history",
+    "checks": [
+      "finale enregistrée automatiquement",
+      "renommage annulé",
+      "suppression annulée en portrait et paysage",
+      "nom enregistré puis conservé après rechargement",
+      "nom par défaut rétabli"
+    ],
+    "nativeDevice": false
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "font": "ManropeRefined-ExtraBold",
+      "h": 50.69791793823242,
+      "id": "intro-wordmark",
+      "line": "50.7px",
+      "size": "50.7px",
+      "w": 338,
+      "x": 26,
+      "y": 523.9583740234375
+    },
+    {
+      "font": "ManropeRefined-ExtraBold",
+      "h": 74.25,
+      "id": "intro-title",
+      "line": "37.128px",
+      "size": "33.15px",
+      "w": 338,
+      "x": 26,
+      "y": 584.65625
+    },
+    {
+      "font": "ManropeRefined-Regular",
+      "h": 65.09375,
+      "id": "intro-description",
+      "line": "21.7px",
+      "size": "14px",
+      "w": 307.4375,
+      "x": 26,
+      "y": 670.90625
+    },
+    {
+      "font": "\"Times New Roman\"",
+      "h": 86,
+      "id": "intro-dock",
+      "line": "normal",
+      "size": "16px",
+      "w": 390,
+      "x": 0,
+      "y": 758
+    },
+    {
+      "font": "Arial",
+      "h": 58,
+      "id": "welcome-start",
+      "line": "normal",
+      "size": "13.3333px",
+      "w": 350,
+      "x": 20,
+      "y": 770
+    }
+  ],
+  "viewport": [
+    390,
+    844
+  ]
+}

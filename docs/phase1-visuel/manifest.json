@@ -1,0 +1,177 @@
+{
+  "reference": "1c59720dc5b180d5b1bacfaf935902b4053895fa",
+  "base": "8fc43c1fa7a42187c476372de842ff2d5881425d",
+  "branch": "codex/roundr-lovable-phase-1",
+  "render": "Chrome / React Native Web ; aucun appareil physique",
+  "pairs": 17,
+  "files": [
+    {
+      "name": "accueil-expo-paysage.jpg",
+      "sha256": "c6e322c9201193987356ecffcfdb4e4837960d00861557cf074415c59a7294e8"
+    },
+    {
+      "name": "accueil-expo-portrait.jpg",
+      "sha256": "6c3fa3b6ec0aac04a9cbfaa6a4498cf34a8c1567f16af47f6737577ed776fa08"
+    },
+    {
+      "name": "accueil-lovable-paysage.jpg",
+      "sha256": "b44f290d22112cd7007ebf5033e5338bb85cdd85827fac6df26f135064d92209"
+    },
+    {
+      "name": "accueil-lovable-portrait.jpg",
+      "sha256": "4124f14d9a489e3946667667181f5f24d7dca2ef6535f1e5fa833144b00f4bcf"
+    },
+    {
+      "name": "expo-accueil-paysage.json",
+      "sha256": "f201556d5b4e3ce030be348c3902f87e2eb5fd550f8d5391510e817edad10a79"
+    },
+    {
+      "name": "expo-accueil-portrait.json",
+      "sha256": "710b691bb07245df93104e300a56c9cf8680f61b9e6462be8ced9caeb48d8205"
+    },
+    {
+      "name": "expo-equipes-mesures.json",
+      "sha256": "c53cb96fd27ba6bb94a99fcdd5a1f6030a4227fe7e840c8907f1f514e28a11f2"
+    },
+    {
+      "name": "expo-intro-portrait.json",
+      "sha256": "2e3730b21475792b2872f4e5f7b69d2220d1b08d6a3a556b46e5ad7e22e0a343"
+    },
+    {
+      "name": "historique-detail-expo-paysage.jpg",
+      "sha256": "3ee9fc568bf432d85dab7762a2525f19748c42bc497d7e44c0d3a6781dbc3c3c"
+    },
+    {
+      "name": "historique-detail-expo-portrait.jpg",
+      "sha256": "6a60e11a7fdab6a8bc1d0dbf6c12cab8457a567456e975a1af13bce161c8be7c"
+    },
+    {
+      "name": "historique-detail-lovable-paysage.jpg",
+      "sha256": "c13d725157e2fe8083425da67fd4954a01f008daf988bc7ef15f61a8d5f6c4f0"
+    },
+    {
+      "name": "historique-detail-lovable-portrait.jpg",
+      "sha256": "212f741ecf40301e5e0c78d1dc0a1dacfe66293cd0e741a2845183b260ebb9c8"
+    },
+    {
+      "name": "historique-expo-paysage.jpg",
+      "sha256": "3f0cab7c9062693ab41fc000437381d2d851e1c10707b5f470fc7b1297f0bc05"
+    },
+    {
+      "name": "historique-expo-portrait.jpg",
+      "sha256": "2c810ddf80dde447f12044dbdfeebf0bd7aaaf9e1153b61455be260174cad438"
+    },
+    {
+      "name": "historique-lovable-paysage.jpg",
+      "sha256": "f29727fb0e24c88ed14879d0cd9dcc7c9f4119ee81b4196ab3c80b998770419b"
+    },
+    {
+      "name": "historique-lovable-portrait.jpg",
+      "sha256": "710f0fb2f707e67531ea3833a02594d5ae03b68251369b447e258b9f29d1ee5f"
+    },
+    {
+      "name": "historique-renommer-expo-paysage.jpg",
+      "sha256": "75b8f1b3a5b00b830709a13d064da8096add04b999fcd24d227a413f0f3c51f4"
+    },
+    {
+      "name": "historique-renommer-expo-portrait.jpg",
+      "sha256": "6cebc27a56caaa9592c25c14e185be7e64b6303937f0e613097b1e674b2af4eb"
+    },
+    {
+      "name": "historique-renommer-lovable-paysage.jpg",
+      "sha256": "0854b2831691471fa6949f9e74d54f4a07d8b08e77fae60391ac07ea4fc96a1a"
+    },
+    {
+      "name": "historique-renommer-lovable-portrait.jpg",
+      "sha256": "ffa8a9cf5ea3f54becccd3be40adfbbfc7034f9954af1a214e8de48141e2ff45"
+    },
+    {
+      "name": "historique-resultats-expo-portrait.jpg",
+      "sha256": "c7050e436bd811793032299474eb652fc5a25fe812dac6966294007618fcf2ce"
+    },
+    {
+      "name": "historique-resultats-lovable-portrait.jpg",
+      "sha256": "5d57a03d210651800c24b905a1a260916322c25bd3feec91f985d83d7d1fd9e3"
+    },
+    {
+      "name": "historique-supprimer-expo-paysage.jpg",
+      "sha256": "148c4c8a1caf065851e67d322c2e3aa26c04b86e318fdf9d11aa6b09f878a072"
+    },
+    {
+      "name": "historique-supprimer-expo-portrait.jpg",
+      "sha256": "02e0ac2433ba30d72229b3511b565281cc52ee402c4295f45fa93373c7226c24"
+    },
+    {
+      "name": "historique-supprimer-lovable-paysage.jpg",
+      "sha256": "1e50905025e37588ec781d098647fb70c6b3630de2257faf48a7367da6469b46"
+    },
+    {
+      "name": "historique-supprimer-lovable-portrait.jpg",
+      "sha256": "45620051ec11b3efbde2da3c7fcaf070449e339ff9d1d52010819be45f1810fe"
+    },
+    {
+      "name": "historique-vide-expo-paysage.jpg",
+      "sha256": "feea7342a5493f4a9159b6c039d7e2205a61489591834b764b8583c4058bdcc3"
+    },
+    {
+      "name": "historique-vide-expo-portrait.jpg",
+      "sha256": "05c3cbbc0b19fab879b22642846cb88bf0cb23d028b8a3f0ebcbce0afe5733aa"
+    },
+    {
+      "name": "historique-vide-lovable-paysage.jpg",
+      "sha256": "cc173d1278b47c787a4b83f7415aed95bc96234204ec363deb9b971510e55f11"
+    },
+    {
+      "name": "historique-vide-lovable-portrait.jpg",
+      "sha256": "03f82941f860947991b9537652e962c24031d006ee40a22248021593d58b3384"
+    },
+    {
+      "name": "intro-expo-paysage.jpg",
+      "sha256": "32c92c6c7886fa05f9a7459c12880aa49ad9037e2478cd8c560bdd7a27349fdb"
+    },
+    {
+      "name": "intro-expo-portrait.jpg",
+      "sha256": "31dd8e07a36b4ba37b1a0f980f3316fded4b96b8047fbdfb67ce16f7c4b899ed"
+    },
+    {
+      "name": "intro-lovable-paysage.jpg",
+      "sha256": "afc295ddb47e3ecb7d77c68a9304d26a2fbe25aba10f38e854914952b0d53077"
+    },
+    {
+      "name": "intro-lovable-portrait.jpg",
+      "sha256": "8ea60ff763c36484039a875b6a98809eff502381cc5e53713f3cb1833bd3ebd5"
+    },
+    {
+      "name": "navigation.json",
+      "sha256": "d89dedbcd1747c26a7d378ae2c3c68b6ba20bdbe57b18bf6d48142fad8307d07"
+    },
+    {
+      "name": "reference-accueil-paysage.json",
+      "sha256": "d5387e9ed15a6446eddfeade33fedf0fa387fae057e0a04ac9f6eda47ccef954"
+    },
+    {
+      "name": "reference-accueil-portrait.json",
+      "sha256": "1fe20f78ae572783336280f0879f85b8f1a83bec882fe058c468f1dc2d3af782"
+    },
+    {
+      "name": "reference-intro-portrait.json",
+      "sha256": "f9b1bc3282db2d0cca111fab4e5a482231086181416e07816bae8fb4cba77126"
+    },
+    {
+      "name": "reprise-expo-paysage.jpg",
+      "sha256": "5858796972dfe3a9abecb8c7cb6b4af3c8ba17d04f3e7cf0921a63e939e0ca86"
+    },
+    {
+      "name": "reprise-expo-portrait.jpg",
+      "sha256": "e24afefa00eb142c0cda9f29019547e4bbe41c30bdab0b4622d8acbeebf7f11e"
+    },
+    {
+      "name": "reprise-lovable-paysage.jpg",
+      "sha256": "63d7e2e64541b7d1abdb3397f42d64fedd9a144d854a07b3c2ad2a2a0ee086cc"
+    },
+    {
+      "name": "reprise-lovable-portrait.jpg",
+      "sha256": "8c1fb715b13db48e3195645cff2f7942066e495a6879264b2bf7b047198a9081"
+    }
+  ]
+}
