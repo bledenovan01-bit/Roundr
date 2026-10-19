@@ -21,6 +21,8 @@ export type ClassicConfig = {
   score: boolean;
   sounds: boolean;
   customTeams: boolean;
+  additionalEachPeriod?: boolean;
+  soundControl?: "session";
 };
 
 export type CustomConfig = {
@@ -52,6 +54,9 @@ export type MaracanaConfig = {
   drawRule4?: "oneLeaves" | "bothLeave"; // nul en "gagnant reste" 4+ ; défaut: oneLeaves
   launch?: "manual" | "auto" | "delay"; // défaut: manual
   launchDelaySec?: number; // délai si launch = "delay" ; défaut: 60
+  // FIFO of the frozen reference for new configurations; absent preserves legacy rotation.
+  queuePolicy?: "lovable";
+  soundControl?: "session";
 };
 
 // Durées par tour (C15) indexées par taille du tour : 2 = finale, 4 = demies, 8 = quarts…
@@ -198,6 +203,7 @@ export type Session = {
     cup: CupState | null;
   } | null;
   lastEvent: string | null;
+  pendingLaunch?: { key: string; chrono: ChronoState; cancelled: boolean };
 };
 
 export type Preset = {

@@ -15,6 +15,7 @@ import { LiveNoticeBanner } from "@/src/components/live-notice-banner";
 import { DesignRow } from "@/src/components/design-screen";
 import { LiveHero, LiveControls } from "@/src/components/design-live";
 import { GiantChrono } from "@/src/components/giant-chrono";
+import { MaracanaLaunchCountdown } from "@/src/components/maracana-launch";
 import { PrimaryButton } from "@/src/components/primary-button";
 import { GAME_MODES } from "@/src/data/modes";
 import { TEAM_PALETTE } from "@/src/domain/defaults";
@@ -311,6 +312,7 @@ function Transition({ session, next, onNext, onEndSession, onAddTeam, onSummary,
   const rankingLabel = session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Classement" : "Tableau";
   return (
     <View style={{gap:14, paddingTop:12,alignItems:"stretch"}} testID="transition-panel">
+      <MaracanaLaunchCountdown session={session} />
       <Text style={{fontFamily:fontFamily.textBold,fontSize:24,lineHeight:33,color:colors.onSurface,textAlign:"center"}}>Match terminé</Text>
       <Text style={[styles.panelHint,{fontSize:20,lineHeight:30,color:colors.onSurface,textAlign:"center"}]}>
         {a?.name} {match.score ? `${match.score[0]} – ${match.score[1]}` : "vs"} {b?.name}

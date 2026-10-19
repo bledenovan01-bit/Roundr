@@ -15,6 +15,8 @@ import { createSession } from "@/src/domain/session";
 import type { AnyConfig, Team } from "@/src/domain/types";
 import { validateConfig } from "@/src/domain/validate";
 import { DesignConfig } from "@/src/features/design-config";
+import { LovableConfig } from "@/src/features/lovable-config";
+import { lovableConfigTeams, lovableLaunchDefaults, lovableReplayConfig, mergeConfigurationTeams } from "@/src/features/lovable-config-state";
 import { getStoreState, startSession, useStore } from "@/src/store/session-store";
 import { control, fontFamily, fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview } from "@/src/typography-preview";
@@ -34,14 +36,15 @@ export default function ConfigScreen() {
   const replayFrom = params.replay ? getStoreState().lastSummary : null;
 
   const [config, setConfig] = useState<AnyConfig>(() => {
-    if (replayFrom && replayFrom.mode === params.mode) return replayFrom.config;
-    const base = defaultConfig(params.mode ?? "classique");
+    if (replayFrom && replayFrom.mode === params.mode) return replayFrom.config.mode === "classique" || replayFrom.config.mode === "maracana" ? lovableReplayConfig(replayFrom.config) : replayFrom.config;
+    const base = params.mode === "classique" || params.mode === "maracana" ? lovableLaunchDefaults(params.mode) : defaultConfig(params.mode ?? "classique");
     const pref = getPreferences();
-    return { ...base, sounds: pref.sounds, ...(base.mode === "classique" || base.mode === "custom" ? { additional: pref.additional } : {}), ...(params.teams && base.mode !== "classique" && base.mode !== "custom" ? { teamCount: pref.teams.length } : {}), ...(params.teams ? { customTeams: true } : {}), ...(base.mode === "custom" ? { savePreset: false } : {}) };
+    return { ...base, sounds: pref.sounds, ...(base.mode === "custom" ? { additional: pref.additional } : {}), ...(params.teams && base.mode !== "classique" && base.mode !== "custom" ? { teamCount: pref.teams.length } : {}), ...(params.teams ? { customTeams: true } : {}), ...(base.mode === "custom" ? { savePreset: false } : {}) };
   });
   const [teams, setTeams] = useState<Team[]>(() => {
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.teams;
     if (params.teams && getPreferences().teams.length) return getPreferences().teams;
+    if (params.mode === "classique" || params.mode === "maracana") return lovableConfigTeams(params.mode, params.mode === "maracana" ? 8 : 2);
     return defaultTeams(params.mode ?? "classique", teamCountFor(config));
   });
   const [attempted, setAttempted] = useState(false);
@@ -49,13 +52,14 @@ export default function ConfigScreen() {
   // Aligne la liste d'équipes sur le nombre configuré, en conservant les noms.
   const count = teamCountFor(config);
   const alignedTeams = useMemo(() => alignTeams(teams,config.mode,count), [teams,count,config.mode]);
+  const launchTeams = (config.mode === "classique" || config.mode === "maracana") && !config.customTeams ? lovableConfigTeams(config.mode, count) : alignedTeams;
 
   const [fieldErrors, setFieldErrors] = useState<Record<string,string>>({});
   const reportValidity = useCallback((id:string,message:string|null) => setFieldErrors(prev => {
     if (prev[id] === message || (message==null && !(id in prev))) return prev;
     const next={...prev};if(message) next[id]=message;else delete next[id];return next;
   }),[]);
-  const errors = [...validateConfig(config, alignedTeams), ...Object.values(fieldErrors)];
+  const errors = [...validateConfig(config, launchTeams), ...Object.values(fieldErrors)];
   const snapshot = JSON.stringify({config,teams});
   const [initial] = useState(snapshot);
   const leave = useUnsavedChanges(initial !== snapshot || Object.keys(fieldErrors).length>0);
@@ -65,7 +69,7 @@ export default function ConfigScreen() {
     if (errors.length) return;
     const go = () => leave(() => {
       const now = Date.now();
-      const session = createSession(config, alignedTeams, now);
+      const session = createSession(config, launchTeams, now);
       if (startSession({ ...session, live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null })) router.replace("/live" as never);
     });
     if (activeSession && activeSession.status === "active") {
@@ -81,6 +85,8 @@ export default function ConfigScreen() {
 
   const ctaLabel = config.mode === "custom" ? "Préparer le chrono" : "Lancer la session";
   const refinedTypography = true;
+
+  if (config.mode === "classique" || config.mode === "maracana") return <LovableConfig config={config} onChange={setConfig} teams={alignedTeams} onTeams={next => setTeams(previous => mergeConfigurationTeams(previous, next))} onBack={() => router.canGoBack() ? router.back() : router.replace("/")} onLaunch={launch} errors={[...(saveError ? [saveError] : []), ...errors]} disabled={errors.length > 0} />;
 
   return (
     <TypographyPreview.Provider value={refinedTypography}>

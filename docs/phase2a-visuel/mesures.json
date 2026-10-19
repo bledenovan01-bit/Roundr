@@ -1,0 +1,3957 @@
+{
+  "reference": "1c59720dc5b180d5b1bacfaf935902b4053895fa",
+  "base": "4dd401d4ff315cc2825d5dff72bffcc34bbe00c0",
+  "expoBundle": "entry-270ae3b00621e951aafdee8d82c4fb7a.js",
+  "comparisons": [
+    {
+      "name": "maracana-defaut",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.0521240234375,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 0,
+          "total": 1210
+        },
+        {
+          "height": 682,
+          "top": 0,
+          "total": 1211
+        }
+      ]
+    },
+    {
+      "name": "maracana-delai",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.072998046875,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 300,
+          "total": 1372
+        },
+        {
+          "height": 682,
+          "top": 300,
+          "total": 1372
+        }
+      ]
+    },
+    {
+      "name": "maracana-rotation",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.09375,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 562.6666870117188,
+          "total": 1526
+        },
+        {
+          "height": 682,
+          "top": 562.6666870117188,
+          "total": 1526
+        }
+      ]
+    },
+    {
+      "name": "maracana-equipes",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.09375,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 844,
+          "total": 1526
+        },
+        {
+          "height": 682,
+          "top": 844,
+          "total": 1526
+        }
+      ]
+    },
+    {
+      "name": "maracana-palette",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.09375,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 840.6666870117188,
+          "total": 1694
+        },
+        {
+          "height": 682,
+          "top": 840.6666870117188,
+          "total": 1694
+        }
+      ]
+    },
+    {
+      "name": "maracana-defaut",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 0,
+          "total": 774
+        },
+        {
+          "height": 260,
+          "top": 0,
+          "total": 774
+        }
+      ]
+    },
+    {
+      "name": "maracana-delai",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 292,
+          "total": 917
+        },
+        {
+          "height": 260,
+          "top": 292,
+          "total": 917
+        }
+      ]
+    },
+    {
+      "name": "maracana-rotation",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.02082824707034092,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 438.6666564941406,
+          "total": 987
+        },
+        {
+          "height": 260,
+          "top": 438.6666564941406,
+          "total": 987
+        }
+      ]
+    },
+    {
+      "name": "maracana-equipes",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.020835876464850855,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 727.3333129882812,
+          "total": 987
+        },
+        {
+          "height": 260,
+          "top": 727.3333129882812,
+          "total": 987
+        }
+      ]
+    },
+    {
+      "name": "maracana-palette",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0.02083587646482954,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 596.6666870117188,
+          "total": 1155
+        },
+        {
+          "height": 260,
+          "top": 596.6666870117188,
+          "total": 1155
+        }
+      ]
+    },
+    {
+      "name": "classic-defaut",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 0,
+          "total": 513
+        },
+        {
+          "height": 260,
+          "top": 0,
+          "total": 513
+        }
+      ]
+    },
+    {
+      "name": "classic-duree",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 79.33333587646484,
+          "total": 513
+        },
+        {
+          "height": 260,
+          "top": 79.33333587646484,
+          "total": 513
+        }
+      ]
+    },
+    {
+      "name": "classic-options",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 372,
+          "total": 632
+        },
+        {
+          "height": 260,
+          "top": 372,
+          "total": 632
+        }
+      ]
+    },
+    {
+      "name": "classic-periode",
+      "orientation": "paysage",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 260,
+          "top": 13.333333015441896,
+          "total": 632
+        },
+        {
+          "height": 260,
+          "top": 13.333333015441896,
+          "total": 632
+        }
+      ]
+    },
+    {
+      "name": "classic-defaut",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 0,
+          "total": 836
+        },
+        {
+          "height": 682,
+          "top": 0,
+          "total": 836
+        }
+      ]
+    },
+    {
+      "name": "classic-duree",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 106.66666412353516,
+          "total": 902
+        },
+        {
+          "height": 682,
+          "top": 106.66666412353516,
+          "total": 902
+        }
+      ]
+    },
+    {
+      "name": "classic-options",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 338.6666564941406,
+          "total": 1020
+        },
+        {
+          "height": 682,
+          "top": 338.6666564941406,
+          "total": 1020
+        }
+      ]
+    },
+    {
+      "name": "classic-periode",
+      "orientation": "portrait",
+      "parametersMatch": true,
+      "maxCardDifferencePx": 0,
+      "scroll": [
+        {
+          "height": 682,
+          "top": 40,
+          "total": 937
+        },
+        {
+          "height": 682,
+          "top": 40,
+          "total": 937
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "app": "lovable",
+      "name": "maracana-defaut",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": 160.53125
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": 332.3645935058594
+        },
+        {
+          "h": 122.29167175292967,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": 472.1979370117187
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": 606.4896240234375
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 722.3229370117188
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 842.15625
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 1200.65625
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 0,
+        "total": 1210
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Manuel",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-delai",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -139.46875
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": 32.364585876464844
+        },
+        {
+          "h": 283.41668701171875,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": 172.1979217529297
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": 467.6145935058594
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 583.4479370117188
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 703.28125
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 1061.78125
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 300,
+        "total": 1372
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-rotation",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -402.1354370117187
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": -230.30209350585935
+        },
+        {
+          "h": 283.41668701171875,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": -90.46875
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": 204.9479217529297
+        },
+        {
+          "h": 142.2916717529297,
+          "title": "En cas de match nul",
+          "w": 350,
+          "x": 20,
+          "y": 320.78125
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 475.0729370117187
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 594.90625
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 953.40625
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 562.6666870117188,
+        "total": 1526
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-equipes",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -683.46875
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": -511.6354370117187
+        },
+        {
+          "h": 283.41668701171875,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": -371.8020935058594
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": -76.38542175292969
+        },
+        {
+          "h": 142.2916717529297,
+          "title": "En cas de match nul",
+          "w": 350,
+          "x": 20,
+          "y": 39.44791793823242
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 193.73959350585935
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 313.57293701171875
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 672.0729370117188
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 844,
+        "total": 1526
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-palette",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -680.1354370117188
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": -508.3020935058594
+        },
+        {
+          "h": 283.41668701171875,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": -368.46875
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": -73.05208587646484
+        },
+        {
+          "h": 142.2916717529297,
+          "title": "En cas de match nul",
+          "w": 350,
+          "x": 20,
+          "y": 42.78125
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 197.0729217529297
+        },
+        {
+          "h": 514.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 316.90625
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 843.40625
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 840.6666870117188,
+        "total": 1694
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-defaut",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": 136
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": 136
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": 275.8333435058594
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": 275.8333435058594
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 20,
+          "y": 391.6666870117187
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 391.6666870117187
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 750.1666870117188
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 0,
+        "total": 774
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Manuel",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-delai",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -156
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -156
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -16.166667938232422
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -16.166667938232422
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 20,
+          "y": 242.33334350585935
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 242.33334350585935
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 600.8333740234375
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 292,
+        "total": 917
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-rotation",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -302.66668701171875
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -302.66668701171875
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -162.83334350585938
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -162.83334350585938
+        },
+        {
+          "h": 142.2916717529297,
+          "title": "En cas de match nul",
+          "w": 396,
+          "x": 20,
+          "y": 95.66667175292967
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 428,
+          "y": 95.66667175292967
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 20,
+          "y": 249.95834350585935
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 428,
+          "y": 249.95834350585935
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 438.6666564941406,
+        "total": 987
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-equipes",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -591.3333740234375
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -591.3333740234375
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -451.5
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -451.5
+        },
+        {
+          "h": 142.2916717529297,
+          "title": "En cas de match nul",
+          "w": 396,
+          "x": 20,
+          "y": -193
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 428,
+          "y": -193
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 20,
+          "y": -38.70833587646485
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 428,
+          "y": -38.70833587646485
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 727.3333129882812,
+        "total": 987
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "maracana-palette",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -460.6666870117187
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -460.6666870117187
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -320.8333435058594
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -320.8333435058594
+        },
+        {
+          "h": 142.2916717529297,
+          "title": "En cas de match nul",
+          "w": 396,
+          "x": 20,
+          "y": -62.33333587646485
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 428,
+          "y": -62.33333587646485
+        },
+        {
+          "h": 514.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 20,
+          "y": 91.95833587646484
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 428,
+          "y": 91.95833587646484
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 596.6666870117188,
+        "total": 1155
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-defaut",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": 136
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": 136
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": 275.8333435058594
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": 275.8333435058594
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 20,
+          "y": 391.6666870117187
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 391.6666870117187
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 750.1666870117188
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 0,
+        "total": 774
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Manuel",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-delai",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -156
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -156
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -16.166667938232422
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -16.166667938232422
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 20,
+          "y": 242.33334350585935
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 242.33334350585935
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 600.8333740234375
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 292,
+        "total": 917
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-rotation",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -302.66668701171875
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -302.66668701171875
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -162.83334350585938
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -162.83334350585938
+        },
+        {
+          "h": 142.3125,
+          "title": "En cas de match nul",
+          "w": 396,
+          "x": 20,
+          "y": 95.66667175292967
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 428,
+          "y": 95.66667175292967
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 20,
+          "y": 249.9791717529297
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 428,
+          "y": 249.9791717529297
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 438.6666564941406,
+        "total": 987
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-equipes",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -591.3333740234375
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -591.3333740234375
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -451.5
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -451.5
+        },
+        {
+          "h": 142.3125,
+          "title": "En cas de match nul",
+          "w": 396,
+          "x": 20,
+          "y": -193
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 428,
+          "y": -193
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 20,
+          "y": -38.6875
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 428,
+          "y": -38.6875
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 727.3333129882812,
+        "total": 987
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-palette",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Durée des matchs",
+          "w": 396,
+          "x": 20,
+          "y": -460.6666870117187
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 396,
+          "x": 428,
+          "y": -460.6666870117187
+        },
+        {
+          "h": 246.5,
+          "title": "Lancement du prochain match",
+          "w": 396,
+          "x": 20,
+          "y": -320.8333435058594
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 396,
+          "x": 428,
+          "y": -320.8333435058594
+        },
+        {
+          "h": 142.3125,
+          "title": "En cas de match nul",
+          "w": 396,
+          "x": 20,
+          "y": -62.33333587646485
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 396,
+          "x": 428,
+          "y": -62.33333587646485
+        },
+        {
+          "h": 514.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 20,
+          "y": 91.97917175292967
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 428,
+          "y": 91.97917175292967
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 596.6666870117188,
+        "total": 1155
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-defaut",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": 160.5625
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": 332.3958435058594
+        },
+        {
+          "h": 122.3125,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": 472.2291870117187
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": 606.5416870117188
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 722.375
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 842.2083740234375
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 1200.7083740234375
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 0,
+        "total": 1211
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Manuel",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-delai",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -139.4375
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": 32.395835876464844
+        },
+        {
+          "h": 283.4583435058594,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": 172.2291717529297
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": 467.6875
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 583.5208740234375
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 703.3541870117188
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 1061.854248046875
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 300,
+        "total": 1372
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Rotation classique",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-rotation",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -402.1041870117187
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": -230.27084350585935
+        },
+        {
+          "h": 283.4583435058594,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": -90.4375
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": 205.02084350585935
+        },
+        {
+          "h": 142.3125,
+          "title": "En cas de match nul",
+          "w": 350,
+          "x": 20,
+          "y": 320.85418701171875
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 475.1666870117187
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 595
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 953.5
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 562.6666870117188,
+        "total": 1526
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-equipes",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -683.4375
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": -511.6041870117187
+        },
+        {
+          "h": 283.4583435058594,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": -371.7708435058594
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": -76.3125
+        },
+        {
+          "h": 142.3125,
+          "title": "En cas de match nul",
+          "w": 350,
+          "x": 20,
+          "y": 39.52083587646485
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 193.83334350585935
+        },
+        {
+          "h": 346.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 313.66668701171875
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 672.1666870117188
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 844,
+        "total": 1526
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "maracana-palette",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Durée des matchs",
+          "w": 350,
+          "x": 20,
+          "y": -680.1041870117188
+        },
+        {
+          "h": 127.83333587646484,
+          "title": "Fin du match",
+          "w": 350,
+          "x": 20,
+          "y": -508.2708435058594
+        },
+        {
+          "h": 283.4583435058594,
+          "title": "Lancement du prochain match",
+          "w": 350,
+          "x": 20,
+          "y": -368.4375
+        },
+        {
+          "h": 103.83333587646484,
+          "title": "Règle de rotation",
+          "w": 350,
+          "x": 20,
+          "y": -72.97917175292969
+        },
+        {
+          "h": 142.3125,
+          "title": "En cas de match nul",
+          "w": 350,
+          "x": 20,
+          "y": 42.85416793823242
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Nombre d'équipes",
+          "w": 350,
+          "x": 20,
+          "y": 197.1666717529297
+        },
+        {
+          "h": 514.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 317
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 843.5
+        }
+      ],
+      "fields": [
+        {
+          "label": "Délai personnalisé en secondes",
+          "value": "30"
+        },
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        },
+        {
+          "label": "Nom de l'équipe 3",
+          "value": "Panthères"
+        },
+        {
+          "label": "Nom de l'équipe 4",
+          "value": "Galactiques"
+        },
+        {
+          "label": "Nom de l'équipe 5",
+          "value": "Tigers"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 840.6666870117188,
+        "total": 1694
+      },
+      "selected": [
+        "8 min",
+        "Au temps",
+        "Après un délai",
+        "30 secondes",
+        "Le gagnant reste",
+        "Les deux équipes sortent",
+        "5"
+      ],
+      "switches": [
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-defaut",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": 136
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": 136
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": 321.8333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 405.6666870117187
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 405.6666870117187
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 489.5
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 260,
+        "top": 0,
+        "total": 513
+      },
+      "selected": [
+        "30 min",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-duree",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 173.83334350585938,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": 56.66666793823242
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": 56.66666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": 242.5
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 326.3333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 326.3333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 410.1666870117187
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 260,
+        "top": 79.33333587646484,
+        "total": 513
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-options",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 173.83334350585938,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": -236
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": -236
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": -50.16666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 33.66666793823242
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 33.66666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 236.1666717529297
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 372,
+        "total": 632
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-periode",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 173.83334350585938,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": 122.66667175292967
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": 122.66667175292967
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": 308.5
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 392.3333435058594
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 392.3333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 594.8333740234375
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 13.333333015441896,
+        "total": 632
+      },
+      "selected": [
+        "Personnalisée",
+        "Une période"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-defaut",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": 150
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 321.8333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 574.4583740234375
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 658.2916870117188
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 742.125
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 825.9583740234375
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 682,
+        "top": 0,
+        "total": 836
+      },
+      "selected": [
+        "30 min",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-duree",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 225.83334350585935,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": 43.33333587646485
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 281.16668701171875
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 533.7916870117188
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 617.625
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 701.4583740234375
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 785.2916870117188
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 682,
+        "top": 106.66666412353516,
+        "total": 902
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-options",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 225.83334350585935,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": -188.6666717529297
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 49.16666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 301.79168701171875
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 385.625
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 469.4583435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 671.9583740234375
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 338.6666564941406,
+        "total": 1020
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "lovable",
+      "name": "classic-periode",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 225.83334350585935,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": 110
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 347.8333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 517.0625
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 600.8958740234375
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 684.7291870117188
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 887.2291870117188
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 40,
+        "total": 937
+      },
+      "selected": [
+        "Personnalisée",
+        "Une période"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-defaut",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 159.83334350585938,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": 150
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 321.8333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 574.4583740234375
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 658.2916870117188
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 742.125
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 825.9583740234375
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 682,
+        "top": 0,
+        "total": 836
+      },
+      "selected": [
+        "30 min",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-duree",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 225.83334350585935,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": 43.33333587646485
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 281.16668701171875
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 533.7916870117188
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 617.625
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 701.4583740234375
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 785.2916870117188
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 682,
+        "top": 106.66666412353516,
+        "total": 902
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-options",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 225.83334350585935,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": -188.6666717529297
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 49.16666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 301.79168701171875
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 385.625
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 469.4583435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 671.9583740234375
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 338.6666564941406,
+        "total": 1020
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-periode",
+      "orientation": "portrait",
+      "cards": [
+        {
+          "h": 225.83334350585935,
+          "title": "Temps de jeu",
+          "w": 350,
+          "x": 20,
+          "y": 110
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Format",
+          "w": 350,
+          "x": 20,
+          "y": 347.8333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 350,
+          "x": 20,
+          "y": 517.0625
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 350,
+          "x": 20,
+          "y": 600.8958740234375
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 350,
+          "x": 20,
+          "y": 684.7291870117188
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 350,
+          "x": 20,
+          "y": 887.2291870117188
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 682,
+        "top": 40,
+        "total": 937
+      },
+      "selected": [
+        "Personnalisée",
+        "Une période"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-defaut",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 107.83333587646484,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": 136
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": 136
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": 321.8333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 405.6666870117187
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 405.6666870117187
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 489.5
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 260,
+        "top": 0,
+        "total": 513
+      },
+      "selected": [
+        "30 min",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-duree",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 173.83334350585938,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": 56.66666793823242
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": 56.66666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": 242.5
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 326.3333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 326.3333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 410.1666870117187
+        }
+      ],
+      "fields": [],
+      "scroll": {
+        "height": 260,
+        "top": 79.33333587646484,
+        "total": 513
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "false"
+        },
+        {
+          "name": "Score",
+          "on": "true"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "false"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "true"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-options",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 173.83334350585938,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": -236
+        },
+        {
+          "h": 173.83334350585938,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": -236
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": -50.16666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 33.66666793823242
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 33.66666793823242
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 236.1666717529297
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 372,
+        "total": 632
+      },
+      "selected": [
+        "Personnalisée",
+        "Deux mi-temps"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "app": "expo",
+      "name": "classic-periode",
+      "orientation": "paysage",
+      "cards": [
+        {
+          "h": 173.83334350585938,
+          "title": "Temps de jeu",
+          "w": 396,
+          "x": 20,
+          "y": 122.66667175292967
+        },
+        {
+          "h": 107.83333587646484,
+          "title": "Format",
+          "w": 396,
+          "x": 428,
+          "y": 122.66667175292967
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Temps additionnel",
+          "w": 396,
+          "x": 428,
+          "y": 308.5
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Score",
+          "w": 396,
+          "x": 20,
+          "y": 392.3333435058594
+        },
+        {
+          "h": 190.5,
+          "title": "Personnaliser les équipes",
+          "w": 396,
+          "x": 428,
+          "y": 392.3333435058594
+        },
+        {
+          "h": 71.83333587646484,
+          "title": "Sons / effets",
+          "w": 396,
+          "x": 20,
+          "y": 594.8333740234375
+        }
+      ],
+      "fields": [
+        {
+          "label": "Nom de l'équipe 1",
+          "value": "Les Renards"
+        },
+        {
+          "label": "Nom de l'équipe 2",
+          "value": "FC Amigos"
+        }
+      ],
+      "scroll": {
+        "height": 260,
+        "top": 13.333333015441896,
+        "total": 632
+      },
+      "selected": [
+        "Personnalisée",
+        "Une période"
+      ],
+      "switches": [
+        {
+          "name": "Temps additionnel",
+          "on": "true"
+        },
+        {
+          "name": "Score",
+          "on": "false"
+        },
+        {
+          "name": "Personnaliser les équipes",
+          "on": "true"
+        },
+        {
+          "name": "Sons et effets",
+          "on": "false"
+        }
+      ],
+      "viewport": [
+        844,
+        390
+      ]
+    }
+  ]
+}

@@ -234,7 +234,8 @@ export function advance(session: Session, now: number): Session {
 
 function advanceOnce(session: Session, now: number): Session {
   const live = session.live;
-  if (!live || live.stage === "finished" || live.chrono.runningSince == null) return session;
+  if (live?.stage === "finished") return settleNextLaunch(session, now);
+  if (!live || live.chrono.runningSince == null) return session;
   const el = elapsedMs(live.chrono, now);
 
   if (live.stage === "period" && live.end.byTime) {
@@ -245,6 +246,7 @@ function advanceOnce(session: Session, now: number): Session {
     const frozen: Live = { ...withAlerts, playedMs: withAlerts.playedMs + target };
     const isLast = live.periodIndex === live.periodMs.length - 1;
     if (!isLast) {
+      if (live.additional && session.config.mode === "classique" && session.config.additionalEachPeriod) return setLive(session, enterStage(frozen, "additional", null, at), now);
       // C04 : période intermédiaire arrêtée à zéro, puis pause chronométrée.
       if (live.breakMs > 0) return setLive(session, enterStage(frozen, "break", live.breakMs, at), now);
       return setLive(session, { ...frozen, stage: "awaitPeriod", periodIndex: live.periodIndex + 1, chrono: { ...frozen.chrono, runningSince: null, accumulatedMs: 0 } }, now);
@@ -310,6 +312,11 @@ function concludePlay(session: Session, at: number, reason: "regulation" | "manu
   const manual = reason === "manual";
   const el = elapsedMs(live.chrono, at);
   if (live.stage === "additional") {
+    if (session.config.mode === "classique" && session.config.additionalEachPeriod && live.periodIndex < live.periodMs.length - 1) {
+      const frozen = { ...live, playedMs: live.playedMs + el };
+      if (live.breakMs > 0) return setLive(session, enterStage(frozen, "break", live.breakMs, at), at);
+      return setLive(session, { ...frozen, stage: "awaitPeriod", periodIndex: live.periodIndex + 1, chrono: { ...live.chrono, runningSince: null, accumulatedMs: 0 } }, at);
+    }
     if (draw && live.drawRule) return tiebreak(session, at);
     return finishMatch(session, at, "manual", true);
   }
@@ -381,7 +388,7 @@ function finishMatch(session: Session, at: number, reason: Match["finishReason"]
 
   if (s.mode === "maracana" && s.maracana) {
     const mc = s.config as Extract<AnyConfig, { mode: "maracana" }>;
-    const r = rotate(s.maracana, winnerId, matches, { rotation: mc.rotation, drawRule4: mc.drawRule4 });
+    const r = rotate(s.maracana, winnerId, matches, { rotation: mc.rotation, drawRule4: mc.drawRule4, queuePolicy: mc.queuePolicy });
     const n = matches.length + 1;
     matches = [...matches, blankMatch(`m${n}`, n, `Match ${n}`, r.next[0], r.next[1], "rotation")];
     const name = (id: string) => s.teams.find((t) => t.id === id)?.name ?? id;
@@ -490,14 +497,14 @@ export function hasPendingMatches(session: Session): boolean {
   return session.matches.some((m) => m.status === "scheduled") || !!session.cup?.tieChoice;
 }
 
-// FI-02 — Lancer le prochain match. Jamais automatique.
+// Manual launch remains the default. Only explicitly configured Maracana may auto-start.
 export function launchNext(session: Session, now: number, startImmediately = false): Session {
   if (session.cup?.tieChoice) return session;
   if (session.live && session.live.stage !== "finished") return session;
   const next = findNextMatch(session);
   if (!next) return session;
   const matches = session.matches.map((m) => (m.id === next.id ? { ...m, status: "live" as const } : m));
-  const s = { ...session, matches, preFinish: null, lastEvent: null };
+  const s = { ...clearPendingLaunch(session), matches, preFinish: null, lastEvent: null };
   return setLive(s, buildLive(s, next, now, startImmediately), now);
 }
 
@@ -505,6 +512,52 @@ export function startReady(session: Session, now: number): Session {
   const live = session.live;
   if (!live || live.stage !== "ready") return session;
   return setLive(session, { ...live, stage: "period", chrono: chronoReducer(live.chrono, { type: "start" }, now), startedAt: now }, now);
+}
+
+export function nextLaunchKey(session: Session): string | null {
+  if (session.mode !== "maracana" || session.status !== "active" || session.live?.stage !== "finished") return null;
+  const match = findNextMatch(session);
+  if (!match) return null;
+  return `${session.live.matchId}>${match.id}:${matchTeams(match, session.matches).join(",")}`;
+}
+
+function clearPendingLaunch(session: Session): Session {
+  if (!("pendingLaunch" in session)) return session;
+  const copy = { ...session };
+  delete copy.pendingLaunch;
+  return copy;
+}
+
+// A second state of the existing timestamp engine; the root runtime drives it on every screen.
+function settleNextLaunch(session: Session, now: number): Session {
+  if (session.config.mode !== "maracana" || session.status !== "active") return session;
+  const mode = session.config.launch ?? "manual", key = nextLaunchKey(session);
+  if (!key || mode === "manual") return session.pendingLaunch ? { ...session, pendingLaunch: undefined } : session;
+  const p = session.pendingLaunch;
+  if (p?.key === key && p.cancelled) return session;
+  if (mode === "auto") return launchNext(session, now, true);
+  if (!p || p.key !== key) {
+    const configured = chronoReducer(initialChronoState, { type: "configure", regulationDurationMs: (session.config.launchDelaySec ?? 60) * 1000 });
+    return { ...session, pendingLaunch: { key, chrono: chronoReducer(configured, { type: "start" }, now), cancelled: false }, updatedAt: now };
+  }
+  if (p.chrono.runningSince === null || elapsedMs(p.chrono, now) < p.chrono.regulationTargetMs) return session;
+  return launchNext(session, reachedAt(p.chrono, p.chrono.regulationTargetMs), true);
+}
+
+export function pauseNextLaunch(session: Session, now: number): Session {
+  const p = session.pendingLaunch;
+  return p && !p.cancelled ? { ...session, pendingLaunch: { ...p, chrono: chronoReducer(p.chrono, { type: "pause" }, now) }, updatedAt: now } : session;
+}
+export function resumeNextLaunch(session: Session, now: number): Session {
+  const p = session.pendingLaunch;
+  return p && !p.cancelled ? { ...session, pendingLaunch: { ...p, chrono: chronoReducer(p.chrono, { type: "resume" }, now) }, updatedAt: now } : session;
+}
+export function cancelNextLaunch(session: Session, now: number): Session {
+  const paused = pauseNextLaunch(session, now), p = paused.pendingLaunch;
+  return p ? { ...paused, pendingLaunch: { ...p, cancelled: true }, updatedAt: now } : session;
+}
+export function startNextImmediately(session: Session, now: number): Session {
+  return nextLaunchKey(session) ? launchNext(session, now, true) : session;
 }
 
 export function sessionComplete(session: Session): boolean {
@@ -516,11 +569,19 @@ export function sessionComplete(session: Session): boolean {
 export function endSession(session: Session, now: number): Session {
   const interrupted = session.mode !== "classique" && session.mode !== "custom" && hasPendingMatches(session);
   const live = session.live && session.live.stage !== "finished" ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : session.live;
-  return { ...session, live, status: interrupted && session.mode !== "maracana" ? "interrupted" : "finished", endedAt: now, updatedAt: now };
+  return { ...clearPendingLaunch(session), live, status: interrupted && session.mode !== "maracana" ? "interrupted" : "finished", endedAt: now, updatedAt: now };
 }
 
 // C16 — correction du dernier résultat avant le match suivant.
 export function correctLast(session: Session, side: 0 | 1, delta: 1 | -1, now: number): Session {
+  const corrected = correctLastResult(session, side, delta, now);
+  if (corrected === session || !session.pendingLaunch) return corrected;
+  // Editing a result requires an explicit next launch, even if the fixture changes.
+  const key = nextLaunchKey(corrected);
+  return { ...corrected, pendingLaunch: key ? { ...session.pendingLaunch, key, cancelled: true, chrono: chronoReducer(session.pendingLaunch.chrono, { type: "pause" }, now) } : undefined };
+}
+
+function correctLastResult(session: Session, side: 0 | 1, delta: 1 | -1, now: number): Session {
   const live = session.live;
   if (!live || live.stage !== "finished" || !session.preFinish || !live.scoreOn) return session;
   const score: [number, number] = [...live.score] as [number, number];
@@ -611,7 +672,7 @@ export function nextMatchInfo(session: Session): NextInfo | null {
       // Le prochain adversaire dépend du vainqueur : incertain pendant le jeu.
       return { match: null, aLabel: "Vainqueur", bLabel: name(st.waiting[0]), durationMin: c.matchMin, certain: false };
     }
-    const pair = pickNextPair(st, st.waiting, session.matches);
+    const pair = c.queuePolicy === "lovable" ? st.waiting.slice(0, 2) : pickNextPair(st, st.waiting, session.matches);
     return { match: null, aLabel: name(pair[0]), bLabel: name(pair[1]), durationMin: c.matchMin, certain: true };
   }
   const scheduled = session.matches.filter((m) => m.status === "scheduled").sort((x, y) => x.order - y.order);
