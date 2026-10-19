@@ -1,0 +1,35 @@
+{
+  "base": "4dd401d4ff315cc2825d5dff72bffcc34bbe00c0",
+  "reference": "1c59720dc5b180d5b1bacfaf935902b4053895fa",
+  "branch": "codex/roundr-lovable-phase-2a",
+  "prBase": "codex/roundr-lovable-phase-1",
+  "tests": {
+    "exitCode": 0,
+    "suites": 12
+  },
+  "syntax": {
+    "exitCode": 0,
+    "files": 84
+  },
+  "types": {
+    "exitCode": 0
+  },
+  "expoLint": {
+    "exitCode": 0
+  },
+  "targetLint": {
+    "exitCode": 0,
+    "errors": 0,
+    "warnings": 0
+  },
+  "exports": {
+    "exitCode": 0,
+    "web": "entry-270ae3b00621e951aafdee8d82c4fb7a.js",
+    "ios": "entry-d1f36d284f455aa78b5f7b728ac95e7c.hbc",
+    "android": "entry-caa6904596f2f4f886ea753e6dc1490d.hbc"
+  },
+  "comparisons": 18,
+  "captures": 36,
+  "physicalDevicesTested": false,
+  "paidBuilds": 0
+}

@@ -7,7 +7,7 @@ import { dismissNotice, tick, useStore } from "@/src/store/session-store";
 export function SessionRuntime() {
   const session=useStore(s=>s.session);const notice=useStore(s=>s.notice);
   const p=usePreferences();
-  const running=session?.status==="active"&&session.live?.chrono.runningSince!=null&&session.live?.stage!=="finished";
+  const running=session?.status==="active"&&((session.live?.chrono.runningSince!=null&&session.live?.stage!=="finished")||(!session.pendingLaunch?.cancelled&&session.pendingLaunch?.chrono.runningSince!=null));
   useEffect(()=>{
     if(!running)return;
     let interval:ReturnType<typeof setInterval>|null=null;

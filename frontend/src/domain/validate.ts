@@ -6,6 +6,7 @@ import type { AnyConfig, Team } from "./types";
 
 export function validateConfig(config: AnyConfig, teams: Team[]): string[] {
   const errors: string[] = [];
+  if ((config.mode === "classique" || config.mode === "maracana") && config.soundControl !== undefined && config.soundControl !== "session") errors.push("Réglage des sons de la séance invalide.");
   if (new Set(teams.map(t => t.id)).size !== teams.length || teams.some(t => !t.id)) errors.push("Chaque équipe doit avoir un identifiant unique.");
   const expected = "teamCount" in config ? config.teamCount : 2;
   if (!Number.isInteger(expected) || teams.length !== expected) errors.push("Le nombre d’équipes ne correspond pas à la configuration.");
@@ -21,6 +22,7 @@ export function validateConfig(config: AnyConfig, teams: Team[]): string[] {
   switch (config.mode) {
     case "classique":
       if (!Number.isInteger(config.totalMin) || config.totalMin <= 0) errors.push("Durée totale : minutes entières > 0.");
+      if (config.additionalEachPeriod !== undefined && typeof config.additionalEachPeriod !== "boolean") errors.push("Réglage du temps additionnel invalide.");
       break;
     case "custom": {
       if (!Number.isInteger(config.totalMin) || config.totalMin <= 0) errors.push("Durée totale : minutes entières > 0.");
@@ -34,6 +36,11 @@ export function validateConfig(config: AnyConfig, teams: Team[]): string[] {
     }
     case "maracana":
       if (config.teamCount < 3 || config.teamCount > 8) errors.push("Maracana : 3 à 8 équipes.");
+      if (config.rotation !== undefined && !["classic", "winnerStays"].includes(config.rotation)) errors.push("Choisis une règle de rotation valide.");
+      if (config.drawRule4 !== undefined && !["oneLeaves", "bothLeave"].includes(config.drawRule4)) errors.push("Choisis une règle de match nul valide.");
+      if (config.launch !== undefined && !["manual", "auto", "delay"].includes(config.launch)) errors.push("Choisis un lancement du prochain match valide.");
+      if (config.launchDelaySec !== undefined && (!Number.isInteger(config.launchDelaySec) || config.launchDelaySec < 1 || config.launchDelaySec > 3600)) errors.push("Délai : un nombre entier de 1 à 3600 secondes.");
+      if (config.queuePolicy !== undefined && config.queuePolicy !== "lovable") errors.push("Ordre de rotation invalide.");
       break;
     case "survie":
       if (config.teamCount < 2 || config.teamCount > 32) errors.push("Survie : 2 à 32 équipes.");

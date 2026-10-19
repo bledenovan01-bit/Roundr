@@ -67,7 +67,7 @@ export function rotate(
   state: MaracanaState,
   winnerId: string | null,
   matches: Match[],
-  opts?: { rotation?: "classic" | "winnerStays"; drawRule4?: "oneLeaves" | "bothLeave" },
+  opts?: { rotation?: "classic" | "winnerStays"; drawRule4?: "oneLeaves" | "bothLeave"; queuePolicy?: "lovable" },
 ): { state: MaracanaState; out: string[]; in: string[]; next: [string, string] } {
   const [a, b] = state.onField;
   const total = 2 + state.waiting.length;
@@ -90,6 +90,17 @@ export function rotate(
       out: [out], in: [entering], next: [stay, entering] as [string, string],
     };
   };
+
+  // Frozen Lovable FIFO. The optional flag leaves saved native rules untouched.
+  if (opts?.queuePolicy === "lovable") {
+    if (total === 3 || (rotation === "winnerStays" && (winnerId || drawRule4 === "oneLeaves"))) {
+      return oneLeaves(winnerId === a ? b : a);
+    }
+    const next: [string, string] = [state.waiting[0], state.waiting[1]];
+    const out = winnerId === b ? [b, a] : [a, b];
+    consecutive[a] = 0; consecutive[b] = 0;
+    return { state: { ...state, onField: next, waiting: [...state.waiting.slice(2), ...out], consecutive, lastOut: out }, out, in: [...next], next };
+  }
 
   if (total <= 3) {
     // MA-01 : le vainqueur reste ; nul = plus ancienne présence sort ; C07.
