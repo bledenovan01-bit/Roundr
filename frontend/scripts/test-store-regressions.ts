@@ -5,6 +5,7 @@ const memory=new Map<string,string>();
 const calls:string[]=[];const sounds:string[]=[];
 let concurrent=0,maxConcurrent=0,failKey:string|null=null;
 const storage={
+  async getAllKeys(){return [...memory.keys()];},
   async getItem(key:string){return memory.get(key)??null;},
   async setItem(key:string,value:string){
     if(key!=="roundr.preferences.v1"){concurrent++;maxConcurrent=Math.max(maxConcurrent,concurrent);}

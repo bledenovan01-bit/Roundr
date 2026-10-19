@@ -1,132 +1,52 @@
-import { Pressable, Text, View } from "react-native";
+import type { ReactNode } from "react";
+import { Pressable, StyleSheet, Text, View, type LayoutChangeEvent, type StyleProp, type ViewStyle } from "react-native";
 import * as Haptics from "@/src/haptics";
-import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
-import Animated, { FadeInDown } from "react-native-reanimated";
-import { refinedFontFamily as fontFamily } from "@/src/typography-preview";
-import { useScreenLayout } from "@/src/layout";
-
-import {
-  makeStyles,
-  radius,
-  spacing,
-  useTheme,
-} from "@/src/theme";
+import { lovable, lovableFont, withAlpha } from "@/src/visual/lovable";
+import { LovableIcon, type LovableIconName } from "./lovable/icon";
 
 type Props = {
   title: string;
-  description: string;
-  iconName: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
+  description?: string;
+  icon: LovableIconName;
+  accent: string;
   onPress: () => void;
-  index?: number;
-  testID?: string;
-  accent?: string;
-  dominant?: boolean;
+  testID: string;
+  quiet?: boolean;
+  resume?: boolean;
+  children?: ReactNode;
+  style?: StyleProp<ViewStyle>;
+  onLayout?: (event: LayoutChangeEvent) => void;
 };
 
-export function ModeCard({
-  title,
-  description,
-  iconName,
-  onPress,
-  index = 0,
-  testID,
-  accent,
-  dominant,
-}: Props) {
-  const styles = useStyles();
-  const { colors } = useTheme();
-  const { compact } = useScreenLayout();
-
-  const handlePress = () => {
-    Haptics.selectionAsync().catch(() => {});
-    onPress();
-  };
-
-  return (
-    <Animated.View entering={FadeInDown.delay(index * 60).duration(360)}>
-      <Pressable
-        testID={testID}
-        accessibilityRole="button"
-        accessibilityLabel={`${title}. ${description}`}
-        onPress={handlePress}
-        style={({ pressed }) => [
-          styles.card,
-          dominant && styles.dominant,
-          pressed && styles.pressed,
-        ]}
-      >
-        <View style={[styles.iconWrap, { backgroundColor: accent ?? colors.brandPrimary }]}>
-          <MaterialCommunityIcons
-            name={iconName}
-            size={24}
-            color={colors.onBrandPrimary}
-          />
-        </View>
-        <View style={styles.body}>
-          <View style={compact ? styles.compactTitleRow : undefined}>
-          <Text testID={`${testID}-title`} style={[styles.title, compact && styles.compactTitle]}>
-            {title}
-          </Text>
-          {compact ? <MaterialCommunityIcons name="chevron-right" size={28} color={colors.muted} /> : null}
-          </View>
-          <Text testID={`${testID}-description`} style={styles.description}>
-            {description}
-          </Text>
-        </View>
-        {!compact ? <MaterialCommunityIcons
-          name="chevron-right"
-          size={28}
-          color={colors.muted}
-        /> : null}
-      </Pressable>
-    </Animated.View>
-  );
+// Shared home tile: exact frozen-reference spacing and icon geometry.
+// No entrance animation: Lovable displays all cards together.
+export function ModeCard({ title, description, icon, accent, onPress, testID, quiet, resume, children, style, onLayout }: Props) {
+  return <Pressable testID={testID} onLayout={onLayout} accessibilityRole="button" accessibilityLabel={children ? undefined : `${title}. ${description ?? ""}`} onPress={() => { Haptics.selectionAsync().catch(() => {}); onPress(); }} style={({ pressed }) => [styles.card, quiet && styles.quiet, resume && styles.resume, style, pressed && styles.pressed]}>
+    <View style={[styles.icon, { backgroundColor: withAlpha(accent, 0.16), borderColor: withAlpha(accent, 0.35) }]}>
+      <LovableIcon name={icon} color={quiet || icon === "timer" ? lovable.muted : accent} />
+    </View>
+    <View style={styles.copy}>
+      <Text testID={`${testID}-title`} style={styles.title}>{title}</Text>
+      {description ? <Text testID={`${testID}-description`} style={styles.description}>{description}</Text> : null}
+      {children}
+    </View>
+    <LovableIcon name="chevron" color={lovable.muted} />
+  </Pressable>;
 }
 
-const useStyles = makeStyles((colors) => ({
-  card: {
-    minHeight: 84,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.lg,
-    backgroundColor: colors.surfaceSecondary,
-    borderRadius: 18,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  pressed: {
-    backgroundColor: colors.surfaceTertiary,
-    transform: [{ scale: 0.99 }],
-  },
-  dominant: { borderColor: colors.brandPrimary, backgroundColor: colors.brandTertiary, borderWidth: 2 },
-  iconWrap: {
-    width: 40,
-    height: 40,
-    borderRadius: radius.md,
-    backgroundColor: colors.brandTertiary,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  body: {
-    flex: 1,
-    minWidth: 0,
-    gap: 3,
-  },
-  compactTitleRow: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
-  compactTitle: { flex: 1, minWidth: 0 },
-  title: {
-    fontFamily: fontFamily.textBold,
-    color: colors.onSurface,
-    fontSize: 16,
-    lineHeight: 22,
-    letterSpacing: -0.3,
-  },
-  description: {
-    fontFamily: fontFamily.text,
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-  },
-}));
+export const homeCopyStyles = StyleSheet.create({
+  detail: { fontFamily: lovableFont.semibold, fontSize: 12, lineHeight: 120 / 7, color: lovable.muted, includeFontPadding: false },
+  state: { color: lovable.amber },
+  action: { fontFamily: lovableFont.extrabold, color: lovable.primary, marginTop: 5 },
+});
+
+const styles = StyleSheet.create({
+  card: { minHeight: 76, flexDirection: "row", alignItems: "center", gap: 14, padding: 14, borderRadius: 18, backgroundColor: lovable.card, borderColor: lovable.border, borderWidth: 1 },
+  quiet: { backgroundColor: "transparent" },
+  resume: { backgroundColor: lovable.resume, borderColor: withAlpha(lovable.primary, 0.45) },
+  pressed: { transform: [{ scale: 0.97 }] },
+  icon: { width: 46, height: 46, borderRadius: 14, borderWidth: 1, alignItems: "center", justifyContent: "center" },
+  copy: { flex: 1, minWidth: 0, gap: 3 },
+  title: { fontFamily: lovableFont.extrabold, fontSize: 15, lineHeight: 150 / 7, color: lovable.foreground, includeFontPadding: false },
+  description: homeCopyStyles.detail,
+});

@@ -1,0 +1,100 @@
+{
+  "home-history-link": {
+    "color": "rgb(0, 0, 0)",
+    "font": "13.3333px Arial",
+    "rect": {
+      "bottom": 747.5,
+      "height": 44,
+      "left": 20,
+      "right": 370,
+      "top": 703.5,
+      "width": 350,
+      "x": 20,
+      "y": 703.5
+    }
+  },
+  "home-slogan": {
+    "color": "rgb(146, 162, 163)",
+    "font": "13px / 19.5px ManropeRefined-SemiBold",
+    "rect": {
+      "bottom": 77.5,
+      "height": 19.5,
+      "left": 92.35417175292967,
+      "right": 297.6458435058594,
+      "top": 58,
+      "width": 205.2916717529297,
+      "x": 92.35417175292967,
+      "y": 58
+    }
+  },
+  "home-title": {
+    "color": "rgb(237, 243, 240)",
+    "font": "26px / 29.9px ManropeRefined-ExtraBold",
+    "rect": {
+      "bottom": 131.3958339691162,
+      "height": 29.89583396911621,
+      "left": 20,
+      "right": 370,
+      "top": 101.5,
+      "width": 350,
+      "x": 20,
+      "y": 101.5
+    }
+  },
+  "home-wordmark": {
+    "color": "rgb(237, 243, 240)",
+    "font": "26px / 26px ManropeRefined-ExtraBold",
+    "rect": {
+      "bottom": 50,
+      "height": 26,
+      "left": 147.8541717529297,
+      "right": 242.1354217529297,
+      "top": 24,
+      "width": 94.28125,
+      "x": 147.8541717529297,
+      "y": 24
+    }
+  },
+  "mode-card-classique": {
+    "color": "rgb(0, 0, 0)",
+    "font": "13.3333px Arial",
+    "rect": {
+      "bottom": 223.39584350585935,
+      "height": 76,
+      "left": 20,
+      "right": 370,
+      "top": 147.39584350585938,
+      "width": 350,
+      "x": 20,
+      "y": 147.39584350585938
+    }
+  },
+  "mode-card-custom": {
+    "color": "rgb(0, 0, 0)",
+    "font": "13.3333px Arial",
+    "rect": {
+      "bottom": 587.4479293823242,
+      "height": 88.05208587646484,
+      "left": 20,
+      "right": 370,
+      "top": 499.3958435058594,
+      "width": 350,
+      "x": 20,
+      "y": 499.3958435058594
+    }
+  },
+  "mode-card-maracana": {
+    "color": "rgb(0, 0, 0)",
+    "font": "13.3333px Arial",
+    "rect": {
+      "bottom": 311.3958435058594,
+      "height": 76,
+      "left": 20,
+      "right": 370,
+      "top": 235.39584350585935,
+      "width": 350,
+      "x": 20,
+      "y": 235.39584350585935
+    }
+  }
+}

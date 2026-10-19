@@ -1,0 +1,78 @@
+{
+  "items": [
+    {
+      "h": 89.5,
+      "text": "Roundr.Moins d'organisation, plus de jeu.",
+      "w": 390,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "h": 39.89583587646485,
+      "text": "Quel format aujourd'hui ?",
+      "w": 350,
+      "x": 20,
+      "y": 95.5
+    },
+    {
+      "h": 76,
+      "text": "Match classiqueUn match, une ou deux mi-temps.",
+      "w": 350,
+      "x": 20,
+      "y": 147.39584350585938
+    },
+    {
+      "h": 76,
+      "text": "Maracana3 à 8 équipes qui tournent sur le terrain.",
+      "w": 350,
+      "x": 20,
+      "y": 235.39584350585935
+    },
+    {
+      "h": 76,
+      "text": "CupPoules puis phases finales.",
+      "w": 350,
+      "x": 20,
+      "y": 323.3958435058594
+    },
+    {
+      "h": 76,
+      "text": "SurvieÉlimination directe jusqu'au vainqueur.",
+      "w": 350,
+      "x": 20,
+      "y": 411.3958435058594
+    },
+    {
+      "h": 88.03125,
+      "text": "Chrono libreChronomètre, compte à rebours et intervalles personnalisés.",
+      "w": 350,
+      "x": 20,
+      "y": 499.3958435058594
+    },
+    {
+      "h": 88.03125,
+      "text": "Faire les équipesTirage au sort à partir des joueurs présents",
+      "w": 350,
+      "x": 20,
+      "y": 599.4271240234375
+    },
+    {
+      "h": 44,
+      "text": "Historique des compétitions",
+      "w": 350,
+      "x": 20,
+      "y": 703.4583740234375
+    },
+    {
+      "h": 44,
+      "text": "Paramètres",
+      "w": 350,
+      "x": 20,
+      "y": 763.4583740234375
+    }
+  ],
+  "viewport": [
+    390,
+    844
+  ]
+}

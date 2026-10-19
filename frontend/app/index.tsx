@@ -1,70 +1,94 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { LinearGradient } from "expo-linear-gradient";
-import { ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
-import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
+import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ModeCard } from "@/src/components/mode-card";
-import { GAME_MODES } from "@/src/data/modes";
+import { ModeCard, homeCopyStyles } from "@/src/components/mode-card";
+import { LovableBackground } from "@/src/components/lovable/background";
+import { LovableIcon, type LovableIconName } from "@/src/components/lovable/icon";
+import { LovableIntro } from "@/src/components/lovable/intro";
+import { Wordmark } from "@/src/components/lovable/wordmark";
+import { homeSessionPreviews } from "@/src/features/home-session-preview";
 import { useStore } from "@/src/store/session-store";
-import { fontFamily, makeStyles, useTheme } from "@/src/theme";
-import { layoutStyles, useScreenLayout } from "@/src/layout";
+import { lovable, lovableFont } from "@/src/visual/lovable";
+
+// Frozen Lovable MODES. Keep the shorter native configuration catalogue intact.
+const modes = [
+  { id: "classique", title: "Match classique", description: "Un match, une ou deux mi-temps.", icon: "pitch", accent: lovable.classic },
+  { id: "maracana", title: "Maracana", description: "3 à 8 équipes qui tournent sur le terrain.", icon: "refresh", accent: lovable.maracana },
+  { id: "cup", title: "Cup", description: "Poules puis phases finales.", icon: "trophy", accent: lovable.cup },
+  { id: "survie", title: "Survie", description: "Élimination directe jusqu'au vainqueur.", icon: "swords", accent: lovable.survie },
+  { id: "custom", title: "Chrono libre", description: "Chronomètre, compte à rebours et intervalles personnalisés.", icon: "timer", accent: lovable.custom },
+] as const;
 
 export default function HomeScreen() {
-  const styles = useStyles();
-  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
-  const { safeSides } = useScreenLayout();
+  const { width, height, fontScale } = useWindowDimensions();
   const router = useRouter();
   const session = useStore(s => s.session);
+  const freeTimer = useStore(s => s.freeTimer);
   const saveError = useStore(s => s.saveError);
-  const [showWelcome,setShowWelcome]=useState<boolean|null>(null);
-  useEffect(()=>{AsyncStorage.getItem("roundr.welcome.v1").then(value=>setShowWelcome(value!=="seen"),()=>setShowWelcome(false));},[]);
-  const enter=()=>{setShowWelcome(false);AsyncStorage.setItem("roundr.welcome.v1","seen").catch(()=>{});};
-  if(showWelcome===null && session?.status!=="active") return <View style={styles.root}/>;
-  if(showWelcome && session?.status!=="active") return <ImageBackground testID="welcome-screen" source={require("../assets/images/pitch-night.png")} resizeMode="cover" style={[styles.welcome,safeSides]}>
-    <LinearGradient colors={["rgba(1,10,11,0.25)","rgba(1,10,11,0.82)",colors.surface]} locations={[0,0.55,1]} style={[styles.welcomeContent,{paddingTop:insets.top+24,paddingBottom:insets.bottom+28}]}>
-      <Text style={styles.welcomeBrand}>Roundr<Text style={{color:colors.brandPrimary}}>.</Text></Text>
-      <View style={styles.welcomeBottom}><Text style={styles.welcomeTitle}>Plus de jeu.{"\n"}Moins d’organisation.</Text><Text style={styles.welcomeDetail}>Un match, un tournoi, des équipes. Tout est prêt pour jouer.</Text><Pressable testID="welcome-start" onPress={enter} accessibilityRole="button" accessibilityLabel="Commencer" style={styles.welcomeButton}><Text style={styles.welcomeButtonText}>Commencer</Text><MaterialCommunityIcons name="arrow-right" size={24} color={colors.onBrandPrimary}/></Pressable></View>
-    </LinearGradient>
-  </ImageBackground>;
-  return <View testID="home-screen" style={[styles.root, safeSides, {paddingTop:insets.top}]}>
-    <ScrollView showsVerticalScrollIndicator={false} testID="home-scroll" contentContainerStyle={[layoutStyles.content, styles.content, { paddingTop: 20, paddingBottom: insets.bottom + 20 }]}>
-      <ImageBackground source={require("../assets/images/pitch-night.png")} resizeMode="cover" imageStyle={styles.heroImage} style={styles.hero}>
-        <View testID="home-header" style={styles.header}><Text testID="home-wordmark" style={styles.logo}>Roundr<Text style={{ color: colors.brandPrimary }}>.</Text></Text></View>
-        <Text testID="home-slogan" style={styles.slogan}>Plus de jeu. Moins d’organisation.</Text>
-        <Text style={styles.heroTitle}>Choisis ton mode</Text>
-      </ImageBackground>
-      {saveError ? <Text style={{ color: colors.error }}>{saveError}</Text> : null}
-      <View testID="modes-section" style={styles.modes}>{GAME_MODES.map((mode, index) => <ModeCard key={mode.id} index={index} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} iconName={mode.icon} accent={colors[mode.accent]} dominant={index===0} onPress={() => router.push((mode.id === "custom" ? "/chrono-libre" : `/config/${mode.id}`) as never)} />)}</View>
-      {session?.status === "active" ? <Pressable testID="resume-session-card" accessibilityRole="button" accessibilityLabel="Reprendre la session" onPress={() => router.push("/live")} style={styles.resume}><MaterialCommunityIcons name="play-circle-outline" size={36} color={colors.brandPrimary}/><View style={{flex:1}}><Text style={styles.resumeTitle}>Reprendre la session en cours</Text><Text style={styles.resumeDetail}>{GAME_MODES.find(m => m.id === session.mode)?.title}</Text></View><MaterialCommunityIcons name="chevron-right" size={24} color={colors.onSurface}/></Pressable> : null}
-      <Pressable testID="mode-card-team-builder" accessibilityRole="button" onPress={() => router.push("/team-builder")} style={styles.teamBuilder}><MaterialCommunityIcons name="account-group" size={20} color={colors.brandPrimary}/><Text style={styles.teamBuilderText}>Faire les équipes</Text><MaterialCommunityIcons name="chevron-right" size={22} color={colors.muted}/></Pressable>
-      <Pressable testID="home-settings-link" onPress={() => router.push("/settings")} accessibilityRole="button" accessibilityLabel="Paramètres" style={styles.teamBuilder}><MaterialCommunityIcons name="cog-outline" size={20} color={colors.brandPrimary}/><Text testID="home-settings-link-label" style={styles.teamBuilderText}>Paramètres</Text><MaterialCommunityIcons name="chevron-right" size={22} color={colors.muted}/></Pressable>
+  const now = useStore(s => s.now);
+  const resumes = homeSessionPreviews(session, freeTimer, now);
+  const [showWelcome, setShowWelcome] = useState<boolean | null>(null);
+  const [cardHeights, setCardHeights] = useState<Record<string, number>>({});
+  useEffect(() => {
+    let mounted = true;
+    AsyncStorage.getItem("roundr.welcome.v1").then(value => { if (mounted) setShowWelcome(value !== "seen"); }, () => { if (mounted) setShowWelcome(false); });
+    return () => { mounted = false; };
+  }, []);
+  const enter = () => { setShowWelcome(false); AsyncStorage.setItem("roundr.welcome.v1", "seen").catch(() => {}); };
+  if (showWelcome === null && !resumes.length) return <View style={styles.root} />;
+  if (showWelcome && !resumes.length) return <LovableIntro onStart={enter} />;
+
+  const landscape = width > height;
+  // Preserve usable cards with native large text / safe-area insets.
+  const usableWidth = width - insets.left - insets.right;
+  const columns = landscape && usableWidth >= 600 && fontScale <= 1.5 ? 2 : 1;
+  const cardWidth = (usableWidth - 40 - (columns - 1) * 12) / columns;
+  // Frozen CSS grid uses 76 px implicit tracks even when a tile overflows.
+  // The landscape resume/title overlap is intentional here, explicitly approved.
+  // Native accessibility text can grow its rows instead of obscuring controls.
+  const cardStyle = (id: string) => ({ width: cardWidth, marginBottom: columns === 2 && fontScale <= 1 ? Math.min(0, 76 - (cardHeights[id] ?? 76)) : 0 });
+  const measureCard = (id: string, height: number) => setCardHeights(previous => previous[id] === height ? previous : { ...previous, [id]: height });
+  return <View testID="home-screen" style={styles.root}>
+    <LovableBackground />
+    <View testID="home-header" style={[styles.header, { paddingTop: insets.top + (landscape ? 10 : 24), paddingBottom: landscape ? 4 : 12, gap: landscape ? 4 : 8 }]}>
+      <Wordmark testID="home-wordmark" />
+      <Text testID="home-slogan" style={styles.slogan}>Moins d&apos;organisation, plus de jeu.</Text>
+    </View>
+    <ScrollView testID="home-scroll" showsVerticalScrollIndicator={false} contentContainerStyle={[styles.grid, { paddingLeft: 20 + insets.left, paddingRight: 20 + insets.right, paddingBottom: Math.max(16, insets.bottom) }]}>
+      {saveError ? <Text accessibilityRole="alert" style={[styles.error, { width: "100%" }]}>{saveError}</Text> : null}
+      {resumes.map(resume => <ModeCard key={resume.key} testID={resume.route === "/live" ? "resume-session-card" : "resume-free-card"} title={resume.title} icon="history" accent={lovable.primary} resume style={cardStyle(resume.key)} onLayout={e => measureCard(resume.key, e.nativeEvent.layout.height)} onPress={() => router.push(resume.route)}>
+        <Text style={[homeCopyStyles.detail, homeCopyStyles.state]}>{resume.state}</Text>
+        {resume.teams ? <Text style={homeCopyStyles.detail}>{resume.teams}</Text> : null}
+        {resume.time ? <Text style={[homeCopyStyles.detail, { fontVariant: ["tabular-nums"] }]}>{resume.time}</Text> : null}
+        <Text style={[homeCopyStyles.detail, homeCopyStyles.action]}>{resume.action}</Text>
+      </ModeCard>)}
+      <View testID="home-hero" style={styles.hero}><Text testID="home-title" accessibilityRole="header" style={styles.title}>Quel format aujourd&apos;hui ?</Text></View>
+      {modes.map(mode => <ModeCard key={mode.id} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} icon={mode.icon} accent={mode.accent} style={cardStyle(mode.id)} onLayout={e => measureCard(mode.id, e.nativeEvent.layout.height)} onPress={() => router.push((mode.id === "custom" ? "/chrono-libre" : `/config/${mode.id}`) as never)} />)}
+      <ModeCard testID="mode-card-team-builder" title="Faire les équipes" description="Tirage au sort à partir des joueurs présents" icon="users" accent={lovable.custom} quiet style={cardStyle("team-builder")} onLayout={e => measureCard("team-builder", e.nativeEvent.layout.height)} onPress={() => router.push("/team-builder")} />
+      <HomeLink title="Historique des compétitions" icon="trophy" testID="home-history-link" width={cardWidth} onPress={() => router.push("/history")} />
+      <HomeLink title="Paramètres" icon="settings" testID="home-settings-link" width={cardWidth} onPress={() => router.push("/settings")} />
     </ScrollView>
   </View>;
 }
-const useStyles = makeStyles(c => ({
-  root: { flex: 1, backgroundColor: c.surface },
-  welcome: {flex:1,backgroundColor:c.surface},
-  welcomeContent: {flex:1,paddingHorizontal:24,justifyContent:"space-between"},
-  welcomeBrand: {fontFamily:fontFamily.textBold,fontSize:34,color:c.onSurface},
-  welcomeBottom: {gap:16},
-  welcomeTitle: {fontFamily:fontFamily.textBold,fontSize:38,lineHeight:45,color:c.onSurface},
-  welcomeDetail: {fontFamily:fontFamily.text,fontSize:15,lineHeight:22,color:c.onSurfaceTertiary,marginBottom:14},
-  welcomeButton: {backgroundColor:c.brandPrimary,minHeight:56,borderRadius:16,flexDirection:"row",alignItems:"center",justifyContent:"center",gap:12},
-  welcomeButtonText: {fontFamily:fontFamily.textBold,fontSize:16,color:c.onBrandPrimary},
-  content: { flexGrow: 1, paddingHorizontal: 18, gap: 12 },
-  hero: { paddingTop: 4, paddingBottom: 6, minHeight: 118, justifyContent: "flex-end" },
-  heroImage: { opacity: 0.28, borderRadius: 16 },
-  header: { alignItems: "flex-start" },
-  logo: { fontFamily: fontFamily.textBold, fontSize: 38, lineHeight: 45, letterSpacing: -1.4, color: c.onSurface },
-  slogan: { fontFamily: fontFamily.text, fontSize: 12, color: c.muted },
-  heroTitle: { fontFamily: fontFamily.textBold, fontSize: 25, marginTop: 18, color: c.onSurface },
-  modes: { gap: 10 },
-  resume: { minHeight: 64, flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 14, borderRadius: 16, backgroundColor: c.surfaceSecondary },
-  resumeTitle: { fontFamily: fontFamily.textBold, fontSize: 13, color: c.onSurface },
-  resumeDetail: { fontFamily: fontFamily.text, fontSize: 11, color: c.muted, marginTop: 2 },
-  teamBuilder: { minHeight: 52, flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 14, borderRadius: 14, borderColor: c.border, borderWidth: 1 },
-  teamBuilderText: { flex: 1, fontFamily: fontFamily.textBold, fontSize: 13, color: c.onSurface },
-}));
+
+function HomeLink({ title, icon, testID, width, onPress }: { title: string; icon: LovableIconName; testID: string; width: number; onPress?: () => void }) {
+  return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ disabled: !onPress }} disabled={!onPress} onPress={onPress} style={({ pressed }) => [styles.link, { width }, pressed && styles.pressed]}>
+    <LovableIcon name={icon} color={lovable.muted} /><Text testID={`${testID}-label`} style={styles.linkText}>{title}</Text><LovableIcon name="chevron" color={lovable.muted} />
+  </Pressable>;
+}
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: lovable.background },
+  header: { paddingHorizontal: 20, alignItems: "center" },
+  slogan: { fontFamily: lovableFont.semibold, fontSize: 13, lineHeight: 19.5, color: lovable.muted, textAlign: "center", includeFontPadding: false },
+  grid: { flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start", gap: 12, paddingTop: 6 },
+  hero: { width: "100%", paddingTop: 6, paddingBottom: 4 },
+  title: { fontFamily: lovableFont.extrabold, fontSize: 26, lineHeight: 29.9, color: lovable.foreground, includeFontPadding: false },
+  link: { minHeight: 44, marginTop: 4, paddingHorizontal: 16, paddingVertical: 8, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, borderRadius: 6 },
+  linkText: { flexShrink: 1, fontFamily: lovableFont.semibold, fontSize: 14, lineHeight: 20, color: lovable.muted, includeFontPadding: false },
+  pressed: { transform: [{ scale: 0.97 }] },
+  error: { color: lovable.error, fontFamily: lovableFont.semibold },
+});
