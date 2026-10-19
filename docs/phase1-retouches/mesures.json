@@ -1,0 +1,567 @@
+{
+  "referenceCommit": "1c59720dc5b180d5b1bacfaf935902b4053895fa",
+  "beforeCommit": "c47716ebba4657aeef343ff2d631e67d238341df",
+  "viewports": {
+    "portrait": [
+      390,
+      844
+    ],
+    "paysage": [
+      844,
+      390
+    ],
+    "petitPaysage": [
+      568,
+      320
+    ]
+  },
+  "intro": {
+    "referencePaysage": {
+      ".intro-content h1": {
+        "font": "800 36px / 40.32px Manrope, sans-serif",
+        "rect": {
+          "bottom": 302,
+          "height": 80.625,
+          "left": 26,
+          "right": 818,
+          "top": 221.375,
+          "width": 792,
+          "x": 26,
+          "y": 221.375
+        }
+      },
+      ".intro-cta": {
+        "font": "800 16px / 22.8571px Manrope, sans-serif",
+        "rect": {
+          "bottom": 380,
+          "height": 48,
+          "left": 212,
+          "right": 632,
+          "top": 332,
+          "width": 420,
+          "x": 212,
+          "y": 332
+        }
+      },
+      ".intro-pitch .f-circle": {
+        "font": "16px / 24px Manrope, sans-serif",
+        "rect": {
+          "bottom": 181.21875762939453,
+          "height": 84.91667175292969,
+          "left": 379.5416870117187,
+          "right": 464.4583587646485,
+          "top": 96.30208587646484,
+          "width": 84.91667175292969,
+          "x": 379.5416870117187,
+          "y": 96.30208587646484
+        }
+      },
+      ".roundr-wordmark": {
+        "font": "900 40px / 40px Manrope, sans-serif",
+        "rect": {
+          "bottom": 211.375,
+          "height": 40,
+          "left": 26,
+          "right": 818,
+          "top": 171.375,
+          "width": 792,
+          "x": 26,
+          "y": 171.375
+        }
+      }
+    },
+    "avantPaysage": {
+      "circle": {
+        "bottom": 244.90625762939453,
+        "height": 212.2916717529297,
+        "left": 315.84375,
+        "right": 528.1354217529297,
+        "top": 32.614585876464844,
+        "width": 212.2916717529297,
+        "x": 315.84375,
+        "y": 32.614585876464844
+      },
+      "elements": {
+        "intro-title": {
+          "bottom": 302.00000762939453,
+          "height": 80.64583587646484,
+          "left": 26,
+          "right": 818,
+          "top": 221.3541717529297,
+          "width": 792,
+          "x": 26,
+          "y": 221.3541717529297
+        },
+        "intro-wordmark": {
+          "bottom": 211.3541717529297,
+          "height": 40,
+          "left": 26,
+          "right": 818,
+          "top": 171.3541717529297,
+          "width": 792,
+          "x": 26,
+          "y": 171.3541717529297
+        },
+        "welcome-start": {
+          "bottom": 380,
+          "height": 48,
+          "left": 212,
+          "right": 632,
+          "top": 332,
+          "width": 420,
+          "x": 212,
+          "y": 332
+        }
+      }
+    },
+    "apresPaysage": {
+      "circle": {
+        "height": 84.91667175292969,
+        "width": 84.91667175292969,
+        "x": 379.53125,
+        "y": 96.30208587646484
+      },
+      "elements": {
+        "intro-title": {
+          "height": 80.64583587646484,
+          "width": 792,
+          "x": 26,
+          "y": 221.3541717529297
+        },
+        "intro-wordmark": {
+          "height": 40,
+          "width": 792,
+          "x": 26,
+          "y": 171.3541717529297
+        },
+        "welcome-start": {
+          "height": 48,
+          "width": 420,
+          "x": 212,
+          "y": 332
+        }
+      }
+    },
+    "referencePortrait": {
+      "circle": {
+        "bottom": 349.3229217529297,
+        "height": 97.875,
+        "left": 146.0625,
+        "right": 243.9375,
+        "top": 251.4479217529297,
+        "width": 97.875,
+        "x": 146.0625,
+        "y": 251.4479217529297
+      },
+      "elements": {
+        ".intro-content h1": {
+          "bottom": 658.9062957763672,
+          "height": 74.22917175292969,
+          "left": 26,
+          "right": 364,
+          "top": 584.6771240234375,
+          "width": 338,
+          "x": 26,
+          "y": 584.6771240234375
+        },
+        ".intro-cta": {
+          "bottom": 828,
+          "height": 58,
+          "left": 20,
+          "right": 370,
+          "top": 770,
+          "width": 350,
+          "x": 20,
+          "y": 770
+        },
+        ".roundr-wordmark": {
+          "bottom": 574.6771049499512,
+          "height": 50.69791793823242,
+          "left": 26,
+          "right": 364,
+          "top": 523.9791870117188,
+          "width": 338,
+          "x": 26,
+          "y": 523.9791870117188
+        }
+      },
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    "avantPortrait": {
+      "circle": {
+        "bottom": 349.3229217529297,
+        "height": 97.875,
+        "left": 146.05209350585938,
+        "right": 243.92709350585935,
+        "top": 251.4479217529297,
+        "width": 97.875,
+        "x": 146.05209350585938,
+        "y": 251.4479217529297
+      },
+      "elements": {
+        "intro-title": {
+          "bottom": 658.90625,
+          "height": 74.25,
+          "left": 26,
+          "right": 364,
+          "top": 584.65625,
+          "width": 338,
+          "x": 26,
+          "y": 584.65625
+        },
+        "intro-wordmark": {
+          "bottom": 574.6562919616699,
+          "height": 50.69791793823242,
+          "left": 26,
+          "right": 364,
+          "top": 523.9583740234375,
+          "width": 338,
+          "x": 26,
+          "y": 523.9583740234375
+        },
+        "welcome-start": {
+          "bottom": 828,
+          "height": 58,
+          "left": 20,
+          "right": 370,
+          "top": 770,
+          "width": 350,
+          "x": 20,
+          "y": 770
+        }
+      },
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    "apresPortrait": {
+      "circle": {
+        "height": 97.875,
+        "width": 97.875,
+        "x": 146.05209350585938,
+        "y": 251.4479217529297
+      },
+      "elements": {
+        "intro-title": {
+          "height": 74.25,
+          "width": 338,
+          "x": 26,
+          "y": 584.65625
+        },
+        "intro-wordmark": {
+          "height": 50.69791793823242,
+          "width": 338,
+          "x": 26,
+          "y": 523.9583740234375
+        },
+        "welcome-start": {
+          "height": 58,
+          "width": 350,
+          "x": 20,
+          "y": 770
+        }
+      }
+    }
+  },
+  "detail": {
+    "referencePaysage": {
+      "button": {
+        "bottom": 332,
+        "height": 50,
+        "left": 337.60418701171875,
+        "right": 506.3854370117187,
+        "top": 282,
+        "width": 168.78125,
+        "x": 337.60418701171875,
+        "y": 282
+      },
+      "footer": {
+        "bottom": 380,
+        "height": 98,
+        "left": 337.60418701171875,
+        "right": 506.3854370117187,
+        "top": 282,
+        "width": 168.78125,
+        "x": 337.60418701171875,
+        "y": 282
+      }
+    },
+    "avantPaysage": {
+      "button": {
+        "bottom": 328,
+        "height": 50,
+        "left": 212,
+        "right": 632,
+        "top": 278,
+        "width": 420,
+        "x": 212,
+        "y": 278
+      },
+      "footer": {
+        "bottom": 380,
+        "height": 102,
+        "left": 212,
+        "right": 632,
+        "top": 278,
+        "width": 420,
+        "x": 212,
+        "y": 278
+      }
+    },
+    "apresPaysage": {
+      "button": {
+        "bottom": 332,
+        "height": 50,
+        "left": 337.60418701171875,
+        "right": 506.3854370117187,
+        "top": 282,
+        "width": 168.78125,
+        "x": 337.60418701171875,
+        "y": 282
+      },
+      "footer": {
+        "bottom": 380,
+        "height": 98,
+        "left": 337.60418701171875,
+        "right": 506.3854370117187,
+        "top": 282,
+        "width": 168.78125,
+        "x": 337.60418701171875,
+        "y": 282
+      }
+    },
+    "referencePortrait": {
+      "button": {
+        "bottom": 780,
+        "height": 50,
+        "left": 20,
+        "right": 370,
+        "top": 730,
+        "width": 350,
+        "x": 20,
+        "y": 730
+      },
+      "footer": {
+        "bottom": 828,
+        "height": 98,
+        "left": 20,
+        "right": 370,
+        "top": 730,
+        "width": 350,
+        "x": 20,
+        "y": 730
+      }
+    },
+    "avantPortrait": {
+      "button": {
+        "bottom": 776,
+        "height": 50,
+        "left": 20,
+        "right": 370,
+        "top": 726,
+        "width": 350,
+        "x": 20,
+        "y": 726
+      },
+      "footer": {
+        "bottom": 828,
+        "height": 102,
+        "left": 20,
+        "right": 370,
+        "top": 726,
+        "width": 350,
+        "x": 20,
+        "y": 726
+      }
+    },
+    "apresPortrait": {
+      "button": {
+        "bottom": 776,
+        "height": 50,
+        "left": 20,
+        "right": 370,
+        "top": 726,
+        "width": 350,
+        "x": 20,
+        "y": 726
+      },
+      "footer": {
+        "bottom": 828,
+        "height": 102,
+        "left": 20,
+        "right": 370,
+        "top": 726,
+        "width": 350,
+        "x": 20,
+        "y": 726
+      }
+    }
+  },
+  "suppression": {
+    "referencePaysage": {
+      "buttons": [
+        {
+          "rect": {
+            "bottom": 320,
+            "height": 56,
+            "left": 182,
+            "right": 662,
+            "top": 264,
+            "width": 480,
+            "x": 182,
+            "y": 264
+          },
+          "text": "Supprimer"
+        },
+        {
+          "rect": {
+            "bottom": 372,
+            "height": 44,
+            "left": 182,
+            "right": 662,
+            "top": 328,
+            "width": 480,
+            "x": 182,
+            "y": 328
+          },
+          "text": "Annuler"
+        }
+      ],
+      "sheet": {
+        "bottom": 390.00001525878906,
+        "height": 225.6666717529297,
+        "left": 162,
+        "right": 682,
+        "top": 164.33334350585938,
+        "width": 520,
+        "x": 162,
+        "y": 164.33334350585938
+      }
+    },
+    "avantPaysage": {
+      "buttons": [
+        {
+          "rect": {
+            "bottom": 237.83334350585935,
+            "height": 56,
+            "left": 182,
+            "right": 662,
+            "top": 181.83334350585935,
+            "width": 480,
+            "x": 182,
+            "y": 181.83334350585935
+          },
+          "text": "Supprimer"
+        },
+        {
+          "rect": {
+            "bottom": 289.8333435058594,
+            "height": 44,
+            "left": 182,
+            "right": 662,
+            "top": 245.83334350585935,
+            "width": 480,
+            "x": 182,
+            "y": 245.83334350585935
+          },
+          "text": "Annuler"
+        }
+      ],
+      "sheet": {
+        "bottom": 307.8333435058594,
+        "height": 225.6666717529297,
+        "left": 162,
+        "right": 682,
+        "top": 82.16667175292969,
+        "width": 520,
+        "x": 162,
+        "y": 82.16667175292969
+      }
+    },
+    "apresPaysage": {
+      "buttons": [
+        {
+          "rect": {
+            "bottom": 320,
+            "height": 56,
+            "left": 182,
+            "right": 662,
+            "top": 264,
+            "width": 480,
+            "x": 182,
+            "y": 264
+          },
+          "text": "Supprimer"
+        },
+        {
+          "rect": {
+            "bottom": 372,
+            "height": 44,
+            "left": 182,
+            "right": 662,
+            "top": 328,
+            "width": 480,
+            "x": 182,
+            "y": 328
+          },
+          "text": "Annuler"
+        }
+      ],
+      "sheet": {
+        "bottom": 390.00001525878906,
+        "height": 225.6666717529297,
+        "left": 162,
+        "right": 682,
+        "top": 164.33334350585938,
+        "width": 520,
+        "x": 162,
+        "y": 164.33334350585938
+      }
+    },
+    "referencePortrait": {
+      "bottom": 844.0000457763672,
+      "height": 243.6666717529297,
+      "left": 0,
+      "right": 390,
+      "top": 600.3333740234375,
+      "width": 390,
+      "x": 0,
+      "y": 600.3333740234375
+    },
+    "apresPortrait": {
+      "bottom": 844.0000610351562,
+      "height": 264.66668701171875,
+      "left": 0,
+      "right": 390,
+      "top": 579.3333740234375,
+      "width": 390,
+      "x": 0,
+      "y": 579.3333740234375
+    },
+    "petitPaysage": {
+      "sheet": {
+        "x": 24,
+        "y": 94.33333587646484,
+        "width": 520,
+        "height": 225.6666717529297,
+        "bottom": 320.00000762939453
+      },
+      "cancel": {
+        "x": 44,
+        "y": 258,
+        "width": 480,
+        "height": 44,
+        "bottom": 302
+      }
+    }
+  },
+  "limitations": [
+    "Rendus navigateur Lovable et Expo Web, pas une validation sur appareil iOS/Android.",
+    "Insets du navigateur nuls : prise en compte native verifiee dans le code, a confirmer sur appareil.",
+    "Les couleurs des equipes proviennent des donnees de chaque application et ne sont pas modifiees."
+  ]
+}

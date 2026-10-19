@@ -14,7 +14,7 @@ export function LovableIntro({ onStart }: { onStart: () => void }) {
   return <View testID="welcome-screen" style={styles.screen}>
     <LovableBackground intro />
     <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.pitch}>
-      <View style={styles.box} /><View style={styles.half} /><View style={styles.circle} />
+      <View style={styles.box} /><View style={styles.half} /><View style={[styles.circle, landscape && styles.landscapeCircle]} />
     </View>
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingLeft: 26 + insets.left, paddingRight: 26 + insets.right, paddingTop: insets.top }]}>
       <Wordmark size={logoSize} testID="intro-wordmark" />
@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
   box: { position: "absolute", left: "33%", top: -1, width: "34%", height: "16%", ...line, borderTopWidth: 0 },
   half: { position: "absolute", left: -1, right: -1, top: "55%", borderTopWidth: 1, borderColor: line.borderColor },
   circle: { position: "absolute", left: "35%", top: "55%", width: "30%", aspectRatio: 1, transform: [{ translateY: "-50%" }], borderRadius: 999, ...line },
+  // The reference's more-specific landscape selector wins over its later 30% rule.
+  landscapeCircle: { left: "44%", width: "12%" },
   scroll: { flex: 1 },
   content: { flexGrow: 1, justifyContent: "flex-end", gap: 10, paddingBottom: 22 },
   title: { fontFamily: lovableFont.extrabold, color: lovable.foreground, includeFontPadding: false },
