@@ -48,7 +48,8 @@ export function bestNextCount(groups: number, q: number): number {
   return nextPow2(total) - total;
 }
 
-export function buildGroups(teamIds: string[], groups: number): Group[] {
+export function buildGroups(teamIds: string[], groups: number, reference = false): Group[] {
+  if (reference) return Array.from({ length: groups }, (_, i) => ({ id: "g" + i, name: "Poule " + String.fromCharCode(65 + i), teamIds: teamIds.filter((_, j) => j % groups === i) }));
   const sizes = groupSizes(teamIds.length, groups);
   let cursor = 0;
   return sizes.map((size, i) => {
@@ -174,4 +175,38 @@ export function computeQualification(
     seeds = seeds.concat(res.ids.map((id) => ({ kind: "team", teamId: id })));
   }
   return { kind: "seeds", seeds };
+}
+
+// Optional new-launch policy. The legacy qualification function and ranking rules
+// remain unchanged for existing sessions. Perfect ties still require a human choice.
+export function computeConfiguredQualification(groups: Group[], matches: Match[], q: number, chosen: Record<string, string[]>, best: boolean): Qualification {
+  const rows = groups.map(g => computeStandings(g.teamIds, matches.filter(m => m.groupId === g.id), true));
+  const position = new Map<string, number>(), direct: StandingRow[] = [], leftovers: StandingRow[] = [];
+  for (let i = 0; i < groups.length; i++) {
+    const context = "Dernière place qualifiée · " + groups[i].name;
+    const selected = takeWithTie(rows[i], q, (a,b) => a.rank === b.rank, chosen[context] ?? [], context);
+    if ("kind" in selected) return selected;
+    const ordered = [...selected.ids.map(id => rows[i].find(r => r.teamId === id)!), ...rows[i].filter(r => !selected.ids.includes(r.teamId))];
+    ordered.forEach((r,j) => position.set(r.teamId,j));
+    direct.push(...ordered.slice(0,q));
+    if (ordered[q]) leftovers.push(ordered[q]);
+  }
+  const p = nextPow2(direct.length), extra = best && direct.length > 1 ? p - direct.length : 0;
+  let qualified = [...direct];
+  if (extra) {
+    const sorted = [...leftovers].sort((a,b) => compareAcrossGroups(a,b,true));
+    const picked = takeWithTie(sorted, extra, (a,b) => compareAcrossGroups(a,b,true) === 0, chosen["Meilleurs suivants"] ?? [], "Meilleurs suivants");
+    if ("kind" in picked) return picked;
+    qualified.push(...picked.ids.map(id => sorted.find(r => r.teamId === id)!));
+  }
+  const compare = (a: StandingRow,b: StandingRow) => (position.get(a.teamId)! - position.get(b.teamId)!) || compareAcrossGroups(a,b,true);
+  qualified.sort(compare);
+  const size = extra ? p : direct.length === p ? p : p / 2;
+  if (qualified.length > size) {
+    const context = "Places dans le tableau de " + size;
+    const picked = takeWithTie(qualified, size, (a,b) => compare(a,b) === 0, chosen[context] ?? [], context);
+    if ("kind" in picked) return picked;
+    qualified = picked.ids.map(id => qualified.find(r => r.teamId === id)!);
+  }
+  return { kind: "seeds", seeds: qualified.map(r => ({ kind: "team", teamId: r.teamId })) };
 }

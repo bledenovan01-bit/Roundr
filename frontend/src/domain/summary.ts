@@ -67,7 +67,8 @@ export function buildSummary(session: Session): Summary {
     case "survie": {
       const final = session.matches.find((m) => m.stage === "ko" && m.roundOf === 2);
       const small = session.matches.find((m) => m.stage === "small");
-      const champion = final?.status === "finished" ? final.winnerId : null;
+      const onlyQualifier = session.config.mode === "cup" && session.config.tournamentPolicy === "lovable" && final?.status === "bye";
+      const champion = final?.status === "finished" || onlyQualifier ? final?.winnerId ?? null : null;
       base.title = interrupted ? "Tournoi interrompu" : session.mode === "cup" ? "Champion" : "Dernière équipe en jeu";
       base.headline = champion ? name(champion) : interrupted ? "Aucun champion désigné" : "—";
       if (final?.status === "finished") {
@@ -77,6 +78,7 @@ export function buildSummary(session: Session): Summary {
         base.podium.push({ place: 1, name: name(champion) }, { place: 2, name: name(runnerUp) });
         if (small?.status === "finished" && small.winnerId) base.podium.push({ place: 3, name: name(small.winnerId) });
       }
+      if (onlyQualifier && champion) base.podium.push({place:1,name:name(champion)});
       if (champion) {
         const wins = done.filter((m) => m.winnerId === champion).length;
         base.stats.push({ label: "Victoires jouées", value: String(wins) });

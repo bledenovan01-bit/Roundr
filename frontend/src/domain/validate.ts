@@ -6,7 +6,23 @@ import type { AnyConfig, Team } from "./types";
 
 export function validateConfig(config: AnyConfig, teams: Team[]): string[] {
   const errors: string[] = [];
-  if ((config.mode === "classique" || config.mode === "maracana") && config.soundControl !== undefined && config.soundControl !== "session") errors.push("Réglage des sons de la séance invalide.");
+  if (config.mode !== "custom" && config.soundControl !== undefined && config.soundControl !== "session") errors.push("Réglage des sons de la séance invalide.");
+  if (config.mode === "cup" || config.mode === "survie") {
+    if (config.name !== undefined && (typeof config.name !== "string" || config.name.length > 40)) errors.push("Nom de compétition : 40 caractères maximum.");
+    if (config.tournamentPolicy !== undefined && config.tournamentPolicy !== "lovable") errors.push("Configuration de tournoi invalide.");
+    if (!["random","manual"].includes(config.draw) || !["shootout","extraThenShootout","golden"].includes(config.drawRule)) errors.push("Tirage ou départage invalide.");
+    if (config.launch !== undefined && !["manual","auto","delay"].includes(config.launch)) errors.push("Lancement du prochain match invalide.");
+    if (config.launchDelaySec !== undefined && (!Number.isInteger(config.launchDelaySec) || config.launchDelaySec < 1 || config.launchDelaySec > 3600)) errors.push("Délai : un nombre entier de 1 à 3600 secondes.");
+    if (config.mode === "cup" && config.bestNext !== undefined && typeof config.bestNext !== "boolean") errors.push("Réglage du repêchage invalide.");
+    if (!Number.isInteger(config.teamCount)) errors.push("Le nombre d’équipes doit être entier.");
+    if (config.tournamentPolicy === "lovable") {
+      if (!Number.isInteger(config.matchMin) || config.matchMin < 1 || config.matchMin > 120) errors.push("Durée : 1 à 120 minutes.");
+      if ([config.sounds,config.customTeams,config.smallFinal,config.end.byTime].some(v=>typeof v!=="boolean")) errors.push("Options du tournoi invalides.");
+      if (!Number.isInteger(config.extraMin) || config.extraMin < 1 || config.extraMin > 15) errors.push("Prolongation : 1 à 15 minutes.");
+      if (config.mode === "cup" && [config.doubleRound,config.groupAdditional].some(v=>typeof v!=="boolean")) errors.push("Options des poules invalides.");
+      if (Object.entries(config.roundMinutes).some(([n,v])=>![2,4,8,16,32].includes(Number(n)) || !Number.isInteger(v) || v!<1 || v!>60)) errors.push("Durée par tour : 1 à 60 minutes.");
+    }
+  }
   if (new Set(teams.map(t => t.id)).size !== teams.length || teams.some(t => !t.id)) errors.push("Chaque équipe doit avoir un identifiant unique.");
   const expected = "teamCount" in config ? config.teamCount : 2;
   if (!Number.isInteger(expected) || teams.length !== expected) errors.push("Le nombre d’équipes ne correspond pas à la configuration.");
@@ -47,7 +63,9 @@ export function validateConfig(config: AnyConfig, teams: Team[]): string[] {
       break;
     case "cup": {
       if (config.teamCount < 4 || config.teamCount > 32) errors.push("Cup : 4 à 32 équipes.");
-      const e = validateCupStructure(config.teamCount, config.groups, config.qualifiersPerGroup);
+      const e = config.tournamentPolicy === "lovable"
+        ? (!Number.isInteger(config.groups) || config.groups < 1 || config.groups > Math.floor(config.teamCount / 2) || !Number.isInteger(config.qualifiersPerGroup) || config.qualifiersPerGroup < 1 || config.qualifiersPerGroup > Math.floor(config.teamCount / config.groups) ? "Vérifie le nombre de poules et les qualifiés." : null)
+        : validateCupStructure(config.teamCount, config.groups, config.qualifiersPerGroup);
       if (e) errors.push(e);
       break;
     }

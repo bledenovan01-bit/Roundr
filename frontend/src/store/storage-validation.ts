@@ -56,7 +56,7 @@ export function validSession(s:any):s is Session {
     if(s.pendingLaunch!==undefined) {
       const p=s.pendingLaunch, c=p?.chrono;
       const duration=(s.config.launchDelaySec??60)*1000;
-      if(!record(p)||s.mode!=="maracana"||s.config.launch!=="delay"||p.key!==nextLaunchKey(s)||typeof p.cancelled!=="boolean"||
+      if(!record(p)||!["maracana","cup","survie"].includes(s.mode)||s.config.launch!=="delay"||p.key!==nextLaunchKey(s)||typeof p.cancelled!=="boolean"||
         !record(c)||!["playing","paused"].includes(c.phase)||!finite(c.accumulatedMs)||c.accumulatedMs<0||c.accumulatedMs>duration||
         c.targetDurationMs!==duration||c.regulationTargetMs!==duration||c.extraTargetMs!==null||c.finishReason!==null||
         !Array.isArray(c.firedAlertsMs)||c.firedAlertsMs.length!==0||
