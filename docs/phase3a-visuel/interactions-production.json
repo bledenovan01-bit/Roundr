@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Rechargement de la séance Classique en pause : score 1–0 et temps 14:12.11 conservés",
+    "result": "PASS",
+    "at": "2026-10-22T17:58:52.209Z"
+  },
+  {
+    "name": "Correction +1 puis −1 : score et temps en pause inchangés",
+    "result": "PASS",
+    "at": "2026-10-22T17:59:04.739Z"
+  }
+]

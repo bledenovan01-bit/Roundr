@@ -23,13 +23,13 @@ export function PhaseAction({label,onPress,disabled=false,kind="primary",icon,te
     <Text style={{fontFamily:kind==="primary"?f.extrabold:"ManropeRefined-Bold",fontSize:kind==="primary"?16:14,lineHeight:kind==="primary"?160/7:20,color,textAlign:"center",flexShrink:1}}>{label}</Text>
   </Pressable>;
 }
-export function PhaseFrame({title,subtitle,onBack,intro,children,footer,pair=false,blocked=false,onContentHeight,onViewportHeight}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;pair?:boolean;blocked?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void}) {
+export function PhaseFrame({title,subtitle,onBack,intro,children,footer,pair=false,blocked=false,hideBack=false,onContentHeight,onViewportHeight}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;pair?:boolean;blocked?:boolean;hideBack?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void}) {
   const {width,height,fontScale}=useWindowDimensions(),inset=useSafeAreaInsets(),landscape=width>height;
   const two=landscape&&width-inset.left-inset.right>=600&&fontScale<=1.5;
   return <KeyboardAvoidingView style={s.screen} behavior={Platform.OS==="ios"?"padding":"height"}>
     <LovableBackground/>
     <View style={[s.header,{paddingTop:inset.top+(landscape?10:18),paddingBottom:landscape?4:10,paddingLeft:20+inset.left,paddingRight:20+inset.right}]}>
-      <Pressable accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} disabled={blocked} accessibilityState={{disabled:blocked}} style={s.back}><LovableIcon name="back" color={c.foreground} size={20}/></Pressable>
+      {hideBack?<View style={{width:44}}/>:<Pressable accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} disabled={blocked} accessibilityState={{disabled:blocked}} style={s.back}><LovableIcon name="back" color={c.foreground} size={20}/></Pressable>}
       <View style={{flex:1,minWidth:0}}><Text accessibilityRole="header" numberOfLines={1} style={s.title}>{title}</Text>{subtitle?<Text style={s.subtitle}>{subtitle}</Text>:null}</View><View style={{width:44}}/>
     </View>
     <ScrollView testID="config-scroll" style={{flex:1}} pointerEvents={blocked?"none":"auto"} onContentSizeChange={(_,h)=>onContentHeight?.(h)} onLayout={e=>onViewportHeight?.(e.nativeEvent.layout.height)} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false}

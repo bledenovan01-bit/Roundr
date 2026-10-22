@@ -1,0 +1,280 @@
+[
+  {
+    "id": "classic-ready-digital",
+    "mode": "classic",
+    "ready": true
+  },
+  {
+    "id": "classic-ready-ring",
+    "mode": "classic",
+    "ready": true,
+    "page": "ring"
+  },
+  {
+    "id": "classic-running",
+    "mode": "classic",
+    "ms": 12345,
+    "score": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "classic-paused-remaining",
+    "mode": "classic",
+    "ms": 12345,
+    "score": [
+      2,
+      1
+    ],
+    "paused": true
+  },
+  {
+    "id": "classic-paused-elapsed",
+    "mode": "classic",
+    "ms": 12345,
+    "score": [
+      2,
+      1
+    ],
+    "paused": true,
+    "elapsed": true
+  },
+  {
+    "id": "classic-paused-ring",
+    "mode": "classic",
+    "ms": 12345,
+    "score": [
+      2,
+      1
+    ],
+    "paused": true,
+    "page": "ring"
+  },
+  {
+    "id": "classic-score-off",
+    "mode": "classic",
+    "ms": 12345,
+    "paused": true,
+    "scoreOff": true
+  },
+  {
+    "id": "classic-break",
+    "mode": "classic",
+    "ms": 912345,
+    "score": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "classic-additional",
+    "mode": "classic",
+    "ms": 912345,
+    "score": [
+      1,
+      0
+    ],
+    "additional": true
+  },
+  {
+    "id": "classic-result",
+    "mode": "classic",
+    "result": true,
+    "score": [
+      1,
+      1
+    ]
+  },
+  {
+    "id": "mara-ready-digital",
+    "mode": "mara",
+    "ready": true
+  },
+  {
+    "id": "mara-ready-next",
+    "mode": "mara",
+    "ready": true,
+    "page": "next"
+  },
+  {
+    "id": "mara-three-next",
+    "mode": "mara",
+    "count": 3,
+    "ms": 12345,
+    "paused": true,
+    "page": "next"
+  },
+  {
+    "id": "mara-seven-following",
+    "mode": "mara",
+    "count": 7,
+    "ms": 12345,
+    "paused": true,
+    "page": "next"
+  },
+  {
+    "id": "mara-running-ring",
+    "mode": "mara",
+    "ms": 12345,
+    "score": [
+      2,
+      1
+    ],
+    "page": "ring"
+  },
+  {
+    "id": "mara-count-up",
+    "mode": "mara",
+    "ms": 12345,
+    "paused": true,
+    "goalsOnly": true,
+    "score": [
+      1,
+      0
+    ]
+  },
+  {
+    "id": "mara-overtime",
+    "mode": "mara",
+    "count": 3,
+    "ms": 492345
+  },
+  {
+    "id": "mara-win-rotation",
+    "mode": "mara",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ]
+  },
+  {
+    "id": "mara-winner-stays",
+    "mode": "mara",
+    "count": 4,
+    "rotation": "winner",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ]
+  },
+  {
+    "id": "mara-draw-one",
+    "mode": "mara",
+    "count": 4,
+    "rotation": "winner",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      1,
+      1
+    ]
+  },
+  {
+    "id": "mara-draw-both",
+    "mode": "mara",
+    "count": 4,
+    "rotation": "winner",
+    "draw": "both",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      1,
+      1
+    ]
+  },
+  {
+    "id": "mara-delay-running",
+    "mode": "mara",
+    "launch": "delay",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ],
+    "pendingAge": 10000
+  },
+  {
+    "id": "mara-delay-paused",
+    "mode": "mara",
+    "launch": "delay",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ],
+    "pendingAge": 10000,
+    "pendingPause": true
+  },
+  {
+    "id": "mara-delay-cancelled",
+    "mode": "mara",
+    "launch": "delay",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ],
+    "pendingAge": 10000,
+    "pendingCancel": true
+  },
+  {
+    "id": "mara-next-prepared",
+    "mode": "mara",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ],
+    "next": true
+  },
+  {
+    "id": "mara-next-auto",
+    "mode": "mara",
+    "launch": "auto",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ]
+  },
+  {
+    "id": "mara-ranking",
+    "mode": "mara",
+    "ms": 12345,
+    "finish": true,
+    "score": [
+      2,
+      1
+    ],
+    "table": true
+  },
+  {
+    "id": "mara-warmup-banner",
+    "mode": "mara",
+    "ms": 240000,
+    "banner": true
+  },
+  {
+    "id": "classic-time-banner",
+    "mode": "classic",
+    "ms": 840000,
+    "banner": true
+  },
+  {
+    "id": "mara-music-unavailable",
+    "mode": "mara",
+    "ms": 12345,
+    "paused": true,
+    "page": "music"
+  }
+]

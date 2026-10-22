@@ -152,6 +152,7 @@ export type LiveStage =
 
 // État temporel du match actif. Le chrono (moteur commun) porte le temps
 // de la phase en cours ; playedMs cumule les phases de jeu terminées.
+export type MatchDetail = { periods:(number|null)[];goals:{side:0|1;period:number;atMs:number|null}[] };
 export type Live = {
   matchId: string;
   periodMs: number[];
@@ -173,6 +174,7 @@ export type Live = {
   finishCount: boolean; // le temps de la phase finale a-t-il été ajouté à playedMs
   finishedAt: number | null;
   startedAt: number;
+  detail?:MatchDetail;
 };
 
 export type MaracanaState = {

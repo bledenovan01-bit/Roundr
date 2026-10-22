@@ -1,5 +1,6 @@
 import { validateConfig } from "@/src/domain/validate";
 import { nextLaunchKey } from "@/src/domain/session";
+import { validMatchDetail } from "@/src/domain/match-detail";
 import type { Preset, Session, Team } from "@/src/domain/types";
 const record = (x:any) => x && typeof x==="object" && !Array.isArray(x);
 const finite = (x:any) => typeof x==="number" && Number.isFinite(x);
@@ -47,6 +48,7 @@ export function validSession(s:any):s is Session {
       !Number.isInteger(l.periodIndex)||l.periodIndex<0||l.periodIndex>=l.periodMs.length||
       !finite(l.playedMs)||!pairOK(l.score)||l.score===null||!record(l.end)||
       !Array.isArray(l.firedAlerts)||l.firedAlerts.some((x:any)=>typeof x!=="string"))) return false;
+    if(l?.detail!==undefined&&!validMatchDetail(l.detail,l.periodMs.length,l.score))return false;
     if(s.preFinish!=null) {
       if(!record(s.preFinish)||!validSession({...s,matches:s.preFinish.matches,maracana:s.preFinish.maracana,cup:s.preFinish.cup,preFinish:null,pendingLaunch:undefined}))return false;
     }

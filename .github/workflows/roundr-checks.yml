@@ -1,9 +1,9 @@
 name: Roundr checks
 on:
   push:
-    branches: ["codex/roundr-test-feedback-fixes", "codex/roundr-storage-reliability", "codex/roundr-native-preview", "codex/roundr-lovable-phase-1", "codex/roundr-lovable-phase-2a", "codex/roundr-lovable-phase-2b"]
+    branches: ["codex/roundr-test-feedback-fixes", "codex/roundr-storage-reliability", "codex/roundr-native-preview", "codex/roundr-lovable-phase-1", "codex/roundr-lovable-phase-2a", "codex/roundr-lovable-phase-2b", "codex/roundr-lovable-phase-3a"]
   pull_request:
-    branches: ["codex/roundr-v0-freeze-fixes", "codex/roundr-native-preview", "codex/roundr-lovable-phase-1", "codex/roundr-lovable-phase-2a", "main"]
+    branches: ["codex/roundr-v0-freeze-fixes", "codex/roundr-native-preview", "codex/roundr-lovable-phase-1", "codex/roundr-lovable-phase-2a", "codex/roundr-lovable-phase-2b", "main"]
 permissions:
   contents: read
 jobs:
