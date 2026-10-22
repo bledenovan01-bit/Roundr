@@ -61,7 +61,7 @@ function HistoryBracket({ session: s, accent }: { session: Session; accent: stri
   })}{m.status === "bye" ? <Text style={[h.hint, { fontSize: 10 }]}>Qualifié d&apos;office</Text> : how(m) ? <Text style={[h.hint, { fontSize: 10 }]}>{how(m)}</Text> : null}</View>)}</View></View>)}</ScrollView>;
 }
 function GroupTable({ session: s, ids, matches }: { session: Session; ids: string[]; matches: Match[] }) {
-  const rows = computeStandings(ids, matches), widths = [22, 100, 23, 23, 23, 23, 25, 25, 32, 28];
+  const rows = computeStandings(ids, matches, s.config.mode === "cup" && s.config.tournamentPolicy === "lovable"), widths = [22, 100, 23, 23, 23, 23, 25, 25, 32, 28];
   const headers = ["#", "Équipe", "J", "G", "N", "P", "BP", "BC", "Diff", "Pts"];
   return <ScrollView horizontal><View style={{ minWidth: 330 }}>{[headers, ...rows.map(r => [
     r.rank + (r.tied ? "=" : ""), s.teams.find(t => t.id === r.teamId)?.name ?? "?", r.played, r.wins, r.draws, r.losses, r.gf, r.gc, (r.gd > 0 ? "+" : "") + r.gd, r.points,

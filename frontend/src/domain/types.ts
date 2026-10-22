@@ -63,6 +63,11 @@ export type MaracanaConfig = {
 export type RoundMinutes = Partial<Record<number, number>>;
 
 export type SurvieConfig = {
+  name?: string;
+  tournamentPolicy?: "lovable";
+  launch?: "manual" | "auto" | "delay";
+  launchDelaySec?: number;
+  soundControl?: "session";
   mode: "survie";
   matchMin: number;
   end: EndRules;
@@ -77,6 +82,12 @@ export type SurvieConfig = {
 };
 
 export type CupConfig = {
+  bestNext?: boolean;
+  name?: string;
+  tournamentPolicy?: "lovable";
+  launch?: "manual" | "auto" | "delay";
+  launchDelaySec?: number;
+  soundControl?: "session";
   mode: "cup";
   matchMin: number;
   end: EndRules;

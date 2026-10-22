@@ -27,10 +27,16 @@ export function roundName(roundOf: number): string {
 // deux places vides. Appariement des extrêmes (C15).
 export function buildBracket(
   seeds: Slot[],
-  opts: { smallFinal: boolean; startOrder: number; idPrefix: string },
+  opts: { smallFinal: boolean; startOrder: number; idPrefix: string; reference?: boolean },
 ): Match[] {
   const P = nextPow2(seeds.length);
-  const positions: (Slot | null)[] = Array.from({ length: P }, (_, i) => seeds[i] ?? null);
+  let positions: (Slot | null)[] = Array.from({ length: P }, (_, i) => seeds[i] ?? null);
+  if (opts.reference) {
+    let order = [1];
+    while (order.length < P) { const n = order.length * 2; order = order.flatMap(x => [x, n + 1 - x]); }
+    const paired = order.map(n => seeds[n - 1] ?? null);
+    positions = [...paired.filter((_,i) => i % 2 === 0), ...paired.filter((_,i) => i % 2 === 1).reverse()];
+  }
   const matches: Match[] = [];
   let order = opts.startOrder;
   let counter = 0;

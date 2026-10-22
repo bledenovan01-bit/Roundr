@@ -11,7 +11,7 @@ import { PrimaryButton } from "./primary-button";
 export function MaracanaLaunchCountdown({ session }: { session: Session }) {
   const now = useStore(state => state.now), { colors } = useTheme();
   const pending = session.pendingLaunch;
-  if (session.mode !== "maracana" || !pending || pending.cancelled) return null;
+  if (!["maracana","cup","survie"].includes(session.mode) || !pending || pending.cancelled) return null;
   const running = pending.chrono.runningSince !== null;
   const left = Math.ceil(Math.max(0, pending.chrono.regulationTargetMs - elapsedMs(pending.chrono, now)) / 1000) * 1000;
   return <View testID="next-launch-countdown" accessibilityLabel="Démarrage du prochain match" style={{ gap: 8, padding: 12, borderWidth: 1, borderRadius: 12, borderColor: colors.border }}>

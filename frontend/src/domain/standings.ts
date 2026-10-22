@@ -103,7 +103,7 @@ function headToHead(ids: string[], pairs: Finished[]): Map<string, number> | nul
   return pts;
 }
 
-export function computeStandings(teamIds: string[], matches: Match[]): StandingRow[] {
+export function computeStandings(teamIds: string[], matches: Match[], referenceCup = false): StandingRow[] {
   const pairs = finishedPairs(matches);
   const rows = tally(teamIds, pairs);
   const list = [...rows.values()];
@@ -122,7 +122,11 @@ export function computeStandings(teamIds: string[], matches: Match[]): StandingR
     .forEach((points) => {
       const group = byPoints.get(points)!;
       const h2h = group.length > 1 ? headToHead(group.map((r) => r.teamId), pairs) : null;
-      const key = (r: StandingRow) => [h2h?.get(r.teamId) ?? 0, r.gd, r.gf, r.wins];
+      // The reference's complete mini-table also compares goal difference/goals.
+      // Opt-in for new Cup launches only; old competitions retain their criteria.
+      const ids = group.map(r=>r.teamId);
+      const mini = referenceCup && h2h ? tally(ids,pairs.filter(p=>ids.includes(p.a)&&ids.includes(p.b))) : null;
+      const key = (r: StandingRow) => [h2h?.get(r.teamId) ?? 0, ...(mini ? [mini.get(r.teamId)!.gd,mini.get(r.teamId)!.gf] : []), r.gd, r.gf, r.wins];
       const cmp = (x: StandingRow, y: StandingRow) => {
         const kx = key(x);
         const ky = key(y);

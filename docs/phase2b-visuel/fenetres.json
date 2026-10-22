@@ -1,0 +1,122 @@
+[
+  {
+    "app": "lovable",
+    "name": "maker-confirmation",
+    "orientation": "portrait",
+    "h": 249.6666717529297,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 390,
+    "x": 0,
+    "y": 594.56103515625
+  },
+  {
+    "app": "expo",
+    "name": "maker-confirmation",
+    "orientation": "portrait",
+    "h": 249.6666717529297,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 390,
+    "x": 0,
+    "y": 594.3333740234375
+  },
+  {
+    "app": "lovable",
+    "name": "maker-confirmation",
+    "orientation": "paysage",
+    "h": 204.66668701171875,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 520,
+    "x": 162,
+    "y": 185.4549865722656
+  },
+  {
+    "app": "expo",
+    "name": "maker-confirmation",
+    "orientation": "paysage",
+    "h": 204.6666717529297,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 520,
+    "x": 162,
+    "y": 185.33334350585935
+  },
+  {
+    "app": "expo",
+    "name": "maker-confirmation",
+    "orientation": "portrait",
+    "h": 249.6666717529297,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 390,
+    "x": 0,
+    "y": 594.3333740234375
+  },
+  {
+    "app": "expo",
+    "name": "maker-confirmation",
+    "orientation": "paysage",
+    "h": 204.6666717529297,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 520,
+    "x": 162,
+    "y": 185.33334350585935
+  },
+  {
+    "app": "lovable",
+    "name": "maker-confirmation",
+    "orientation": "portrait",
+    "h": 249.6666717529297,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 390,
+    "x": 0,
+    "y": 594.3333740234375
+  },
+  {
+    "app": "lovable",
+    "name": "maker-enregistre",
+    "orientation": "portrait",
+    "h": 351.66668701171875,
+    "text": "Composition enregistréeDans la configuration d'un mode, activez « Personnaliser les équipes » puis touchez « Importer mes équipes ». Vous pourrez encore modifier les équipes avant de jouer.Retour à l'accueilRester ici",
+    "w": 390,
+    "x": 0,
+    "y": 492.3333435058594
+  },
+  {
+    "app": "lovable",
+    "name": "maker-enregistre",
+    "orientation": "paysage",
+    "h": 300.66668701171875,
+    "text": "Composition enregistréeDans la configuration d'un mode, activez « Personnaliser les équipes » puis touchez « Importer mes équipes ». Vous pourrez encore modifier les équipes avant de jouer.Retour à l'accueilRester ici",
+    "w": 520,
+    "x": 162,
+    "y": 89.33333587646484
+  },
+  {
+    "app": "expo",
+    "name": "maker-confirmation",
+    "orientation": "portrait",
+    "h": 249.6666717529297,
+    "text": "Remplacer la dernière composition ?La composition enregistrée sera remplacée par ces équipes.Remplacer et validerAnnuler",
+    "w": 390,
+    "x": 0,
+    "y": 594.3333740234375
+  },
+  {
+    "app": "expo",
+    "name": "maker-enregistre",
+    "orientation": "portrait",
+    "h": 351.66668701171875,
+    "text": "Composition enregistréeDans la configuration d'un mode, activez « Personnaliser les équipes » puis touchez « Importer mes équipes ». Vous pourrez encore modifier les équipes avant de jouer.Retour à l'accueilRester ici",
+    "w": 390,
+    "x": 0,
+    "y": 492.3333435058594
+  },
+  {
+    "app": "expo",
+    "name": "maker-enregistre",
+    "orientation": "paysage",
+    "h": 300.66668701171875,
+    "text": "Composition enregistréeDans la configuration d'un mode, activez « Personnaliser les équipes » puis touchez « Importer mes équipes ». Vous pourrez encore modifier les équipes avant de jouer.Retour à l'accueilRester ici",
+    "w": 520,
+    "x": 162,
+    "y": 89.33333587646484
+  }
+]

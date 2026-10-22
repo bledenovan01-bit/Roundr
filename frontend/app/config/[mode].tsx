@@ -15,6 +15,8 @@ import { createSession } from "@/src/domain/session";
 import type { AnyConfig, Team } from "@/src/domain/types";
 import { validateConfig } from "@/src/domain/validate";
 import { DesignConfig } from "@/src/features/design-config";
+import { TournamentConfiguration } from "@/src/features/tournament-configuration";
+import { normalizeTournament, tournamentDefaults, tournamentTeams } from "@/src/features/tournament-config-state";
 import { LovableConfig } from "@/src/features/lovable-config";
 import { lovableConfigTeams, lovableLaunchDefaults, lovableReplayConfig, mergeConfigurationTeams } from "@/src/features/lovable-config-state";
 import { getStoreState, startSession, useStore } from "@/src/store/session-store";
@@ -36,8 +38,9 @@ export default function ConfigScreen() {
   const replayFrom = params.replay ? getStoreState().lastSummary : null;
 
   const [config, setConfig] = useState<AnyConfig>(() => {
+    if (replayFrom && replayFrom.mode === params.mode && (replayFrom.config.mode === "cup" || replayFrom.config.mode === "survie")) return normalizeTournament({ ...replayFrom.config, tournamentPolicy: "lovable", ...(replayFrom.config.mode === "cup" ? {bestNext: replayFrom.config.bestNext ?? true} : {soundControl:"session"}) });
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.config.mode === "classique" || replayFrom.config.mode === "maracana" ? lovableReplayConfig(replayFrom.config) : replayFrom.config;
-    const base = params.mode === "classique" || params.mode === "maracana" ? lovableLaunchDefaults(params.mode) : defaultConfig(params.mode ?? "classique");
+    const base = params.mode === "classique" || params.mode === "maracana" ? lovableLaunchDefaults(params.mode) : params.mode === "cup" || params.mode === "survie" ? tournamentDefaults(params.mode) : defaultConfig(params.mode ?? "classique");
     const pref = getPreferences();
     return { ...base, sounds: pref.sounds, ...(base.mode === "custom" ? { additional: pref.additional } : {}), ...(params.teams && base.mode !== "classique" && base.mode !== "custom" ? { teamCount: pref.teams.length } : {}), ...(params.teams ? { customTeams: true } : {}), ...(base.mode === "custom" ? { savePreset: false } : {}) };
   });
@@ -45,6 +48,7 @@ export default function ConfigScreen() {
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.teams;
     if (params.teams && getPreferences().teams.length) return getPreferences().teams;
     if (params.mode === "classique" || params.mode === "maracana") return lovableConfigTeams(params.mode, params.mode === "maracana" ? 8 : 2);
+    if (params.mode === "cup" || params.mode === "survie") return tournamentTeams(32);
     return defaultTeams(params.mode ?? "classique", teamCountFor(config));
   });
   const [attempted, setAttempted] = useState(false);
@@ -52,7 +56,7 @@ export default function ConfigScreen() {
   // Aligne la liste d'équipes sur le nombre configuré, en conservant les noms.
   const count = teamCountFor(config);
   const alignedTeams = useMemo(() => alignTeams(teams,config.mode,count), [teams,count,config.mode]);
-  const launchTeams = (config.mode === "classique" || config.mode === "maracana") && !config.customTeams ? lovableConfigTeams(config.mode, count) : alignedTeams;
+  const launchTeams = (config.mode === "cup" || config.mode === "survie") && !config.customTeams ? tournamentTeams(count) : (config.mode === "classique" || config.mode === "maracana") && !config.customTeams ? lovableConfigTeams(config.mode, count) : alignedTeams;
 
   const [fieldErrors, setFieldErrors] = useState<Record<string,string>>({});
   const reportValidity = useCallback((id:string,message:string|null) => setFieldErrors(prev => {
@@ -85,6 +89,8 @@ export default function ConfigScreen() {
 
   const ctaLabel = config.mode === "custom" ? "Préparer le chrono" : "Lancer la session";
   const refinedTypography = true;
+
+  if (config.mode === "cup" || config.mode === "survie") return <TournamentConfiguration config={config} onChange={setConfig} teams={alignedTeams} onTeams={next => setTeams(previous => mergeConfigurationTeams(previous, next))} onBack={() => router.canGoBack() ? router.back() : router.replace("/")} onLaunch={launch} errors={[...(saveError ? [saveError] : []), ...errors]} disabled={errors.length > 0} />;
 
   if (config.mode === "classique" || config.mode === "maracana") return <LovableConfig config={config} onChange={setConfig} teams={alignedTeams} onTeams={next => setTeams(previous => mergeConfigurationTeams(previous, next))} onBack={() => router.canGoBack() ? router.back() : router.replace("/")} onLaunch={launch} errors={[...(saveError ? [saveError] : []), ...errors]} disabled={errors.length > 0} />;
 

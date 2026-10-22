@@ -296,7 +296,7 @@ export function loadStore(): Promise<void> {
           set({ session: restored });
           // A recovered automatic Maracana launch must retain its original boundary
           // across another close. Only write after a valid read; failures stay visible.
-          if (restored !== original && original?.config.mode === "maracana" && original.config.launch && original.config.launch !== "manual") await persist(KEYS.session, restored);
+          if (restored !== original && original && (original.config.mode === "maracana" || original.config.mode === "cup" || original.config.mode === "survie") && original.config.launch && original.config.launch !== "manual") await persist(KEYS.session, restored);
           break;
         }
         case KEYS.summary: set({ lastSummary: value as Session | null }); break;
@@ -364,7 +364,7 @@ function emitSounds(prev: Session | null, next: Session | null, silent: boolean)
   };
   // Prefer the end event; never replay a burst of missed alerts after a delay.
   const sound = sounds[events.find(e => e.kind === "matchEnd")?.kind ?? events[0].kind];
-  const localSoundControl = (next.config.mode === "classique" || next.config.mode === "maracana") && next.config.soundControl === "session";
+  const localSoundControl = (next.config.mode === "classique" || next.config.mode === "maracana" || next.config.mode === "survie") && next.config.soundControl === "session";
   const sessionSound = !localSoundControl || next.config.sounds;
   if (p.sounds && sessionSound && sound && sound !== "off") void playSound(sound);
   void Haptics.selectionAsync().catch(() => {});

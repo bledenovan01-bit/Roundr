@@ -25,7 +25,7 @@ export function snapshotCompetition(session: Session, previous?: Competition): C
   if (!validArchivedSession(session)) throw Error("Compétition invalide");
   const copy = JSON.parse(JSON.stringify(session)) as Session;
   return { schema: 1, id: copy.id, kind: copy.mode as "cup" | "survie", status: copy.status as "finished" | "interrupted", createdAt: copy.createdAt, endedAt: previous?.endedAt ?? copy.endedAt ?? copy.updatedAt,
-    name: previous?.name ?? competitionName(copy.mode as "cup" | "survie", copy.createdAt), session: copy, summary: buildSummary(copy) };
+    name: previous?.name ?? (("name" in copy.config && copy.config.name?.trim()) || competitionName(copy.mode as "cup" | "survie", copy.createdAt)), session: copy, summary: buildSummary(copy) };
 }
 
 function canonical(value: unknown): string {

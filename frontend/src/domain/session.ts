@@ -8,7 +8,7 @@ import {
   type ChronoState,
 } from "@/src/chrono/engine";
 import { buildBracket, matchTeams, resolveSlot, shuffleWithSeed, slotLabel } from "./bracket";
-import { buildGroups, computeQualification, scheduleGroups } from "./cup";
+import { buildGroups, computeConfiguredQualification, computeQualification, scheduleGroups } from "./cup";
 import { CONVENTIONS, uid } from "./defaults";
 import { addTeam as maracanaAddTeam, initMaracana, pickNextPair, rotate } from "./maracana";
 import { prepLeadMs, REMINDER_MS } from "./preparation";
@@ -68,13 +68,13 @@ export function createSession(config: AnyConfig, teams: Team[], now: number): Se
       const order = config.draw === "random" ? shuffleWithSeed(ids, now) : ids;
       base.matches = buildBracket(
         order.map((id) => ({ kind: "team", teamId: id })),
-        { smallFinal: config.smallFinal && teams.length > 2, startOrder: 1, idPrefix: "k" },
+        { smallFinal: config.smallFinal && teams.length > 2, startOrder: 1, idPrefix: "k", reference: config.tournamentPolicy === "lovable" },
       );
       break;
     }
     case "cup": {
       const order = config.draw === "random" ? shuffleWithSeed(ids, now) : ids;
-      const groups = buildGroups(order, config.groups);
+      const groups = buildGroups(order, config.groups, config.tournamentPolicy === "lovable");
       base.cup = { groups, phase: "groups", tieChoice: null, qualifiedIds: [] };
       base.matches = scheduleGroups(groups, config.doubleRound);
       break;
@@ -405,9 +405,11 @@ function tryQualify(session: Session, chosen: string[] = []): Session {
   if (groupMatches.some((m) => m.status !== "finished")) return session;
   const c = session.config;
   if (c.mode !== "cup") return session;
-  const q = computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? chosen);
+  const q = c.tournamentPolicy === "lovable"
+    ? computeConfiguredQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? {}, !!c.bestNext)
+    : computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? chosen);
   if (q.kind === "tie") return { ...session, cup: { ...cup, tieChoice: { candidates: q.candidates, slots: q.slots, context: q.context } } };
-  const bracket = buildBracket(q.seeds, { smallFinal: c.smallFinal, startOrder: groupMatches.length + 1, idPrefix: "k" });
+  const bracket = buildBracket(q.seeds, { smallFinal: c.smallFinal, startOrder: groupMatches.length + 1, idPrefix: "k", reference: c.tournamentPolicy === "lovable" });
   return {
     ...session,
     matches: [...groupMatches, ...bracket],
@@ -515,7 +517,7 @@ export function startReady(session: Session, now: number): Session {
 }
 
 export function nextLaunchKey(session: Session): string | null {
-  if (session.mode !== "maracana" || session.status !== "active" || session.live?.stage !== "finished") return null;
+  if (!["maracana","cup","survie"].includes(session.mode) || session.status !== "active" || session.live?.stage !== "finished" || session.cup?.tieChoice) return null;
   const match = findNextMatch(session);
   if (!match) return null;
   return `${session.live.matchId}>${match.id}:${matchTeams(match, session.matches).join(",")}`;
@@ -530,7 +532,7 @@ function clearPendingLaunch(session: Session): Session {
 
 // A second state of the existing timestamp engine; the root runtime drives it on every screen.
 function settleNextLaunch(session: Session, now: number): Session {
-  if (session.config.mode !== "maracana" || session.status !== "active") return session;
+  if ((session.config.mode !== "maracana" && session.config.mode !== "cup" && session.config.mode !== "survie") || session.status !== "active") return session;
   const mode = session.config.launch ?? "manual", key = nextLaunchKey(session);
   if (!key || mode === "manual") return session.pendingLaunch ? { ...session, pendingLaunch: undefined } : session;
   const p = session.pendingLaunch;
