@@ -1,0 +1,53 @@
+[
+  {
+    "name": "tests",
+    "args": [
+      "scripts/run-domain-tests.cjs"
+    ],
+    "exit": 0,
+    "seconds": 19
+  },
+  {
+    "name": "syntaxe",
+    "args": [
+      "scripts/check-syntax.cjs"
+    ],
+    "exit": 0,
+    "seconds": 2
+  },
+  {
+    "name": "typescript",
+    "args": [
+      "node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "exit": 0,
+    "seconds": 6
+  },
+  {
+    "name": "eslint",
+    "args": [
+      "node_modules/eslint/bin/eslint.js",
+      "app",
+      "src",
+      "scripts/test-settings-phase5a.ts",
+      "--max-warnings",
+      "0"
+    ],
+    "exit": 0,
+    "seconds": 16
+  },
+  {
+    "name": "exports",
+    "args": [
+      "node_modules/expo/bin/cli",
+      "export",
+      "--platform",
+      "all",
+      "--output-dir",
+      "../../phase5-production-all"
+    ],
+    "exit": 0,
+    "seconds": 33
+  }
+]

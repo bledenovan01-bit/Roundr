@@ -1,0 +1,246 @@
+✓ configure regulation 60s + extra 10s
+✓ start at t0
+✓ elapsed after 5s = 5000
+✓ remaining after 5s = 55000
+✓ pause at t+10s freezes accumulated to 10000
+✓ elapsed while paused stays 10000 even 30s later
+✓ resume adds new run time
+✓ addTime bumps target
+✓ hasReachedTarget false at 15s
+✓ enter additional -> phase additional, target null, elapsed reset
+✓ enter extra -> phase extra with extraTarget 10s
+✓ enter golden -> phase golden, no target
+✓ finish -> phase finished, reason stored, frozen accumulated
+✓ reset returns to initial
+
+All chrono engine tests passed ✅
+✓ classique 45/2 : périodes 22:30
+✓ pause 20 s non jouée
+✓ fin de période → pause chronométrée
+✓ pause terminée → attente reprise
+✓ dernière période → match terminé une fois
+✓ durée jouée 45:00
+✓ score cumulé 1-0
+✓ advance idempotent après fin
+✓ additionnel ouvert à zéro
+✓ fin manuelle : 12 min jouées
+✓ AC11 premier à 3 : fin immédiate à 04:20
+✓ AC16 : A reste, B sort, prochain A–C
+✓ AC52 : match restauré en pause à 04:20
+✓ match 2 live A–C
+✓ AC17 : nul → A sort, C reste
+✓ AC18 : 0-0 → extension 2 min
+✓ AC19 : but en extension = fin immédiate
+✓ AC18 : 0-0 après extension = nul enregistré
+✓ AC24 classement : points calculés
+✓ AC22 : 4 équipes, résultats conservés
+✓ AC22 : les deux sortantes exclues
+✓ AC23 : pas plus de 8
+✓ MA5 rotation 1 : sortantes exclues, pas de doublon
+✓ MA5 rotation 2 : sortantes exclues, pas de doublon
+✓ MA5 rotation 3 : sortantes exclues, pas de doublon
+✓ MA5 rotation 4 : sortantes exclues, pas de doublon
+✓ MA5 rotation 5 : sortantes exclues, pas de doublon
+✓ MA5 rotation 6 : sortantes exclues, pas de doublon
+✓ 10 équipes = 6 exemptions
+✓ Survie 2 : 1 matchs joués
+✓ Survie 2 : aucun match contre place vide
+✓ Survie 3 : 2 matchs joués
+✓ Survie 3 : aucun match contre place vide
+✓ Survie 10 : 9 matchs joués
+✓ Survie 10 : aucun match contre place vide
+✓ Survie 32 : 31 matchs joués
+✓ Survie 32 : aucun match contre place vide
+✓ AC34 : nul → prolongation
+✓ AC34 : toujours nul → attente TAB
+✓ C11 : TAB nul refusé
+✓ AC35 : 1-1, TAB 4-3, A avance, 2 buts de jeu
+✓ durée jouée 10:00 (prolongation incluse)
+✓ AC38 : petite finale avant la finale
+✓ AC38 : perdants des demies
+✓ finale t1–t2
+✓ session complète
+✓ AC39 : 2 équipes → 1 seul match
+✓ AC36 : golden goal ouvert
+✓ AC36 : premier but clôt, vainqueur B
+✓ recommandation 8 → 2 poules
+✓ recommandation 12 → 3 poules
+✓ recommandation 6 → 2×3
+✓ recommandation 32 → 8×4
+✓ validation impossible (5 équipes, 2 poules, 2 qualifiés)
+✓ validation 12/3/2 OK
+✓ AC26 : 12 matchs de poule
+✓ AC27 : 24 matchs aller-retour
+  (AC31 : égalité à la coupure résolue par choix explicite)
+✓ AC26 : 2 demies + finale générées
+✓ AC33 : A1–B2
+✓ AC28 : 18 matchs de poule à 12
+✓ AC25 : trois ex æquo affichés
+✓ split 36 min / 3 → 12/12/12
+✓ split reliquat
+✓ single-group cup valid
+✓ AC40 : pause zéro → attente reprise directe (C04)
+✓ AC40 : 36 min jouées
+✓ AC14 : aucune fin fantôme en buts seul
+✓ Relancer : score et chrono remis à zéro
+✓ Relancer : historique et rotation conservés
+✓ Relancer : nouveau départ explicite
+
+Tous les tests passent
+✓ Notices: preparation, one-minute reminder, short windows, pause, untimed and completed matches.
+✓ Tournament matches stay ready until one explicit start
+✓ Short-match preparation waits for known teams and a running clock
+✓ Cup: two tied groups preserve both selections
+✓ Team resizing after reorder keeps unique IDs
+✓ Corrected knockout draw requires and resolves a tiebreak
+✓ Golden-goal correction distinguishes changed and unchanged decision
+✓ Storage validates all five modes and rejects malformed structures
+✓ Minute, period and end announcements are deduplicated
+✓ Final statistics resolve teams from knockout slots
+Regression scenarios passed
+✓ Corrupt session is retained and legacy Custom preset survives
+✓ All launch paths share a ready state
+✓ Late pause and goal cannot modify an expired phase
+✓ Global mute overrides old saves; preparation off preserves minute alert
+✓ Writes are serialized; archive never erases a newly created session
+✓ Storage error remains visible until the failed save succeeds
+Store regression scenarios passed
+✓ Tabata = 8 efforts + 7 repos (15 steps)
+✓ Intervalles 2 séries : 1 repos de série
+✓ Chronomètre = 1 step ouvert
+✓ Tours : plus rapide/plus lent corrects
+✓ Reset conserve le score / Recommencer le remet à zéro
+✓ Compte à rebours : fin automatique à zéro
+✓ Intervalles : auto-chaînage multi-steps en un seul advance
+✓ Intervalles manuel : attend le passage manuel
+✓ Pause fige le temps écoulé
+✓ Migration Custom -> Mes chronos (compte à rebours équivalent)
+✓ Validation Chrono libre rejette les données invalides
+Free timer scenarios passed
+✓ 3 équipes : vainqueur reste / perdant sort
+✓ 4 équipes classique : les deux sortent, les deux suivants entrent
+✓ 4 équipes gagnant reste : vainqueur reste, perdant sort, suivant entre
+✓ 4 équipes gagnant reste, nul : une équipe sort (départage)
+✓ 4 équipes gagnant reste, nul : les deux sortent
+Maracana rotation scenarios passed
+✓ data-write failure never completes migration; retry succeeds
+✓ marker failure / interruption: restart merges without duplicate or edit loss
+✓ power-loss snapshot between durable data and marker resumes once
+✓ legacy marker offers recovery; declining persists a tombstone
+✓ explicit recovery preserves user presets and survives subsequent deletion
+✓ deletion cannot become an accidental reimport when the marker is still failing
+✓ existing migrated edits are never overwritten
+✓ user edits during a recovery write survive the migration commit
+✓ missing data is empty, but unreadable / invalid lists cannot complete migration
+✓ invalid marker is preserved and requires an explicit recovery decision
+✓ valid states retain times, laps, scores and current-version formats
+✓ reject incomplete / incoherent states and retain every raw payload
+✓ only missing derived steps are repairable, never missing time / laps / scores
+✓ backup failure is truthful, blocks overwrite, retries and does not erase earlier raw copies
+✓ single-flight load and mutation gates protect pending reads
+✓ read retry cannot replace subsequent edits to unrelated resources
+✓ failed timer reads block empty writes until a successful reread
+✓ all new-timer kinds / preset configs guard cancel and confirm; pristine / finished skip dialog
+✓ a delayed confirmation never replaces a newer progressed session
+✓ failed replacement keeps the previous session and never navigates as if saved
+✓ replacement stays pending until durable write; concurrent actions cannot overwrite it
+✓ failed backup prevents replacement; retrying backup never starts the candidate
+✓ failed destructive restart or finish retains time, laps and score
+✓ rapid writes / archive then new session preserve order; failed operations remain visible
+24 storage reliability scenarios passed
+✓ Accueil : reprise des deux séances, temps projetés et données inchangées
+✓ empty index is a readable empty history; old Cup/Survie summaries backfill once
+✓ snapshots retain all results/configuration and are independent of the active object
+✓ automatic finished Survie archives before opening the summary
+✓ interrupted competition archives and a new session cannot be erased by completion
+✓ a complete Cup retains group results, qualification, final and podium after restart
+✓ updating an archived result preserves its custom name and all other competitions
+✓ failed archive retains previous durable session, blocks replacement, then retries
+✓ restart after an archive write failure recovers from the original session
+✓ renaming commits only after durable write; default name can be restored
+✓ failed rename/delete leaves entry unchanged and generic retry cannot apply it later
+✓ deletion is durable, does not resurrect from old summary, and changes no other resource
+✓ unreadable index is never presented as a valid empty history and can be retried
+✓ invalid JSON/incomplete records are preserved raw, refused, and never overwritten
+✓ archive read failure preserves its raw value and other archives remain usable
+✓ failed raw backup is reported truthfully
+✓ single-flight loading blocks history mutations; rapid records serialize without loss
+16 competition history scenarios passed
+✓ New classic defaults match Lovable; legacy defaults and engine remain intact
+✓ Additional time applies to both new classic halves, excludes the break, and restores unchanged
+✓ Reordered imports and hidden team edits survive resizing with unique IDs
+✓ Manual launch stays ready until the organizer starts it
+✓ Automatic launch starts exactly one next match
+✓ Delay uses timestamps and resumes at its exact boundary, without duplicate results
+✓ Pending launch round-trips through storage; invalid or stale clocks are rejected
+✓ Delay pause/resume/cancel/immediate launch and ending a session are effective
+✓ Score correction cannot trigger an obsolete automatic launch
+✓ FIFO, winner-stays and both draw rules match the reference; old sessions stay manual
+✓ Invalid policies and non-finite/out-of-range delays cannot launch
+Phase 2A configuration and launch scenarios passed
+✓ Delayed launch restored, persisted and restarted at the same timestamp without duplicates
+✓ Failed recovery write preserves durable previous state and its error until the retry succeeds
+✓ Cancelled automatic launch remains cancelled after a storage restart
+✓ Invalid pending launch is refused and preserved raw instead of overwritten
+✓ Unreadable automatic session blocks replacement without erasing its data
+✓ Classic and Maracana sound toggles really enable or silence session audio
+✓ Cup and Survie use reference defaults, names and colors; old defaults remain unchanged
+✓ All Cup count/group/qualification combinations normalize and schedule; explicit order is interleaved only for new sessions
+✓ Best-following ON/OFF, reduced bracket, insufficient candidates/byes and perfect ties are effective
+✓ New Cup qualification and displayed ranks share reference mini-table criteria; legacy ranks stay unchanged
+✓ Survie brackets 2–32 preserve every team, exact bye count, seeding and optional small final
+✓ Shootout, timed extra then shootout, unlimited golden goal and round-specific durations use the shared engine
+✓ Cup group additional time, goals-only matches and invalid option data are covered
+✓ A Cup with one qualifier completes without an invented final and keeps its competition name
+✓ Tournament manual/auto/delayed launch, pause, cancel, immediate, correction and stale target validation
+✓ Cup/Survie delayed launch survives storage failure and restart without duplicate results
+✓ Survie sound toggle really enables or silences the session audio
+✓ Names/add/edit/remove, limits, reproducible balanced draws, moves and empty/duplicate team validation
+✓ Missing data creates a first composition; restart/import/resume return independent copies
+✓ Legacy player lists stay available for explicit recovery, with no implicit reuse or overwrite
+✓ Legacy compositions remain byte-for-byte until explicit save; failure keeps old teams and persistent operation-specific error
+✓ Invalid JSON, invalid structures and read failure preserve raw data and block empty or replacement writes until a successful reread
+✓ Single-flight loading, edits during loading, caller mutations, concurrent saves and preference updates serialize without loss
+✓ Rereading during a pending save and rapid unrelated writes preserve the final composition and settings
+✓ Classic remaining/elapsed, exact centiseconds, progress direction and paused timestamp projection are read-only
+✓ Carousel order stays manual; no Warmup page; preparing the next match never starts it; auto/delay require their explicit policy
+✓ Rotation cards derive frozen results and queues for 3–8 teams, winner stays and both draw policies without recalculating rules
+✓ Period/goal metadata records actual timestamps, excludes breaks, survives storage, resets on restart, preserves legacy unknowns and never invents correction times
+✓ Reference announcement thresholds, certain entering teams, priorities, 4.5 s expiry, replay grace and settings never move the carousel
+✓ Classic goal/period details restore through the real store; failed writes preserve the durable value and remain visible until retry succeeds
+✓ classique/web: cancel preserves session, score, period, time and durable bytes; confirm resets once, ready, same competition; reload preserves both outcomes
+✓ classique/ios: cancel preserves session, score, period, time and durable bytes; confirm resets once, ready, same competition; reload preserves both outcomes
+✓ classique/android: cancel preserves session, score, period, time and durable bytes; confirm resets once, ready, same competition; reload preserves both outcomes
+✓ maracana/web: cancel preserves session, score, period, time and durable bytes; confirm resets once, ready, same competition; reload preserves both outcomes
+✓ maracana/ios: cancel preserves session, score, period, time and durable bytes; confirm resets once, ready, same competition; reload preserves both outcomes
+✓ maracana/android: cancel preserves session, score, period, time and durable bytes; confirm resets once, ready, same competition; reload preserves both outcomes
+✓ Survie 2/3/5/8/16/32, byes, rounds, small final, champion and podium agree with the frozen Lovable engine
+✓ Cup group/KO progression, 1–4 groups, best-following ON/OFF, reduced brackets and a single qualifier match the frozen reference
+✓ Cup/Survie ties: explicit preparation, paused restore, overtime, shootouts and golden goal; no clock starts on preparation
+✓ Manual/automatic/delayed launches, pause/resume/cancel and restoration retain existing timestamp policies
+✓ Historical score corrections preserve unrelated results, prune dependent rounds/qualifiers, preserve played durations and reject edits during play
+✓ New optional UI metadata is validated; old saves keep their original overtime behavior and never acquire invented results
+✓ Frozen reference comparison proves mini-table/global-GD differences without changing legacy sporting criteria
+✓ New provisional return-leg standings match Lovable; previous saved policy remains unchanged
+✓ New overtime ignores goal target; saved competitions without the version keep the previous early finish
+✓ Correcting an old save never silently switches its future overtime clocks to the new UI policy
+✓ Known frozen-reference one-qualifier archival error characterized; native archives the champion without inventing a final
+✓ Bracket display preserves the reference seed positions; exempt teams are not sorted ahead of playable quarter-finals
+✓ Correcting a previous result after preparing the next match returns that unstarted fixture to the schedule; no orphan live match or skipped encounter
+✓ New Cup/Survie goal targets: timed overtime, equalizing goal, full duration, shootouts, Golden goal and legacy finish retained
+✓ cup: hub/ready restoration, atomic history update, failed history write preserves durable archive, restart/retry updates exactly one entry; stale summary cannot roll it back
+✓ survie: hub/ready restoration, atomic history update, failed history write preserves durable archive, restart/retry updates exactly one entry; stale summary cannot roll it back
+✓ A correction reopening the bracket preserves and identifies the prior palmarès until the competition is completed again
+✓ A prepared next fixture stays selectable after a previous-result correction and a storage restart
+✓ Choosing/preparing overtime survives a closed/reopened store without invented elapsed time or automatic start
+✓ Interruption/repeated archival is idempotent; new sessions are blocked until failed history writes succeed
+✓ Invalid tournament UI metadata is rejected; raw bytes are preserved and a failed backup is never reported as saved
+✓ Frozen Lovable interval oracle: 60 programs, 1–12 individual periods, rests/series, summaries, timestamp completion and manual chaining
+✓ Legacy intervals/sessions unchanged; explicit editor adaptation preserves every duration; exceptional legacy configurations remain launchable
+✓ Teams 2–8, independent scores, cloned configurations, laps, restoration and invalid configurations
+✓ Phase4A: actual durable acknowledgement, failed save/retry, edit/save-as-new/delete never changes active session; eight scores restored
+✓ Legacy bytes retained without conversion; incompatible new scores preserved raw, restoration refused visibly, explicit recovery cancellation/confirmation preserves original backup
+✓ FreeLive: three persisted views, elapsed/remaining, hours/centiseconds, laps, confirmations candidates, reset/restart/relaunch scores, gestures, countdown thresholds, interrupts and 1–12 variable intervals (manual/auto)
+✓ Non-blocking time notice expires at 4500 ms, cannot replay after expiry, and never leaks to another session
+✓ FreeLive storage: view, eight scores and laps restored; rejected destructive commands preserve exact previous session and durable bytes; generic retry cannot apply them later
+✓ Settings entry targets, future-only Maracana policy, durable native preferences, errors and invalid raw preservation

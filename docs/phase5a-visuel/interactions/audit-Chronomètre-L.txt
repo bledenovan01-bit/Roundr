@@ -1,0 +1,25 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/chrono-libre".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/chrono-libre
+	2 container
+		3 button Retour
+		4 container
+			5 heading Chronomètre, Value: 1
+				6 text Chronomètre
+			7 text Chrono libre · Réglages
+		8 container
+			9 container
+				10 heading Chronomètre, Value: 1
+					11 text Chronomètre
+				12 text Démarre à 00:00 et continue jusqu'à votre arrêt. Tours illimités, aucune durée à régler.
+			13 container
+				14 heading Avec équipes, Value: 1
+					15 text Avec équipes
+				16 text Facultatif : sans équipe, seul le chrono s'affiche.
+				17 switch Description: Avec équipes, Value: 0
+			18 button Enregistrer dans Mes chronos
+				19 image
+				20 text Enregistrer dans Mes chronos
+		21 button Préparer le chrono
+			22 text Préparer le chrono
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/chrono-libre

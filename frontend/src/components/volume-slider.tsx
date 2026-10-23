@@ -9,6 +9,7 @@ export function VolumeSlider({value,onChange}:{value:number;onChange:(v:number)=
     <Text style={{color:colors.onSurface}}>Volume : {Math.round(draft*100)} %</Text>
     <View testID="volume-slider" accessible accessibilityRole="adjustable" accessibilityLabel="Volume des sons de Roundr"
       accessibilityValue={{min:0,max:100,now:Math.round(draft*100)}}
+      aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(draft*100)} aria-valuetext={`${Math.round(draft*100)} %`}
       accessibilityActions={[{name:"increment",label:"Augmenter le volume"},{name:"decrement",label:"Diminuer le volume"}]}
       onAccessibilityAction={e=>{const v=Math.min(1,Math.max(0,value+(e.nativeEvent.actionName==="increment"?0.1:-0.1)));setDraft(null);onChange(v);}}
       onLayout={e=>setWidth(e.nativeEvent.layout.width)}

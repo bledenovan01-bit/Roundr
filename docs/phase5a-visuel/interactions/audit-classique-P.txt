@@ -1,0 +1,63 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/config/classique".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/config/classique
+	2 container
+		3 button Retour
+		4 container
+			5 heading Match classique, Value: 1
+				6 text Match classique
+			7 text Paramètres
+		8 container
+			9 text Un match simple entre deux équipes, avec ou sans mi-temps.
+			10 container
+				11 heading Temps de jeu, Value: 1
+					12 text Temps de jeu
+				13 container
+					14 checkbox Description: 10 min, Value: 0
+						15 text 10 min
+					16 checkbox Description: 30 min, Value: 1
+						17 text 30 min
+					18 checkbox Description: 45 min, Value: 0
+						19 text 45 min
+					20 checkbox Description: 90 min, Value: 0
+						21 text 90 min
+				22 checkbox Description: Personnalisée, Value: 0
+					23 text Personnalisée
+			24 container
+				25 heading Format, Value: 1
+					26 text Format
+				27 checkbox Description: Une période, Value: 0
+					28 text Une période
+				29 checkbox Description: Deux mi-temps, Value: 1
+					30 text Deux mi-temps
+				31 text Pause à la mi-temps
+				32 container
+					33 button Réduire la pause
+					34 container
+						35 text 5 min
+					36 button Augmenter la pause
+			37 container
+				38 text Temps de jeu :  2 × 15 min · pause de 5 min non comptée .
+			39 container
+				40 heading Temps additionnel, Value: 1
+					41 text Temps additionnel
+				42 text À la fin de chaque période, fin manuelle
+				43 switch Description: Temps additionnel, Value: 0
+			44 container
+				45 heading Score, Value: 1
+					46 text Score
+				47 text Afficher et compter les buts
+				48 switch Description: Score, Value: 1
+			49 container
+				50 heading Personnaliser les équipes, Value: 1
+					51 text Personnaliser les équipes
+				52 text Noms et couleurs
+				53 switch Description: Personnaliser les équipes, Value: 0
+			54 container
+				55 heading Sons / effets, Value: 1
+					56 text Sons / effets
+				57 text Coup de sifflet de début et de fin
+				58 switch Description: Sons et effets, Value: 1
+		59 button Lancer le match
+			60 text Lancer le match
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/config/classique

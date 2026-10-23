@@ -554,7 +554,7 @@ export function LovableTournamentFlow({
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Paramètres du match"
-            onPress={() => router.push("/settings")}
+            onPress={() => router.push({ pathname: "/settings", params: { from: "match" } })}
             style={h.back}
           >
             <LovableIcon name="settings" size={20} color={c.foreground} />

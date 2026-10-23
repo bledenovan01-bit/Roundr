@@ -1,0 +1,24 @@
+Browser tab: 34, Title: "127.0.0.1:8170/?state=none", URL: "http://127.0.0.1:8170/?state=none".
+1 AXWebArea 127.0.0.1:8170/?state=none
+	2 container
+		3 button Retour
+		4 heading Paramètres, Value: 1
+			5 text Paramètres
+		6 heading Sons et effets, Value: 3
+			7 text Sons et effets
+		8 text Réglage général de l'application
+		9 switch Description: Sons et effets, Value: 0
+		10 heading Vibrations, Value: 3
+			11 text Vibrations
+		12 text À chaque but et en fin de match
+		13 switch Description: Vibrations, Value: 0
+		14 heading Écran toujours allumé, Value: 3
+			15 text Écran toujours allumé
+		16 text Pendant un match
+		17 switch Description: Écran toujours allumé, Value: 0
+		18 heading À propos, Value: 3
+			19 text À propos
+		20 text Roundr · maquette interactive V0
+		21 button Revoir l'introduction
+
+The focused UI element is 17 switch Description: Écran toujours allumé, Value: 0

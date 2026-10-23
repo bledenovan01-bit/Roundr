@@ -1,0 +1,98 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/config/survie".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/config/survie
+	2 container
+		3 button Retour
+		4 container
+			5 heading Survie, Value: 1
+				6 text Survie
+			7 text Paramètres
+		8 container
+			9 container
+				10 text Élimination directe : le gagnant avance, le perdant sort. Jusqu'au dernier debout.
+			11 container
+				12 container
+					13 heading Nom de la compétition, Value: 1
+						14 text Nom de la compétition
+					15 text Facultatif
+				16 text field (settable) Nom de la compétition
+			17 container
+				18 heading Nombre d'équipes, Value: 1
+					19 text Nombre d'équipes
+				20 text Équipes
+				21 container
+					22 button Réduire le nombre d'équipes
+					23 container
+						24 text 8 équipes
+					25 button Augmenter le nombre d'équipes
+			26 container
+				27 text Tableau de  8  ·  3  tour s .
+			28 container
+				29 heading Durée des matchs, Value: 1
+					30 text Durée des matchs
+				31 container
+					32 checkbox Description: 5 min, Value: 0
+						33 text 5 min
+					34 checkbox Description: 8 min, Value: 1
+						35 text 8 min
+					36 checkbox Description: 10 min, Value: 0
+						37 text 10 min
+				38 checkbox Description: Personnalisée, Value: 0
+					39 text Personnalisée
+			40 container
+				41 container
+					42 heading Fin du match, Value: 1
+						43 text Fin du match
+					44 text Combinables : le premier critère atteint termine le match.
+				45 checkbox (disabled) Description: Au temps, Value: 1
+					46 text Au temps
+				47 checkbox Description: Premier à X buts, Value: 0
+					48 text Premier à X buts
+			49 container
+				50 heading Lancement du prochain match, Value: 1
+					51 text Lancement du prochain match
+				52 checkbox Description: Manuel, Value: 1
+					53 text Manuel
+				54 checkbox Description: Automatique, Value: 0
+					55 text Automatique
+				56 checkbox Description: Après un délai, Value: 0
+					57 text Après un délai
+			58 container
+				59 heading Tirage, Value: 1
+					60 text Tirage
+				61 checkbox Description: Aléatoire, Value: 1
+					62 text Aléatoire
+				63 checkbox Description: Manuel, Value: 0
+					64 text Manuel
+			65 container
+				66 heading Durées spécifiques par tour, Value: 1
+					67 text Durées spécifiques par tour
+				68 switch Description: Durées spécifiques par tour, Value: 0
+			69 container
+				70 heading Match pour la 3e place, Value: 1
+					71 text Match pour la 3e place
+				72 switch Description: Match pour la 3e place, Value: 0
+			73 container
+				74 container
+					75 heading Gestion des égalités, Value: 1
+						76 text Gestion des égalités
+					77 text Pour les matchs à élimination
+				78 checkbox Description: Tirs au but directs, Value: 1
+					79 text Tirs au but directs
+				80 checkbox Description: Prolongation puis tirs au but, Value: 0
+					81 text Prolongation puis tirs au but
+				82 checkbox Description: Golden goal, Value: 0
+					83 text Golden goal
+			84 container
+				85 heading Personnaliser les équipes, Value: 1
+					86 text Personnaliser les équipes
+				87 text Noms et couleurs
+				88 switch Description: Personnaliser les équipes, Value: 0
+			89 container
+				90 heading Sons / effets, Value: 1
+					91 text Sons / effets
+				92 text Coup de sifflet de début et de fin
+				93 switch Description: Sons et effets, Value: 1
+		94 button Lancer la Survie
+			95 text Lancer la Survie
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/config/survie

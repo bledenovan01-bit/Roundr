@@ -1,0 +1,135 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/settings".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings
+	2 container
+		3 button Retour
+		4 heading Réglages avancés, Value: 1
+			5 text Réglages avancés
+		7 container
+			8 container
+				9 heading Volume des sons, Value: 1
+					10 text Volume des sons
+				11 container
+					12 text Volume :  35  %
+				13 slider Description: Volume des sons de Roundr, Value: 35
+			14 container
+				15 heading Annonces de préparation, Value: 1
+					16 text Annonces de préparation
+				17 text Messages dans Roundr pour les équipes du prochain match.
+				18 switch Description: Annonces de préparation, Value: 1
+			19 container
+				20 heading Temps additionnel par défaut, Value: 1
+					21 text Temps additionnel par défaut
+				22 text Pour les anciennes configurations personnalisées. Les nouveaux formats conservent leurs réglages de lancement.
+				23 switch Description: Temps additionnel par défaut, Value: 1
+			24 container
+				25 heading Début du match, Value: 1
+					26 text Début du match
+				27 checkbox Description: Aucun son, Value: 0
+					28 text Aucun son
+				29 checkbox Description: Sifflet d’arbitre, Value: 0
+					30 text Sifflet d’arbitre
+				31 checkbox Description: Sifflet final · trois coups, Value: 0
+					32 text Sifflet final · trois coups
+				33 checkbox Description: Célébration · fanfare courte, Value: 0
+					34 text Célébration · fanfare courte
+				35 checkbox Description: Gong de préparation, Value: 0
+					36 text Gong de préparation
+				37 checkbox Description: Gong de transition, Value: 1
+					38 text Gong de transition
+				39 button Écouter ce son
+					40 text Écouter ce son
+			41 container
+				42 heading But marqué, Value: 1
+					43 text But marqué
+				44 checkbox Description: Aucun son, Value: 0
+					45 text Aucun son
+				46 checkbox Description: Sifflet d’arbitre, Value: 0
+					47 text Sifflet d’arbitre
+				48 checkbox Description: Sifflet final · trois coups, Value: 0
+					49 text Sifflet final · trois coups
+				50 checkbox Description: Célébration · fanfare courte, Value: 1
+					51 text Célébration · fanfare courte
+				52 checkbox Description: Gong de préparation, Value: 0
+					53 text Gong de préparation
+				54 checkbox Description: Gong de transition, Value: 0
+					55 text Gong de transition
+				56 button Écouter ce son
+					57 text Écouter ce son
+			58 container
+				59 heading 1 minute restante, Value: 1
+					60 text 1 minute restante
+				61 checkbox Description: Aucun son, Value: 0
+					62 text Aucun son
+				63 checkbox Description: Sifflet d’arbitre, Value: 0
+					64 text Sifflet d’arbitre
+				65 checkbox Description: Sifflet final · trois coups, Value: 0
+					66 text Sifflet final · trois coups
+				67 checkbox Description: Célébration · fanfare courte, Value: 0
+					68 text Célébration · fanfare courte
+				69 checkbox Description: Gong de préparation, Value: 0
+					70 text Gong de préparation
+				71 checkbox Description: Gong de transition, Value: 1
+					72 text Gong de transition
+				73 button Écouter ce son
+					74 text Écouter ce son
+			75 container
+				76 heading Fin de période, Value: 1
+					77 text Fin de période
+				78 checkbox Description: Aucun son, Value: 0
+					79 text Aucun son
+				80 checkbox Description: Sifflet d’arbitre, Value: 0
+					81 text Sifflet d’arbitre
+				82 checkbox Description: Sifflet final · trois coups, Value: 0
+					83 text Sifflet final · trois coups
+				84 checkbox Description: Célébration · fanfare courte, Value: 0
+					85 text Célébration · fanfare courte
+				86 checkbox Description: Gong de préparation, Value: 0
+					87 text Gong de préparation
+				88 checkbox Description: Gong de transition, Value: 1
+					89 text Gong de transition
+				90 button Écouter ce son
+					91 text Écouter ce son
+			92 container
+				93 heading Fin du match, Value: 1
+					94 text Fin du match
+				95 checkbox Description: Aucun son, Value: 0
+					96 text Aucun son
+				97 checkbox Description: Sifflet d’arbitre, Value: 0
+					98 text Sifflet d’arbitre
+				99 checkbox Description: Sifflet final · trois coups, Value: 1
+					100 text Sifflet final · trois coups
+				101 checkbox Description: Célébration · fanfare courte, Value: 0
+					102 text Célébration · fanfare courte
+				103 checkbox Description: Gong de préparation, Value: 0
+					104 text Gong de préparation
+				105 checkbox Description: Gong de transition, Value: 0
+					106 text Gong de transition
+				107 button Écouter ce son
+					108 text Écouter ce son
+			109 container
+				110 heading Échauffement, Value: 1
+					111 text Échauffement
+				112 checkbox Description: Aucun son, Value: 0
+					113 text Aucun son
+				114 checkbox Description: Sifflet d’arbitre, Value: 0
+					115 text Sifflet d’arbitre
+				116 checkbox Description: Sifflet final · trois coups, Value: 0
+					117 text Sifflet final · trois coups
+				118 checkbox Description: Célébration · fanfare courte, Value: 0
+					119 text Célébration · fanfare courte
+				120 checkbox Description: Gong de préparation, Value: 1
+					121 text Gong de préparation
+				122 checkbox Description: Gong de transition, Value: 0
+					123 text Gong de transition
+				124 button Écouter ce son
+					125 text Écouter ce son
+			126 container
+				127 heading Assistance, Value: 1
+					128 text Assistance
+				129 button Signaler un problème
+					130 text Signaler un problème
+				131 button Envoyer un retour
+					132 text Envoyer un retour
+				133 text Roundr · Version 1.0.0 Moins d’organisation, plus de jeu.
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings

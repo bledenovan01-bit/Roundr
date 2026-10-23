@@ -1,0 +1,56 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/settings?from=match".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings?from=match
+	2 container
+		3 button Retour
+		4 heading Paramètres, Value: 1
+			5 text Paramètres
+		6 button Réglages avancés
+		7 container
+			8 container
+				9 container
+					10 heading Session en cours, Value: 1
+						11 text Session en cours
+					12 text Maracana · 4 équipes · 8 min
+				13 text 07:15 Les règles, équipes et durées restent celles de cette session.
+				14 text Durée de la période
+				15 text field Description: Durée de la période, Value: 480 s
+			16 container
+				17 heading Règle de rotation, Value: 1
+					18 text Règle de rotation
+				19 checkbox Description: Rotation classique, Value: 0
+					20 text Rotation classique
+				21 checkbox Description: Le gagnant reste, Value: 1
+					22 text Le gagnant reste
+			23 container
+				24 heading En cas de match nul, Value: 1
+					25 text En cas de match nul
+				26 checkbox Description: Une équipe sort, Value: 1
+					27 text Une équipe sort
+				28 checkbox Description: Les deux équipes sortent, Value: 0
+					29 text Les deux équipes sortent
+			30 container
+				31 heading Sons et effets, Value: 1
+					32 text Sons et effets
+				33 text Réglage général de l'application
+				34 switch Description: Sons et effets, Value: 1
+			35 container
+				36 heading Vibrations, Value: 1
+					37 text Vibrations
+				38 text À chaque but et en fin de match
+				39 switch Description: Vibrations, Value: 1
+			40 container
+				41 heading Écran toujours allumé, Value: 1
+					42 text Écran toujours allumé
+				43 text Pendant un match
+				44 switch Description: Écran toujours allumé, Value: 1
+			45 container
+				46 container
+					47 heading À propos, Value: 1
+						48 text À propos
+					49 text Roundr · maquette interactive V0
+				50 button Revoir l'introduction
+					51 text Revoir l'introduction
+		52 button Retour au match
+			53 text Retour au match
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings?from=match

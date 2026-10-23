@@ -1,0 +1,13 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/settings".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings
+	2 container
+		3 container
+			4 container Roundr
+				5 text Roundr .
+			6 heading Plus de jeu. Moins d'organisation., Value: 1
+				7 text Plus de jeu. Moins d'organisation.
+			11 text Chrono, rotations, tournois et classements : Roundr gère le match pour que vous profitiez du terrain.
+		9 button Commencer
+			10 text Commencer
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings

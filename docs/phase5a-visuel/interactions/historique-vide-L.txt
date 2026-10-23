@@ -1,0 +1,16 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/history".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/history
+	2 container
+		3 button Retour
+		4 container
+			5 heading Historique, Value: 1
+				6 text Historique
+			7 text Compétitions Cup et Survie
+		8 container
+			9 text Enregistré uniquement sur cet appareil. Aucune synchronisation.
+			10 container
+				11 heading Aucune compétition enregistrée, Value: 1
+					12 text Aucune compétition enregistrée
+				13 text Terminez ou interrompez une Cup ou une Survie : son palmarès apparaîtra ici automatiquement.
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/history

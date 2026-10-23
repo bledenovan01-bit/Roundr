@@ -227,7 +227,7 @@ function LegacyLiveScreen() {
           teamA={teamA} teamB={teamB} score={live.score} scoreOn={live.scoreOn} canScore={canScore} correcting={correcting} locked={locked}
           onGoal={(side,delta)=>dispatchSession((s,t)=>live.stage==="finished"?S.correctLast(s,side,delta,t):S.goal(s,side,delta,t))}
           onCorrect={()=>setCorrecting(!correcting)} onBack={()=>router.replace("/")}
-          onSettings={()=>router.push("/settings")} onGiant={()=>setGiant(true)}
+          onSettings={()=>router.push({ pathname: "/settings", params: { from: "match" } })} onGiant={()=>setGiant(true)}
           onToggleDisplay={()=>setShowElapsed(v=>!v)} canToggleDisplay={canToggleDisplay && !paused}
           notice={next?.certain ? { time, cue: preferences.preparation ? liveNotice(remainingMs, target/60000, running) : "chrono", matchup: `${next.aLabel} vs ${next.bLabel}`, badge: remainingMs == null ? "À venir" : `Dans ${Math.ceil(remainingMs/60000)} min`, preparation: remainingMs !== null && remainingMs <= 60_000 ? `${next.aLabel} et ${next.bLabel} : préparez-vous à entrer sur le terrain !` : `${next.aLabel} et ${next.bLabel} : commencez l’échauffement !`, locked, onPress: ()=>router.push("/standings"), standingsLabel: session.mode === "maracana" || (session.mode === "cup" && session.cup?.phase === "groups") ? "Voir le classement" : "Voir le tableau" } : undefined}/> : null}
         {live.stage === "break" ? (

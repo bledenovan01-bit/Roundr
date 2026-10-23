@@ -1,0 +1,13 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/chrono-libre".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/chrono-libre
+	2 container
+		3 button Retour
+		4 container
+			5 heading Mes chronos, Value: 1
+				6 text Mes chronos
+			7 text Chrono libre
+		8 container
+			9 image
+			10 text Aucun chrono enregistré Réglez un chrono puis touchez « Enregistrer dans Mes chronos ». Par exemple : Football à 5 — 10 minutes, Fractionné 30/30.
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/chrono-libre
