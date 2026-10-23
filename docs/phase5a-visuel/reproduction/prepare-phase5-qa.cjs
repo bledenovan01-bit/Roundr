@@ -1,0 +1,6 @@
+const fs=require('fs'),path=require('path'),cp=require('child_process');
+for(const [name,source]of [['phase5-reference-render','lovable-visual-audit'],['phase5-native-render','Roundr/frontend']]){
+const dest=path.resolve('work',name);fs.mkdirSync(dest,{recursive:true});
+if(name.includes('reference')){for(const dir of ['src','public'])fs.cpSync('work/'+source+'/'+dir,dest+'/'+dir,{recursive:true});fs.copyFileSync('work/'+source+'/package.json',dest+'/package.json');fs.copyFileSync('work/phase4b-reference-render/index.html',dest+'/index.html');fs.writeFileSync(dest+'/vite.qa.config.ts',fs.readFileSync('work/phase4b-reference-render/vite.qa.config.ts','utf8').replace('8160','8170'));}
+else {const files=cp.execFileSync('git',['ls-files','--cached','--others','--exclude-standard','frontend'],{cwd:'work/Roundr',encoding:'utf8'}).trim().split(/\r?\n/);for(const f of files){if(!fs.statSync('work/Roundr/'+f).isFile())continue;const t=dest+'/'+f.slice(9);fs.mkdirSync(path.dirname(t),{recursive:true});fs.copyFileSync('work/Roundr/'+f,t);}}
+if(!fs.existsSync(dest+'/node_modules'))fs.symlinkSync(path.resolve('work',name.includes('reference')?'lovable-visual-audit/node_modules':'preview-install/node_modules'),dest+'/node_modules','junction');}

@@ -1,0 +1,49 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/team-builder".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/team-builder
+	2 container
+		3 button Retour
+		4 container
+			5 heading Faire les équipes, Value: 1
+				6 text Faire les équipes
+			7 text Équipes créées
+		8 container
+			37 container
+				38 text Touchez un joueur pour le déplacer dans une autre équipe.
+			39 container
+				40 heading Les Renards, Value: 1
+					41 text Les Renards
+				42 text 2
+				43 checkbox Description: Hugo, Value: 0
+					44 text Hugo
+				45 checkbox Description: Léa, Value: 0
+					46 text Léa
+			47 container
+				48 heading FC Amigos, Value: 1
+					49 text FC Amigos
+				50 text 2
+				51 checkbox Description: Sami, Value: 0
+					52 text Sami
+				53 checkbox Description: Noah, Value: 0
+					54 text Noah
+			55 container
+				56 container
+					57 heading Noms et couleurs, Value: 1
+						58 text Noms et couleurs
+					59 text Modifiables avant de valider
+				60 container
+					61 text 1
+					62 button Changer la couleur de Les Renards
+					63 text field (settable) Description: Nom de l'équipe 1, Value: Les Renards
+				64 container
+					65 text 2
+					66 button Changer la couleur de FC Amigos
+					67 text field (settable) Description: Nom de l'équipe 2, Value: FC Amigos
+			68 button Modifier les joueurs
+				69 text Modifier les joueurs
+		70 container
+			71 button Nouveau tirage
+				72 text Nouveau tirage
+			73 button Valider
+				74 text Valider
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/team-builder

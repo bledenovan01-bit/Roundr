@@ -23,7 +23,7 @@ export function PhaseAction({label,onPress,disabled=false,kind="primary",icon,te
     <Text style={{fontFamily:kind==="primary"?f.extrabold:"ManropeRefined-Bold",fontSize:kind==="primary"?16:14,lineHeight:kind==="primary"?160/7:20,color,textAlign:"center",flexShrink:1}}>{label}</Text>
   </Pressable>;
 }
-export function PhaseFrame({title,subtitle,onBack,intro,children,footer,pair=false,blocked=false,hideBack=false,onContentHeight,onViewportHeight,distributeRows=false}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;pair?:boolean;blocked?:boolean;hideBack?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void;distributeRows?:boolean}) {
+export function PhaseFrame({title,subtitle,onBack,intro,children,footer,right,pair=false,blocked=false,hideBack=false,onContentHeight,onViewportHeight,distributeRows=false}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;right?:ReactNode;pair?:boolean;blocked?:boolean;hideBack?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void;distributeRows?:boolean}) {
   const {width,height,fontScale}=useWindowDimensions(),inset=useSafeAreaInsets(),landscape=width>height;
   const two=landscape&&width-inset.left-inset.right>=600&&fontScale<=1.5;
   // Lovable's landscape CSS grid stretches each row by an equal share of
@@ -35,7 +35,7 @@ export function PhaseFrame({title,subtitle,onBack,intro,children,footer,pair=fal
     <LovableBackground/>
     <View style={[s.header,{paddingTop:inset.top+(landscape?10:18),paddingBottom:landscape?4:10,paddingLeft:20+inset.left,paddingRight:20+inset.right}]}>
       {hideBack?<View style={{width:44}}/>:<Pressable accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} disabled={blocked} accessibilityState={{disabled:blocked}} style={s.back}><LovableIcon name="back" color={c.foreground} size={20}/></Pressable>}
-      <View style={{flex:1,minWidth:0}}><Text accessibilityRole="header" numberOfLines={1} style={s.title}>{title}</Text>{subtitle?<Text style={s.subtitle}>{subtitle}</Text>:null}</View><View style={{width:44}}/>
+      <View style={{flex:1,minWidth:0}}><Text accessibilityRole="header" numberOfLines={1} style={s.title}>{title}</Text>{subtitle?<Text style={s.subtitle}>{subtitle}</Text>:null}</View>{right??<View style={{width:44}}/>}
     </View>
     <ScrollView testID="config-scroll" style={{flex:1}} pointerEvents={blocked?"none":"auto"} onContentSizeChange={(_,h)=>onContentHeight?.(h)} onLayout={e=>onViewportHeight?.(e.nativeEvent.layout.height)} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingTop:6,paddingLeft:20+inset.left,paddingRight:20+inset.right,paddingBottom:Math.max(16,inset.bottom),gap:12,flexDirection:spread?"column":"row",flexWrap:spread?"nowrap":"wrap",alignItems:"flex-start",flexGrow:spread?1:undefined}}>

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "general",
+    "state": "none"
+  },
+  {
+    "id": "desactives",
+    "state": "none",
+    "off": true
+  },
+  {
+    "id": "classique",
+    "state": "classic"
+  },
+  {
+    "id": "chrono",
+    "state": "free"
+  },
+  {
+    "id": "maracana",
+    "state": "maracana"
+  },
+  {
+    "id": "maracana-gagnant",
+    "state": "maracana",
+    "winner": true
+  },
+  {
+    "id": "introduction",
+    "state": "none",
+    "intro": true
+  }
+]

@@ -1,0 +1,46 @@
+Browser tab: 34, Title: "127.0.0.1:8170/?state=maracana&winner=1", URL: "http://127.0.0.1:8170/?state=maracana&winner=1".
+1 AXWebArea 127.0.0.1:8170/?state=maracana&winner=1
+	2 container
+		3 button Retour
+		4 heading Paramètres, Value: 1
+			5 text Paramètres
+		6 container
+			7 heading Session en cours, Value: 3
+				8 text Session en cours
+			9 text Maracana · 4 équipes · 8 min 07:15 Les règles, équipes et durées restent celles de cette session.
+			10 container
+				11 text Durée de la période
+				12 text field (disabled) Durée de la période, Value: 480 s
+		13 container
+			14 heading Règle de rotation, Value: 3
+				15 text Règle de rotation
+			16 checkbox Rotation classique, Value: 0
+			17 checkbox Le gagnant reste, Value: 1
+		18 container
+			19 heading En cas de match nul, Value: 3
+				20 text En cas de match nul
+			21 checkbox Une équipe sort, Value: 1
+			22 checkbox Les deux équipes sortent, Value: 0
+		23 container
+			24 heading Sons et effets, Value: 3
+				25 text Sons et effets
+			26 text Réglage général de l'application
+			27 switch Description: Sons et effets, Value: 1
+		28 container
+			29 heading Vibrations, Value: 3
+				30 text Vibrations
+			31 text À chaque but et en fin de match
+			32 switch Description: Vibrations, Value: 1
+		33 container
+			34 heading Écran toujours allumé, Value: 3
+				35 text Écran toujours allumé
+			36 text Pendant un match
+			37 switch Description: Écran toujours allumé, Value: 1
+		38 container
+			39 heading À propos, Value: 3
+				40 text À propos
+			41 text Roundr · maquette interactive V0
+			42 button Revoir l'introduction
+		43 button Retour au match
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8170/?state=maracana&winner=1

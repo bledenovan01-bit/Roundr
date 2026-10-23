@@ -1,0 +1,13 @@
+# Reproduire les preuves Phase 5A
+
+Les copies de rendu sont séparées des dépôts. La référence `work/lovable-visual-audit` reste au commit 1c59720 et n’est jamais modifiée. Lancer le script de préparation depuis la racine de travail avec les dépendances existantes ; adapter uniquement les chemins locaux. Les fichiers de production app/src copiés pour Expo sont comparés octet par octet ; seules les copies de test ajoutent qa.tsx / app/phase5qa.tsx.
+
+Lovable : Vite local 8170, composant SettingsScreen réel importé par lovable-qa.tsx, scénarios none/classic/free/maracana, option winner. Expo : exporter la copie en web et servir sur 8171 ; ouvrir /phase5qa?state=… qui prépare les données via les magasins/moteurs publics puis navigue vers la vraie route /settings. Les états de test se trouvent dans capture-cases.json. Aucun wrapper n’est livré comme route de production.
+
+Attention : ces wrappers effacent les données de leurs origines de test localhost. Utiliser exclusivement des origines dédiées sans données utiles. L’horloge est figée à 1700000000000 pour la comparaison. Pour les rechargements sur les routes réelles de la copie Expo, son index.html exporté de test reçoit aussi `<script>Date.now=()=>1700000000000;</script>` avant le bundle. Ce script n’est jamais ajouté à la source ou à l’export de production. Les simulations d’interruptions par horodatages sont des tests métier distincts.
+
+Dans un seul onglet de navigateur de capture, appliquer 390×844 ou 844×390, vérifier innerWidth/innerHeight puis l’arbre d’accessibilité. Les captures originales utilisent le rectangle exact de ce viewport, sans redimensionnement. Les onglets préexistants et leurs stockages ne sont pas utilisés. Les captures de configuration ont le défilement initial nul ; les interrupteurs off sont actionnés par les contrôles réels. L’introduction est ouverte par Revoir l’introduction, pas par une reconstruction d’image.
+
+Les tests d’interactions utilisent les vraies commandes : créer/valider/importer une composition, ouvrir/retourner des configurations, choisir des sons, agir sur le volume et recharger. Les preuves sont dans interactions/. Le fichier audit-navigation.json consigne les 18 ouvertures principales P/L ; il ne représente pas tous les états sportifs.
+
+`pair-phase5.py` juxtapose les originaux avec une légende de 32 px. `manifest.json` expose dimensions et empreintes. `validate-phase5.cjs` conserve commandes, journaux et codes de sortie pour la copie de validation isolée. Les trois exports de production proviennent de cette copie sans route QA. Aucun rendu natif physique n’est revendiqué.

@@ -387,13 +387,13 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           onAccessibilityAction={(e) => {
             if (e.nativeEvent.actionName === "longpress" || locked)
               setLocked((v) => !v);
-            else router.push("/settings");
+            else router.push({ pathname: "/settings", params: { from: "match" } });
           }}
           onPressIn={() => {
             lockHeld.current = false;
           }}
           onPress={() => {
-            if (!lockHeld.current && !locked) router.push("/settings");
+            if (!lockHeld.current && !locked) router.push({ pathname: "/settings", params: { from: "match" } });
             lockHeld.current = false;
           }}
           onLongPress={() => {

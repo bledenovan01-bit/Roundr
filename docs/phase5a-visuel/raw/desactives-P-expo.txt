@@ -1,0 +1,32 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/settings".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings
+	2 container
+		3 button Retour
+		4 heading Paramètres, Value: 1
+			5 text Paramètres
+		6 button Réglages avancés
+		7 container
+			8 container
+				9 heading Sons et effets, Value: 1
+					10 text Sons et effets
+				11 text Réglage général de l'application
+				12 switch Description: Sons et effets, Value: 0
+			13 container
+				14 heading Vibrations, Value: 1
+					15 text Vibrations
+				16 text À chaque but et en fin de match
+				17 switch Description: Vibrations, Value: 0
+			18 container
+				19 heading Écran toujours allumé, Value: 1
+					20 text Écran toujours allumé
+				21 text Pendant un match
+				22 switch Description: Écran toujours allumé, Value: 0
+			23 container
+				24 container
+					25 heading À propos, Value: 1
+						26 text À propos
+					27 text Roundr · maquette interactive V0
+				28 button Revoir l'introduction
+					29 text Revoir l'introduction
+
+The focused UI element is 22 switch Description: Écran toujours allumé, Value: 0

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "classique",
+    "orientation": "P",
+    "url": "/config/classique",
+    "heading": "Match classique"
+  },
+  {
+    "id": "maracana",
+    "orientation": "P",
+    "url": "/config/maracana",
+    "heading": "Maracana"
+  },
+  {
+    "id": "cup",
+    "orientation": "P",
+    "url": "/config/cup",
+    "heading": "Cup"
+  },
+  {
+    "id": "survie",
+    "orientation": "P",
+    "url": "/config/survie",
+    "heading": "Survie"
+  },
+  {
+    "id": "chrono",
+    "orientation": "P",
+    "url": "/chrono-libre",
+    "heading": "Chrono libre"
+  },
+  {
+    "id": "classique",
+    "orientation": "L",
+    "url": "/config/classique",
+    "heading": "Match classique"
+  },
+  {
+    "id": "maracana",
+    "orientation": "L",
+    "url": "/config/maracana",
+    "heading": "Maracana"
+  },
+  {
+    "id": "cup",
+    "orientation": "L",
+    "url": "/config/cup",
+    "heading": "Cup"
+  },
+  {
+    "id": "survie",
+    "orientation": "L",
+    "url": "/config/survie",
+    "heading": "Survie"
+  },
+  {
+    "id": "chrono",
+    "orientation": "L",
+    "url": "/chrono-libre",
+    "heading": "Chrono libre"
+  },
+  {
+    "id": "Chronomètre",
+    "orientation": "P",
+    "url": "/chrono-libre",
+    "heading": "Chronomètre"
+  },
+  {
+    "id": "Compte à rebours",
+    "orientation": "P",
+    "url": "/chrono-libre",
+    "heading": "Compte à rebours"
+  },
+  {
+    "id": "Intervalles",
+    "orientation": "P",
+    "url": "/chrono-libre",
+    "heading": "Intervalles"
+  },
+  {
+    "id": "Mes chronos",
+    "orientation": "P",
+    "url": "/chrono-libre",
+    "heading": "Mes chronos"
+  },
+  {
+    "id": "Chronomètre",
+    "orientation": "L",
+    "url": "/chrono-libre",
+    "heading": "Chronomètre"
+  },
+  {
+    "id": "Compte à rebours",
+    "orientation": "L",
+    "url": "/chrono-libre",
+    "heading": "Compte à rebours"
+  },
+  {
+    "id": "Intervalles",
+    "orientation": "L",
+    "url": "/chrono-libre",
+    "heading": "Intervalles"
+  },
+  {
+    "id": "Mes chronos",
+    "orientation": "L",
+    "url": "/chrono-libre",
+    "heading": "Mes chronos"
+  }
+]

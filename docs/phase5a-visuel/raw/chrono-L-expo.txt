@@ -1,0 +1,42 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/settings?from=free".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings?from=free
+	2 container
+		3 button Retour
+		4 heading Paramètres, Value: 1
+			5 text Paramètres
+		6 button Réglages avancés
+		7 container
+			8 container
+				9 container
+					10 heading Session en cours, Value: 1
+						11 text Session en cours
+					12 text Chrono libre · Chronomètre · sans limite
+				13 text 00:45 Les règles, équipes et durées restent celles de cette session.
+				14 text Durée de la période
+				15 text field Description: Durée de la période, Value: 0 s
+			16 container
+				17 heading Sons et effets, Value: 1
+					18 text Sons et effets
+				19 text Réglage général de l'application
+				20 switch Description: Sons et effets, Value: 1
+			21 container
+				22 heading Vibrations, Value: 1
+					23 text Vibrations
+				24 text À chaque but et en fin de match
+				25 switch Description: Vibrations, Value: 1
+			26 container
+				27 heading Écran toujours allumé, Value: 1
+					28 text Écran toujours allumé
+				29 text Pendant un match
+				30 switch Description: Écran toujours allumé, Value: 1
+			31 container
+				32 container
+					33 heading À propos, Value: 1
+						34 text À propos
+					35 text Roundr · maquette interactive V0
+				36 button Revoir l'introduction
+					37 text Revoir l'introduction
+		38 button Retour à la session
+			39 text Retour à la session
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/settings?from=free

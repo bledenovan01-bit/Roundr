@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-23",
+  "main": "94489163f0bb0792af090abba860d3dc50c28427",
+  "pullRequests": [
+    {
+      "number": 6,
+      "url": "https://github.com/bledenovan01-bit/Roundr/pull/6",
+      "title": "Phase 1 — Fidélité Lovable : introduction, accueil et historique Cup/Survie",
+      "draft": true,
+      "merged": false,
+      "base": "codex/roundr-native-preview",
+      "baseSha": "8fc43c1fa7a42187c476372de842ff2d5881425d",
+      "head": "codex/roundr-lovable-phase-1",
+      "headSha": "4dd401d4ff315cc2825d5dff72bffcc34bbe00c0"
+    },
+    {
+      "number": 7,
+      "url": "https://github.com/bledenovan01-bit/Roundr/pull/7",
+      "title": "Phase 2A — Configurations Lovable : Match classique et Maracana",
+      "draft": true,
+      "merged": false,
+      "base": "codex/roundr-lovable-phase-1",
+      "baseSha": "4dd401d4ff315cc2825d5dff72bffcc34bbe00c0",
+      "head": "codex/roundr-lovable-phase-2a",
+      "headSha": "31353238d4b4f2ff41d381f71f35bccf66481ae6"
+    },
+    {
+      "number": 8,
+      "url": "https://github.com/bledenovan01-bit/Roundr/pull/8",
+      "title": "Phase 2B — Cup, Survie et Faire les équipes fidèles à Lovable",
+      "draft": true,
+      "merged": false,
+      "base": "codex/roundr-lovable-phase-2a",
+      "baseSha": "31353238d4b4f2ff41d381f71f35bccf66481ae6",
+      "head": "codex/roundr-lovable-phase-2b",
+      "headSha": "db2256cfae484f139cfcced4053b8c3a5dc4a3ce"
+    },
+    {
+      "number": 9,
+      "url": "https://github.com/bledenovan01-bit/Roundr/pull/9",
+      "title": "Phase 3A — Matchs Classique et Maracana fidèles à Lovable",
+      "draft": true,
+      "merged": false,
+      "base": "codex/roundr-lovable-phase-2b",
+      "baseSha": "db2256cfae484f139cfcced4053b8c3a5dc4a3ce",
+      "head": "codex/roundr-lovable-phase-3a",
+      "headSha": "d2e1b8840bf934c6d8a9b2b17691e5529c845bd8"
+    },
+    {
+      "number": 10,
+      "url": "https://github.com/bledenovan01-bit/Roundr/pull/10",
+      "title": "Phase 3B — Compétitions Cup et Survie fidèles à Lovable",
+      "draft": true,
+      "merged": false,
+      "base": "codex/roundr-lovable-phase-3a",
+      "baseSha": "d2e1b8840bf934c6d8a9b2b17691e5529c845bd8",
+      "head": "codex/roundr-lovable-phase-3b",
+      "headSha": "9461e2fcb0855c469993b6bce07c0187959cc5cc"
+    },
+    {
+      "number": 11,
+      "url": "https://github.com/bledenovan01-bit/Roundr/pull/11",
+      "title": "Phase 4A — Chrono libre Lovable : configurations et sauvegardes",
+      "draft": true,
+      "merged": false,
+      "base": "codex/roundr-lovable-phase-3b",
+      "baseSha": "9461e2fcb0855c469993b6bce07c0187959cc5cc",
+      "head": "codex/roundr-lovable-phase-4a",
+      "headSha": "1c9e30b22c52caf8b620b83fd00966d1d50102da"
+    },
+    {
+      "number": 12,
+      "url": "https://github.com/bledenovan01-bit/Roundr/pull/12",
+      "title": "Phase 4B — Chrono libre : cadrans Lovable, commandes et restauration",
+      "draft": true,
+      "merged": false,
+      "base": "codex/roundr-lovable-phase-4a",
+      "baseSha": "1c9e30b22c52caf8b620b83fd00966d1d50102da",
+      "head": "codex/roundr-lovable-phase-4b",
+      "headSha": "f8cf75717ccccfd648d2291d458ee79a5a4da2be"
+    }
+  ]
+}

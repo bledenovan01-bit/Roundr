@@ -1,0 +1,43 @@
+Browser tab: 34, Title: "Roundr", URL: "http://127.0.0.1:8171/live".
+1 AXWebArea Roundr, URL: 127.0.0.1:8171/live
+	2 container
+		3 button Retour à l’accueil
+		4 container
+			5 heading MATCH CLASSIQUE, Value: 1
+				6 text MATCH CLASSIQUE
+			7 text 1re mi-temps · Match en pause
+		8 button Paramètres du match
+		9 container
+			10 container Score
+				11 container
+					12 text Équipe A
+					13 button Score 1 à 0 ; corriger le score
+						14 text 1 – 0
+					15 text Équipe B
+				16 container
+					17 button But pour Équipe A (appui long : annuler)
+						18 text +1
+					19 text Appui long : −1
+					20 button But pour Équipe B (appui long : annuler)
+						21 text +1
+			22 container Vues du match
+				23 button Afficher le temps écoulé
+					24 text TEMPS RESTANT
+					25 container 14:15.00
+						26 text 14:15
+						27 text .00
+					28 container
+						29 text Match en pause
+				30 container
+					31 button Chrono classique
+					32 button Chrono circulaire
+					33 button Musique
+		34 container
+			35 button Fin
+				36 text Fin
+			37 button Relancer
+				38 text Relancer
+			39 button Reprendre
+				40 text Reprendre
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8171/live

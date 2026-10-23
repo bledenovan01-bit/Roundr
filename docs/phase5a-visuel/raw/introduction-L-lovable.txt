@@ -1,0 +1,11 @@
+Browser tab: 34, Title: "127.0.0.1:8170/?state=none", URL: "http://127.0.0.1:8170/?state=none".
+1 AXWebArea 127.0.0.1:8170/?state=none
+	2 container
+		3 container Roundr
+			4 text Roundr .
+		5 heading Plus de jeu. Moins d'organisation., Value: 1
+			6 text Plus de jeu.
+			7 text Moins d'organisation.
+		8 button Commencer
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8170/?state=none

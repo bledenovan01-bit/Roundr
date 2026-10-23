@@ -899,7 +899,7 @@ export function LovableFreeLive() {
           }}
           delayLongPress={550}
           onPress={() => {
-            if (!held.current && !locked) router.push("/settings");
+            if (!held.current && !locked) router.push({ pathname: "/settings", params: { from: "free" } });
             held.current = false;
           }}
           accessibilityActions={[

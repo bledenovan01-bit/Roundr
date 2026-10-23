@@ -1,0 +1,33 @@
+Browser tab: 34, Title: "127.0.0.1:8170/?state=classic", URL: "http://127.0.0.1:8170/?state=classic".
+1 AXWebArea 127.0.0.1:8170/?state=classic
+	2 container
+		3 button Retour
+		4 heading Paramètres, Value: 1
+			5 text Paramètres
+		6 heading Session en cours, Value: 3
+			7 text Session en cours
+		8 text Match classique · 2 × 15 min
+		9 text 14:15
+		10 text Les règles, équipes et durées restent celles de cette session.
+		11 container
+			12 text Durée de la période
+			13 text field (disabled) Durée de la période, Value: 900 s
+		14 heading Sons et effets, Value: 3
+			15 text Sons et effets
+		16 text Réglage général de l'application
+		17 switch Description: Sons et effets, Value: 1
+		18 heading Vibrations, Value: 3
+			19 text Vibrations
+		20 text À chaque but et en fin de match
+		21 switch Description: Vibrations, Value: 1
+		22 heading Écran toujours allumé, Value: 3
+			23 text Écran toujours allumé
+		24 text Pendant un match
+		25 switch Description: Écran toujours allumé, Value: 1
+		26 heading À propos, Value: 3
+			27 text À propos
+		28 text Roundr · maquette interactive V0
+		29 button Revoir l'introduction
+		30 button Retour au match
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8170/?state=classic
