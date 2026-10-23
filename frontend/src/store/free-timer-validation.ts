@@ -6,6 +6,13 @@ const nonnegative = (x: unknown): x is number => typeof x === "number" && Number
 export function validFreeTimer(value: unknown, now = Date.now()): value is FreeTimerState {
   if (!record(value) || !validFreeConfig(value.config)) return false;
   const c = value.config;
+  if (value.ui !== undefined) {
+    if (!record(value.ui)) return false;
+    if (value.ui.view !== undefined && !["numeric", "analog", "circular"].includes(value.ui.view as string)) return false;
+    if (value.ui.elapsed !== undefined && typeof value.ui.elapsed !== "boolean") return false;
+    if (value.ui.started !== undefined && typeof value.ui.started !== "boolean") return false;
+    if (value.ui.name !== undefined && (typeof value.ui.name !== "string" || value.ui.name.length > 40)) return false;
+  }
   // Bound reconstruction before allocating a sequence from untrusted storage.
   if (c.kind === "interval" && (!Number.isSafeInteger(c.reps * c.sets) || c.reps * c.sets > 5000)) return false;
   const expected = buildSteps(c);

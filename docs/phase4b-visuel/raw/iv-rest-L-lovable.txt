@@ -1,0 +1,36 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=interval&state=rest&view=analog", URL: "http://127.0.0.1:8160/?kind=interval&state=rest&view=analog".
+1 AXWebArea 127.0.0.1:8160/?kind=interval&state=rest&view=analog
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Intervalles  ·  En cours
+		7 button Paramètres du match
+		8 tab group Affichage du chrono
+			9 tab (selectable, settable, boolean) Numérique, Value: 0
+			10 tab (selected, settable, boolean) Analogique, Value: 1
+			11 tab (selectable, settable, boolean) Circulaire, Value: 0
+		12 container Vue analogique
+			13 button Afficher le temps écoulé
+				14 container Cadran : 00:04.75
+				15 text REPOS · TEMPS RESTANT
+		16 button Vue numérique
+		17 button Vue analogique
+		18 button Vue circulaire
+		19 button Musique
+		20 text En cours
+		21 container Intervalles
+			22 text Période actuelle
+			23 container
+				24 text Repos  · série 1/2
+			25 text Périodes restantes
+			26 text 5
+			27 text Ensuite
+			28 text Période 2 · 45 s
+			29 text Passage
+			30 text Automatique
+		31 button Fin
+		32 button Passer
+		33 button Pause
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8160/?kind=interval&state=rest&view=analog

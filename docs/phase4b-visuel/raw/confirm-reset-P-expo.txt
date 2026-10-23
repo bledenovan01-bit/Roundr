@@ -1,0 +1,15 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&laps=1&teams=2".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
++	51 container
++		52 container
++			53 button Fermer
++			54 container Réinitialiser le chrono ?
++				55 container
++					56 text Réinitialiser le chrono ? Le temps et les tours reviennent à zéro. Les réglages et les scores sont conservés.
++					57 button Réinitialiser le chrono
++						58 text Réinitialiser le chrono
++					59 button Recommencer la séance (scores à zéro)
++						60 text Recommencer la séance (scores à zéro)
++					61 button Annuler
++						62 text Annuler
+The focused UI element is 47 button Réinitialiser

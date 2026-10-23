@@ -1,0 +1,34 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=countdown&state=paused", URL: "http://127.0.0.1:8160/?kind=countdown&state=paused".
+1 AXWebArea 127.0.0.1:8160/?kind=countdown&state=paused
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Compte à rebours  ·  En pause
+		7 button Paramètres du match
+		8 tab group Affichage du chrono
+			9 tab (selected, settable, boolean) Numérique, Value: 1
+			10 tab (selectable, settable, boolean) Analogique, Value: 0
+			11 tab (selectable, settable, boolean) Circulaire, Value: 0
+		12 container Vue numérique
+			13 button Afficher le temps écoulé
+				14 text TEMPS RESTANT
+				15 container
+					16 text 00:45 .00
+				17 progress indicator 50
+		18 button Vue numérique
+		19 button Vue analogique
+		20 button Vue circulaire
+		21 button Musique
+		22 text En pause
+		23 button Fin
+		24 button Réinitialiser
+		25 button Reprendre
+		26 container Terminer la session
+			27 heading Terminer cette session ?, Value: 2
+				28 text Terminer cette session ?
+			29 text Le chrono et les tours seront effacés. Vos chronos enregistrés ne changent pas.
+			30 button Terminer la session
+			31 button Annuler
+
+The focused UI element is 23 button Fin

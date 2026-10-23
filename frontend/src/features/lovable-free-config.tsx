@@ -452,8 +452,8 @@ export function LovableFreeConfig({
     invalid = !validFreeConfig(config),
     steps = invalid ? [] : buildSteps(config),
     total = steps.reduce((n, x) => n + (x.durationMs ?? 0), 0) / 1000;
-  const launch = (cfg = config) =>
-    prepareFreeTimer(cfg, () => router.push("/chrono-libre/run"));
+  const launch = (cfg = config, savedName = editing?.name) =>
+    prepareFreeTimer(cfg, () => router.push("/chrono-libre/run"), savedName);
   const save = async (asNew: boolean) => {
     if (busy || !name.trim() || invalid) return;
     setBusy(true);
@@ -628,7 +628,7 @@ export function LovableFreeConfig({
                       kind="primary"
                       height={44}
                       disabled={loading}
-                      onPress={() => launch(p.config)}
+                      onPress={() => launch(p.config, p.name)}
                     />
                   </View>
                   <View style={{ flex: 1 }}>

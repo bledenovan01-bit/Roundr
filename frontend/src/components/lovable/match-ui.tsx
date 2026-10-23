@@ -819,10 +819,12 @@ export function MatchSheet({
   label,
   onClose,
   children,
+  dismissOnBackdrop = false,
 }: {
   label: string;
   onClose?: () => void;
   children: ReactNode;
+  dismissOnBackdrop?: boolean;
 }) {
   const { width, height } = useWindowDimensions(),
     inset = useSafeAreaInsets(),
@@ -854,6 +856,7 @@ export function MatchSheet({
           paddingTop: inset.top,
         }}
       >
+        {dismissOnBackdrop ? <Pressable accessibilityRole="button" accessibilityLabel="Fermer" onPress={onClose} style={{position:"absolute",inset:0}}/> : null}
         <ScrollView
           testID="match-sheet"
           focusable

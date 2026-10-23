@@ -1,0 +1,38 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/phase4bqa?kind=countdown&state=notice".
+1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=countdown&state=notice
+	2 container
+		3 button Retour à l'accueil
+		4 container
+			5 heading CHRONO LIBRE, Value: 1
+				6 text CHRONO LIBRE
+			7 text Compte à rebours  ·  En cours
+		8 button Paramètres du chrono
+		9 container
+			10 text Plus qu'1 minute !
+			11 container
+				12 tab group Affichage du chrono
+					13 tab (selected, settable, boolean) Description: Numérique, Value: 1
+Numérique
+					14 tab (selectable, settable, boolean) Description: Analogique, Value: 0
+Analogique
+					15 tab (selectable, settable, boolean) Description: Circulaire, Value: 0
+Circulaire
+				16 button Afficher le temps écoulé
+					17 container
+						18 text TEMPS RESTANT
+						19 container 01:00.00
+							20 text 01:00
+							21 text .00
+				22 button Vue numérique
+				23 button Vue analogique
+				24 button Vue circulaire
+				25 text En cours
+		26 container
+			27 button Fin
+				28 text Fin
+			29 button Réinitialiser
+				30 text Réinitialiser
+			31 button Pause
+				32 text Pause
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=countdown&state=notice

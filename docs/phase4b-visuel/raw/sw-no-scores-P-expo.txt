@@ -1,0 +1,42 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&teams=3&scores=0".
+1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&teams=3&scores=0
+	2 container
+		3 button Retour à l'accueil
+		4 container
+			5 heading CHRONO LIBRE, Value: 1
+				6 text CHRONO LIBRE
+			7 text Chronomètre  ·  En pause
+		8 button Paramètres du chrono
+		9 container
+			10 container Équipes
+				11 text Les Renards
+				12 text FC Amigos
+				13 text Panthères
+			14 tab group Affichage du chrono
+				15 tab (selected, settable, boolean) Description: Numérique, Value: 1
+Numérique
+				16 tab (selectable, settable, boolean) Description: Analogique, Value: 0
+Analogique
+				17 tab (selectable, settable, boolean) Description: Circulaire, Value: 0
+Circulaire
+			18 container 01:15.45
+				19 container
+					20 text CHRONOMÈTRE
+					21 container 01:15.45
+						22 text 01:15
+						23 text .45
+			24 container
+				25 button Vue numérique
+				26 button Vue analogique
+				27 button Vue circulaire
+			28 container
+				29 text En pause
+		30 container
+			31 button Fin
+				32 text Fin
+			33 button Réinitialiser
+				34 text Réinitialiser
+			35 button Reprendre
+				36 text Reprendre
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&teams=3&scores=0

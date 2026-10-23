@@ -1,0 +1,43 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=stopwatch&state=paused&laps=1&teams=2", URL: "http://127.0.0.1:8160/?kind=stopwatch&state=paused&laps=1&teams=2".
+1 AXWebArea 127.0.0.1:8160/?kind=stopwatch&state=paused&laps=1&teams=2
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Chronomètre  ·  En pause
+		7 button Paramètres du match
+		8 container Équipes
+			9 text Les Renards
+			10 text 0
+			11 button Description: But pour Les Renards (appui long : annuler), Help: Appui long : annuler un but
+			12 text FC Amigos
+			13 text 1
+			14 button Description: But pour FC Amigos (appui long : annuler), Help: Appui long : annuler un but
+		15 tab group Affichage du chrono
+			16 tab (selected, settable, boolean) Numérique, Value: 1
+			17 tab (selectable, settable, boolean) Analogique, Value: 0
+			18 tab (selectable, settable, boolean) Circulaire, Value: 0
+		19 container Vue numérique
+			20 text CHRONOMÈTRE
+			21 container
+				22 text 01:15 .45
+		23 button Vue numérique
+		24 button Vue analogique
+		25 button Vue circulaire
+		26 button Musique
+		27 text En pause
+		28 container Tours
+			29 heading Tours, Value: 3
+				30 text Tours
+			31 content list
+				32 container
+					33 text Tour  3 00:20 .00 00:40 .45
+				34 container
+					35 text Tour  2 00:08 .11 00:20 .45
+				36 container
+					37 text Tour  1 00:12 .34 00:12 .34
+		38 button Fin
+		39 button Réinitialiser
+		40 button Reprendre
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8160/?kind=stopwatch&state=paused&laps=1&teams=2

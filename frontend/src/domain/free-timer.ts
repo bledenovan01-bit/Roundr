@@ -61,6 +61,8 @@ export function buildSteps(c: FreeTimerConfig): FreeStep[] {
 }
 
 export type FreeTimerState = {
+  // Optional presentation metadata; historical saves keep their exact format.
+  ui?: { view?: FreeTimerDisplay; elapsed?: boolean; started?: boolean; name?: string };
   config: FreeTimerConfig;
   steps: FreeStep[];
   stepIndex: number;

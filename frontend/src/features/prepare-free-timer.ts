@@ -8,7 +8,7 @@ export function hasFreeTimerProgress(timer: FreeTimerState | null, now = Date.no
 
 // All four entry paths use this guard. Cancel/dismiss does not mutate memory
 // or storage. A delayed dialog never authorizes replacing a different session.
-export function prepareFreeTimer(config: FreeTimerConfig, onReady: () => void): void {
+export function prepareFreeTimer(config: FreeTimerConfig, onReady: () => void, name?: string): void {
   if (!validFreeConfig(config)) {
     Alert.alert("Chrono invalide", "Cette configuration ne peut pas être utilisée. La séance en cours est conservée.");
     return;
@@ -17,10 +17,12 @@ export function prepareFreeTimer(config: FreeTimerConfig, onReady: () => void): 
   const snapshot = JSON.parse(JSON.stringify(config)) as FreeTimerConfig;
   const replace = async () => {
     if (getStoreState().freeTimer !== current) {
-      prepareFreeTimer(snapshot, onReady);
+      prepareFreeTimer(snapshot, onReady, name);
       return;
     }
-    if (await replaceFreeTimer(createFreeTimer(snapshot), current)) onReady();
+    const candidate = createFreeTimer(snapshot);
+    if (name) candidate.ui = { name: name.slice(0, 40) };
+    if (await replaceFreeTimer(candidate, current)) onReady();
   };
   if (freeTimerRecoveryPending()) {
     Alert.alert("Sauvegarde non restaurée", "Une sauvegarde n’a pas pu être lue ou restaurée. Consulte l’erreur affichée avant de préparer une nouvelle séance. Annuler conserve la sauvegarde actuelle.", [
