@@ -1,0 +1,26 @@
+
+> frontend@1.0.0 lint
+> expo lint -- --fix=false
+
+C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\cli\build\src\utils\errors.js:130
+    throw error;
+    ^
+
+Error: EPERM: operation not permitted, mkdir 'C:\Users\denoe\.expo'
+    at Object.mkdirSync (node:fs:1411:26)
+    at write (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\json-file\build\JsonFile.js:257:27)
+    at setSync (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\json-file\build\JsonFile.js:309:12)
+    at JsonFile.set (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\json-file\build\JsonFile.js:143:16)
+    at getAnonymousId (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\cli\build\src\api\user\UserSettings.js:191:18)
+    at new Telemetry (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\cli\build\src\utils\telemetry\Telemetry.js:32:66)
+    at getTelemetry (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\cli\build\src\utils\telemetry\index.js:43:21)
+    at record (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\cli\build\src\utils\telemetry\index.js:59:29)
+    at recordCommand (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\cli\build\src\utils\telemetry\index.js:66:12)
+    at C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\preview-install\node_modules\@expo\cli\build\bin\cli:274:9 {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'mkdir',
+  path: 'C:\\Users\\denoe\\.expo'
+}
+
+Node.js v24.19.0

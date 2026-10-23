@@ -11,8 +11,13 @@ import * as S from "@/src/domain/session";
 import { buildSummary } from "@/src/domain/summary";
 import { archiveSession, getStoreState, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, useTheme } from "@/src/theme";
+import { TournamentSummary } from "@/src/features/lovable-tournament";
 
 export default function SummaryScreen(){
+  const session=useStore(s=>s.lastSummary);
+  return session&&(session.mode==="cup"||session.mode==="survie")?<TournamentSummary key={session.id} session={session}/>:<LegacySummaryScreen/>;
+}
+function LegacySummaryScreen(){
   const {colors}=useTheme();const router=useRouter();
   const session=useStore(s=>s.lastSummary);const active=useStore(s=>s.session);const saveError=useStore(s=>s.saveError);
   const [correcting,setCorrecting]=useState(false);

@@ -1,0 +1,282 @@
+/**
+ * Logique pure des tournois Cup et Survie.
+ * Tout est recalculé à partir des résultats enregistrés : classements, qualifiés,
+ * tableau final. Un résultat dont les équipes ne correspondent plus au tableau
+ * (après une correction) est ignoré puis purgé, ce qui garde le tableau cohérent.
+ */
+import type { Team } from "@/components/roundr/maracana";
+import type { ClockConfig } from "./clock";
+import type { NextLaunch } from "./next-match";
+
+export type TieRule = "tab" | "prol" | "golden";
+export type How = "reg" | "prol" | "golden" | "tab";
+export type Result = { a: number; b: number; score: [number, number]; pens?: [number, number]; how: How; ms: number; order: number };
+export type Settings = { minutes: number; byTime: boolean; byGoals: boolean; goals: number; extra: boolean; tie: TieRule; prol: number; rounds: Record<number, number>; third: boolean; nextLaunch?: NextLaunch };
+export type Side = number | null | undefined; // équipe, exemption, en attente
+
+export type TournData = {
+  kind: "cup" | "survie";
+  title: string;
+  teams: Team[];
+  settings: Settings;
+  /** Paramètres de lancement, pour « Rejouer avec les mêmes paramètres ». */
+  launch: LaunchParams;
+  groups: number[][];
+  groupFixtures: { id: string; g: number; a: number; b: number }[];
+  qualified: number;
+  best: number;
+  size: number;
+  seeds: Side[];
+  picks: Record<string, number[]>;
+  results: Record<string, Result>;
+  current: string | null;
+  phase: "reg" | "prol" | "golden";
+  phaseMs: number;
+  view: "hub" | "match" | "summary";
+  interrupted: boolean;
+  seq: number;
+  /** Identifiant unique de la compétition (historique). */
+  uid?: string;
+  /** Nom choisi par l'organisateur (vide : nom par défaut mode + date). */
+  name?: string;
+  createdAt?: number;
+};
+
+export type LaunchParams =
+  | { kind: "cup"; name?: string; teams: Team[]; settings: Settings; groups: number; qualified: number; legs: "single" | "double"; best: boolean; draw: "auto" | "manual" }
+  | { kind: "survie"; name?: string; teams: Team[]; settings: Settings; draw: "random" | "manual" };
+
+/* ---------- Outils ---------- */
+export const pow2 = (n: number) => 2 ** Math.ceil(Math.log2(Math.max(2, n)));
+export const roundName = (size: number) => (size === 2 ? "Finale" : size === 4 ? "Demi-finales" : size === 8 ? "Quarts de finale" : size === 16 ? "Huitièmes" : `Tour de ${size}`);
+export const roundShort = (size: number) => (size === 2 ? "Finale" : size === 4 ? "Demi-finale" : size === 8 ? "Quart de finale" : size === 16 ? "Huitième" : `Tour de ${size}`);
+export const groupLetter = (g: number) => String.fromCharCode(65 + g);
+const shuffle = <T,>(a: T[]) => { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j]!, r[i]!]; } return r; };
+
+/** Ordre des têtes de série dans le tableau : 1 contre le dernier, 2 contre l'avant-dernier… 1 et 2 ne se croisent qu'en finale. */
+export function bracketOrder(size: number) {
+  let o = [1];
+  while (o.length < size) { const n = o.length * 2; o = o.flatMap((x) => [x, n + 1 - x]); }
+  return o;
+}
+
+function roundRobin(ts: number[]): [number, number][][] {
+  const a = [...ts]; if (a.length % 2) a.push(-1);
+  const n = a.length, rounds: [number, number][][] = [];
+  for (let r = 0; r < n - 1; r++) {
+    const pairs: [number, number][] = [];
+    for (let i = 0; i < n / 2; i++) { const x = a[i]!, y = a[n - 1 - i]!; if (x >= 0 && y >= 0) pairs.push(r % 2 ? [y, x] : [x, y]); }
+    rounds.push(pairs);
+    a.splice(1, 0, a.pop()!);
+  }
+  return rounds;
+}
+
+/* ---------- Génération ---------- */
+const uid = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`);
+const base = (p: LaunchParams) => ({ uid: uid(), name: p.name?.trim() ?? "", createdAt: Date.now(), kind: p.kind, teams: p.teams, settings: p.settings, launch: p, picks: {}, results: {}, current: null, phase: "reg" as const, phaseMs: 0, view: "hub" as const, interrupted: false, seq: 0 });
+
+export function generate(p: LaunchParams): TournData {
+  if (p.kind === "survie") {
+    const n = p.teams.length, size = pow2(n);
+    const order = p.draw === "random" ? shuffle(p.teams.map((_, i) => i)) : p.teams.map((_, i) => i);
+    const seeds = bracketOrder(size).map((s) => order[s - 1] ?? null);
+    return { ...base(p), title: "SURVIE", groups: [], groupFixtures: [], qualified: 0, best: 0, size, seeds };
+  }
+  const n = p.teams.length;
+  const G = Math.min(p.groups, Math.max(1, Math.floor(n / 2)));
+  const order = p.draw === "auto" ? shuffle(p.teams.map((_, i) => i)) : p.teams.map((_, i) => i);
+  const groups: number[][] = Array.from({ length: G }, () => []);
+  order.forEach((t, i) => groups[i % G]!.push(t));
+  const q = Math.min(p.qualified, Math.min(...groups.map((g) => g.length)));
+  const perGroup = groups.map((g) => { const r = roundRobin(g); return p.legs === "double" ? [...r, ...r.map((x) => x.map(([a, b]) => [b, a] as [number, number]))] : r; });
+  const groupFixtures: TournData["groupFixtures"] = [];
+  const maxR = Math.max(...perGroup.map((r) => r.length));
+  const counters = groups.map(() => 0);
+  for (let r = 0; r < maxR; r++) perGroup.forEach((rounds, g) => (rounds[r] ?? []).forEach(([a, b]) => groupFixtures.push({ id: `G${g}-${counters[g]!++}`, g, a, b })));
+  const direct = G * q, bracket = pow2(direct);
+  const best = p.best && direct !== bracket && direct > 1 ? bracket - direct : 0;
+  const size = best > 0 ? bracket : direct === bracket ? direct : bracket / 2;
+  return { ...base(p), title: "CUP", groups, groupFixtures, qualified: q, best, size: size < 2 ? 1 : size, seeds: [] };
+}
+
+/* ---------- Classements ---------- */
+export type Row = { t: number; pl: number; w: number; d: number; l: number; gf: number; ga: number; pts: number };
+const emptyRow = (t: number): Row => ({ t, pl: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 });
+function addResult(rows: Map<number, Row>, a: number, b: number, s: [number, number]) {
+  const ra = rows.get(a), rb = rows.get(b); if (!ra || !rb) return;
+  ra.pl++; rb.pl++; ra.gf += s[0]; ra.ga += s[1]; rb.gf += s[1]; rb.ga += s[0];
+  if (s[0] > s[1]) { ra.w++; rb.l++; ra.pts += 3; } else if (s[1] > s[0]) { rb.w++; ra.l++; rb.pts += 3; } else { ra.d++; rb.d++; ra.pts++; rb.pts++; }
+}
+const cmpKeys = (x: number[], y: number[]) => { for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return y[i]! - x[i]!; return 0; };
+function splitClasses<T>(items: T[], key: (x: T) => number[]): T[][] {
+  const sorted = [...items].sort((a, b) => cmpKeys(key(a), key(b)));
+  const out: T[][] = [];
+  sorted.forEach((x) => { const last = out[out.length - 1]; if (last && cmpKeys(key(last[0]!), key(x)) === 0) last.push(x); else out.push([x]); });
+  return out;
+}
+
+/** Classement d'une poule : points, confrontations directes (si complètes), différence, buts marqués, victoires. Les ex æquo partagent une classe. */
+export function groupTable(d: TournData, g: number): Row[][] {
+  const rows = new Map(d.groups[g]!.map((t) => [t, emptyRow(t)]));
+  const fx = d.groupFixtures.filter((f) => f.g === g);
+  fx.forEach((f) => { const r = d.results[f.id]; if (r) addResult(rows, f.a, f.b, r.score); });
+  const out: Row[][] = [];
+  splitClasses([...rows.values()], (r) => [r.pts]).forEach((cls) => {
+    if (cls.length === 1) { out.push(cls); return; }
+    const members = new Set(cls.map((r) => r.t));
+    const among = fx.filter((f) => members.has(f.a) && members.has(f.b));
+    const complete = among.length > 0 && among.every((f) => d.results[f.id]);
+    const mini = new Map(cls.map((r) => [r.t, emptyRow(r.t)]));
+    if (complete) among.forEach((f) => addResult(mini, f.a, f.b, d.results[f.id]!.score));
+    out.push(...splitClasses(cls, (r) => { const m = mini.get(r.t)!; return [...(complete ? [m.pts, m.gf - m.ga, m.gf] : []), r.gf - r.ga, r.gf, r.w]; }));
+  });
+  return out;
+}
+
+/** Performance par match, pour comparer des équipes de poules de tailles différentes. */
+const perf = (r: Row) => { const p = r.pl || 1; return [r.pts / p, (r.gf - r.ga) / p, r.gf / p, r.w / p]; };
+
+export type Decision = { key: string; title: string; candidates: number[]; need: number };
+export type Qual = { done: boolean; decision: Decision | null; qualifiers: number[]; seeds: Side[]; tables: Row[][][] };
+
+/** Prend k éléments dans des classes ordonnées ; une égalité parfaite à la limite exige un choix explicite. */
+function cut(classes: number[][], k: number, key: string, title: string, picks: Record<string, number[]>): { list: number[]; decision: Decision | null } {
+  const list: number[] = [];
+  for (const cls of classes) {
+    if (list.length >= k) break;
+    if (list.length + cls.length <= k) { list.push(...cls); continue; }
+    const need = k - list.length;
+    const p = picks[key];
+    if (p && p.length === need && p.every((t) => cls.includes(t))) { list.push(...p); break; }
+    return { list, decision: { key, title, candidates: cls, need } };
+  }
+  return { list, decision: null };
+}
+
+export function cupQual(d: TournData): Qual {
+  const tables = d.groups.map((_, g) => groupTable(d, g));
+  const done = d.groupFixtures.every((f) => d.results[f.id]);
+  const empty: Qual = { done, decision: null, qualifiers: [], seeds: Array(d.size).fill(undefined), tables };
+  if (!done) return empty;
+  const rowOf = new Map<number, Row>(); tables.flat(2).forEach((r) => rowOf.set(r.t, r));
+  const pos = new Map<number, number>();
+  const ordered: number[][] = [];
+  for (let g = 0; g < d.groups.length; g++) {
+    const classes = tables[g]!.map((c) => c.map((r) => r.t));
+    const { list, decision } = cut(classes, d.qualified, `g${g}`, `Poule ${groupLetter(g)} : dernière place qualificative`, d.picks);
+    if (decision) return { ...empty, decision };
+    const rest = classes.flat().filter((t) => !list.includes(t));
+    const full = [...list, ...rest];
+    full.forEach((t, i) => pos.set(t, i));
+    ordered.push(full);
+  }
+  const perfKey = (t: number) => perf(rowOf.get(t)!);
+  let quals = ordered.flatMap((o) => o.slice(0, d.qualified));
+  if (d.best > 0) {
+    const cands = ordered.map((o) => o[d.qualified]).filter((t): t is number => t != null);
+    const { list, decision } = cut(splitClasses(cands, perfKey), Math.min(d.best, cands.length), "best", "Repêchage des meilleurs suivants", d.picks);
+    if (decision) return { ...empty, decision };
+    quals = [...quals, ...list];
+  }
+  const seedKey = (t: number) => [-(pos.get(t) ?? 0), ...perfKey(t)];
+  if (quals.length > d.size) {
+    const { list, decision } = cut(splitClasses(quals, seedKey), d.size, "cut", `Places dans le tableau de ${d.size}`, d.picks);
+    if (decision) return { ...empty, decision };
+    quals = list;
+  }
+  quals = [...quals].sort((a, b) => cmpKeys(seedKey(a), seedKey(b)));
+  const seeds = d.size < 2 ? [quals[0] ?? null] : bracketOrder(d.size).map((s) => quals[s - 1] ?? null);
+  return { done, decision: null, qualifiers: quals, seeds, tables };
+}
+
+/* ---------- Tableau à élimination directe ---------- */
+export type KoFixture = { id: string; size: number; i: number };
+export function koFixtures(d: TournData): KoFixture[] {
+  const out: KoFixture[] = [];
+  if (d.size < 2) return out;
+  for (let s = d.size; s >= 2; s /= 2) {
+    if (s === 2 && d.settings.third && d.size >= 4) out.push({ id: "T", size: 0, i: 0 });
+    for (let i = 0; i < s / 2; i++) out.push({ id: `K${s}-${i}`, size: s, i });
+  }
+  return out;
+}
+
+export const winnerSide = (r: Pick<Result, "score" | "pens">): 0 | 1 | null =>
+  r.score[0] !== r.score[1] ? (r.score[0] > r.score[1] ? 0 : 1) : r.pens && r.pens[0] !== r.pens[1] ? (r.pens[0] > r.pens[1] ? 0 : 1) : null;
+
+export type Bracket = { sides: (id: string) => [Side, Side]; outcome: (id: string) => { w: Side; l: Side; result: Result | null } };
+export function bracket(d: TournData, seeds: Side[]): Bracket {
+  const memo = new Map<string, { w: Side; l: Side; result: Result | null }>();
+  const sides = (id: string): [Side, Side] => {
+    if (id === "T") return [outcome("K4-0").l, outcome("K4-1").l];
+    const [s, i] = id.slice(1).split("-").map(Number) as [number, number];
+    if (s === d.size) return [seeds[2 * i], seeds[2 * i + 1]];
+    return [outcome(`K${s * 2}-${2 * i}`).w, outcome(`K${s * 2}-${2 * i + 1}`).w];
+  };
+  const outcome = (id: string) => {
+    const m = memo.get(id); if (m) return m;
+    const [a, b] = sides(id);
+    let o: { w: Side; l: Side; result: Result | null };
+    if (a === undefined || b === undefined) o = { w: undefined, l: undefined, result: null };
+    else if (a === null || b === null) o = { w: a ?? b, l: null, result: null };
+    else {
+      const r = d.results[id];
+      const ws = r && r.a === a && r.b === b ? winnerSide(r) : null;
+      o = ws == null ? { w: undefined, l: undefined, result: null } : { w: ws === 0 ? a : b, l: ws === 0 ? b : a, result: r! };
+    }
+    memo.set(id, o);
+    return o;
+  };
+  return { sides, outcome };
+}
+
+/* ---------- État global ---------- */
+export type Fixture = { id: string; a: Side; b: Side; label: string; ko: boolean; played: boolean };
+export function analyze(d: TournData) {
+  const qual = d.kind === "cup" ? cupQual(d) : null;
+  const seeds = d.kind === "survie" ? d.seeds : qual!.seeds;
+  const br = bracket(d, seeds);
+  const ko = koFixtures(d);
+  const fixtures: Fixture[] = [
+    ...d.groupFixtures.map((f) => ({ id: f.id, a: f.a as Side, b: f.b as Side, label: `Poule ${groupLetter(f.g)}`, ko: false, played: !!d.results[f.id] })),
+    ...ko.map((f) => { const [a, b] = br.sides(f.id); return { id: f.id, a, b, label: f.id === "T" ? "Petite finale" : roundShort(f.size), ko: true, played: !!br.outcome(f.id).result }; }),
+  ];
+  const next = fixtures.find((f) => typeof f.a === "number" && typeof f.b === "number" && !f.played) ?? null;
+  const final = d.size >= 2 ? br.outcome("K2-0") : null;
+  const champion: number | null = d.size < 2 ? (qual?.done && !qual.decision ? qual.qualifiers[0] ?? null : null) : typeof final?.w === "number" ? final.w : null;
+  const finalist: number | null = typeof final?.l === "number" ? final.l : null;
+  const t = d.settings.third && d.size >= 4 ? br.outcome("T") : null;
+  const third: number | null = typeof t?.w === "number" ? t.w : null;
+  // Matchs réellement jouables (hors exemptions) : poules + tableau sans les exemptions connues.
+  const total = fixtures.filter((f) => !(f.ko && (f.a === null || f.b === null))).length;
+  const played = Object.keys(d.results).length;
+  return { qual, seeds, br, fixtures, next, champion, finalist, third, total, played, decision: qual?.decision ?? null };
+}
+
+/** Supprime les résultats de tableau qui ne correspondent plus aux équipes qualifiées (après correction). */
+export function prune(d: TournData): TournData {
+  let cur = d;
+  for (;;) {
+    const { br } = analyze(cur);
+    const bad = koFixtures(cur).filter((f) => { const r = cur.results[f.id]; if (!r) return false; const [a, b] = br.sides(f.id); return r.a !== a || r.b !== b; });
+    if (!bad.length) return cur;
+    const results = { ...cur.results }; bad.forEach((f) => delete results[f.id]);
+    cur = { ...cur, results };
+  }
+}
+
+/** Configuration du chronomètre commun pour une rencontre et sa phase. */
+export function fixtureClock(d: TournData, id: string | null, phase: TournData["phase"]): ClockConfig {
+  const s = d.settings;
+  if (phase === "prol") return { periods: [s.prol * 60], breakSec: 0, extra: "none", countUp: false, goalTarget: null, goallessOvertimeSec: null };
+  if (phase === "golden") return { periods: [0], breakSec: 0, extra: "none", countUp: true, goalTarget: null, goallessOvertimeSec: null, goldenGoal: true };
+  const group = !!id && id.startsWith("G");
+  const size = id === "T" ? 4 : id?.startsWith("K") ? Number(id.slice(1).split("-")[0]) : 0;
+  const min = group || !size ? s.minutes : s.rounds[size] ?? s.minutes;
+  return { periods: [s.byTime ? min * 60 : 0], breakSec: 0, extra: group && s.extra ? "all" : "none", countUp: !s.byTime, goalTarget: s.byGoals ? s.goals : null, goallessOvertimeSec: null };
+}
+
+export const fixtureMinutes = (d: TournData, id: string) => Math.round((fixtureClock(d, id, "reg").periods[0] ?? 0) / 60);
+
+export type Analysis = ReturnType<typeof analyze>;

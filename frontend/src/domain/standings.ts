@@ -103,7 +103,7 @@ function headToHead(ids: string[], pairs: Finished[]): Map<string, number> | nul
   return pts;
 }
 
-export function computeStandings(teamIds: string[], matches: Match[], referenceCup = false): StandingRow[] {
+export function computeStandings(teamIds: string[], matches: Match[], referenceCup = false, requireScheduledComplete = false): StandingRow[] {
   const pairs = finishedPairs(matches);
   const rows = tally(teamIds, pairs);
   const list = [...rows.values()];
@@ -121,7 +121,13 @@ export function computeStandings(teamIds: string[], matches: Match[], referenceC
     .sort((a, b) => b - a)
     .forEach((points) => {
       const group = byPoints.get(points)!;
-      const h2h = group.length > 1 ? headToHead(group.map((r) => r.teamId), pairs) : null;
+      const idsInTie = new Set(group.map(r => r.teamId));
+      const scheduled = matches.filter(m => {
+        const [a,b] = matchTeams(m,matches);
+        return a && b && idsInTie.has(a) && idsInTie.has(b);
+      });
+      const complete = !requireScheduledComplete || (scheduled.length > 0 && scheduled.every(m => m.status === "finished" && m.score !== null));
+      const h2h = complete && group.length > 1 ? headToHead(group.map((r) => r.teamId), pairs) : null;
       // The reference's complete mini-table also compares goal difference/goals.
       // Opt-in for new Cup launches only; old competitions retain their criteria.
       const ids = group.map(r=>r.teamId);

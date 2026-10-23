@@ -26,11 +26,14 @@ import { fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedFontFamily as fontFamily } from "@/src/typography-preview";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 import { LovableMatchScreen } from "@/src/features/lovable-match";
+import { LovableTournamentFlow } from "@/src/features/lovable-tournament";
 
 const TEAM_COL = 68;
 
 export default function LiveScreen() {
   const mode=useStore(s=>s.session?.mode);
+  const id=useStore(s=>s.session?.id);
+  if(mode==="cup"||mode==="survie")return <LovableTournamentFlow key={id}/>;
   return mode==="classique"||mode==="maracana"?<LovableMatchScreen/>:<LegacyLiveScreen/>;
 }
 function LegacyLiveScreen() {

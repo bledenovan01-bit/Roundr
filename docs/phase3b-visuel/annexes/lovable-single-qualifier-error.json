@@ -1,0 +1,14 @@
+[
+  {
+    "level": "error",
+    "message": "RangeError: Maximum call stack size exceeded\n    at Array.map (<anonymous>)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:308:41)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)",
+    "timestamp": "2026-10-23T12:12:39.304Z",
+    "url": "http://127.0.0.1:8130/src/lib/roundr/tournament.ts"
+  },
+  {
+    "level": "error",
+    "message": "RangeError: Maximum call stack size exceeded\n    at Array.map (<anonymous>)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:308:41)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)\n    at outcome (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:315:18)\n    at sides (http://127.0.0.1:8130/src/lib/roundr/tournament.ts:310:11)",
+    "timestamp": "2026-10-23T12:34:24.992Z",
+    "url": "http://127.0.0.1:8130/src/lib/roundr/tournament.ts"
+  }
+]

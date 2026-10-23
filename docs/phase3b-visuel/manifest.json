@@ -1,0 +1,1656 @@
+[
+  {
+    "scenario": "cup-start",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-start-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-start-lovable-p.jpg",
+        "sha256": "db0b1b9ed25f64353c5ddc0c5a369f17a42ecefbf077f97866561d3f2d80235b"
+      },
+      "native": {
+        "path": "raw/cup-start-native-p.jpg",
+        "sha256": "79ab605e480df5cd9b09008e2bd0bff3e5d09ae64a8c4df5b50fb05ba65f717e"
+      }
+    },
+    "parameters": {
+      "id": "cup-start",
+      "mode": "cup"
+    }
+  },
+  {
+    "scenario": "cup-start",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-start-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-start-lovable-l.jpg",
+        "sha256": "151b335cdb5e9559a798add24bbc882ac3816bf570da195b92479a5ad29a91e8"
+      },
+      "native": {
+        "path": "raw/cup-start-native-l.jpg",
+        "sha256": "a6f0efcada1a45d3d1ea7eff8d67cc3bbb24029fe39253ff5683a02854028541"
+      }
+    },
+    "parameters": {
+      "id": "cup-start",
+      "mode": "cup"
+    }
+  },
+  {
+    "scenario": "cup-preview",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-preview-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-preview-lovable-p.jpg",
+        "sha256": "b46aa6187f8a8ec78471c637c9bbbcff162f45b6ed2c57a6718e8edfdae0ad21"
+      },
+      "native": {
+        "path": "raw/cup-preview-native-p.jpg",
+        "sha256": "60504267a36979a4a16e529b11808a837495255a05e684cdad43ec0c504c3a4e"
+      }
+    },
+    "parameters": {
+      "id": "cup-preview",
+      "mode": "cup",
+      "tab": "Tableau"
+    }
+  },
+  {
+    "scenario": "cup-preview",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-preview-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-preview-lovable-l.jpg",
+        "sha256": "766d839ba7b5628f42f1554fb58f0731068445e06fe232e4bf714db001cf8840"
+      },
+      "native": {
+        "path": "raw/cup-preview-native-l.jpg",
+        "sha256": "2197af82ac2e0f44ff14f4da7571fdf8f959a1fdf27efa00dcebbcbd1b42b070"
+      }
+    },
+    "parameters": {
+      "id": "cup-preview",
+      "mode": "cup",
+      "tab": "Tableau"
+    }
+  },
+  {
+    "scenario": "cup-groups",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-groups-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-groups-lovable-p.jpg",
+        "sha256": "5c76ab43c694e8edd8423e425422cdda013131847ce362177ffc6875473a10d7"
+      },
+      "native": {
+        "path": "raw/cup-groups-native-p.jpg",
+        "sha256": "133cf0a7b091f1d59565bf6de7a5affb517aa2fd2e4072ccbffbb4876ee445ff"
+      }
+    },
+    "parameters": {
+      "id": "cup-groups",
+      "mode": "cup",
+      "played": 4,
+      "tab": "Poules"
+    }
+  },
+  {
+    "scenario": "cup-groups",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-groups-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-groups-lovable-l.jpg",
+        "sha256": "b41b6868d5e205eec53e2da0e127b4633b4c6d03c4dda82bdb62ed3e5dd01214"
+      },
+      "native": {
+        "path": "raw/cup-groups-native-l.jpg",
+        "sha256": "7c26a35d54587af66f52d0615c692c1da62a1936719a094e91fd2aa20717404c"
+      }
+    },
+    "parameters": {
+      "id": "cup-groups",
+      "mode": "cup",
+      "played": 4,
+      "tab": "Poules"
+    }
+  },
+  {
+    "scenario": "cup-qualified",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-qualified-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-qualified-lovable-p.jpg",
+        "sha256": "2c2e3d160578c643aeb39952cbc7abc53ac2c6aaa8e093a7959680cf25481876"
+      },
+      "native": {
+        "path": "raw/cup-qualified-native-p.jpg",
+        "sha256": "a746fb52fe35cc3430ba03a8f00bd7905b88a8f118f57414b59106c443b94776"
+      }
+    },
+    "parameters": {
+      "id": "cup-qualified",
+      "mode": "cup",
+      "played": 12,
+      "tab": "Tableau"
+    }
+  },
+  {
+    "scenario": "cup-qualified",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-qualified-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-qualified-lovable-l.jpg",
+        "sha256": "c3e47afe531b2dfb162a5327ff5cb3ba40df8a81157db33733d148f92416973a"
+      },
+      "native": {
+        "path": "raw/cup-qualified-native-l.jpg",
+        "sha256": "d9b934d4c24c655a33d46d87e449e49ef11e314ff84a45c7acdc10c3b6b6c84a"
+      }
+    },
+    "parameters": {
+      "id": "cup-qualified",
+      "mode": "cup",
+      "played": 12,
+      "tab": "Tableau"
+    }
+  },
+  {
+    "scenario": "cup-quarter-finals",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-quarter-finals-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-quarter-finals-lovable-p.jpg",
+        "sha256": "82c4ce7aca822d94bbfcee8148883f7c6e4b86cac66591f5a566e7369a6fe06f"
+      },
+      "native": {
+        "path": "raw/cup-quarter-finals-native-p.jpg",
+        "sha256": "09250e0f275c4334a26badf643b2934295bc988c62fbb41d9bbcb64144c01f9f"
+      }
+    },
+    "parameters": {
+      "id": "cup-quarter-finals",
+      "mode": "cup",
+      "n": 16,
+      "groups": 4,
+      "played": 24,
+      "tab": "Tableau"
+    }
+  },
+  {
+    "scenario": "cup-quarter-finals",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-quarter-finals-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-quarter-finals-lovable-l.jpg",
+        "sha256": "0835726a1b43cbd3ed780cd0ecf0e481a8b9ccaafa1a5f66aaf32aa78ef4b5b8"
+      },
+      "native": {
+        "path": "raw/cup-quarter-finals-native-l.jpg",
+        "sha256": "62d87e2a5e8e7ee972fac33cc5ffbe5343d8bcdb3782b249d6562b2177f61069"
+      }
+    },
+    "parameters": {
+      "id": "cup-quarter-finals",
+      "mode": "cup",
+      "n": 16,
+      "groups": 4,
+      "played": 24,
+      "tab": "Tableau"
+    }
+  },
+  {
+    "scenario": "cup-ready",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-ready-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-ready-lovable-p.jpg",
+        "sha256": "3b4a9ee3bc32dbb0443adbda1a99f65c9df49e4e7acfa82a004c1435efb3c678"
+      },
+      "native": {
+        "path": "raw/cup-ready-native-p.jpg",
+        "sha256": "a1f3fe697f1421d5d1b5e50435ea55c9efa48839d0da556bcbaff8038a5b0fb1"
+      }
+    },
+    "parameters": {
+      "id": "cup-ready",
+      "mode": "cup",
+      "match": true
+    }
+  },
+  {
+    "scenario": "cup-ready",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-ready-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-ready-lovable-l.jpg",
+        "sha256": "e208d6cf78a8917ca191acc349d1576a0e69eccab2d561411d587b88f75a5669"
+      },
+      "native": {
+        "path": "raw/cup-ready-native-l.jpg",
+        "sha256": "40bc8ae5252b96f49da5725f67be4b36a6043467b222cde7dfe1e40f5a24ee16"
+      }
+    },
+    "parameters": {
+      "id": "cup-ready",
+      "mode": "cup",
+      "match": true
+    }
+  },
+  {
+    "scenario": "cup-paused",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-paused-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-paused-lovable-p.jpg",
+        "sha256": "c1cdff831638fb103b0f8bf0c96a6aa99b00fb02b3d17cc9003e4d8565eca1eb"
+      },
+      "native": {
+        "path": "raw/cup-paused-native-p.jpg",
+        "sha256": "02ec510527413ecd72c76a6a173eb8eadd25b2fe439e603e2652d3417db3f016"
+      }
+    },
+    "parameters": {
+      "id": "cup-paused",
+      "mode": "cup",
+      "match": true,
+      "paused": true
+    }
+  },
+  {
+    "scenario": "cup-paused",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-paused-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-paused-lovable-l.jpg",
+        "sha256": "e4e12ca4c6be0d44b4cd7ab0e213abcc293d7af309edaf71a7af02a1c1bf16ea"
+      },
+      "native": {
+        "path": "raw/cup-paused-native-l.jpg",
+        "sha256": "6f9e1d85a112a28173b39baaa5a3742e72946eb2e987850c0c875e5336165046"
+      }
+    },
+    "parameters": {
+      "id": "cup-paused",
+      "mode": "cup",
+      "match": true,
+      "paused": true
+    }
+  },
+  {
+    "scenario": "cup-ring",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-ring-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-ring-lovable-p.jpg",
+        "sha256": "18fd23c9f172dfaf8cffe30303248f96400e9a215f8a52dbf62180f8af860790"
+      },
+      "native": {
+        "path": "raw/cup-ring-native-p.jpg",
+        "sha256": "ac8437364ba04580ef0435cd08bba76a03f651f9e58e441326b952c522682228"
+      }
+    },
+    "parameters": {
+      "id": "cup-ring",
+      "mode": "cup",
+      "match": true,
+      "paused": true,
+      "page": "Circulaire"
+    }
+  },
+  {
+    "scenario": "cup-ring",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-ring-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-ring-lovable-l.jpg",
+        "sha256": "7f6a477a082fa1b9d059421f8788fae0c2e8106ae1331b4766e387b7ae8afdf2"
+      },
+      "native": {
+        "path": "raw/cup-ring-native-l.jpg",
+        "sha256": "869ec623b8898bb1976647bccad06ccfc439bba05a26961a10f14be04ae03e49"
+      }
+    },
+    "parameters": {
+      "id": "cup-ring",
+      "mode": "cup",
+      "match": true,
+      "paused": true,
+      "page": "Circulaire"
+    }
+  },
+  {
+    "scenario": "cup-info",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-info-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-info-lovable-p.jpg",
+        "sha256": "3ee5be6a451cac0879707d2a15a5f6ce99c4204d451a69f773b88681fd1ffde9"
+      },
+      "native": {
+        "path": "raw/cup-info-native-p.jpg",
+        "sha256": "01a4c880a85a0dc465f373b3393d8148d925f4f1dec38159ee8c437a0b3e0e73"
+      }
+    },
+    "parameters": {
+      "id": "cup-info",
+      "mode": "cup",
+      "match": true,
+      "paused": true,
+      "page": "Tournoi"
+    }
+  },
+  {
+    "scenario": "cup-info",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-info-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-info-lovable-l.jpg",
+        "sha256": "66dcd97fbf95ebc702ae729746b6865d4bede21e54cd61d7f51d09abcb2e6b32"
+      },
+      "native": {
+        "path": "raw/cup-info-native-l.jpg",
+        "sha256": "d11b59675839b844b81e300817185bd032d96c53a69b56d60776a27236770e18"
+      }
+    },
+    "parameters": {
+      "id": "cup-info",
+      "mode": "cup",
+      "match": true,
+      "paused": true,
+      "page": "Tournoi"
+    }
+  },
+  {
+    "scenario": "cup-result",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-result-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-result-lovable-p.jpg",
+        "sha256": "2f061c5322d1bfeee45c330fd9a7eeae632124cfc8977954cf7ce90accd3b46b"
+      },
+      "native": {
+        "path": "raw/cup-result-native-p.jpg",
+        "sha256": "1dc92eabc63bf38322923893ad7d93d6f1708fca618a3853002a8b62150494e9"
+      }
+    },
+    "parameters": {
+      "id": "cup-result",
+      "mode": "cup",
+      "played": 1,
+      "result": true
+    }
+  },
+  {
+    "scenario": "cup-result",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-result-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-result-lovable-l.jpg",
+        "sha256": "ec8f0c12982e914a542b199268e9bcaf2d0a2b77369ff9689613d975f5ebb570"
+      },
+      "native": {
+        "path": "raw/cup-result-native-l.jpg",
+        "sha256": "44d123ce5efd3f3a3558252712cdd7767c2b566217773a1958ac997954a71f57"
+      }
+    },
+    "parameters": {
+      "id": "cup-result",
+      "mode": "cup",
+      "played": 1,
+      "result": true
+    }
+  },
+  {
+    "scenario": "cup-correction",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-correction-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-correction-lovable-p.jpg",
+        "sha256": "b1b16fec8ed1c9f0af221e736179bdb22f0fb82c025d0bd769f07d068d1a16fb"
+      },
+      "native": {
+        "path": "raw/cup-correction-native-p.jpg",
+        "sha256": "0895e5515144cf35c4880d82d2f2473cc502081181a294c03b845886e5a5d7c0"
+      }
+    },
+    "parameters": {
+      "id": "cup-correction",
+      "mode": "cup",
+      "played": 1,
+      "result": true,
+      "overlay": "Corriger le rÃ©sultat"
+    }
+  },
+  {
+    "scenario": "cup-correction",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-correction-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-correction-lovable-l.jpg",
+        "sha256": "1b3b3389ff3c7e1e329e32f32aa5172b12822b0b9db0e038d03437e49ed66fbb"
+      },
+      "native": {
+        "path": "raw/cup-correction-native-l.jpg",
+        "sha256": "2fdf4c8c0249df0e20f1043edc689aea488f98882c85c5abd377dd2ee482f189"
+      }
+    },
+    "parameters": {
+      "id": "cup-correction",
+      "mode": "cup",
+      "played": 1,
+      "result": true,
+      "overlay": "Corriger le rÃ©sultat"
+    }
+  },
+  {
+    "scenario": "cup-decision",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-decision-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-decision-lovable-p.jpg",
+        "sha256": "aaea875a4ac1e9ace75af2974caf847d038de48ab926e8cfcb1dd26d923f386e"
+      },
+      "native": {
+        "path": "raw/cup-decision-native-p.jpg",
+        "sha256": "73c903a630cb9199f39b190a32e2ddb019a4067d9071d17dbfd7f7b6d5da823d"
+      }
+    },
+    "parameters": {
+      "id": "cup-decision",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 1,
+      "played": 6,
+      "draws": true,
+      "overlay": "DÃ©signer les qualifiÃ©s"
+    }
+  },
+  {
+    "scenario": "cup-decision",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-decision-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-decision-lovable-l.jpg",
+        "sha256": "56fd91e5149d590c7f1af27889a3c7bf4e880844f4c1cd3b44c9da2a973d7232"
+      },
+      "native": {
+        "path": "raw/cup-decision-native-l.jpg",
+        "sha256": "cbcd12f77001f786b2e773afa119f144e4d20349224963c67802a4e37570a1eb"
+      }
+    },
+    "parameters": {
+      "id": "cup-decision",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 1,
+      "played": 6,
+      "draws": true,
+      "overlay": "DÃ©signer les qualifiÃ©s"
+    }
+  },
+  {
+    "scenario": "cup-palmares",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-palmares-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-palmares-lovable-p.jpg",
+        "sha256": "4b5777f4f23d2d2fec70d8e7a925a4d07bc949f4bbf64b05492b792c9284c125"
+      },
+      "native": {
+        "path": "raw/cup-palmares-native-p.jpg",
+        "sha256": "99c72c61a7a9a551fc7ed920e712c41b5b418c4a36a9797d6b9638fb8e6c132f"
+      }
+    },
+    "parameters": {
+      "id": "cup-palmares",
+      "mode": "cup",
+      "all": true,
+      "summary": true
+    }
+  },
+  {
+    "scenario": "cup-palmares",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-palmares-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-palmares-lovable-l.jpg",
+        "sha256": "e9f0c6115a8e75472a4e8dac1eb6d5298b69f22036f0726425bd9da674b0bd3a"
+      },
+      "native": {
+        "path": "raw/cup-palmares-native-l.jpg",
+        "sha256": "197c02ee3d130a424ab19f81b548ad6c924f7dd865109bedd01fd4b4f75faae3"
+      }
+    },
+    "parameters": {
+      "id": "cup-palmares",
+      "mode": "cup",
+      "all": true,
+      "summary": true
+    }
+  },
+  {
+    "scenario": "cup-extra-choice",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-extra-choice-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-extra-choice-lovable-p.jpg",
+        "sha256": "1202d3b8d9884d999cdba04cba0bbe6c3274e11df887b611dae4bfb593ecc814"
+      },
+      "native": {
+        "path": "raw/cup-extra-choice-native-p.jpg",
+        "sha256": "98f0c6fc8ab16c29c181a56f0d989ac514c6a608ef03d0744815920078643f23"
+      }
+    },
+    "parameters": {
+      "id": "cup-extra-choice",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "extraThenShootout",
+      "step": "choice"
+    }
+  },
+  {
+    "scenario": "cup-extra-choice",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-extra-choice-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-extra-choice-lovable-l.jpg",
+        "sha256": "610ec93e4ae4bf419c40ba685ff05dc6cb4da7cf09bec0039ac664951166b9ab"
+      },
+      "native": {
+        "path": "raw/cup-extra-choice-native-l.jpg",
+        "sha256": "a1430700f9b738b01439414d5aefbda05d2f8cfe03f8ce4f209ce598e2b3032e"
+      }
+    },
+    "parameters": {
+      "id": "cup-extra-choice",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "extraThenShootout",
+      "step": "choice"
+    }
+  },
+  {
+    "scenario": "cup-extra-ready",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-extra-ready-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-extra-ready-lovable-p.jpg",
+        "sha256": "0b31d8c9fe2d6890573faf55adc5966157c87af3f4fc80554d3db2a7e36e9bc2"
+      },
+      "native": {
+        "path": "raw/cup-extra-ready-native-p.jpg",
+        "sha256": "94b0c1fd55198ec10497fbeb1388a1556115f92ab7edda984e6845c88352cdd6"
+      }
+    },
+    "parameters": {
+      "id": "cup-extra-ready",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "extraThenShootout",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "cup-extra-ready",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-extra-ready-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-extra-ready-lovable-l.jpg",
+        "sha256": "7e59b5763e472536fe537730358db4727a17bb04496e98be12412c0c0358a0d8"
+      },
+      "native": {
+        "path": "raw/cup-extra-ready-native-l.jpg",
+        "sha256": "8162ec39230e7d82d559bd6b639af212e36fe046f20dde5e7c20a9aff4f8ce7a"
+      }
+    },
+    "parameters": {
+      "id": "cup-extra-ready",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "extraThenShootout",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "cup-shootout",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-shootout-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-shootout-lovable-p.jpg",
+        "sha256": "0b35bf8da940b96ee90389b0b1429f8c374cbb3ab3a2ecf33afc0178c25b86c6"
+      },
+      "native": {
+        "path": "raw/cup-shootout-native-p.jpg",
+        "sha256": "cc996aace0e914ca3989e3e95d7703d67093ab597130c37a9c4f1917efe80102"
+      }
+    },
+    "parameters": {
+      "id": "cup-shootout",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "shootout",
+      "step": "shootout"
+    }
+  },
+  {
+    "scenario": "cup-shootout",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-shootout-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-shootout-lovable-l.jpg",
+        "sha256": "c152e965a37353ab9074db2d9f0e74492460bb55fbb958933af7f1173684a78f"
+      },
+      "native": {
+        "path": "raw/cup-shootout-native-l.jpg",
+        "sha256": "8afe06e1808ea561fc33496c4532bf3d2a95aa6503985697beab83fa70ee6841"
+      }
+    },
+    "parameters": {
+      "id": "cup-shootout",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "shootout",
+      "step": "shootout"
+    }
+  },
+  {
+    "scenario": "cup-golden-ready",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-golden-ready-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-golden-ready-lovable-p.jpg",
+        "sha256": "ef42564729df46a764885698ace6cee44090e49256799e1e80dc9aca67eac80e"
+      },
+      "native": {
+        "path": "raw/cup-golden-ready-native-p.jpg",
+        "sha256": "47d63a292d23bf331522cc48bb06c69ab2999e8bcd8358a5b2cdfe28890e48b9"
+      }
+    },
+    "parameters": {
+      "id": "cup-golden-ready",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "golden",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "cup-golden-ready",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-golden-ready-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-golden-ready-lovable-l.jpg",
+        "sha256": "282aef16e03357627fee598777e4dd7d49314ff990ac85030fda5a836e5f5d04"
+      },
+      "native": {
+        "path": "raw/cup-golden-ready-native-l.jpg",
+        "sha256": "13a71fc162f6ef3f4ede74834a2fc066fd6c2a07dd1dd783a8d558075659f27f"
+      }
+    },
+    "parameters": {
+      "id": "cup-golden-ready",
+      "mode": "cup",
+      "n": 4,
+      "groups": 1,
+      "q": 2,
+      "played": 6,
+      "tie": "golden",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "cup-auto",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-auto-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-auto-lovable-p.jpg",
+        "sha256": "2b19ff05153794bd22eb819ee7c407a7841cd62cded1ac570be6998bbcb6704e"
+      },
+      "native": {
+        "path": "raw/cup-auto-native-p.jpg",
+        "sha256": "b3c4163339912c7bc7737fe8667a89b2beef16ffe72e9d5a6bb6e6aa90837c84"
+      }
+    },
+    "parameters": {
+      "id": "cup-auto",
+      "mode": "cup",
+      "played": 1,
+      "result": true,
+      "launch": "auto"
+    }
+  },
+  {
+    "scenario": "cup-auto",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-auto-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-auto-lovable-l.jpg",
+        "sha256": "8c97e6734b6c836fbc3426ce1a088fd4d2f4e7bccb1fc198b194cd865c11c94d"
+      },
+      "native": {
+        "path": "raw/cup-auto-native-l.jpg",
+        "sha256": "3dece72dc314aff135f3fcaf7dc506b6149a38b3b91bccbbbb50c819dd0a5c6d"
+      }
+    },
+    "parameters": {
+      "id": "cup-auto",
+      "mode": "cup",
+      "played": 1,
+      "result": true,
+      "launch": "auto"
+    }
+  },
+  {
+    "scenario": "cup-elapsed",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/cup-elapsed-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-elapsed-lovable-p.jpg",
+        "sha256": "17c666f9b57a34b07116ae0a92599b4db2f1a0560e3d1a42efb9b871c1de0160"
+      },
+      "native": {
+        "path": "raw/cup-elapsed-native-p.jpg",
+        "sha256": "1344b438840d84d7da684e77d76cb25d8f42304484122e13fadc1a95bcd194e4"
+      }
+    },
+    "parameters": {
+      "id": "cup-elapsed",
+      "mode": "cup",
+      "match": true,
+      "paused": true,
+      "elapsed": true
+    }
+  },
+  {
+    "scenario": "cup-elapsed",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/cup-elapsed-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/cup-elapsed-lovable-l.jpg",
+        "sha256": "88ee1866285cf9f0bf9fe1013a6e33ea44d1528683b1db915d904d26f2eceb57"
+      },
+      "native": {
+        "path": "raw/cup-elapsed-native-l.jpg",
+        "sha256": "0651fd2c9699ec9c3df9e24a60a198a4c22bb8c2c3691362136d8a3508a0df8f"
+      }
+    },
+    "parameters": {
+      "id": "cup-elapsed",
+      "mode": "cup",
+      "match": true,
+      "paused": true,
+      "elapsed": true
+    }
+  },
+  {
+    "scenario": "survie-byes",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-byes-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-byes-lovable-p.jpg",
+        "sha256": "35078c49ec02a6ddeae76352f9b8d1e04b616026afa963306d4e87029c9b0dc0"
+      },
+      "native": {
+        "path": "raw/survie-byes-native-p.jpg",
+        "sha256": "cf090a77cc822e5ed16ac270a97f928ad6be82f3c7c596551442fdc787dfaf3b"
+      }
+    },
+    "parameters": {
+      "id": "survie-byes",
+      "mode": "survie",
+      "n": 5
+    }
+  },
+  {
+    "scenario": "survie-byes",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-byes-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-byes-lovable-l.jpg",
+        "sha256": "bb0246a8564f77c6f93d2c15b53e161da00ae2c1d95cb7783c524ad7ab1b3bd8"
+      },
+      "native": {
+        "path": "raw/survie-byes-native-l.jpg",
+        "sha256": "f64ebd27a7b5c1a5390baebfd5f3e97bb0c3fb74c1bb892a09605060fc3769a6"
+      }
+    },
+    "parameters": {
+      "id": "survie-byes",
+      "mode": "survie",
+      "n": 5
+    }
+  },
+  {
+    "scenario": "survie-fixtures",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-fixtures-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-fixtures-lovable-p.jpg",
+        "sha256": "fb8decd394b34f2fed72c268bddc81d821b615aa0f3dcfc67bbeedb34723b027"
+      },
+      "native": {
+        "path": "raw/survie-fixtures-native-p.jpg",
+        "sha256": "909402897d02ae8ce0c8a438a50a9f417d471661008ee859c85306e7570a41d9"
+      }
+    },
+    "parameters": {
+      "id": "survie-fixtures",
+      "mode": "survie",
+      "n": 5,
+      "played": 1,
+      "tab": "Matchs"
+    }
+  },
+  {
+    "scenario": "survie-fixtures",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-fixtures-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-fixtures-lovable-l.jpg",
+        "sha256": "b143b37e38aafe60b9fc95277ecb524e6f605397180e23d64d2066cfe8def2f1"
+      },
+      "native": {
+        "path": "raw/survie-fixtures-native-l.jpg",
+        "sha256": "d8da17fff5831d0268188475b04b582074df3a7fe817f8b273cd256204d0f441"
+      }
+    },
+    "parameters": {
+      "id": "survie-fixtures",
+      "mode": "survie",
+      "n": 5,
+      "played": 1,
+      "tab": "Matchs"
+    }
+  },
+  {
+    "scenario": "survie-semis",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-semis-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-semis-lovable-p.jpg",
+        "sha256": "7be7a865d2aaf20cd1ff8497e34de0041d8f55a30aab920bed330a435349520d"
+      },
+      "native": {
+        "path": "raw/survie-semis-native-p.jpg",
+        "sha256": "11c7c08684054efbcf8dcbe381c7a280a76d8b4a3c824b3c10e1be6a0eadc6cf"
+      }
+    },
+    "parameters": {
+      "id": "survie-semis",
+      "mode": "survie",
+      "played": 4
+    }
+  },
+  {
+    "scenario": "survie-semis",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-semis-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-semis-lovable-l.jpg",
+        "sha256": "d3b6205fc599169f5bd82fddb26224afc8c2a9a06ef6944c58ba1ecb0231a431"
+      },
+      "native": {
+        "path": "raw/survie-semis-native-l.jpg",
+        "sha256": "89320bc8c91baae63fcef0e81dc5ff2f4ff9a45241473373126153bdda398171"
+      }
+    },
+    "parameters": {
+      "id": "survie-semis",
+      "mode": "survie",
+      "played": 4
+    }
+  },
+  {
+    "scenario": "survie-small-final",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-small-final-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-small-final-lovable-p.jpg",
+        "sha256": "5395d8e6cf699c1e58fa965dcc2f94db7d14b69c8fe2176c5724e7a40085a6cb"
+      },
+      "native": {
+        "path": "raw/survie-small-final-native-p.jpg",
+        "sha256": "96958fd9c5e4ac1ac9cb340b5fefb4a1345df8aeeb515a957facac5896b57415"
+      }
+    },
+    "parameters": {
+      "id": "survie-small-final",
+      "mode": "survie",
+      "played": 6
+    }
+  },
+  {
+    "scenario": "survie-small-final",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-small-final-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-small-final-lovable-l.jpg",
+        "sha256": "398dc38172ab93f2c6dbc85c94a0a1853719499d2d655689e502b6bc3c9069eb"
+      },
+      "native": {
+        "path": "raw/survie-small-final-native-l.jpg",
+        "sha256": "07f8439838cd60c2cc386b18a763e30f9e4d95eda385e4f0e40e9b6bc074a2f8"
+      }
+    },
+    "parameters": {
+      "id": "survie-small-final",
+      "mode": "survie",
+      "played": 6
+    }
+  },
+  {
+    "scenario": "survie-final",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-final-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-final-lovable-p.jpg",
+        "sha256": "250277563f7cd52f3ed27427ee5720a4e04848a40db7620917995bfae40fc620"
+      },
+      "native": {
+        "path": "raw/survie-final-native-p.jpg",
+        "sha256": "63382288b9a524f0b1cf4154390cd9bb4c5e157b8bc3c5f2da6a57b801ecba7f"
+      }
+    },
+    "parameters": {
+      "id": "survie-final",
+      "mode": "survie",
+      "played": 7,
+      "match": true
+    }
+  },
+  {
+    "scenario": "survie-final",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-final-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-final-lovable-l.jpg",
+        "sha256": "4ce4ccc88aa0bd437c6da01e445efb41ee16b574417bc6d039ad8812473e0d95"
+      },
+      "native": {
+        "path": "raw/survie-final-native-l.jpg",
+        "sha256": "8a3aec69361aae06eb61c9285ce26832b353c5ca48c025160c58292858f2dbe6"
+      }
+    },
+    "parameters": {
+      "id": "survie-final",
+      "mode": "survie",
+      "played": 7,
+      "match": true
+    }
+  },
+  {
+    "scenario": "survie-palmares",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-palmares-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-palmares-lovable-p.jpg",
+        "sha256": "8a643cbb8f22aaf4134dec43c17a4e7dd2e55cd57961688f8eda0f369b3bbf4f"
+      },
+      "native": {
+        "path": "raw/survie-palmares-native-p.jpg",
+        "sha256": "725909011d55f666091e44820727d7e8fb5b224fb7a0f0f91533b99841066e82"
+      }
+    },
+    "parameters": {
+      "id": "survie-palmares",
+      "mode": "survie",
+      "all": true,
+      "summary": true
+    }
+  },
+  {
+    "scenario": "survie-palmares",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-palmares-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-palmares-lovable-l.jpg",
+        "sha256": "caad3cb65beacc647e5db1e01d2d2b3d75f63c6d8bd52c29baef1d70896637dc"
+      },
+      "native": {
+        "path": "raw/survie-palmares-native-l.jpg",
+        "sha256": "6550f391e26615f72c6cb2482a46bc90a0300ec6fcae7deedceed8231edfd59e"
+      }
+    },
+    "parameters": {
+      "id": "survie-palmares",
+      "mode": "survie",
+      "all": true,
+      "summary": true
+    }
+  },
+  {
+    "scenario": "survie-delay",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-delay-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-delay-lovable-p.jpg",
+        "sha256": "3719c914d90f95777b8591208be702d8cbf059e1567f7878af6bb3353a51d2bf"
+      },
+      "native": {
+        "path": "raw/survie-delay-native-p.jpg",
+        "sha256": "aa0c52b3801e181246d39825df1d07becddd12bda42294b2548f6f321dce2c0c"
+      }
+    },
+    "parameters": {
+      "id": "survie-delay",
+      "mode": "survie",
+      "played": 1,
+      "result": true,
+      "launch": "delay"
+    }
+  },
+  {
+    "scenario": "survie-delay",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-delay-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-delay-lovable-l.jpg",
+        "sha256": "96eec1236eec2168df580cd2595439f63131693d5022e1310fa704e2a64b13f7"
+      },
+      "native": {
+        "path": "raw/survie-delay-native-l.jpg",
+        "sha256": "d238920f0ac7605b48500e36bd3e115cf04def7a885a79c2ed14ac0d52b2c7c6"
+      }
+    },
+    "parameters": {
+      "id": "survie-delay",
+      "mode": "survie",
+      "played": 1,
+      "result": true,
+      "launch": "delay"
+    }
+  },
+  {
+    "scenario": "survie-auto",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-auto-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-auto-lovable-p.jpg",
+        "sha256": "5174ae86aa338643f962df42992cb9c27df7cdc6abb0115db473aab7ead7e4df"
+      },
+      "native": {
+        "path": "raw/survie-auto-native-p.jpg",
+        "sha256": "cf27ccb0c8c113b029decf8b4a9b97373e7ecdbfe2ccf5f9b48b7357a8dbf939"
+      }
+    },
+    "parameters": {
+      "id": "survie-auto",
+      "mode": "survie",
+      "played": 1,
+      "result": true,
+      "launch": "auto"
+    }
+  },
+  {
+    "scenario": "survie-auto",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-auto-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-auto-lovable-l.jpg",
+        "sha256": "6f969d4df8a3aeb7f975c69a76db514ca8d9313d2fd3308f55051afc7e7076ac"
+      },
+      "native": {
+        "path": "raw/survie-auto-native-l.jpg",
+        "sha256": "763d6314da08a4578f818712a0606f66a24188eefd1933934f83e1a8b7e41962"
+      }
+    },
+    "parameters": {
+      "id": "survie-auto",
+      "mode": "survie",
+      "played": 1,
+      "result": true,
+      "launch": "auto"
+    }
+  },
+  {
+    "scenario": "survie-extra-choice",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-extra-choice-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-extra-choice-lovable-p.jpg",
+        "sha256": "2cc8d2bfe84750bb6c0fccbb2636757363cee207103d7bba0595cd9b538a4122"
+      },
+      "native": {
+        "path": "raw/survie-extra-choice-native-p.jpg",
+        "sha256": "3f73f9c5877c812152dfb87ea792059be38ff4f2a66316124bae28bd943ff234"
+      }
+    },
+    "parameters": {
+      "id": "survie-extra-choice",
+      "mode": "survie",
+      "n": 2,
+      "tie": "extraThenShootout",
+      "step": "choice"
+    }
+  },
+  {
+    "scenario": "survie-extra-choice",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-extra-choice-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-extra-choice-lovable-l.jpg",
+        "sha256": "edaadd49cc012f9619aca96324012964bb272d17cba85a0ab62e58ba412f824d"
+      },
+      "native": {
+        "path": "raw/survie-extra-choice-native-l.jpg",
+        "sha256": "dc55acadd9461fadbc64e906e35ba5d8d256efaf82c3f0da0e6a0899a0809133"
+      }
+    },
+    "parameters": {
+      "id": "survie-extra-choice",
+      "mode": "survie",
+      "n": 2,
+      "tie": "extraThenShootout",
+      "step": "choice"
+    }
+  },
+  {
+    "scenario": "survie-extra-ready",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-extra-ready-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-extra-ready-lovable-p.jpg",
+        "sha256": "6c99ac534b2196d9d8f459cdfd368f7c4d7bd6b71448ccf5ee98e5904308e000"
+      },
+      "native": {
+        "path": "raw/survie-extra-ready-native-p.jpg",
+        "sha256": "2a90355d06404c602fef1ef113e6af1970a333ca9a9b977d4eff2d17b34d9b69"
+      }
+    },
+    "parameters": {
+      "id": "survie-extra-ready",
+      "mode": "survie",
+      "n": 2,
+      "tie": "extraThenShootout",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "survie-extra-ready",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-extra-ready-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-extra-ready-lovable-l.jpg",
+        "sha256": "5b4a169880b89c3be917964aad42b47650b3e4dc3042500df530862f1a48dad6"
+      },
+      "native": {
+        "path": "raw/survie-extra-ready-native-l.jpg",
+        "sha256": "0e1f3edbf359c23ee80f98087687f4570536e685fee5cdfe45aaffa325de737b"
+      }
+    },
+    "parameters": {
+      "id": "survie-extra-ready",
+      "mode": "survie",
+      "n": 2,
+      "tie": "extraThenShootout",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "survie-shootout",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-shootout-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-shootout-lovable-p.jpg",
+        "sha256": "ccf7a1f787a207eaf3f94568abe6a45541f9bbfd9c9ecd0c4d9ab6b8a51807f9"
+      },
+      "native": {
+        "path": "raw/survie-shootout-native-p.jpg",
+        "sha256": "c26d8f39ab9244f7c34127b8cca6a76972f41ff7159cc88b83b950191bdfc619"
+      }
+    },
+    "parameters": {
+      "id": "survie-shootout",
+      "mode": "survie",
+      "n": 2,
+      "tie": "shootout",
+      "step": "shootout"
+    }
+  },
+  {
+    "scenario": "survie-shootout",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-shootout-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-shootout-lovable-l.jpg",
+        "sha256": "7222a6add7ccd49c2d0d8abe4314b399ec7815827d8ef65283c728d99c2710bf"
+      },
+      "native": {
+        "path": "raw/survie-shootout-native-l.jpg",
+        "sha256": "03fb40434fb9dfbde6bbc441c0115b710c8d995386a74f81109c52ad1a648b83"
+      }
+    },
+    "parameters": {
+      "id": "survie-shootout",
+      "mode": "survie",
+      "n": 2,
+      "tie": "shootout",
+      "step": "shootout"
+    }
+  },
+  {
+    "scenario": "survie-golden-ready",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-golden-ready-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-golden-ready-lovable-p.jpg",
+        "sha256": "d82d2ba2ff55a0fa1338ab518154ebf27ce442300524c0f672f869beefeb0111"
+      },
+      "native": {
+        "path": "raw/survie-golden-ready-native-p.jpg",
+        "sha256": "2c556bf5ade4625b268a316b28be31c5c2f979280d6db94bcde3528e2f29a4aa"
+      }
+    },
+    "parameters": {
+      "id": "survie-golden-ready",
+      "mode": "survie",
+      "n": 2,
+      "tie": "golden",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "survie-golden-ready",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-golden-ready-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-golden-ready-lovable-l.jpg",
+        "sha256": "44312233b80e7944456f30e8d707d40c60b4ba6d567f0bcfe6025d6873871276"
+      },
+      "native": {
+        "path": "raw/survie-golden-ready-native-l.jpg",
+        "sha256": "65ebc6c2caaa1e5e5df460c96aa4e4cdd388e571c7cfd032c708e6f33bde7ad4"
+      }
+    },
+    "parameters": {
+      "id": "survie-golden-ready",
+      "mode": "survie",
+      "n": 2,
+      "tie": "golden",
+      "step": "ready"
+    }
+  },
+  {
+    "scenario": "survie-stop",
+    "orientation": "p",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pair": "pairs/survie-stop-p.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-stop-lovable-p.jpg",
+        "sha256": "d29f32c63a709536fcb932ffcdfeee324a71e8b8e9deb96bed89e48467f8df17"
+      },
+      "native": {
+        "path": "raw/survie-stop-native-p.jpg",
+        "sha256": "bb4f324b33ead22dbe386d618d62d79b26ef50ff90aef0904bd1024942fa86dd"
+      }
+    },
+    "parameters": {
+      "id": "survie-stop",
+      "mode": "survie",
+      "played": 1,
+      "overlay": "Interrompre le tournoi"
+    }
+  },
+  {
+    "scenario": "survie-stop",
+    "orientation": "l",
+    "dimensions": [
+      844,
+      390
+    ],
+    "pair": "pairs/survie-stop-l.jpg",
+    "raw": {
+      "lovable": {
+        "path": "raw/survie-stop-lovable-l.jpg",
+        "sha256": "223d91c40867b0b921325f932cc71d33a145ba677d28474781130c3c6d8637de"
+      },
+      "native": {
+        "path": "raw/survie-stop-native-l.jpg",
+        "sha256": "44ec54eddc9067e0141cea179996288c4f76ef18976181a181b7eea2ca593db5"
+      }
+    },
+    "parameters": {
+      "id": "survie-stop",
+      "mode": "survie",
+      "played": 1,
+      "overlay": "Interrompre le tournoi"
+    }
+  }
+]

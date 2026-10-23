@@ -387,8 +387,8 @@ export function dispatchSession(fn: (s: Session, now: number) => Session, opts: 
   emitSounds(prev, next, !!opts.silent);
   set({ session: next, now });
   void persist(KEYS.session, next);
-  if ((next.mode === "cup" || next.mode === "survie") && next.live?.stage === "finished" && sessionComplete(next)) {
-    void archiveCompetition(endSession(next, next.live.finishedAt ?? now));
+  if ((next.mode === "cup" || next.mode === "survie") && (next.live?.stage === "finished" || next.tournamentView !== undefined) && sessionComplete(next)) {
+    void archiveCompetition(endSession(next, next.live?.finishedAt ?? now));
   }
 }
 
@@ -456,8 +456,17 @@ function archiveCompetition(finished: Session): Promise<boolean> {
 async function backfillCompetitions() {
   const candidates = [state.lastSummary, state.session].filter((s): s is Session => s !== null);
   for (const session of candidates) {
-    const finished = session.status === "active" && (session.mode === "cup" || session.mode === "survie") && session.live?.stage === "finished" && sessionComplete(session) ? endSession(session, session.live.finishedAt ?? session.updatedAt) : session;
-    if (isCompetition(finished) && !state.competitions.some(c => c.id === finished.id)) pendingCompetitions.set(finished.id, finished);
+    const finished = session.status === "active" && (session.mode === "cup" || session.mode === "survie") && (session.live?.stage === "finished" || session.tournamentView !== undefined) && sessionComplete(session) ? endSession(session, session.live?.finishedAt ?? session.updatedAt) : session;
+    if (isCompetition(finished)) {
+      const previous = state.competitions.find(c => c.id === finished.id);
+      // A completed session can be newer than its durable history entry after a
+      // failed correction write. Reconcile it on restart, retaining the name
+      // and archival date rather than treating the existing entry as current.
+      // A stale last-summary copy must not roll a newer archive back. Existing
+      // records are reconciled only from the durable current session; summary
+      // writes occur after the history commit and cannot be ahead of it.
+      if (!previous || session === state.session && JSON.stringify(previous.session) !== JSON.stringify(finished)) pendingCompetitions.set(finished.id, finished);
+    }
   }
   for (const finished of [...pendingCompetitions.values()]) await archiveCompetition(finished);
   if (!pendingCompetitions.size) { errors.delete("history:pending"); persistPendingSummary(); }

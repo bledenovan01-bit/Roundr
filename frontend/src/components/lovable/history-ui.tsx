@@ -6,20 +6,20 @@ import { LovableBackground } from "./background";
 import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
 
 // Opt-in frozen Screen/CTA geometry. Other native screens keep their components.
-export function HistoryScreenFrame({ title, subtitle, accent, onBack, children, footer }: { title: string; subtitle: string; accent?: string; onBack: () => void; children: ReactNode; footer?: ReactNode }) {
+export function HistoryScreenFrame({ title, subtitle, accent, onBack, children, footer, right, hideBack=false, wideFooter=false }: { title: string; subtitle: string; accent?: string; onBack: () => void; children: ReactNode; footer?: ReactNode; right?:ReactNode;hideBack?:boolean;wideFooter?:boolean }) {
   const { width, height, fontScale } = useWindowDimensions(), inset = useSafeAreaInsets();
   const landscape = width > height;
   const two = landscape && width - inset.left - inset.right >= 600 && fontScale <= 1.5;
   return <View testID="history-screen" style={{ flex: 1, backgroundColor: c.background }}>
     <LovableBackground />
     <View style={[h.header, { paddingTop: inset.top + (landscape ? 10 : 18), paddingBottom: landscape ? 4 : 10, paddingLeft: inset.left + 20, paddingRight: inset.right + 20 }]}>
-      <Pressable accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} style={h.back}><LovableIcon name="back" color={c.foreground} size={20} /></Pressable>
-      <View style={{ flex: 1 }}><Text accessibilityRole="header" numberOfLines={1} style={h.title}>{title}</Text><Text style={[h.subtitle, accent ? { color: accent } : null]}>{subtitle}</Text></View><View style={{ width: 44 }} />
+      {hideBack?<View style={{width:44}}/>:<Pressable accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} style={h.back}><LovableIcon name="back" color={c.foreground} size={20} /></Pressable>}
+      <View style={{ flex: 1 }}><Text accessibilityRole="header" numberOfLines={1} style={h.title}>{title}</Text><Text style={[h.subtitle, accent ? { color: accent } : null]}>{subtitle}</Text></View>{right??<View style={{ width: 44 }} />}
     </View>
     <ScrollView testID="history-scroll" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 6, paddingLeft: inset.left + 20, paddingRight: inset.right + 20, paddingBottom: Math.max(16, inset.bottom), gap: 12, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
       {Array.isArray(children) ? children.flat(Infinity).filter(Boolean).map((child, i) => <View key={i} style={{ width: two ? (width - inset.left - inset.right - 52) / 2 : "100%" }}>{child}</View>) : children}
     </ScrollView>
-    {footer ? <View style={{ paddingLeft: 20 + (landscape ? inset.left : 0), paddingRight: 20 + (landscape ? inset.right : 0), paddingTop: landscape ? 8 : 12, paddingBottom: Math.max(inset.bottom, landscape ? 10 : 16), alignItems: "center" }}><View style={{ width: landscape ? undefined : "100%", maxWidth: landscape ? 420 : undefined, gap: landscape ? 4 : 8 }}>{footer}</View></View> : null}
+    {footer ? <View style={{ paddingLeft: 20 + (landscape ? inset.left : 0), paddingRight: 20 + (landscape ? inset.right : 0), paddingTop: landscape ? 8 : 12, paddingBottom: Math.max(inset.bottom, landscape ? 10 : 16), alignItems: "center" }}><View style={{ width: landscape ? wideFooter?Math.min(420,width-inset.left-inset.right-40):undefined : "100%", maxWidth: landscape ? 420 : undefined, gap: landscape ? 4 : 8 }}>{footer}</View></View> : null}
   </View>;
 }
 export function HistoryAction({ label, icon, onPress, variant = "primary", disabled, testID, fitContent = false }: { label: string; icon?: LovableIconName; onPress: () => void; variant?: "primary" | "secondary" | "ghost" | "danger"; disabled?: boolean; testID?: string; fitContent?: boolean }) {

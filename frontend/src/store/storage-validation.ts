@@ -28,6 +28,8 @@ export function validPreset(p:any):p is Preset {
 }
 export function validSession(s:any):s is Session {
   try {
+    if(s?.sportingRules!==undefined&&(s.sportingRules!=="lovable-final-v1"||!["cup","survie"].includes(s.mode)))return false;
+    if(s?.tournamentView!==undefined&&(!["cup","survie"].includes(s.mode)||!["hub","match","summary"].includes(s.tournamentView)))return false;
     if(!record(s)||typeof s.id!=="string"||!modes.includes(s.mode)||s.config?.mode!==s.mode||!teamsOK(s.teams)||
       !["active","finished","interrupted"].includes(s.status)||!finite(s.createdAt)||!finite(s.updatedAt)||
       !configOK("teamCount" in s.config?{...s.config,teamCount:s.teams.length}:s.config,s.teams)||
@@ -40,6 +42,7 @@ export function validSession(s:any):s is Session {
     if(s.matches.some((m:any)=>!record(m)||typeof m.id!=="string"||!finite(m.order)||!slotOK(m.a)||!slotOK(m.b)||
       !["scheduled","live","finished","bye"].includes(m.status)||!pairOK(m.score)||!pairOK(m.shootout)||
       !finite(m.playedMs)||(m.winnerId!==null&&!teamIds.has(m.winnerId)))) return false;
+    if(s.matches.some((m:any)=>m.completedPhase!==undefined&&(!["cup","survie"].includes(s.mode)||!["reg","prol","golden"].includes(m.completedPhase))))return false;
     const l=s.live;
     if(l!==null&&(!record(l)||!matchIds.has(l.matchId)||!["ready","period","break","awaitPeriod","additional","extra","golden","shootout","finished"].includes(l.stage)||
       !record(l.chrono)||!finite(l.chrono.accumulatedMs)||l.chrono.accumulatedMs<0||
@@ -49,6 +52,7 @@ export function validSession(s:any):s is Session {
       !finite(l.playedMs)||!pairOK(l.score)||l.score===null||!record(l.end)||
       !Array.isArray(l.firedAlerts)||l.firedAlerts.some((x:any)=>typeof x!=="string"))) return false;
     if(l?.detail!==undefined&&!validMatchDetail(l.detail,l.periodMs.length,l.score))return false;
+    if(l?.tiebreakStep!==undefined&&(!["choice","ready"].includes(l.tiebreakStep)||s.tournamentView===undefined||!["extra","golden"].includes(l.stage)||l.chrono.runningSince!==null||l.chrono.accumulatedMs!==0))return false;
     if(s.preFinish!=null) {
       if(!record(s.preFinish)||!validSession({...s,matches:s.preFinish.matches,maracana:s.preFinish.maracana,cup:s.preFinish.cup,preFinish:null,pendingLaunch:undefined}))return false;
     }

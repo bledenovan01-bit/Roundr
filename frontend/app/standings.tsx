@@ -6,7 +6,12 @@ import { slotLabel, roundName } from "@/src/domain/bracket";
 import { useStore } from "@/src/store/session-store";
 import { fontFamily, useTheme } from "@/src/theme";
 import type { Match, Session } from "@/src/domain/types";
+import { LovableTournamentFlow } from "@/src/features/lovable-tournament";
 export default function Standings(){
+ const active=useStore(s=>s.session);
+ return active?.mode==="cup"||active?.mode==="survie"?<LovableTournamentFlow key={active.id} initialHub/>:<LegacyStandings/>;
+}
+function LegacyStandings(){
  const active=useStore(s=>s.session);const last=useStore(s=>s.lastSummary);const params=useLocalSearchParams<{summary?:string}>();const session=params.summary?last:active??last;const {colors}=useTheme();
  if(!session)return <DesignScreen title="Classement" subtitle="Aucune session"><Text style={{color:colors.muted}}>Lance une session pour afficher les résultats.</Text></DesignScreen>;
  const ko=session.matches.filter(m=>m.stage==="ko"||m.stage==="small");const rounds=[...new Set(ko.map(m=>m.roundOf??2))].sort((a,b)=>b-a);

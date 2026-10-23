@@ -185,6 +185,10 @@ export function currentMatch(session: Session): Match | null {
 export function restartCurrent(session: Session, now: number): Session {
   const match = currentMatch(session);
   if (!match || session.live?.stage === "finished") return session;
+  const current = session.live;
+  if (session.tournamentView !== undefined && current && (current.stage === "extra" || current.stage === "golden")) {
+    return setLive(session, { ...current, tiebreakStep: "ready", chrono: { ...current.chrono, runningSince: null, accumulatedMs: 0 } }, now);
+  }
   const live = buildLive(session, match, now, false);
   return { ...session, updatedAt: now, live };
 }
@@ -342,12 +346,26 @@ function tiebreak(session: Session, at: number): Session {
     case "shootout":
       return setLive(session, { ...base, stage: "shootout", chrono: { ...live.chrono, runningSince: null } }, at);
     case "extraThenShootout":
-      return setLive(session, enterStage(base, "extra", live.extraMs, at), at);
+      return setLive(session, prepareTiebreak(session, enterStage(base, "extra", live.extraMs, at)), at);
     case "golden":
-      return setLive(session, enterStage(base, "golden", null, at), at);
+      return setLive(session, prepareTiebreak(session, enterStage(base, "golden", null, at)), at);
     default:
       return finishMatch(session, at, "manual", false);
   }
+}
+
+function prepareTiebreak(session: Session, live: Live): Live {
+  return session.tournamentView === undefined ? live : { ...live, tiebreakStep: "choice", chrono: { ...live.chrono, runningSince: null, accumulatedMs: 0 } };
+}
+export function prepareTournamentTiebreak(session: Session, now: number): Session {
+  return session.live?.tiebreakStep === "choice" ? setLive(session, { ...session.live, tiebreakStep: "ready" }, now) : session;
+}
+export function startTournamentTiebreak(session: Session, now: number): Session {
+  const live = session.live;
+  if (live?.tiebreakStep !== "ready") return session;
+  const prepared = { ...live };
+  delete prepared.tiebreakStep;
+  return resume(setLive(session, prepared, now), now);
 }
 
 // CH-04 — une seule fin, résultat conservé, progression du mode.
@@ -368,6 +386,7 @@ function finishMatch(session: Session, at: number, reason: Match["finishReason"]
   const preFinish = { matches: session.matches, maracana: session.maracana, cup: session.cup };
   const updated: Match = {
     ...match,
+    ...(session.tournamentView !== undefined ? { completedPhase: live.stage === "extra" ? "prol" as const : live.stage === "golden" ? "golden" as const : "reg" as const } : {}),
     status: "finished",
     score: live.scoreOn ? [sa, sb] : null,
     winnerId,
@@ -406,7 +425,7 @@ function tryQualify(session: Session, chosen: string[] = []): Session {
   const c = session.config;
   if (c.mode !== "cup") return session;
   const q = c.tournamentPolicy === "lovable"
-    ? computeConfiguredQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? {}, !!c.bestNext)
+    ? computeConfiguredQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? {}, !!c.bestNext, session.sportingRules === "lovable-final-v1")
     : computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? chosen);
   if (q.kind === "tie") return { ...session, cup: { ...cup, tieChoice: { candidates: q.candidates, slots: q.slots, context: q.context } } };
   const bracket = buildBracket(q.seeds, { smallFinal: c.smallFinal, startOrder: groupMatches.length + 1, idPrefix: "k", reference: c.tournamentPolicy === "lovable" });
@@ -436,6 +455,7 @@ export function pause(session: Session, now: number): Session {
 
 export function resume(session: Session, now: number): Session {
   const live = session.live;
+  if (live?.tiebreakStep) return session;
   if (!live || !isPlayStage(live.stage) || live.chrono.runningSince != null) return session;
   const phase = live.stage === "period" ? "playing" : live.stage;
   return setLive(session, { ...live, chrono: { ...live.chrono, phase: phase as ChronoState["phase"], runningSince: now } }, now);
@@ -453,6 +473,7 @@ export function startNextPeriod(session: Session, now: number): Session {
 
 export function goal(session: Session, side: 0 | 1, delta: 1 | -1, now: number): Session {
   const live = session.live;
+  if (live?.tiebreakStep) return session;
   if (!live || !live.scoreOn) return session;
   if (!isPlayStage(live.stage) && live.stage !== "awaitPeriod" && live.stage !== "break") return session;
   const score: [number, number] = [...live.score] as [number, number];
@@ -463,13 +484,15 @@ export function goal(session: Session, side: 0 | 1, delta: 1 | -1, now: number):
   if (live.stage === "golden" || (live.stage === "extra" && live.maracanaExtension)) {
     return finishMatch(s, now, live.stage === "golden" ? "goldenGoal" : "extension", true);
   }
-  if (live.end.goalTarget != null && score[side] >= live.end.goalTarget) return finishMatch(s, now, "goalTarget", true);
+  const timedOvertime = session.sportingRules === "lovable-final-v1" && (session.mode === "cup" || session.mode === "survie") && live.stage === "extra";
+  if (!timedOvertime && live.end.goalTarget != null && score[side] >= live.end.goalTarget) return finishMatch(s, now, "goalTarget", true);
   return s;
 }
 
 // CH-05 — fin manuelle confirmée par l'écran.
 export function endManual(session: Session, now: number): Session {
   const live = session.live;
+  if (live?.tiebreakStep) return session;
   if (!live || !isPlayStage(live.stage)) return session;
   if (live.stage === "period") {
     // Temps de la période figé et compté ici ; concludePlay ne le recompte pas.
@@ -506,7 +529,7 @@ export function launchNext(session: Session, now: number, startImmediately = fal
   const next = findNextMatch(session);
   if (!next) return session;
   const matches = session.matches.map((m) => (m.id === next.id ? { ...m, status: "live" as const } : m));
-  const s = { ...clearPendingLaunch(session), matches, preFinish: null, lastEvent: null };
+  const s = { ...clearPendingLaunch(session), matches, preFinish: null, lastEvent: null, ...(session.tournamentView !== undefined ? { tournamentView: "match" as const } : {}) };
   return setLive(s, buildLive(s, next, now, startImmediately), now);
 }
 
@@ -563,6 +586,7 @@ export function startNextImmediately(session: Session, now: number): Session {
 }
 
 export function sessionComplete(session: Session): boolean {
+  if (session.tournamentView !== undefined && !session.live) return session.matches.some(m=>m.status==="finished") && !session.matches.some(m=>m.status==="live") && !hasPendingMatches(session);
   if (!session.live || session.live.stage !== "finished") return false;
   if (session.mode === "maracana") return false;
   return !hasPendingMatches(session);

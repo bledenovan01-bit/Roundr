@@ -1,0 +1,13 @@
+✓ Survie 2/3/5/8/16/32, byes, rounds, small final, champion and podium agree with the frozen Lovable engine
+✓ Cup group/KO progression, 1–4 groups, best-following ON/OFF, reduced brackets and a single qualifier match the frozen reference
+✓ Cup/Survie ties: explicit preparation, paused restore, overtime, shootouts and golden goal; no clock starts on preparation
+✓ Manual/automatic/delayed launches, pause/resume/cancel and restoration retain existing timestamp policies
+✓ Historical score corrections preserve unrelated results, prune dependent rounds/qualifiers, preserve played durations and reject edits during play
+✓ New optional UI metadata is validated; old saves keep their original overtime behavior and never acquire invented results
+✓ Frozen reference comparison proves mini-table/global-GD differences without changing legacy sporting criteria
+✓ Documented difference: incomplete return legs can order a temporary table differently; qualification remains unavailable
+✓ Documented difference: the existing native goal target still applies during overtime; no sporting rule silently changed
+✓ Correcting an old save never silently switches its future overtime clocks to the new UI policy
+✓ Known frozen-reference one-qualifier archival error characterized; native archives the champion without inventing a final
+✓ Bracket display preserves the reference seed positions; exempt teams are not sorted ahead of playable quarter-finals
+✓ Correcting a previous result after preparing the next match returns that unstarted fixture to the schedule; no orphan live match or skipped encounter
