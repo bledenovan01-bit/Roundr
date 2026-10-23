@@ -1,0 +1,14 @@
+[
+  {
+    "action": "reset",
+    "unchanged": true
+  },
+  {
+    "action": "restart",
+    "unchanged": true
+  },
+  {
+    "action": "end",
+    "unchanged": true
+  }
+]

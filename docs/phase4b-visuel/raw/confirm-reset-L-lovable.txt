@@ -1,0 +1,51 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=stopwatch&state=paused&laps=1&teams=2", URL: "http://127.0.0.1:8160/?kind=stopwatch&state=paused&laps=1&teams=2".
+1 AXWebArea 127.0.0.1:8160/?kind=stopwatch&state=paused&laps=1&teams=2
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Chronomètre  ·  En pause
+		7 button Paramètres du match
+		8 container Équipes
+			9 text Les Renards
+			10 text 0
+			11 button Description: But pour Les Renards (appui long : annuler), Help: Appui long : annuler un but
+			12 text FC Amigos
+			13 text 1
+			14 button Description: But pour FC Amigos (appui long : annuler), Help: Appui long : annuler un but
+		15 container
+			16 tab group Affichage du chrono
+				17 tab (selected, settable, boolean) Numérique, Value: 1
+				18 tab (selectable, settable, boolean) Analogique, Value: 0
+				19 tab (selectable, settable, boolean) Circulaire, Value: 0
+			20 container Vue numérique
+				21 text CHRONOMÈTRE
+				22 container
+					23 text 01:15 .45
+			24 button Vue numérique
+			25 button Vue analogique
+			26 button Vue circulaire
+			27 button Musique
+			28 text En pause
+		29 container Tours
+			30 heading Tours, Value: 3
+				31 text Tours
+			32 content list
+				33 container
+					34 text Tour  3 00:20 .00 00:40 .45
+				35 container
+					36 text Tour  2 00:08 .11 00:20 .45
+				37 container
+					38 text Tour  1 00:12 .34 00:12 .34
+		39 button Fin
+		40 button Réinitialiser
+		41 button Reprendre
+		42 container Réinitialiser le chrono
+			43 heading Réinitialiser le chrono ?, Value: 2
+				44 text Réinitialiser le chrono ?
+			45 text Le temps et les tours reviennent à zéro. Les réglages et les scores sont conservés.
+			46 button Réinitialiser le chrono
+			47 button Recommencer la séance (scores à zéro)
+			48 button Annuler
+
+The focused UI element is 40 button Réinitialiser

@@ -1,0 +1,34 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/phase4bqa?kind=stopwatch&state=running&view=analog".
+1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=running&view=analog
+	2 container
+		3 button Retour à l'accueil
+		4 container
+			5 heading CHRONO LIBRE, Value: 1
+				6 text CHRONO LIBRE
+			7 text Chronomètre  ·  En cours
+		8 button Paramètres du chrono
+		9 container
+			10 tab group Affichage du chrono
+				11 tab (selectable, settable, boolean) Description: Numérique, Value: 0
+Numérique
+				12 tab (selected, settable, boolean) Description: Analogique, Value: 1
+Analogique
+				13 tab (selectable, settable, boolean) Description: Circulaire, Value: 0
+Circulaire
+			14 container 01:15.45
+				15 container
+					16 container Cadran : 01:15.45
+					17 text CHRONOMÈTRE
+			18 button Vue numérique
+			19 button Vue analogique
+			20 button Vue circulaire
+			21 text En cours
+		22 container
+			23 button Fin
+				24 text Fin
+			25 button Tour
+				26 text Tour
+			27 button Pause
+				28 text Pause
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=running&view=analog

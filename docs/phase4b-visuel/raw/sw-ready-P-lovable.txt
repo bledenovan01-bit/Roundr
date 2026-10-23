@@ -1,0 +1,23 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=stopwatch&state=ready", URL: "http://127.0.0.1:8160/?kind=stopwatch&state=ready".
+1 AXWebArea 127.0.0.1:8160/?kind=stopwatch&state=ready
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Chronomètre  ·  Prêt à démarrer
+		7 button Paramètres du match
+		8 tab group Affichage du chrono
+			9 tab (selected, settable, boolean) Numérique, Value: 1
+			10 tab (selectable, settable, boolean) Analogique, Value: 0
+			11 tab (selectable, settable, boolean) Circulaire, Value: 0
+		12 container Vue numérique
+			13 text CHRONOMÈTRE
+			14 container
+				15 text 00:00 .00
+		16 button Vue numérique
+		17 button Vue analogique
+		18 button Vue circulaire
+		19 text Prêt à démarrer
+		20 button Démarrer
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8160/?kind=stopwatch&state=ready

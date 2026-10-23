@@ -1,0 +1,47 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/phase4bqa?kind=countdown&state=paused".
+1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=countdown&state=paused
+	2 container
+		3 button Retour à l'accueil
+		4 container
+			5 heading CHRONO LIBRE, Value: 1
+				6 text CHRONO LIBRE
+			7 text Compte à rebours  ·  En pause
+		8 button Paramètres du chrono
+		9 container
+			10 container
+				11 tab group Affichage du chrono
+					12 tab (selected, settable, boolean) Description: Numérique, Value: 1
+Numérique
+					13 tab (selectable, settable, boolean) Description: Analogique, Value: 0
+Analogique
+					14 tab (selectable, settable, boolean) Description: Circulaire, Value: 0
+Circulaire
+				15 button Afficher le temps écoulé
+					16 container
+						17 text TEMPS RESTANT
+						18 container 00:45.00
+							19 text 00:45
+							20 text .00
+				21 button Vue numérique
+				22 button Vue analogique
+				23 button Vue circulaire
+				24 text En pause
+		25 container
+			26 button Fin
+				27 text Fin
+			28 button Réinitialiser
+				29 text Réinitialiser
+			30 button Reprendre
+				31 text Reprendre
+	32 container
+		33 container
+			34 button Fermer
+			35 container Terminer cette session ?
+				36 container
+					37 text Terminer cette session ? Le chrono et les tours seront effacés. Vos chronos enregistrés ne changent pas.
+					38 button Terminer la session
+						39 text Terminer la session
+					40 button Annuler
+						41 text Annuler
+
+The focused UI element is 26 button Fin

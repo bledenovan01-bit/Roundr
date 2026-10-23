@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 import { loadPreferences } from "@/src/store/preferences";
 import { SessionRuntime } from "@/src/components/session-runtime";
+import { FreeTimerRuntime } from "@/src/components/free-timer-runtime";
 import { loadStore } from "@/src/store/session-store";
 
 import { ErrorBoundary } from "@/src/components/error-boundary";
@@ -56,6 +57,7 @@ export default function RootLayout() {
         <SafeAreaProvider>
           <QueryClientProvider client={queryClient}>
             <SessionRuntime />
+            <FreeTimerRuntime />
             <StatusBar style="light" />
             <Stack
               screenOptions={{

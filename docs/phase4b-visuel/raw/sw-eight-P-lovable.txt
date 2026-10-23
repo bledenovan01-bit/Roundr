@@ -1,0 +1,51 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=stopwatch&state=paused&teams=8", URL: "http://127.0.0.1:8160/?kind=stopwatch&state=paused&teams=8".
+1 AXWebArea 127.0.0.1:8160/?kind=stopwatch&state=paused&teams=8
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Chronomètre  ·  En pause
+		7 button Paramètres du match
+		8 container Équipes
+			9 text Les Renards
+			10 text 0
+			11 button Description: But pour Les Renards (appui long : annuler), Help: Appui long : annuler un but
+			12 text FC Amigos
+			13 text 1
+			14 button Description: But pour FC Amigos (appui long : annuler), Help: Appui long : annuler un but
+			15 text Panthères
+			16 text 2
+			17 button Description: But pour Panthères (appui long : annuler), Help: Appui long : annuler un but
+			18 text Galactiques
+			19 text 0
+			20 button Description: But pour Galactiques (appui long : annuler), Help: Appui long : annuler un but
+			21 text Tigers
+			22 text 1
+			23 button Description: But pour Tigers (appui long : annuler), Help: Appui long : annuler un but
+			24 text Squad FC
+			25 text 2
+			26 button Description: But pour Squad FC (appui long : annuler), Help: Appui long : annuler un but
+			27 text Los Amigos
+			28 text 0
+			29 button Description: But pour Los Amigos (appui long : annuler), Help: Appui long : annuler un but
+			30 text Dream Team
+			31 text 1
+			32 button Description: But pour Dream Team (appui long : annuler), Help: Appui long : annuler un but
+		33 tab group Affichage du chrono
+			34 tab (selected, settable, boolean) Numérique, Value: 1
+			35 tab (selectable, settable, boolean) Analogique, Value: 0
+			36 tab (selectable, settable, boolean) Circulaire, Value: 0
+		37 container Vue numérique
+			38 text CHRONOMÈTRE
+			39 container
+				40 text 01:15 .45
+		41 button Vue numérique
+		42 button Vue analogique
+		43 button Vue circulaire
+		44 button Musique
+		45 text En pause
+		46 button Fin
+		47 button Réinitialiser
+		48 button Reprendre
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8160/?kind=stopwatch&state=paused&teams=8

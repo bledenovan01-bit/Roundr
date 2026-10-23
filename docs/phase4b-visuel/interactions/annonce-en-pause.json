@@ -1,0 +1,6 @@
+{
+  "hiddenAfter4700msSleep": true,
+  "programmedLifetimeMs": 4500,
+  "realClock": true,
+  "paused": true
+}

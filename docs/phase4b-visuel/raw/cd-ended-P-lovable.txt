@@ -1,0 +1,27 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=countdown&state=ended", URL: "http://127.0.0.1:8160/?kind=countdown&state=ended".
+1 AXWebArea 127.0.0.1:8160/?kind=countdown&state=ended
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Compte à rebours  ·  Temps écoulé
+		7 button Paramètres du match
+		8 tab group Affichage du chrono
+			9 tab (selected, settable, boolean) Numérique, Value: 1
+			10 tab (selectable, settable, boolean) Analogique, Value: 0
+			11 tab (selectable, settable, boolean) Circulaire, Value: 0
+		12 container Vue numérique
+			13 button Afficher le temps écoulé
+				14 text TEMPS RESTANT
+				15 container
+					16 text 00:00 .00
+				17 progress indicator 100
+		18 button Vue numérique
+		19 button Vue analogique
+		20 button Vue circulaire
+		21 button Musique
+		22 text Temps écoulé
+		23 button Relancer la même durée
+		24 button Terminer et revenir à l'accueil
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8160/?kind=countdown&state=ended

@@ -1,0 +1,66 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&laps=1&teams=2".
+1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&laps=1&teams=2
+	2 container
+		3 button Retour à l'accueil
+		4 container
+			5 heading CHRONO LIBRE, Value: 1
+				6 text CHRONO LIBRE
+			7 text Chronomètre  ·  En pause
+		8 button Paramètres du chrono
+		9 container
+			10 container Équipes
+				11 container
+					12 text Les Renards
+					13 text 0
+					14 button Ajouter un but : Les Renards
+						15 text +1
+				16 container
+					17 text FC Amigos
+					18 text 1
+					19 button Ajouter un but : FC Amigos
+						20 text +1
+			21 tab group Affichage du chrono
+				22 tab (selected, settable, boolean) Description: Numérique, Value: 1
+Numérique
+				23 tab (selectable, settable, boolean) Description: Analogique, Value: 0
+Analogique
+				24 tab (selectable, settable, boolean) Description: Circulaire, Value: 0
+Circulaire
+			25 container 01:15.45
+				26 container
+					27 text CHRONOMÈTRE
+					28 container 01:15.45
+						29 text 01:15
+						30 text .45
+			31 container
+				32 button Vue numérique
+				33 button Vue analogique
+				34 button Vue circulaire
+			35 container
+				36 text En pause
+			37 text Tours
+			38 container
+				39 text Tour  3 00:20.00 00:40.45
+			40 container
+				41 text Tour  2 00:08.11 00:20.45
+			42 container
+				43 text Tour  1 00:12.34 00:12.34
+		44 container
+			45 button Fin
+				46 text Fin
+			47 button Réinitialiser
+				48 text Réinitialiser
+			49 button Reprendre
+				50 text Reprendre
+	51 container
+		52 container
+			53 button Fermer
+			54 container Recommencer la séance ?
+				55 container
+					56 text Recommencer la séance ? Le temps, les tours et tous les scores reviennent à zéro. Les équipes, les réglages et Mes chronos sont conservés.
+					57 button Recommencer la séance
+						58 text Recommencer la séance
+					59 button Annuler
+						60 text Annuler
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&laps=1&teams=2

@@ -1,0 +1,46 @@
+Browser tab: 31, Title: "127.0.0.1:8160/?kind=interval&state=running&teams=2", URL: "http://127.0.0.1:8160/?kind=interval&state=running&teams=2".
+1 AXWebArea 127.0.0.1:8160/?kind=interval&state=running&teams=2
+	2 container
+		3 button Retour à l'accueil
+		4 heading CHRONO LIBRE, Value: 1
+			5 text CHRONO LIBRE
+		6 text Intervalles  ·  En cours
+		7 button Paramètres du match
+		8 container Équipes
+			9 text Les Renards
+			10 text 0
+			11 button Description: But pour Les Renards (appui long : annuler), Help: Appui long : annuler un but
+			12 text FC Amigos
+			13 text 1
+			14 button Description: But pour FC Amigos (appui long : annuler), Help: Appui long : annuler un but
+		15 container
+			16 tab group Affichage du chrono
+				17 tab (selected, settable, boolean) Numérique, Value: 1
+				18 tab (selectable, settable, boolean) Analogique, Value: 0
+				19 tab (selectable, settable, boolean) Circulaire, Value: 0
+			20 container Vue numérique
+				21 button Afficher le temps écoulé
+					22 text TRAVAIL · TEMPS RESTANT
+					23 container
+						24 text 00:24 .75
+					25 progress indicator 18
+			26 button Vue numérique
+			27 button Vue analogique
+			28 button Vue circulaire
+			29 button Musique
+			30 text En cours
+		31 container Intervalles
+			32 text Période actuelle
+			33 container
+				34 text Période 1  · série 1/2
+			35 text Périodes restantes
+			36 text 5
+			37 text Ensuite
+			38 text Repos · 10 s
+			39 text Passage
+			40 text Automatique
+		41 button Fin
+		42 button Passer
+		43 button Pause
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8160/?kind=interval&state=running&teams=2

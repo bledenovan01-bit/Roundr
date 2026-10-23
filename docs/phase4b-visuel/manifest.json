@@ -1,0 +1,657 @@
+{
+  "lovable": "1c59720dc5b180d5b1bacfaf935902b4053895fa",
+  "expoBase": "1c9e30b22c52caf8b620b83fd00966d1d50102da",
+  "pairs": 46,
+  "states": [
+    [
+      "sw-ready",
+      "kind=stopwatch&state=ready"
+    ],
+    [
+      "sw-running",
+      "kind=stopwatch&state=running"
+    ],
+    [
+      "sw-analog",
+      "kind=stopwatch&state=running&view=analog"
+    ],
+    [
+      "sw-ring",
+      "kind=stopwatch&state=paused&view=circular"
+    ],
+    [
+      "sw-laps",
+      "kind=stopwatch&state=paused&laps=1&teams=2"
+    ],
+    [
+      "sw-eight",
+      "kind=stopwatch&state=paused&teams=8"
+    ],
+    [
+      "sw-no-scores",
+      "kind=stopwatch&state=paused&teams=3&scores=0"
+    ],
+    [
+      "cd-ready",
+      "kind=countdown&state=ready"
+    ],
+    [
+      "cd-running",
+      "kind=countdown&state=running&view=analog"
+    ],
+    [
+      "cd-pause",
+      "kind=countdown&state=paused&view=circular"
+    ],
+    [
+      "cd-ended",
+      "kind=countdown&state=ended"
+    ],
+    [
+      "cd-notice",
+      "kind=countdown&state=notice"
+    ],
+    [
+      "iv-ready",
+      "kind=interval&state=ready"
+    ],
+    [
+      "iv-work",
+      "kind=interval&state=running&teams=2"
+    ],
+    [
+      "iv-rest",
+      "kind=interval&state=rest&view=analog"
+    ],
+    [
+      "iv-wait",
+      "kind=interval&state=waiting&manual=1&view=circular"
+    ],
+    [
+      "iv-ended",
+      "kind=interval&state=ended"
+    ],
+    [
+      "iv-no-scores",
+      "kind=interval&state=paused&teams=3&scores=0"
+    ],
+    [
+      "confirm-reset",
+      "kind=stopwatch&state=paused&laps=1&teams=2",
+      "reset"
+    ],
+    [
+      "confirm-restart",
+      "kind=stopwatch&state=paused&laps=1&teams=2",
+      "restart"
+    ],
+    [
+      "confirm-end",
+      "kind=countdown&state=paused",
+      "end"
+    ],
+    [
+      "sw-hours",
+      "kind=stopwatch&state=paused&hours=1"
+    ],
+    [
+      "cd-elapsed",
+      "kind=countdown&state=ready",
+      "elapsed"
+    ]
+  ],
+  "images": [
+    {
+      "path": "raw/sw-ready-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "a55f7e311a6cf3387a6f8e4289e7879591cd584adcbcbde2e78d92f9160edaf6"
+    },
+    {
+      "path": "raw/sw-ready-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "982d1134c0b84e517150aec24b8bfcdd75309898f4031bed547e99d378efabcb"
+    },
+    {
+      "path": "raw/sw-ready-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "3b0e7fbe56ed5749f2b5191869e91f094873078c7252608b6a22c25796c3ca7a"
+    },
+    {
+      "path": "raw/sw-ready-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "b24705a36371ba891546ae7b7b52344d4d41c5a7f803b8e063d6fd0cc88b678a"
+    },
+    {
+      "path": "raw/sw-running-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "313ba788e43e4c8157d78395f7ae34cd8731482a74f439d929a54cfd4b019bec"
+    },
+    {
+      "path": "raw/sw-running-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "1d677aecd998cbb8f77e2976fa4a2b367ba9f3b63ac35ce1ca151723d2816b3a"
+    },
+    {
+      "path": "raw/sw-running-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "b9adab691227f592cb2ae9addcb0ae9efe1fd5dc75b526619ac5882ee330fd34"
+    },
+    {
+      "path": "raw/sw-running-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "f5c04671a5b88327c816132b1cde6057874979f4c61a1d913fc40517868c0549"
+    },
+    {
+      "path": "raw/sw-analog-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "abb231b199bc1d68dadf5858daf91927e07a4b541b0f4ae811cdda769b77c64e"
+    },
+    {
+      "path": "raw/sw-analog-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "48d149a32258ed947fb46414598aed46e70caa2b60cf75140f321daedde47230"
+    },
+    {
+      "path": "raw/sw-analog-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "f2e4a2a3f06841dbd63e10d33d926c5f6118135c8e34f10b4b8f82e086a2593a"
+    },
+    {
+      "path": "raw/sw-analog-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "e8001d65df2e436c4a48330a49e68fd3a9e6c3b6f7cdf841cb27850053a19088"
+    },
+    {
+      "path": "raw/sw-ring-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "9be5c29ae258232b9d735959e85ad74420efa98f03b648c2cbfac6e8ee12ff52"
+    },
+    {
+      "path": "raw/sw-ring-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "3e49cf322a311d37fa4b6ffe2af84d4748607fd67e1c692bfede1788d92df929"
+    },
+    {
+      "path": "raw/sw-ring-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "dc37625d393151896489673b1599cdf7689a65aa0aa98fa80b3ae51524a75636"
+    },
+    {
+      "path": "raw/sw-ring-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "f69a77431ae261fd4fd75a2438b885faa080e2cc823cd4be145bd6238c2b3f52"
+    },
+    {
+      "path": "raw/sw-laps-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "2f51baca0e0f61496db9c4be76e6f8e852b9ee7a0d347e32cafb93bc7fd4d2a4"
+    },
+    {
+      "path": "raw/sw-laps-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "6b1540c781282495951128d9d3275343a62f5eaf27103b9398a8cb4d4a8536fa"
+    },
+    {
+      "path": "raw/sw-laps-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "adbc43ea0a80aa46268d28126b03800f31de6592425b9e48ce337e41220af6b0"
+    },
+    {
+      "path": "raw/sw-laps-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "71982b85aac7428f6d612f8a56f3604a86da4e8959015fbfd3055178357a7aaf"
+    },
+    {
+      "path": "raw/sw-eight-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "881944a12559ccc25a80f777cc0f9470caadcb869e276cccdc4d0ce28cf4d7d5"
+    },
+    {
+      "path": "raw/sw-eight-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "6f900c26fb27671d3fe9026cd75d550adbd63b5bb57939e87493d026b67f8608"
+    },
+    {
+      "path": "raw/sw-eight-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "736d9472d5638354060e25573368609e80f6640c109de10b907673abb1f300e3"
+    },
+    {
+      "path": "raw/sw-eight-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "ac7dc5535d636726519413c8329050f5e649c76afcb56a42ea8ad2a0e43415c2"
+    },
+    {
+      "path": "raw/sw-no-scores-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "0d725d4ca21842175fb6a93ddd20806b600ec2ea5b9c295095903aa2047ec513"
+    },
+    {
+      "path": "raw/sw-no-scores-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "bcbb263b1d1cfb454fceb98eee12f4b7785708437f1e58dcf3282c905d1d6d75"
+    },
+    {
+      "path": "raw/sw-no-scores-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "0c8d100c69285cadfada4e5c99de59da4d0cf2b9033b389dfbcb50c273c8e27b"
+    },
+    {
+      "path": "raw/sw-no-scores-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "924a09246ded8f81b93a2862d863fb5730969a25bc3c2fa7e54c2d6123ce6ffe"
+    },
+    {
+      "path": "raw/cd-ready-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "0c750fafb8d680271f06f9916216d750470111ec38b7e47707c153d38bef21fd"
+    },
+    {
+      "path": "raw/cd-ready-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "6bddfe9de12235daf559010a517b8c50b95f4b05c6553f27e6ca9e22a0ac19c2"
+    },
+    {
+      "path": "raw/cd-ready-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "202f5b3bd485d143155c9db7fccdc0ab37f02e31385a2a7e4b1f4ae0e6ada4a7"
+    },
+    {
+      "path": "raw/cd-ready-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "8e2f5c47d60e8b2bfa895d4fdce0bf48cf0547ef81044b4b51fe127bdf8267ed"
+    },
+    {
+      "path": "raw/cd-running-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "d4540e032c74bab3b6169251a1aaab36d9155e7192b1eaa247731c9fb1cc4f09"
+    },
+    {
+      "path": "raw/cd-running-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "9cfbc7332ba39a9a6d96a3fa85cb526951b03754ef44a6014fc7e946d0d03e34"
+    },
+    {
+      "path": "raw/cd-running-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "2e6b0e3b7d37335b1f7a437eb3aa7f2caa9c8613d71b6e8d1579ff57c659906c"
+    },
+    {
+      "path": "raw/cd-running-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "fd816b6017b805fb32437ea3a70c52ed28b99668d777b7da02daf41b3f9f831a"
+    },
+    {
+      "path": "raw/cd-pause-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "29a3829690bd3929c9a68400d18d1b0b77e72396c11fd31903a84f7f9ca44ed9"
+    },
+    {
+      "path": "raw/cd-pause-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "3ef962d29954143481fff84bcaa3df641db5e0bf4d7d6c5c11027d83a9df8e45"
+    },
+    {
+      "path": "raw/cd-pause-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "561aa1164cacb39469e5eb0858f966ea037765ff8f980ad99aa5b55f0fecaa58"
+    },
+    {
+      "path": "raw/cd-pause-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "0fab5066c3316a326109d13488765de49bafe0f0a5e9500172c5107b5e39db3d"
+    },
+    {
+      "path": "raw/cd-ended-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "ce6926e354eef9eec87b3bb7de8297d747a4f92273fefb0d21f347e6e2294ae5"
+    },
+    {
+      "path": "raw/cd-ended-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "33431000eb6d701e9c10636aa7a8332085b6dc4ba7f76853b43ea8d687d2adea"
+    },
+    {
+      "path": "raw/cd-ended-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "219a68b6eb562ea9c7a14a234c4db79d3fa1d5001798c51f96426caa3aacb62c"
+    },
+    {
+      "path": "raw/cd-ended-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "22ce04e90acc4cc20a670598ce22fdfa0c93a7a188985a4a947efd64b407c4b5"
+    },
+    {
+      "path": "raw/cd-notice-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "260258081580765d5003cce8d55a6d263519d807cefbc4d268a16d8bbf0ca30b"
+    },
+    {
+      "path": "raw/cd-notice-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "a4460b449717db622e46bcabbc5d4d19b1668c0b611d8bda28b70dd470ba3ea5"
+    },
+    {
+      "path": "raw/cd-notice-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "10cc2c1e41715d9fb701ee90921d4d7147ac48b7b5784d319f3a8da7c1674327"
+    },
+    {
+      "path": "raw/cd-notice-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "102b190cdb5a2063f79db1a6b87ac6683334eebe1d6b9bacccd32b96f1792ace"
+    },
+    {
+      "path": "raw/iv-ready-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "052ba3653d5e5688f50eb28cab314a4dc992217fec349893b0e17757db16f684"
+    },
+    {
+      "path": "raw/iv-ready-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "2e75321cb33707e33f8719741c9d4ea0fc37d935cdd165661e782bd5296c5d73"
+    },
+    {
+      "path": "raw/iv-ready-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "4a21499b8334d2b221b7595cd6603823927b756e2205bac8be40caa3c91bc4d7"
+    },
+    {
+      "path": "raw/iv-ready-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "445be0202ee19f84e2ec0071a4d0c1a9ebc126ff9a6e1c616cb81c72e1c95854"
+    },
+    {
+      "path": "raw/iv-work-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "04d883d35e4b128c6936f8cac98be0290026e2efccb12244a38ab4002ae70a36"
+    },
+    {
+      "path": "raw/iv-work-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "a2ea6a3f839d8ad35a62ef9ded8a97f0e5735ec37382d8bd176a107ed9973c9f"
+    },
+    {
+      "path": "raw/iv-work-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "862f4dcd579d64c8be566a5c93528f8863facd4838b6498b2f6e9feca1c09dac"
+    },
+    {
+      "path": "raw/iv-work-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "325bfd67221a5a40849b369f380f246084c35af753848e099fab3b1a47919718"
+    },
+    {
+      "path": "raw/iv-rest-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "29f352a68368f485c42f80123cd42969fe33608974a65e5ee5af3bcd23b70b14"
+    },
+    {
+      "path": "raw/iv-rest-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "8d81ad84bc1fb6f66f75e80f831d4bc71725d1aac3b966a62a8d1696051020a9"
+    },
+    {
+      "path": "raw/iv-rest-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "98bc326d5949b95adbf4caec2910e71cb1c4341fd9c60757182afe6bb2ba4c79"
+    },
+    {
+      "path": "raw/iv-rest-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "6db8315ab5a4b4b225509c9f0470ce4a6edb01889ee293dd2b5a51a8c37c3408"
+    },
+    {
+      "path": "raw/iv-wait-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "aea80b92a594acadc6f36d773296c076ea6edc79c0484e09da7d7603313ee736"
+    },
+    {
+      "path": "raw/iv-wait-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "70fcafce09dc3013a4cff0e5c02a1ee508d66356c6528836664405a9ef77235f"
+    },
+    {
+      "path": "raw/iv-wait-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "b884ce5a41e266843c2456f534e94ca02acc208e792e61d7d9e6f3b3bff99470"
+    },
+    {
+      "path": "raw/iv-wait-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "105d8d506527d960c09b8a557b41da9e26909397cff776bef722a80957b00d69"
+    },
+    {
+      "path": "raw/iv-ended-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "00b7036407e08d5eeefa54dc4a7e38ebe7a10ab91a131c46ac7de2c99183985f"
+    },
+    {
+      "path": "raw/iv-ended-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "a95d9f12edc6c904fcdd6165ee2666fe1b1d78cb4d524b737cf205604a00b6d8"
+    },
+    {
+      "path": "raw/iv-ended-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "4f468c5024e633d49562af8fd7f4bb733b5502567f5ea480480a3df6039632ce"
+    },
+    {
+      "path": "raw/iv-ended-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "77749808e39e2a84b1e01dc36b5b962da907d610b3c0e0ac091fc3df7a60008d"
+    },
+    {
+      "path": "raw/iv-no-scores-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "c78b2bc7d65f3ed198938c83dd97c9147ccbb7b63d20ff4415e8a8a14a7ff5a5"
+    },
+    {
+      "path": "raw/iv-no-scores-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "cee31f57bb64f455649cd2ff28feadc0dc18ddca21eeb43413b6862c291016dc"
+    },
+    {
+      "path": "raw/iv-no-scores-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "fac3e3f780232c2413fc9359c5926686c28cbf379e24bc86d0b461028f6c1a2e"
+    },
+    {
+      "path": "raw/iv-no-scores-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "998108b7204d46bfec88abdd17779ed8b903b0dec5e69651ab83ec387e64348b"
+    },
+    {
+      "path": "raw/confirm-reset-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "ad5c7622de68abd3dd8678dcb8ed1611660d3633eaa79b1b2fe274a02996dc32"
+    },
+    {
+      "path": "raw/confirm-reset-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "6dd15ef211c73843173707e8333bf614dea6d01689948f5af46b0fd41ba514dd"
+    },
+    {
+      "path": "raw/confirm-reset-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "0f2948ff17f39593a3229e5d9203137a26c6d7eb60d91755f8100a7454d529e9"
+    },
+    {
+      "path": "raw/confirm-reset-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "3b68a0e3ed08298d72930d26eb811f9d909374b37f54b1d141a831e228223b2a"
+    },
+    {
+      "path": "raw/confirm-restart-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "673602bfc3592f9f28dc69f9dac67fb100d6a759925241d58aa9790c2b287215"
+    },
+    {
+      "path": "raw/confirm-restart-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "e7cb67d7ba45f1a237169f7c33200799d6ff44bf1fd11cea4e3004808c9a9e67"
+    },
+    {
+      "path": "raw/confirm-restart-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "8bd1fb4911a7689b4c02ac99d101e3eac52f3c7832738cea431eba2a958e0dd0"
+    },
+    {
+      "path": "raw/confirm-restart-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "1eb968f18fd9fb98149edaf940d92d3247df02eda59322f5db5c0e22be0f7020"
+    },
+    {
+      "path": "raw/confirm-end-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "4c9a638028c352c2330bd54792767ea821771525d5832d5951084692e689d6b4"
+    },
+    {
+      "path": "raw/confirm-end-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "d5b5727bea61ec1bd6efa451b25281b3db09b64bedc0cd1209870e38d7ee825f"
+    },
+    {
+      "path": "raw/confirm-end-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "bd46483e58867a750f149e297a686ed533bf9e4a9b4f5ea5db99f248ec441244"
+    },
+    {
+      "path": "raw/confirm-end-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "f620252f3f1fc6ffa5ecb73bbfdeca573868578651839f7bc8ba5bbd57ce22ab"
+    },
+    {
+      "path": "raw/sw-hours-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "c221d08bb567b23602f7392adca677baa5f19cf01895efdb6ca2e6d2cfa26991"
+    },
+    {
+      "path": "raw/sw-hours-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "66bd09c2bb35c1304aa9fa33732f956bb1208d70df32a7cdc1c7c1f9ac981d11"
+    },
+    {
+      "path": "raw/sw-hours-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "62fe238935f0612485b5114c062bcd2dac4d2d1d43c715e7f301ee6699c262fa"
+    },
+    {
+      "path": "raw/sw-hours-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "fef4e66b66f038d3e7b0077f12deb8d352ff694bba75e3552475103b4ca29f31"
+    },
+    {
+      "path": "raw/cd-elapsed-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "d0ba7ee42c3d112b6bd183996eb377592a777dd22dea8bf27666519a09053648"
+    },
+    {
+      "path": "raw/cd-elapsed-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "cfb3f845ba6c1f772932464b793b47adbc83a748fa6fe83bf6ae518fcf68a50c"
+    },
+    {
+      "path": "raw/cd-elapsed-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "4f70f893b123b09a5a3a3f4e7a48d3a73a0c8a66c3685617346bdb8213a205a2"
+    },
+    {
+      "path": "raw/cd-elapsed-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "a332776818e1daa7de08f2f4c721a9e5746d70b4102a36bc51b7246bef8569b7"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Reproduire les captures et les essais
+
+Les enveloppes QA ne sont pas des fichiers de production. Utiliser exclusivement des copies isolées des deux dépôts et des origines localhost réservées aux essais. L’enveloppe Lovable efface le stockage de son origine ; ne jamais l’utiliser sur une origine contenant des données personnelles.
+
+1. Extraire `roundr-mockup` au commit `1c59720dc5b180d5b1bacfaf935902b4053895fa` dans une copie, installer ses dépendances, copier `lovable-qa.tsx` comme `qa.tsx` à sa racine ainsi que `index.html` et `vite.qa.config.ts`. Lancer Vite avec cette configuration sur 8160. Les composants et styles de la référence ne sont pas modifiés.
+2. Dans une copie du `frontend` Expo de la Phase 4B, installer les dépendances et copier `expo-qa.tsx` comme `app/phase4bqa.tsx`. Exporter cette copie pour le web. Servir l’export avec `node static-server.cjs <dossier-export> 8161`.
+3. Ouvrir Lovable `/` et Expo `/phase4bqa` avec les paramètres de chaque état fournis dans `manifest.json`. Les états sont créés par les API des vraies applications, puis affichés par `FreeLive` et `LovableFreeLive`. Les équipes, scores, tours, durées, séries et sélections sont identiques.
+4. Sans `live=1`, l’horloge est figée et les animations réduites pour stabiliser la comparaison. Pour l’annonce Lovable, l’enveloppe fait franchir réellement le seuil de 100 ms avant de figer l’horloge : la bannière provient du composant Announcer réel. Les fenêtres et la bascule écoulé/restant sont ouvertes avec les véritables contrôles, sans modification DOM ni fonction de confirmation factice.
+5. Appliquer successivement 390 × 844 et 844 × 390 sur une seule surface de navigateur. Vérifier les dimensions des fichiers réellement enregistrés. Certaines API de capture réduisent le cadre paysage de 12 px ; les captures finales utilisent le rectangle explicite complet et ne sont ni étirées ni complétées après coup.
+6. Pour les essais de persistance, naviguer directement vers `/chrono-libre/run`, sans retourner sur la route QA qui réensemencerait la séance. `live=1` conserve une vraie horloge pour tester l’écoulement et l’expiration des annonces.
+7. `fail=1`, sur l’origine QA seulement, refuse les écritures de la clé de séance après la préparation durable de l’état de départ. Ce cas vérifie une panne d’écriture injectée, pas une panne matérielle réelle. Recharger la route d’exécution sans l’enveloppe désactive cette injection et permet de contrôler les données conservées.
+
+Le script de galerie fourni utilise les chemins du workspace de production des preuves ; adapter ces chemins dans une autre installation. Il crée uniquement les paires et les fichiers de livraison, sans redimensionner les captures originales. `validation.json` contient les empreintes des sources app/src identiques dans les copies de validation et de rendu.
+
+Les tests indépendants des enveloppes se lancent depuis `frontend` : `node scripts/run-domain-tests.cjs`, `node scripts/check-syntax.cjs`, `npx tsc --noEmit`, puis ESLint app/src et `scripts/test-free-live-phase4b.ts`. Exports : `npx expo export --platform all`.

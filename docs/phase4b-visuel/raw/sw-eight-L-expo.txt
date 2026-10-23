@@ -1,0 +1,70 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&teams=8".
+1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&teams=8
+	2 container
+		3 button Retour à l'accueil
+		4 container
+			5 heading CHRONO LIBRE, Value: 1
+				6 text CHRONO LIBRE
+			7 text Chronomètre  ·  En pause
+		8 button Paramètres du chrono
+		9 container
+			10 container Équipes
+				11 container
+					12 text Les Renards 0
+					13 button Ajouter un but : Les Renards
+						14 text +1
+				15 container
+					16 text FC Amigos 1
+					17 button Ajouter un but : FC Amigos
+						18 text +1
+				19 container
+					20 text Panthères 2
+					21 button Ajouter un but : Panthères
+						22 text +1
+				23 container
+					24 text Galactiques 0
+					25 button Ajouter un but : Galactiques
+						26 text +1
+				27 container
+					28 text Tigers 1
+					29 button Ajouter un but : Tigers
+						30 text +1
+				31 container
+					32 text Squad FC 2
+					33 button Ajouter un but : Squad FC
+						34 text +1
+				35 container
+					36 text Los Amigos 0
+					37 button Ajouter un but : Los Amigos
+						38 text +1
+				39 container
+					40 text Dream Team 1
+					41 button Ajouter un but : Dream Team
+						42 text +1
+			43 container
+				44 tab group Affichage du chrono
+					45 tab (selected, settable, boolean) Description: Numérique, Value: 1
+Numérique
+					46 tab (selectable, settable, boolean) Description: Analogique, Value: 0
+Analogique
+					47 tab (selectable, settable, boolean) Description: Circulaire, Value: 0
+Circulaire
+				48 container 01:15.45
+					49 container
+						50 text CHRONOMÈTRE
+						51 container 01:15.45
+							52 text 01:15
+							53 text .45
+				54 button Vue numérique
+				55 button Vue analogique
+				56 button Vue circulaire
+				57 text En pause
+		58 container
+			59 button Fin
+				60 text Fin
+			61 button Réinitialiser
+				62 text Réinitialiser
+			63 button Reprendre
+				64 text Reprendre
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8161/phase4bqa?kind=stopwatch&state=paused&teams=8

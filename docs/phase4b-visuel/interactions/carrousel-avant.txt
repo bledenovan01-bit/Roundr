@@ -1,0 +1,6 @@
+Browser tab: 31, Title: "Roundr", URL: "http://127.0.0.1:8161/chrono-libre/run".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~			25 container 01:15.73
+~					48 container 01:15.73
+~						50 text .73
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8161/chrono-libre/run

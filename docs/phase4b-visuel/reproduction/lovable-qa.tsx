@@ -1,0 +1,11 @@
+import React from 'react';import {createRoot} from 'react-dom/client';import './src/styles.css';import {FreeLive} from './src/components/roundr/chrono';import {buildClock,segments} from './src/lib/roundr/chrono';import {createSession,updateSession} from './src/lib/roundr/session';import {initialClock} from './src/lib/roundr/clock';import {sampleTeams} from './src/components/roundr/screens';
+const q=new URLSearchParams(location.search),live=q.has('live'),now=live?Date.now():1700000000000;if(!live)Date.now=()=>now;localStorage.clear();
+const kind=q.get('kind')??'stopwatch',stage=q.get('state')??'ready',n=Number(q.get('teams')??0),view=['numeric','analog','circular'].indexOf(q.get('view')??'numeric');
+const config={kind:kind==='interval'?'intervals':kind,cd:{h:0,m:1,s:30},signal:true,iv:{periods:[30,45,60],rest:10,reps:2,repRest:15,auto:!q.has('manual'),signals:true},teamsOn:n>0,teamCount:n||2,teams:sampleTeams(8),scoreOn:q.get('scores')!=='0'} as any;
+const segs=kind==='interval'?segments(config):[],cfg=buildClock(config),index=stage==='rest'?1:stage==='ended'?cfg.periods.length-1:0,dur=(cfg.periods[index]??0)*1000;
+const elapsed=stage==='ready'?0:stage==='ended'||stage==='waiting'?dur:stage==='notice'?29900:kind==='stopwatch'?(q.has('hours')?3723450:75450):kind==='countdown'?45000:5250;
+const running=['running','rest','notice'].includes(stage),laps=kind==='stopwatch'&&q.has('laps')?[12340,20450,40450]:[];
+createSession('chrono','Chrono libre',cfg,{config,name:null,teams:n?config.teams.slice(0,n):[],scores:Array.from({length:n},(_,i)=>i%3),laps,segs,view:view<0?0:view});
+updateSession(s=>({...s,clock:{...initialClock(),stage:stage==='ready'?'ready':stage==='ended'?'ended':stage==='waiting'?'break':'play',period:index,acc:elapsed,since:running?now:null,played:stage==='ended'?cfg.periods.map(x=>x*1000):[],endReason:stage==='ended'?'time':null}}));
+if(stage==='notice'&&!live){const started=performance.now();Date.now=()=>now+Math.min(100,performance.now()-started);}
+createRoot(document.getElementById('root')!).render(<div className="device"><style>{'*,*::before,*::after{animation:none!important;transition:none!important}'}</style><FreeLive onExit={()=>{}} onSettings={()=>{}}/></div>);
