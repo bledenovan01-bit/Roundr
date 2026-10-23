@@ -29,6 +29,8 @@ import {
 } from "@/src/features/match-presentation";
 
 export type MatchIconName =
+  | "check"
+  | "pencil"
   | "play"
   | "pause"
   | "stop"
@@ -57,6 +59,7 @@ export function MatchIcon({
   size?: number;
   color?: string;
 }) {
+  if(name==="check"||name==="pencil")return <LovableIcon name={name} size={size} color={color}/>;
   if (name === "trophy")
     return <LovableIcon name="trophy" size={size} color={color} />;
   return (
@@ -541,7 +544,7 @@ export function MatchCarousel({
       style={m.carousel}
       {...pan.panHandlers}
     >
-      <View style={{ height: slideHeight, overflow: "hidden" }}>
+      <View style={{ height: slideHeight, overflow: pages[page] === "tournament" ? "visible" : "hidden", zIndex: pages[page] === "tournament" ? 1 : undefined }}>
         <Animated.View
           style={{
             flexDirection: "row",
@@ -686,7 +689,7 @@ export function MatchCarousel({
                   )}
                   {status}
                 </Pressable>
-              ) : kind === "next" ? (
+              ) : kind === "next" || kind === "tournament" ? (
                 next
               ) : (
                 <View
@@ -818,19 +821,27 @@ export function MatchSheet({
   children,
 }: {
   label: string;
-  onClose: () => void;
+  onClose?: () => void;
   children: ReactNode;
 }) {
   const { width, height } = useWindowDimensions(),
     inset = useSafeAreaInsets(),
     landscape = width > height;
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then(value => { if (active) setReduceMotion(value); });
+    const subscription = AccessibilityInfo.addEventListener("reduceMotionChanged", setReduceMotion);
+    return () => { active = false; subscription.remove(); };
+  }, []);
   return (
     <Modal
       transparent
       visible
-      animationType="fade"
+      animationType={reduceMotion ? "none" : "fade"}
       accessibilityViewIsModal
-      onRequestClose={onClose}
+      onRequestClose={onClose ?? (() => {})}
+      supportedOrientations={["portrait", "landscape"]}
     >
       <View
         style={{

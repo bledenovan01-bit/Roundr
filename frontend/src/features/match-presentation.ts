@@ -2,11 +2,12 @@ import { elapsedMs } from "@/src/chrono/engine";
 import * as S from "@/src/domain/session";
 import type { Session, Team } from "@/src/domain/types";
 
-export type MatchPage = "digital" | "ring" | "next" | "music";
+export type MatchPage = "digital" | "ring" | "next" | "tournament" | "music";
 export const pageNames: Record<MatchPage, string> = {
   digital: "Chrono classique",
   ring: "Chrono circulaire",
   next: "Prochain match",
+  tournament: "Tournoi",
   music: "Musique",
 };
 export function matchPages(s: Session): MatchPage[] {
@@ -14,7 +15,8 @@ export function matchPages(s: Session): MatchPage[] {
     "digital",
     "ring",
     ...(s.mode === "maracana" ? ["next" as const] : []),
-    ...(s.live?.stage !== "ready" ? ["music" as const] : []),
+    ...(s.mode === "cup" || s.mode === "survie" ? ["tournament" as const] : []),
+    ...(s.live?.stage !== "ready" && s.live?.tiebreakStep !== "ready" ? ["music" as const] : []),
   ];
 }
 // A projection only: ticks, banners and rotation never select a carousel page.
@@ -70,7 +72,7 @@ export function matchProjection(s: Session, now: number, showElapsed = false) {
     String(seconds % 60).padStart(2, "0");
   const cents = "." + String(Math.floor((ms % 1000) / 10)).padStart(2, "0");
   const label = timed
-    ? (between ? "PAUSE · " : l.stage === "extra" ? "BUT DÉCISIF · " : "") +
+    ? (between ? "PAUSE · " : l.stage === "extra" && s.mode === "maracana" ? "BUT DÉCISIF · " : "") +
       (showElapsed ? "TEMPS ÉCOULÉ" : "TEMPS RESTANT")
     : l.stage === "finished"
       ? "TERMINÉ"
@@ -90,7 +92,7 @@ export function matchProjection(s: Session, now: number, showElapsed = false) {
             ? running
               ? "Temps additionnel"
               : "Temps additionnel en pause"
-            : l.stage === "extra"
+            : l.stage === "extra" && s.mode === "maracana"
               ? running
                 ? "Prolongation · but décisif"
                 : "Prolongation en pause"
@@ -123,11 +125,13 @@ export function matchProjection(s: Session, now: number, showElapsed = false) {
     running,
     period: index,
     periodLabel: periodName(l.periodMs.length, index),
+    ...(l.tiebreakStep === "ready" ? {status:"Prêt à démarrer",tone:"ready"} : l.tiebreakStep === "choice" || l.stage === "shootout" ? {main:"00:00",cents:".00",time:"00:00.00",status:"Match terminé",tone:"ended",progress:1} : {}),
   };
 }
 export function beginMatch(s: Session, now: number): Session {
   const l = s.live;
   if (!l) return s;
+  if (l.tiebreakStep === "ready") return S.startTournamentTiebreak(s, now);
   if (l.stage === "ready") return S.startReady(s, now);
   if (l.stage === "awaitPeriod") return S.startNextPeriod(s, now);
   if (l.stage === "break" && l.periodIndex + 1 < l.periodMs.length)

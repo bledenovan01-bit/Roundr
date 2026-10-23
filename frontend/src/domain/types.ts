@@ -122,6 +122,7 @@ export type Slot =
 export type MatchStage = "single" | "rotation" | "group" | "ko" | "small";
 
 export type Match = {
+  completedPhase?: "reg" | "prol" | "golden";
   id: string;
   order: number;
   label: string;
@@ -154,6 +155,8 @@ export type LiveStage =
 // de la phase en cours ; playedMs cumule les phases de jeu terminées.
 export type MatchDetail = { periods:(number|null)[];goals:{side:0|1;period:number;atMs:number|null}[] };
 export type Live = {
+  // New tournament UI only: choosing/preparing overtime never starts its clock.
+  tiebreakStep?: "choice" | "ready";
   matchId: string;
   periodMs: number[];
   breakMs: number;
@@ -197,6 +200,8 @@ export type CupState = {
 };
 
 export type Session = {
+  // Absent on older saves; their running clocks and launch policy are unchanged.
+  tournamentView?: "hub" | "match" | "summary";
   id: string;
   mode: ModeId;
   config: AnyConfig;

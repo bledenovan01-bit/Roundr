@@ -1,0 +1,59 @@
+✓ Survie 2/3/5/8/16/32, byes, rounds, small final, champion and podium agree with the frozen Lovable engine
+✓ Cup group/KO progression, 1–4 groups, best-following ON/OFF, reduced brackets and a single qualifier match the frozen reference
+✓ Cup/Survie ties: explicit preparation, paused restore, overtime, shootouts and golden goal; no clock starts on preparation
+✓ Manual/automatic/delayed launches, pause/resume/cancel and restoration retain existing timestamp policies
+✓ Historical score corrections preserve unrelated results, prune dependent rounds/qualifiers, preserve played durations and reject edits during play
+✓ New optional UI metadata is validated; old saves keep their original overtime behavior and never acquire invented results
+✓ Frozen reference comparison proves mini-table/global-GD differences without changing legacy sporting criteria
+✓ Documented difference: incomplete return legs can order a temporary table differently; qualification remains unavailable
+✓ Documented difference: the existing native goal target still applies during overtime; no sporting rule silently changed
+✓ Correcting an old save never silently switches its future overtime clocks to the new UI policy
+✓ Known frozen-reference one-qualifier archival error characterized; native archives the champion without inventing a final
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    [
+      0,
+      null
+    ],
+    [
+-     3,
+-     4
+-   ],
+-   [
+      1,
+      null
+    ],
+    [
+      2,
+      null
+    ],
++   [
++     3,
++     4
++   ]
+  ]
+
+    at Object.<anonymous> (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\scripts\test-tournament-phase3b.ts:450:8)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Module._extensions..ts (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\scripts\register-ts.cjs:23:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1396:12)
+    at Module._load (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\scripts\register-ts.cjs:16:15)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [ [ 0, null ], [ 1, null ], [ 2, null ], [ 3, 4 ] ],
+  expected: [ [ 0, null ], [ 3, 4 ], [ 1, null ], [ 2, null ] ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

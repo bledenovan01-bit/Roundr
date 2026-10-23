@@ -12,6 +12,7 @@ import { PrimaryButton } from "@/src/components/primary-button";
 import { GAME_MODES, type GameModeId } from "@/src/data/modes";
 import { alignTeams, defaultConfig, defaultTeams, teamCountFor } from "@/src/domain/defaults";
 import { createSession } from "@/src/domain/session";
+import { createTournamentSession } from "@/src/domain/tournament-presentation";
 import type { AnyConfig, Team } from "@/src/domain/types";
 import { validateConfig } from "@/src/domain/validate";
 import { DesignConfig } from "@/src/features/design-config";
@@ -73,8 +74,8 @@ export default function ConfigScreen() {
     if (errors.length) return;
     const go = () => leave(() => {
       const now = Date.now();
-      const session = createSession(config, launchTeams, now);
-      if (startSession({ ...session, live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null })) router.replace("/live" as never);
+      const session = config.mode === "cup" || config.mode === "survie" ? createTournamentSession(config, launchTeams, now) : createSession(config, launchTeams, now);
+      if (startSession({ ...session, ...(config.mode === "cup" || config.mode === "survie" ? { tournamentView: "hub" as const } : {}), live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null })) router.replace("/live" as never);
     });
     if (activeSession && activeSession.status === "active") {
       // C03 — ne jamais écraser silencieusement une session active.

@@ -63,7 +63,12 @@ const fmt = (ms: number) => {
     String(s % 60).padStart(2, "0")
   );
 };
-export function LovableMatchScreen() {
+export type TournamentMatchUI = {
+  title: string; subtitle: string; rankingLabel: string; onRanking: () => void;
+  info: ReactNode; onCorrect?: () => void;
+  overlay: (controls: { locked: boolean; onUnlock: () => void }) => ReactNode;
+};
+export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatchUI } = {}) {
   const session = useStore((s) => s.session),
     saveError = useStore((s) => s.saveError),
     storeNow = useStore((s) => s.now);
@@ -86,7 +91,7 @@ export function LovableMatchScreen() {
   const l = session?.live,
     running = !!l && l.chrono.runningSince !== null && l.stage !== "finished",
     now = useDisplayClock(running);
-  const matchKey = session?.id + ":" + l?.matchId;
+  const matchKey = session?.id + ":" + l?.matchId + (tournament ? ":" + (l?.tiebreakStep === "choice" ? "period" : l?.stage === "extra" || l?.stage === "golden" ? l.stage : "period") : "");
   const [displayMatch, setDisplayMatch] = useState(matchKey);
   useEffect(() => {
     navigation.setOptions({ gestureEnabled: !locked });
@@ -115,7 +120,7 @@ export function LovableMatchScreen() {
     teams = S.liveTeams(session),
     finished = l.stage === "finished",
     between = l.stage === "break" || l.stage === "awaitPeriod";
-  const canScore = l.scoreOn && !finished && !between && l.stage !== "ready";
+  const canScore = l.scoreOn && !finished && !between && l.stage !== "ready" && l.stage !== "shootout" && !l.tiebreakStep;
   const upcoming = maracanaUpcoming(session);
   const home = () => {
     if (!locked) router.replace("/");
@@ -146,6 +151,7 @@ export function LovableMatchScreen() {
     if (locked || !l.scoreOn) return;
     if (session.pendingLaunch && !session.pendingLaunch.cancelled)
       dispatchSession(S.pauseNextLaunch);
+    if (tournament?.onCorrect) { tournament.onCorrect(); return; }
     setCorrecting(true);
   };
   const changeScore = (side: 0 | 1, delta: 1 | -1) => {
@@ -172,7 +178,7 @@ export function LovableMatchScreen() {
     confirmMatchRestart(() => {
       setShowElapsed(false);
       dispatchSession(S.restartCurrent);
-    });
+    }, !!tournament && (l.stage === "extra" || l.stage === "golden"));
   };
   if (session.mode === "classique" && finished)
     return (
@@ -187,9 +193,9 @@ export function LovableMatchScreen() {
         onGoal={changeScore}
       />
     );
-  const title = session.mode === "classique" ? "MATCH CLASSIQUE" : "MARACANA",
+  const title = tournament?.title ?? (session.mode === "classique" ? "MATCH CLASSIQUE" : "MARACANA"),
     match = S.currentMatch(session);
-  const subtitle = [
+  const subtitle = tournament ? [tournament.subtitle, projection.status].join(" · ") : [
     session.mode === "maracana" ? match?.label : null,
     l.periodMs.length > 1 && !finished ? projection.periodLabel : null,
     projection.status,
@@ -263,12 +269,12 @@ export function LovableMatchScreen() {
     </View>
   );
   const rankingLink =
-    session.mode === "maracana" ? (
+    session.mode === "maracana" || tournament ? (
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Voir le classement"
+        accessibilityLabel={tournament?.rankingLabel ?? "Voir le classement"}
         disabled={locked}
-        onPress={() => setRanking(true)}
+        onPress={() => tournament ? tournament.onRanking() : setRanking(true)}
         style={{
           height: landscape ? 44 : 52,
           borderWidth: 1,
@@ -291,7 +297,7 @@ export function LovableMatchScreen() {
             flex: 1,
           }}
         >
-          Voir le classement
+          {tournament?.rankingLabel ?? "Voir le classement"}
         </Text>
         <LovableIcon name="chevron" size={18} color={c.foreground} />
       </Pressable>
@@ -306,7 +312,7 @@ export function LovableMatchScreen() {
       onGoal={changeScore}
       onCorrect={correct}
       goalTarget={l.end.goalTarget}
-      gridSecondRow={two ? (session.mode === "maracana" ? 44 : 40) : undefined}
+      gridSecondRow={two ? (session.mode === "maracana" || tournament ? 44 : 40) : undefined}
     />
   );
   const carousel = (
@@ -315,7 +321,7 @@ export function LovableMatchScreen() {
       session={session}
       projection={projection}
       locked={locked}
-      next={nextPage}
+      next={tournament?.info ?? nextPage}
       selected={selectedPage}
       onSelect={setSelectedPage}
       onToggle={() => setShowElapsed((v) => !v)}
@@ -328,7 +334,7 @@ export function LovableMatchScreen() {
   const begin = () => {
     if (!locked) dispatchSession(beginMatch);
   };
-  const primary = l.stage === "ready" || between;
+  const primary = l.stage === "ready" || between || l.tiebreakStep === "ready";
   return (
     <View testID="match-screen" style={m.root}>
       <LovableBackground />
@@ -357,7 +363,7 @@ export function LovableMatchScreen() {
           <Text style={m.title} accessibilityRole="header" numberOfLines={1}>
             {title}
           </Text>
-          <Text style={m.subtitle} numberOfLines={1}>
+          <Text style={[m.subtitle,tournament?{color:session.mode==="cup"?c.cup:c.survie}:null]} numberOfLines={1}>
             {subtitle}
           </Text>
         </View>
@@ -499,20 +505,20 @@ export function LovableMatchScreen() {
                       : "Fin",
                   icon: "stop",
                   action: finish,
-                  disabled: finished,
+                  disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
                 },
                 {
                   label: "Relancer",
                   icon: "restart",
                   action: restart,
-                  disabled: finished,
+                  disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
                 },
                 {
                   label: projection.running ? "Pause" : "Reprendre",
                   icon: projection.running ? "pause" : "play",
                   action: () =>
                     dispatchSession(projection.running ? S.pause : S.resume),
-                  disabled: finished,
+                  disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
                 },
               ] as {
                 label: string;
@@ -569,7 +575,8 @@ export function LovableMatchScreen() {
           </View>
         )}
       </View>
-      {finished && !ranking && !correcting && !adding ? (
+      {tournament ? tournament.overlay({locked,onUnlock:()=>setLocked(false)}) : null}
+      {session.mode === "maracana" && finished && !ranking && !correcting && !adding ? (
         <MatchSheet label="Fin du match" onClose={home}>
           {locked ? (
             <MatchAction
@@ -929,7 +936,7 @@ function Rotation({ session }: { session: Session }) {
     </View>
   );
 }
-function NextLaunch({
+export function NextLaunch({
   session,
   locked,
 }: {
