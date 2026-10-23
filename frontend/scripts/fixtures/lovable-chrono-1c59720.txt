@@ -1,0 +1,96 @@
+import { useSyncExternalStore } from "react";
+import type { ClockConfig } from "./clock";
+import type { Team } from "@/components/roundr/maracana";
+
+/** Chrono libre : réglages purs (enregistrables dans « Mes chronos »), sans état de session. */
+export type FreeKind = "stopwatch" | "countdown" | "intervals";
+export type FreeConfig = {
+  kind: FreeKind;
+  /** Compte à rebours : durée. */
+  cd: { h: number; m: number; s: number };
+  /** Signal de fin du compte à rebours. */
+  signal: boolean;
+  /** Intervalles : durées des périodes (s), repos entre périodes (s), répétitions, repos entre répétitions (s). */
+  iv: { periods: number[]; rest: number; reps: number; repRest: number; auto: boolean; signals: boolean };
+  teamsOn: boolean;
+  teamCount: number;
+  teams: Team[];
+  scoreOn: boolean;
+};
+
+export type Segment = { kind: "work" | "rest"; label: string; sec: number; rep: number };
+
+export const countdownSec = (c: FreeConfig) => c.cd.h * 3600 + c.cd.m * 60 + c.cd.s;
+
+/** Liste aplatie des intervalles : chaque période de travail ou de repos devient une période du moteur commun. */
+export function segments(c: FreeConfig): Segment[] {
+  const out: Segment[] = [];
+  const n = c.iv.periods.length;
+  for (let r = 0; r < c.iv.reps; r++) {
+    c.iv.periods.forEach((p, i) => {
+      out.push({ kind: "work", label: n > 1 ? `Période ${i + 1}` : "Travail", sec: p, rep: r + 1 });
+      if (i < n - 1 && c.iv.rest > 0) out.push({ kind: "rest", label: "Repos", sec: c.iv.rest, rep: r + 1 });
+    });
+    if (r < c.iv.reps - 1 && c.iv.repRest > 0) out.push({ kind: "rest", label: "Repos entre séries", sec: c.iv.repRest, rep: r + 1 });
+  }
+  return out;
+}
+
+export function buildClock(c: FreeConfig): ClockConfig {
+  const base = { breakSec: 0, extra: "none" as const, goalTarget: null, goallessOvertimeSec: null };
+  if (c.kind === "stopwatch") return { ...base, periods: [0], countUp: true };
+  if (c.kind === "countdown") return { ...base, periods: [countdownSec(c)], countUp: false };
+  return { ...base, periods: segments(c).map((s) => s.sec), countUp: false, autoAdvance: c.iv.auto };
+}
+
+export const freeInvalid = (c: FreeConfig) =>
+  (c.kind === "countdown" && countdownSec(c) <= 0) || (c.kind === "intervals" && (!c.iv.periods.length || c.iv.periods.some((p) => p <= 0)));
+
+export const KIND_LABEL: Record<FreeKind, string> = { stopwatch: "Chronomètre", countdown: "Compte à rebours", intervals: "Intervalles" };
+
+/** « 1 h 05 min », « 10 min », « 30 s »… */
+export function fmtDur(sec: number) {
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  return [h ? `${h} h` : "", m ? `${String(m).padStart(h ? 2 : 1, "0")} min` : "", s ? `${s} s` : ""].filter(Boolean).join(" ") || "0 s";
+}
+
+export function summary(c: FreeConfig) {
+  let main: string;
+  if (c.kind === "stopwatch") main = "Chronomètre · sans limite";
+  else if (c.kind === "countdown") main = `Compte à rebours · ${fmtDur(countdownSec(c))}`;
+  else {
+    const p = c.iv.periods;
+    const same = p.every((x) => x === p[0]);
+    main = `Intervalles · ${same ? `${p.length} × ${fmtDur(p[0] ?? 0)}` : p.map(fmtDur).join(" / ")}${c.iv.rest ? ` · repos ${fmtDur(c.iv.rest)}` : ""}${c.iv.reps > 1 ? ` · ${c.iv.reps} séries` : ""}`;
+  }
+  return c.teamsOn ? `${main} · ${c.teamCount} équipes` : main;
+}
+
+/* ---------- Mes chronos : sauvegarde locale persistante ---------- */
+export type SavedChrono = { id: string; name: string; config: FreeConfig; savedAt: number };
+const KEY = "roundr.myChronos.v1";
+let saved: SavedChrono[] | undefined;
+const listeners = new Set<() => void>();
+const EMPTY: SavedChrono[] = [];
+function read(): SavedChrono[] {
+  if (saved !== undefined) return saved;
+  try { const raw = typeof localStorage !== "undefined" ? localStorage.getItem(KEY) : null; saved = raw ? (JSON.parse(raw) as SavedChrono[]) : []; } catch { saved = []; }
+  return saved;
+}
+function write(list: SavedChrono[]) {
+  saved = list;
+  try { localStorage.setItem(KEY, JSON.stringify(list)); } catch { /* reste en mémoire */ }
+  listeners.forEach((l) => l());
+}
+/** Copie profonde : la session et les réglages enregistrés ne partagent jamais d'objet. */
+export const cloneConfig = (c: FreeConfig): FreeConfig => JSON.parse(JSON.stringify(c)) as FreeConfig;
+export function saveChrono(name: string, config: FreeConfig, id?: string): string {
+  const list = read();
+  const entry: SavedChrono = { id: id ?? `c${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, name: name.trim(), config: cloneConfig(config), savedAt: Date.now() };
+  write(id && list.some((x) => x.id === id) ? list.map((x) => (x.id === id ? entry : x)) : [entry, ...list]);
+  return entry.id;
+}
+export function deleteChrono(id: string) { write(read().filter((x) => x.id !== id)); }
+export function useSavedChronos() {
+  return useSyncExternalStore((l) => { listeners.add(l); return () => listeners.delete(l); }, read, () => EMPTY);
+}

@@ -89,6 +89,7 @@ let loadPromise: Promise<void> | null = null;
 let retryPromise: Promise<void> | null = null;
 let replacementPromise: Promise<boolean> | null = null;
 let historyWork: Promise<unknown> = Promise.resolve();
+let freePresetWork: Promise<unknown> = Promise.resolve();
 const deletedCompetitions = new Set<string>();
 const pendingCompetitions = new Map<string, Session>();
 let pendingSummary: Session | null = null;
@@ -157,10 +158,12 @@ export async function flushStorage(): Promise<void> {
   for (;;) {
     const current = pendingWrite;
     const history = historyWork;
+    const presets = freePresetWork;
     await current;
     await history;
+    await presets;
     if (replacementPromise) await replacementPromise;
-    if (current === pendingWrite && history === historyWork && !replacementPromise) return;
+    if (current === pendingWrite && history === historyWork && presets === freePresetWork && !replacementPromise) return;
   }
 }
 function writable(...keys: string[]): boolean {
@@ -224,7 +227,9 @@ let recoveryPromise: Promise<boolean> | null = null;
 export function resolveLegacyRecovery(recover: boolean): Promise<boolean> {
   if (recoveryPromise) return recoveryPromise;
   if (!writable(KEYS.freePresets) || state.legacyRecovery === null) return Promise.resolve(false);
-  recoveryPromise = migratePresets(recover ? "recover" : "skip").finally(() => { recoveryPromise = null; });
+  if(retryPromise)return retryPromise.then(()=>resolveLegacyRecovery(recover));
+  recoveryPromise = freePresetWork.then(()=>migratePresets(recover ? "recover" : "skip")).finally(() => { recoveryPromise = null; });
+  freePresetWork = recoveryPromise.then(()=>undefined,()=>undefined);
   return recoveryPromise;
 }
 
@@ -334,6 +339,7 @@ export function retryStorage(): Promise<void> {
     if (loadPromise) await loadPromise;
     if (replacementPromise) await replacementPromise;
     await historyWork;
+    await freePresetWork;
     for (const write of [...failedWrites.values()]) {
       if (desiredWrites.get(write.key) === write) await queueWrite(write);
     }
@@ -507,30 +513,79 @@ export async function setPresets(presets: Preset[]): Promise<boolean> {
 }
 
 // --- Chrono libre : presets (Mes chronos) + session persistée ----------------
-export async function saveFreePreset(preset: FreeTimerPreset): Promise<boolean> {
-  if (!writable(KEYS.freePresets)) return false;
-  if (!validFreePreset(preset)) { issue("input:" + KEYS.freePresets, "Configuration de chrono invalide : sauvegarde refusée."); return false; }
-  const next = [...state.freePresets.filter(p => p.id !== preset.id), preset];
-  set({ freePresets: next });
-  return persist(KEYS.freePresets, next);
-}
-export async function deleteFreePreset(id: string): Promise<boolean> {
-  if (!writable(KEYS.freePresets)) return false;
-  if (id.startsWith("free-mig-") && (!validMarker(migrationMarker) || !migrationMarker.sourceIds.includes(id))) {
-    // Do not make an uncommitted import disappear: without a durable receipt,
-    // a restart could interpret its deletion as an interrupted migration.
-    if (!(await migratePresets()) || !validMarker(migrationMarker) || !migrationMarker.sourceIds.includes(id)) return false;
+// Serialize list mutations against the latest durable list, never optimistic UI.
+function changeFreePresets(
+  id: string,
+  update: (
+    current: FreeTimerPreset[],
+  ) => FreeTimerPreset[] | null | Promise<FreeTimerPreset[] | null>,
+): Promise<boolean> {
+  if (!writable(KEYS.freePresets)) return Promise.resolve(false);
+  if (retryPromise)
+    return retryPromise.then(() => changeFreePresets(id, update));
+  const operation = freePresetWork.then(async () => {
     if (!writable(KEYS.freePresets)) return false;
-  }
-  const next = state.freePresets.filter(p => p.id !== id);
-  set({ freePresets: next });
-  return persist(KEYS.freePresets, next);
+    const next = await update(state.freePresets);
+    if (next === null) return false;
+    const retained = state.freePresets;
+    if (!(await persist(KEYS.freePresets, next))) {
+      // A generic retry must not perform an abandoned save or deletion later.
+      const failed = failedWrites.get(KEYS.freePresets);
+      if (failed && desiredWrites.get(KEYS.freePresets) === failed)
+        failed.raw = JSON.stringify(retained);
+      issue(
+        "free-preset:" + id,
+        "Modification du chrono non enregistrée. La liste précédente est conservée. Réessaie cette action pour la confirmer.",
+      );
+      return false;
+    }
+    set({ freePresets: next });
+    errors.delete("free-preset:" + id);
+    showErrors();
+    return true;
+  });
+  freePresetWork = operation.then(
+    () => undefined,
+    () => undefined,
+  );
+  return operation;
 }
-export async function renameFreePreset(id: string, name: string): Promise<boolean> {
-  if (!writable(KEYS.freePresets)) return false;
-  const next = state.freePresets.map(p => (p.id === id ? { ...p, name } : p));
-  set({ freePresets: next });
-  return persist(KEYS.freePresets, next);
+export function saveFreePreset(preset: FreeTimerPreset): Promise<boolean> {
+  if (!validFreePreset(preset)) {
+    issue(
+      "input:" + KEYS.freePresets,
+      "Configuration de chrono invalide : sauvegarde refusée.",
+    );
+    return Promise.resolve(false);
+  }
+  const copy = JSON.parse(JSON.stringify(preset)) as FreeTimerPreset;
+  return changeFreePresets(copy.id, (current) =>
+    current.some((p) => p.id === copy.id)
+      ? current.map((p) => (p.id === copy.id ? copy : p))
+      : [copy, ...current],
+  );
+}
+export function deleteFreePreset(id: string): Promise<boolean> {
+  return changeFreePresets(id, async () => {
+    if (
+      id.startsWith("free-mig-") &&
+      (!validMarker(migrationMarker) || !migrationMarker.sourceIds.includes(id))
+    ) {
+      if (
+        !(await migratePresets()) ||
+        !validMarker(migrationMarker) ||
+        !migrationMarker.sourceIds.includes(id) ||
+        !writable(KEYS.freePresets)
+      )
+        return null;
+    }
+    return state.freePresets.filter((p) => p.id !== id);
+  });
+}
+export function renameFreePreset(id: string, name: string): Promise<boolean> {
+  return changeFreePresets(id, (current) =>
+    current.map((p) => (p.id === id ? { ...p, name } : p)),
+  );
 }
 // Met à jour la session Chrono libre en cours (persistée pour la reprise).
 // L'affichage haute fréquence NE passe PAS par ici : seules les actions
@@ -550,6 +605,7 @@ export function setFreeTimer(ft: FreeTimerState | null): boolean {
 }
 // Keep the previous session in memory until both its backup and the new state
 // are durable. A failed candidate is never retried silently as a replacement.
+export function freeTimerRecoveryPending(): boolean { return blocked.has(KEYS.freeTimer); }
 export function replaceFreeTimer(ft: FreeTimerState | null, expected: FreeTimerState | null): Promise<boolean> {
   if (state.replacingFreeTimer || replacementPromise || !writable(KEYS.freeTimer) || state.freeTimer !== expected) return Promise.resolve(false);
   if (ft !== null && !validFreeTimer(ft)) {

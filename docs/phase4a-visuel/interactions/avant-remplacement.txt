@@ -1,0 +1,56 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/chrono-libre/run".
+1 AXWebArea Roundr, URL: 127.0.0.1:8151/chrono-libre/run
+	2 container
+		3 button Retour
+			4 text 󰅁
+		5 text Chronomètre
+		6 container
+			7 text CHRONOMÈTRE
+			8 container 00:11.11
+				9 text 00:11 . 11
+			10 text En pause
+			11 container
+				12 radio button Numérique, Value: 1
+					13 text Numérique
+				14 radio button Cercle, Value: 0
+					15 text Cercle
+				16 radio button Aiguilles, Value: 0
+					17 text Aiguilles
+			18 container
+				19 text Les Renards 0
+				20 button Retirer un but équipe 1
+					21 text −
+				22 button Ajouter un but équipe 1
+					23 text +1
+			24 container
+				25 text FC Amigos 0
+				26 button Retirer un but équipe 2
+					27 text −
+				28 button Ajouter un but équipe 2
+					29 text +1
+			30 container
+				31 text Panthères 1
+				32 button Retirer un but équipe 3
+					33 text −
+				34 button Ajouter un but équipe 3
+					35 text +1
+			36 button Reprendre
+				37 container
+					38 text 󰐊 Reprendre
+			39 button (disabled) Tour
+				40 container
+					41 text 󰈽 Tour
+			42 button Réinitialiser le chrono
+				43 text 󰑐
+				44 text Réinitialiser
+			45 button Recommencer la séance
+				46 text 󰁯
+				47 text Recommencer
+			51 text Tours
+			52 container
+				53 text Tour  1 00:10.81 00:10.81
+		48 button Fin
+			49 container
+				50 text 󰓛 Fin
+
+The focused UI element is 36 button Reprendre

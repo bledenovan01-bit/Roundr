@@ -1,0 +1,58 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+1 AXWebArea 127.0.0.1:8150/?final=1
+	2 container
+		3 button Retour
+		4 heading Intervalles, Value: 1
+			5 text Intervalles
+		6 text Chrono libre · Réglages
+		7 container
+			8 heading Programmes rapides, Value: 3
+				9 text Programmes rapides
+			10 checkbox 30/30, Value: 0
+			11 checkbox Tabata, Value: 0
+			12 checkbox 4 × 10 min, Value: 0
+		13 container
+			14 heading Périodes, Value: 3
+				15 text Périodes
+			16 text 1 période par série Période  1
+			17 container la période 1
+				18 button Réduire la période 1
+				19 text 0:30
+				20 button Augmenter la période 1
+			21 button Ajouter une période
+		22 container
+			23 heading Repos et répétitions, Value: 3
+				24 text Repos et répétitions
+			25 text Repos entre périodes
+			26 container le repos
+				27 button Réduire le repos
+				28 text 0:30
+				29 button Augmenter le repos
+			30 text Répétitions
+			31 container les répétitions
+				32 button Réduire les répétitions
+				33 container
+					34 text 8 ×
+				35 button Augmenter les répétitions
+			36 text Repos entre séries
+			37 container le repos entre séries
+				38 button (disabled) Réduire le repos entre séries
+				39 text Aucun
+				40 button Augmenter le repos entre séries
+			41 text 8  intervalle s  · durée totale  4 min
+		42 container
+			43 heading Passage à la période suivante, Value: 3
+				44 text Passage à la période suivante
+			45 checkbox Automatique, Value: 1
+			46 checkbox Manuel, Value: 0
+			47 text Signaux de transition
+			48 switch Description: Signaux de transition, Value: 1
+		49 container
+			50 heading Avec équipes, Value: 3
+				51 text Avec équipes
+			52 text Facultatif : sans équipe, seul le chrono s'affiche.
+			53 switch Description: Avec équipes, Value: 0
+		54 button Enregistrer dans Mes chronos
+		55 button Préparer le chrono
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8150/?final=1

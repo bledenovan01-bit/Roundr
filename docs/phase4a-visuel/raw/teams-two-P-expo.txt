@@ -1,0 +1,26 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?recapture=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 82-86
++			92 container
++				93 container
++					94 heading Avec équipes, Value: 1
++						95 text Avec équipes
++					96 text Noms, couleurs et scores facultatifs
++				97 switch Description: Avec équipes, Value: 1
++				98 text Nombre d'équipes
++				99 container
++					100 button (disabled) Réduire le nombre d'équipes
++					101 container
++						102 text 2
++					103 button Augmenter le nombre d'équipes
++				104 text Scores
++				105 switch Description: Scores, Value: 1
++				106 container
++					107 text 1
++					108 button Changer la couleur de Les Renards
++					109 text field (settable) Description: Nom de l'équipe 1, Value: Les Renards
++				110 container
++					111 text 2
++					112 button Changer la couleur de FC Amigos
++					113 text field (settable) Description: Nom de l'équipe 2, Value: FC Amigos
+The focused UI element is 97 switch Description: Avec équipes, Value: 1

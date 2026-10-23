@@ -1,0 +1,32 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?commit=final".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 123-151
+~					105 button Réduire le nombre d'équipes
+~						107 text 8
+~					108 button (disabled) Augmenter le nombre d'équipes
+~				110 switch Description: Scores, Value: 0
++				123 container
++					124 text 3
++					125 button Changer la couleur de Panthères
++					126 text field (settable) Description: Nom de l'équipe 3, Value: Panthères
++				127 container
++					128 text 4
++					129 button Changer la couleur de Galactiques
++					130 text field (settable) Description: Nom de l'équipe 4, Value: Galactiques
++				131 container
++					132 text 5
++					133 button Changer la couleur de Tigers
++					134 text field (settable) Description: Nom de l'équipe 5, Value: Tigers
++				135 container
++					136 text 6
++					137 button Changer la couleur de Squad FC
++					138 text field (settable) Description: Nom de l'équipe 6, Value: Squad FC
++				139 container
++					140 text 7
++					141 button Changer la couleur de Los Amigos
++					142 text field (settable) Description: Nom de l'équipe 7, Value: Los Amigos
++				143 container
++					144 text 8
++					145 button Changer la couleur de Dream Team
++					146 text field (settable) Description: Nom de l'équipe 8, Value: Dream Team
+The focused UI element is 110 switch Description: Scores, Value: 0

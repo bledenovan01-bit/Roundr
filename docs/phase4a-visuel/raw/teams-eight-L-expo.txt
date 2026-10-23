@@ -1,0 +1,3 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?commit=final".
+There has been no change in the accessibility tree.
+The focused UI element is 110 switch Description: Scores, Value: 0

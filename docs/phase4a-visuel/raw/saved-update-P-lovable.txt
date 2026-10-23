@@ -1,0 +1,11 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?seed=saved&composition=1&final=1", URL: "http://127.0.0.1:8150/?seed=saved&composition=1&final=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
++		69 container Enregistrer le chrono
++			70 heading Mettre à jour le chrono, Value: 2
++				71 text Mettre à jour le chrono
++			72 text Seuls les réglages sont enregistrés. Les temps et tours de vos sessions ne les modifient pas.
++			73 text field (settable) Description: Nom du chrono, Value: Fractionné personnalisé
++			74 button Mettre à jour
++			75 button Enregistrer comme nouveau
++			76 button Annuler
+The focused UI element is 73 text field (settable) Description: Nom du chrono, Value: Fractionné personnalisé

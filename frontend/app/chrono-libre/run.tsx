@@ -91,8 +91,8 @@ export default function FreeTimerRun() {
     { text: "Annuler", style: "cancel" },
     { text: "Terminer", style: "destructive", onPress: async () => { if (await replaceFreeTimer(null, ft)) router.replace("/chrono-libre"); } },
   ]);
-  const score = (side: 0 | 1, delta: 1 | -1) => {
-    const next: [number, number] = [...ft.score] as [number, number];
+  const score = (side: number, delta: 1 | -1) => {
+    const next = [...ft.score];
     next[side] = Math.max(0, next[side] + delta);
     setFreeTimer({ ...ft, score: next });
   };
@@ -130,14 +130,14 @@ export default function FreeTimerRun() {
 
         {ft.config.withTeams ? (
           <View style={styles.teamsRow}>
-            {([0, 1] as const).map(i => (
-              <View key={i} style={styles.teamCol}>
-                <Text style={styles.teamName}>Équipe {i === 0 ? "A" : "B"}</Text>
-                <Text style={styles.teamScore}>{ft.score[i]}</Text>
+            {ft.score.map((_, i) => (
+              <View key={i} style={[styles.teamCol, ft.score.length > 2 ? { minWidth: "45%" } : null]}>
+                <Text style={[styles.teamName, ft.config.teams?.[i] ? { color: ft.config.teams[i].color } : null]}>{ft.config.teams?.[i]?.name ?? `Équipe ${i === 0 ? "A" : "B"}`}</Text>
+                {ft.config.scoreOn !== false ? <><Text style={styles.teamScore}>{ft.score[i]}</Text>
                 <View style={styles.teamBtns}>
                   <Pressable testID={`free-score-minus-${i}`} onPress={() => score(i, -1)} accessibilityRole="button" accessibilityLabel={`Retirer un but équipe ${i + 1}`} style={styles.scoreBtn}><Text style={styles.scoreBtnText}>−</Text></Pressable>
                   <Pressable testID={`free-score-plus-${i}`} onPress={() => score(i, 1)} accessibilityRole="button" accessibilityLabel={`Ajouter un but équipe ${i + 1}`} style={[styles.scoreBtn, styles.scoreBtnPlus]}><Text style={[styles.scoreBtnText, { color: colors.onBrandPrimary }]}>+1</Text></Pressable>
-                </View>
+                </View></> : null}
               </View>
             ))}
           </View>
@@ -198,7 +198,7 @@ const useStyles = makeStyles(c => ({
   track: { height: 6, borderRadius: 3, backgroundColor: c.border, overflow: "hidden", marginHorizontal: 20 },
   fill: { height: 6, backgroundColor: c.brandPrimary, borderRadius: 3 },
   status: { fontFamily: fontFamily.text, fontSize: 13, color: c.muted, textAlign: "center" },
-  teamsRow: { flexDirection: "row", gap: 12 },
+  teamsRow: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
   teamCol: { flex: 1, alignItems: "center", gap: 6, padding: 12, borderRadius: 16, borderWidth: 1, borderColor: c.border, backgroundColor: c.surfaceSecondary },
   teamName: { fontFamily: fontFamily.textBold, fontSize: 12, color: c.onSurface },
   teamScore: { fontFamily: fontFamily.textBold, fontSize: 30, color: c.onSurface, fontVariant: ["tabular-nums"] },

@@ -1,0 +1,5 @@
+{
+  "formatOnlyDifferences": [
+    "src/features\\free-config-draft.ts"
+  ]
+}

@@ -1,0 +1,94 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?recapture=1".
+1 AXWebArea Roundr, URL: 127.0.0.1:8151/phase4aqa?recapture=1
+	2 container
+		3 button Retour
+		4 container
+			5 heading Intervalles, Value: 1
+				6 text Intervalles
+			7 text Chrono libre · Réglages
+		8 container
+			9 container
+				10 heading Programmes rapides, Value: 1
+					11 text Programmes rapides
+				12 checkbox Description: 30/30, Value: 0
+					13 text 30/30
+				14 checkbox Description: Tabata, Value: 0
+					15 text Tabata
+				16 checkbox Description: 4 × 10 min, Value: 0
+					17 text 4 × 10 min
+			18 container
+				19 container
+					20 heading Périodes, Value: 1
+						21 text Périodes
+					22 text 4 périodes par série
+				23 container
+					24 text Période 1
+					25 container
+						26 button Réduire la période 1
+						27 text 10:00
+						28 button Augmenter la période 1
+					29 button Supprimer la période 1
+						30 image
+				31 container
+					32 text Période 2
+					33 container
+						34 button Réduire la période 2
+						35 text 10:00
+						36 button Augmenter la période 2
+					37 button Supprimer la période 2
+						38 image
+				39 container
+					40 text Période 3
+					41 container
+						42 button Réduire la période 3
+						43 text 10:00
+						44 button Augmenter la période 3
+					45 button Supprimer la période 3
+						46 image
+				47 container
+					48 text Période 4
+					49 container
+						50 button Réduire la période 4
+						51 text 10:00
+						52 button Augmenter la période 4
+					53 button Supprimer la période 4
+						54 image
+				55 button Ajouter une période
+					56 image
+					57 text Ajouter une période
+			58 container
+				59 heading Repos et répétitions, Value: 1
+					60 text Repos et répétitions
+				61 text Repos entre périodes
+				62 container
+					63 button Réduire le repos
+					64 text 2:00
+					65 button Augmenter le repos
+				66 text Répétitions
+				67 container
+					68 button (disabled) Réduire les répétitions
+					69 container
+						70 text 1 ×
+					71 button Augmenter les répétitions
+				72 text 7  intervalle s  · durée totale  46 min
+			73 container
+				74 heading Passage à la période suivante, Value: 1
+					75 text Passage à la période suivante
+				76 checkbox Description: Automatique, Value: 1
+					77 text Automatique
+				78 checkbox Description: Manuel, Value: 0
+					79 text Manuel
+				80 text Signaux de transition
+				81 switch Description: Signaux de transition, Value: 1
+			82 container
+				83 heading Avec équipes, Value: 1
+					84 text Avec équipes
+				85 text Facultatif : sans équipe, seul le chrono s'affiche.
+				86 switch Description: Avec équipes, Value: 0
+			87 button Enregistrer dans Mes chronos
+				88 image
+				89 text Enregistrer dans Mes chronos
+		90 button Préparer le chrono
+			91 text Préparer le chrono
+
+The focused UI element is 16 checkbox Description: 4 × 10 min, Value: 0

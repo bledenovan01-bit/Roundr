@@ -1,0 +1,71 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?seed=saved&composition=1&final=1", URL: "http://127.0.0.1:8150/?seed=saved&composition=1&final=1".
+1 AXWebArea 127.0.0.1:8150/?seed=saved&composition=1&final=1
+	2 container
+		3 button Retour
+		4 heading Intervalles, Value: 1
+			5 text Intervalles
+		6 text Modifier « Fractionné personnalisé »
+		7 container
+			8 heading Programmes rapides, Value: 3
+				9 text Programmes rapides
+			10 checkbox 30/30, Value: 0
+			11 checkbox Tabata, Value: 0
+			12 checkbox 4 × 10 min, Value: 0
+		13 container
+			14 heading Périodes, Value: 3
+				15 text Périodes
+			16 text 3 périodes par série Période  1
+			17 container la période 1
+				18 button Réduire la période 1
+				19 text 0:30
+				20 button Augmenter la période 1
+			21 button Supprimer la période 1
+			22 text Période  2
+			23 container la période 2
+				24 button Réduire la période 2
+				25 text 0:45
+				26 button Augmenter la période 2
+			27 button Supprimer la période 2
+			28 text Période  3
+			29 container la période 3
+				30 button Réduire la période 3
+				31 text 1:00
+				32 button Augmenter la période 3
+			33 button Supprimer la période 3
+			34 button Ajouter une période
+		35 container
+			36 heading Repos et répétitions, Value: 3
+				37 text Repos et répétitions
+			38 text Repos entre périodes
+			39 container le repos
+				40 button Réduire le repos
+				41 text 0:30
+				42 button Augmenter le repos
+			43 text Répétitions
+			44 container les répétitions
+				45 button Réduire les répétitions
+				46 container
+					47 text 3 ×
+				48 button Augmenter les répétitions
+			49 text Repos entre séries
+			50 container le repos entre séries
+				51 button Réduire le repos entre séries
+				52 text 1:00
+				53 button Augmenter le repos entre séries
+			54 text 17  intervalle s  · durée totale  11 min 45 s
+		55 container
+			56 heading Passage à la période suivante, Value: 3
+				57 text Passage à la période suivante
+			58 checkbox Automatique, Value: 1
+			59 checkbox Manuel, Value: 0
+			60 text Signaux de transition
+			61 switch Description: Signaux de transition, Value: 1
+		62 container
+			63 heading Avec équipes, Value: 3
+				64 text Avec équipes
+			65 text Facultatif : sans équipe, seul le chrono s'affiche.
+			66 switch Description: Avec équipes, Value: 0
+		67 button Mettre à jour « Fractionné personnalisé »
+		68 button Préparer le chrono
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8150/?seed=saved&composition=1&final=1

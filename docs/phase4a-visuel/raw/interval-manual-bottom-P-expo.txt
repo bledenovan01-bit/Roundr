@@ -1,0 +1,5 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?recapture=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~				76 checkbox Description: Automatique, Value: 0
+~				78 checkbox Description: Manuel, Value: 1
+The focused UI element is 78 checkbox Description: Manuel, Value: 1

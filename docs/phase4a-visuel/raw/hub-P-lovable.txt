@@ -1,0 +1,21 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+1 AXWebArea 127.0.0.1:8150/?final=1
+	2 container
+		3 button Retour
+		4 heading Chrono libre, Value: 1
+			5 text Chrono libre
+		6 text Type de chrono Choisissez votre chrono. Les équipes sont facultatives.
+		7 button Chronomètre Départ à 00:00, tours, sans durée limite.
+			8 text Chronomètre
+			9 text Départ à 00:00, tours, sans durée limite.
+		10 button Compte à rebours Durée personnalisée, fin automatique à zéro.
+			11 text Compte à rebours
+			12 text Durée personnalisée, fin automatique à zéro.
+		13 button Intervalles Périodes, repos et répétitions enchaînés.
+			14 text Intervalles
+			15 text Périodes, repos et répétitions enchaînés.
+		16 button Mes chronos Aucun chrono enregistré pour l'instant
+			17 text Mes chronos
+			18 text Aucun chrono enregistré pour l'instant
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8150/?final=1
