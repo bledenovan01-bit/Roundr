@@ -1,0 +1,41 @@
+[
+  {
+    "scenario": "mara-winner-stays",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pixelIdentique": false,
+    "differenceMoyenneRGB": [
+      1.4087768866204886,
+      1.6095758901446104,
+      1.298341232227488
+    ]
+  },
+  {
+    "scenario": "mara-draw-one",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pixelIdentique": false,
+    "differenceMoyenneRGB": [
+      1.7506926722566534,
+      1.7566198809089804,
+      1.9986936444282415
+    ]
+  },
+  {
+    "scenario": "mara-draw-both",
+    "dimensions": [
+      390,
+      844
+    ],
+    "pixelIdentique": false,
+    "differenceMoyenneRGB": [
+      0.34995139142058573,
+      0.3860402235994653,
+      0.3804077044598372
+    ]
+  }
+]

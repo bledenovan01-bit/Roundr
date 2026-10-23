@@ -1,0 +1,507 @@
+{
+  "note": "Mesures DOM hors capture, uniquement paysage 844x390. Dimensions réelles de toutes les captures vérifiées séparément.",
+  "landscape": [
+    {
+      "scenario": "mara-winner-stays",
+      "orientation": "landscape",
+      "side": "lovable",
+      "cards": [
+        {
+          "rect": {
+            "height": 99.33333587646484,
+            "width": 150.8854217529297,
+            "x": 182,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 81.55208587646484,
+              "x": 238.6666717529297,
+              "y": 168.9375
+            },
+            "text": "RESTE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 99.33333587646484,
+            "width": 150.8854217529297,
+            "x": 338.88543701171875,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 87.55208587646484,
+              "x": 389.5520935058594,
+              "y": 187.4375
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 99.33333587646484,
+            "width": 150.8854217529297,
+            "x": 495.7708435058594,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 87.55208587646484,
+              "x": 546.4375,
+              "y": 187.4375
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        }
+      ],
+      "list": {
+        "height": 99.33333587646484,
+        "width": 464.6666870117187,
+        "x": 182,
+        "y": 156.27084350585938
+      },
+      "viewport": {
+        "height": 390,
+        "width": 844
+      }
+    },
+    {
+      "scenario": "mara-winner-stays",
+      "orientation": "landscape",
+      "side": "expo",
+      "cards": [
+        {
+          "rect": {
+            "height": 99.33333587646484,
+            "width": 150.6666717529297,
+            "x": 182,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 111.39583587646484,
+              "x": 242.6666717529297,
+              "y": 168.15625
+            },
+            "text": "RESTE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 99.33333587646484,
+            "width": 150.6666717529297,
+            "x": 338.66668701171875,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 86.96875,
+              "x": 393.3333435058594,
+              "y": 186.65625
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 99.33333587646484,
+            "width": 150.6666717529297,
+            "x": 495.3333435058594,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 111.91667175292967,
+              "x": 550,
+              "y": 186.65625
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        }
+      ],
+      "list": {
+        "height": 99.33333587646484,
+        "width": 464.6666870117187,
+        "x": 182,
+        "y": 155.48959350585938
+      },
+      "viewport": {
+        "height": 390,
+        "width": 844
+      }
+    },
+    {
+      "scenario": "mara-draw-one",
+      "orientation": "landscape",
+      "side": "lovable",
+      "cards": [
+        {
+          "rect": {
+            "height": 104.83333587646484,
+            "width": 150.8854217529297,
+            "x": 182,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 81.55208587646484,
+              "x": 238.6666717529297,
+              "y": 171.6875
+            },
+            "text": "RESTE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 104.83333587646484,
+            "width": 150.8854217529297,
+            "x": 338.88543701171875,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 87.55208587646484,
+              "x": 389.5520935058594,
+              "y": 164.9375
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 104.83333587646484,
+            "width": 150.8854217529297,
+            "x": 495.7708435058594,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 87.55208587646484,
+              "x": 546.4375,
+              "y": 190.1875
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        }
+      ],
+      "list": {
+        "height": 104.83333587646484,
+        "width": 464.6666870117187,
+        "x": 182,
+        "y": 156.27084350585938
+      },
+      "viewport": {
+        "height": 390,
+        "width": 844
+      }
+    },
+    {
+      "scenario": "mara-draw-one",
+      "orientation": "landscape",
+      "side": "expo",
+      "cards": [
+        {
+          "rect": {
+            "height": 104.83333587646484,
+            "width": 150.6666717529297,
+            "x": 182,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 111.39583587646484,
+              "x": 242.6666717529297,
+              "y": 170.90625
+            },
+            "text": "RESTE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 104.83333587646484,
+            "width": 150.6666717529297,
+            "x": 338.66668701171875,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 86.96875,
+              "x": 393.3333435058594,
+              "y": 164.15625
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 104.83333587646484,
+            "width": 150.6666717529297,
+            "x": 495.3333435058594,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 111.91667175292967,
+              "x": 550,
+              "y": 189.40625
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        }
+      ],
+      "list": {
+        "height": 104.83333587646484,
+        "width": 464.6666870117187,
+        "x": 182,
+        "y": 155.48959350585938
+      },
+      "viewport": {
+        "height": 390,
+        "width": 844
+      }
+    },
+    {
+      "scenario": "mara-draw-both",
+      "orientation": "landscape",
+      "side": "lovable",
+      "cards": [
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229.33334350585935,
+            "x": 182,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 102.96875,
+              "x": 232.6666717529297,
+              "y": 164.9375
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229.33334350585935,
+            "x": 417.3333435058594,
+            "y": 156.27084350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 102.96875,
+              "x": 468,
+              "y": 164.9375
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229.33334350585935,
+            "x": 182,
+            "y": 216.6041717529297
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 127.91667175292967,
+              "x": 232.6666717529297,
+              "y": 225.27084350585935
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229.33334350585935,
+            "x": 417.3333435058594,
+            "y": 216.6041717529297
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 127.91667175292967,
+              "x": 468,
+              "y": 225.27084350585935
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        }
+      ],
+      "list": {
+        "height": 114.66667175292967,
+        "width": 464.6666870117187,
+        "x": 182,
+        "y": 156.27084350585938
+      },
+      "viewport": {
+        "height": 390,
+        "width": 844
+      }
+    },
+    {
+      "scenario": "mara-draw-both",
+      "orientation": "landscape",
+      "side": "expo",
+      "cards": [
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229,
+            "x": 182,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 86.96875,
+              "x": 248.6666717529297,
+              "y": 164.15625
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229,
+            "x": 417,
+            "y": 155.48959350585938
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 86.96875,
+              "x": 483.6666870117187,
+              "y": 164.15625
+            },
+            "text": "SORT DU TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229,
+            "x": 182,
+            "y": 215.8229217529297
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 111.91667175292967,
+              "x": 248.6666717529297,
+              "y": 224.48959350585935
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        },
+        {
+          "rect": {
+            "height": 54.33333587646485,
+            "width": 229,
+            "x": 417,
+            "y": 215.8229217529297
+          },
+          "tag": {
+            "fontSize": "9px",
+            "overflow": "visible",
+            "rect": {
+              "height": 13.5,
+              "width": 111.91667175292967,
+              "x": 483.6666870117187,
+              "y": 224.48959350585935
+            },
+            "text": "ENTRE SUR LE TERRAIN",
+            "textOverflow": "clip"
+          }
+        }
+      ],
+      "list": {
+        "height": 114.66667175292967,
+        "width": 464.6666870117187,
+        "x": 182,
+        "y": 155.48959350585938
+      },
+      "viewport": {
+        "height": 390,
+        "width": 844
+      }
+    }
+  ]
+}

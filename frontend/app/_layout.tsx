@@ -28,6 +28,7 @@ export default function RootLayout() {
     "Manrope-Bold": require("../assets/fonts/Manrope-Bold.ttf"),
     "ManropeRefined-Medium": require("../assets/fonts/ManropeRefined-Medium.ttf"),
     "ManropeRefined-Bold": require("../assets/fonts/ManropeRefined-Bold.ttf"),
+    "ManropeRefined-Heavy": require("../assets/fonts/ManropeRefined-Heavy.ttf"),
     "ManropeRefined-Regular": require("../assets/fonts/ManropeRefined-Regular.ttf"),
     "ManropeRefined-SemiBold": require("../assets/fonts/ManropeRefined-SemiBold.ttf"),
     "ManropeRefined-ExtraBold": require("../assets/fonts/ManropeRefined-ExtraBold.ttf"),

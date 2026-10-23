@@ -25,10 +25,15 @@ import { archiveSession, dispatchSession, useStore } from "@/src/store/session-s
 import { fontSize, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { TypographyPreview, refinedFontFamily as fontFamily } from "@/src/typography-preview";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
+import { LovableMatchScreen } from "@/src/features/lovable-match";
 
 const TEAM_COL = 68;
 
 export default function LiveScreen() {
+  const mode=useStore(s=>s.session?.mode);
+  return mode==="classique"||mode==="maracana"?<LovableMatchScreen/>:<LegacyLiveScreen/>;
+}
+function LegacyLiveScreen() {
   const styles = useStyles();
   const leaving = useRef(false);
   const preferences = usePreferences();

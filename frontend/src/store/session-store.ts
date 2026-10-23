@@ -2,6 +2,7 @@
 // §10 / C20 : persistance à chaque mutation utile, erreurs signalées, aucune
 // sauvegarde lisible n'est écrasée par une sauvegarde vide.
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { emptyMatchDetail, recordMatchDetail } from "@/src/domain/match-detail";
 import { useSyncExternalStore } from "react";
 
 import { getPreferences } from "./preferences";
@@ -292,7 +293,7 @@ export function loadStore(): Promise<void> {
       switch (key) {
         case KEYS.session: {
           const original = value as Session | null;
-          const restored = original?.status === "active" ? advance(original, Date.now()) : original;
+          const restored = original?.status === "active" ? recordMatchDetail(original,advance(original,Date.now()),Date.now()) : original;
           set({ session: restored });
           // A recovered automatic Maracana launch must retain its original boundary
           // across another close. Only write after a valid read; failures stay visible.
@@ -378,7 +379,7 @@ export function dispatchSession(fn: (s: Session, now: number) => Session, opts: 
   const advanced = advance(prev, now);
   // A tap made against an expired phase must not alter its successor.
   const changedPhase = advanced.live?.stage !== prev.live?.stage || advanced.live?.matchId !== prev.live?.matchId;
-  const next = changedPhase ? advanced : advance(fn(advanced, now), now);
+  const next = recordMatchDetail(prev,changedPhase ? advanced : advance(fn(advanced, now), now),now);
   if (next === prev) {
     set({ now });
     return;
@@ -403,6 +404,7 @@ export function startSession(session: Session) {
   }
   // Every entry path opens ready: configure, saved chrono, and replay.
   session = { ...session, live: session.live ? { ...session.live, stage: "ready", startedAt: 0, chrono: { ...session.live.chrono, phase: "idle", runningSince: null, accumulatedMs: 0 } } : null };
+  if(session.mode==="classique"&&session.live&&session.live.playedMs===0&&session.live.score.every(n=>n===0))session={...session,live:{...session.live,detail:emptyMatchDetail(session.live.periodMs.length)}};
   set({ session, notice: null, now: Date.now() });
   void persist(KEYS.session, session);
   return true;

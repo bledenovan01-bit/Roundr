@@ -1,0 +1,7 @@
+
+> frontend@1.0.0 lint
+> expo lint -- --fix=false
+
+yarn run v1.22.22
+$ "C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\node_modules\.bin\eslint" "C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\src" "C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\app" --fix=false --cache=true "--cache-location=C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\.expo\cache\eslint\\" --fix=false
+Done in 65.16s.
