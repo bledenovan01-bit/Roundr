@@ -63,7 +63,7 @@ export function HistoryBracket({ session: s, accent, nextMatchId, referenceLabel
   })}{m.status === "bye" ? <Text style={[h.hint, { fontSize: 10, lineHeight:referenceLabels?15:18, fontFamily:referenceLabels?"ManropeRefined-Bold":f.semibold }]}>Qualifié d&apos;office</Text> : how(m) ? <Text style={[h.hint, { fontSize: 10, lineHeight:referenceLabels?15:18, fontFamily:referenceLabels?"ManropeRefined-Bold":f.semibold }]}>{how(m)}</Text> : null}</View>)}</View></View>)}</ScrollView>;
 }
 export function GroupTable({ session: s, ids, matches, referenceUI=false }: { session: Session; ids: string[]; matches: Match[];referenceUI?:boolean }) {
-  const rows = computeStandings(ids, matches, s.config.mode === "cup" && s.config.tournamentPolicy === "lovable"), widths = [22, 100, 23, 23, 23, 23, 25, 25, 32, 28];
+  const rows = computeStandings(ids, matches, s.config.mode === "cup" && s.config.tournamentPolicy === "lovable", s.sportingRules === "lovable-final-v1"), widths = [22, 100, 23, 23, 23, 23, 25, 25, 32, 28];
   const headers = ["#", "Équipe", "J", "G", "N", "P", "BP", "BC", "Diff", "Pts"];
   return <ScrollView horizontal showsHorizontalScrollIndicator={referenceUI?false:undefined}><View style={{ minWidth: 330 }}>{[headers, ...rows.map(r => [
     r.rank + (r.tied ? "=" : ""), s.teams.find(t => t.id === r.teamId)?.name ?? "?", r.played, r.wins, r.draws, r.losses, r.gf, r.gc, (r.gd > 0 ? "+" : "") + r.gd, r.points,

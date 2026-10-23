@@ -28,6 +28,7 @@ export function validPreset(p:any):p is Preset {
 }
 export function validSession(s:any):s is Session {
   try {
+    if(s?.sportingRules!==undefined&&(s.sportingRules!=="lovable-final-v1"||!["cup","survie"].includes(s.mode)))return false;
     if(s?.tournamentView!==undefined&&(!["cup","survie"].includes(s.mode)||!["hub","match","summary"].includes(s.tournamentView)))return false;
     if(!record(s)||typeof s.id!=="string"||!modes.includes(s.mode)||s.config?.mode!==s.mode||!teamsOK(s.teams)||
       !["active","finished","interrupted"].includes(s.status)||!finite(s.createdAt)||!finite(s.updatedAt)||

@@ -360,6 +360,7 @@ assert.equal(
   same.matches.filter((m) => m.status === "finished").length,
   original.matches.filter((m) => m.status === "finished").length,
 );
+assert.equal(same.sportingRules, "lovable-final-v1");
 assert.equal(
   tournamentProjection(same).champion,
   tournamentProjection(original).champion,
@@ -497,7 +498,7 @@ assert.equal(
 console.log(
   "✓ Frozen reference comparison proves mini-table/global-GD differences without changing legacy sporting criteria",
 );
-// Known remaining sporting differences, deliberately characterized rather than silently changed.
+// Old saves keep the characterized differences; new competitions follow the source.
 const doubleRef = R.generate({ ...ref.launch, legs: "double" });
 for (let i = 0; i < ref.groupFixtures.length; i++) {
   const f = doubleRef.groupFixtures[i];
@@ -512,9 +513,14 @@ assert.equal(
   computeStandings(group[0].teamIds, doubleMatches, true)[0].teamId,
   "t1",
 );
+assert.equal(
+  computeStandings(group[0].teamIds, doubleMatches, true, true)[0].teamId,
+  "t2",
+);
 assert.equal(R.cupQual(doubleRef).done, false);
+assert.equal(original.sportingRules, "lovable-final-v1");
 console.log(
-  "✓ Documented difference: incomplete return legs can order a temporary table differently; qualification remains unavailable",
+  "✓ New provisional return-leg standings match Lovable; previous saved policy remains unchanged",
 );
 let targetExtra = fresh("survie", 2, {
   drawRule: "extraThenShootout",
@@ -535,15 +541,21 @@ assert.equal(
   R.fixtureClock(extraReference, extraReference.current, "prol").goalTarget,
   null,
 );
+const priorTargetExtra = { ...targetExtra, sportingRules: undefined };
+assert.equal(
+  S.goal(priorTargetExtra, 0, 1, t0 + 63000).live!.stage,
+  "finished",
+);
 targetExtra = S.goal(targetExtra, 0, 1, t0 + 63000);
-assert.equal(targetExtra.live!.stage, "finished");
-assert.equal(S.currentMatch(targetExtra)!.finishReason, "goalTarget");
+assert.equal(targetExtra.live!.stage, "extra");
+assert.equal(S.currentMatch(targetExtra)!.finishReason, null);
 console.log(
-  "✓ Documented difference: the existing native goal target still applies during overtime; no sporting rule silently changed",
+  "✓ New overtime ignores goal target; saved competitions without the version keep the previous early finish",
 );
 // Editing an older save must not opt its future clocks into the new preparation flow.
 const older: Session = JSON.parse(JSON.stringify(original));
 delete older.tournamentView;
+delete older.sportingRules;
 const olderCorrected = correctTournamentResult(
   older,
   first.id,
@@ -552,6 +564,7 @@ const olderCorrected = correctTournamentResult(
   older.updatedAt + 1000,
 );
 assert.equal(olderCorrected.tournamentView, undefined);
+assert.equal(olderCorrected.sportingRules, undefined);
 assert.equal(JSON.stringify(olderCorrected).includes("tournamentView"), false);
 assert(validSession(olderCorrected));
 let olderNext = {
@@ -633,4 +646,78 @@ for (const mode of ["cup", "survie"] as const) {
 }
 console.log(
   "✓ Correcting a previous result after preparing the next match returns that unstarted fixture to the schedule; no orphan live match or skipped encounter",
+);
+
+// Final return-leg table must use the complete mini-table, like the frozen source.
+for (const f of doubleRef.groupFixtures) {
+  if (!doubleRef.results[f.id])
+    doubleRef.results[f.id] = {
+      a: f.a,
+      b: f.b,
+      score: [0, 0],
+      how: "reg",
+      ms: 60000,
+      order: 100,
+    };
+}
+const completeDouble = doubleMatches.map((m) => {
+  if (m.status === "finished") return m;
+  return {
+    ...m,
+    status: "finished" as const,
+    score: [0, 0] as [number, number],
+  };
+});
+assert.deepEqual(
+  computeStandings(group[0].teamIds, completeDouble, true, true).map(
+    (r) => Number(r.teamId.slice(1)) - 1,
+  ),
+  R.groupTable(doubleRef, 0)
+    .flat()
+    .map((r: any) => r.t),
+);
+for (const mode of ["cup", "survie"] as const)
+  for (const rule of ["extraThenShootout", "golden"] as const) {
+    let s = fresh(mode, mode === "cup" ? 4 : 2, {
+      groups: 1,
+      qualifiersPerGroup: 2,
+      drawRule: rule,
+      matchMin: 1,
+      extraMin: 1,
+      end: { byTime: true, goalTarget: 2 },
+    });
+    if (mode === "cup") while (s.cup?.phase !== "knockout") s = win(s);
+    s = S.startReady(S.launchNext(s, t0), t0);
+    s = S.goal(s, 0, 1, t0 + 1000);
+    s = S.goal(s, 1, 1, t0 + 2000);
+    s = S.advance(s, t0 + 60000);
+    s = S.startTournamentTiebreak(
+      S.prepareTournamentTiebreak(s, t0 + 61000),
+      t0 + 62000,
+    );
+    const old = { ...s, sportingRules: undefined };
+    assert.equal(S.goal(old, 0, 1, t0 + 63000).live!.stage, "finished");
+    s = S.goal(s, 0, 1, t0 + 63000);
+    if (rule === "golden") {
+      assert.equal(s.live!.stage, "finished");
+      assert.equal(S.currentMatch(s)!.finishReason, "goldenGoal");
+      continue;
+    }
+    assert.equal(s.live!.stage, "extra");
+    const restored = JSON.parse(JSON.stringify(s)) as Session;
+    assert(validSession(restored));
+    const won = S.advance(restored, t0 + 122000);
+    assert.equal(won.live!.stage, "finished");
+    assert.deepEqual(S.currentMatch(won)!.score, [2, 1]);
+    assert.equal(S.currentMatch(won)!.playedMs, 120000);
+    s = S.goal(s, 1, 1, t0 + 64000);
+    s = S.advance(s, t0 + 122000);
+    assert.equal(s.live!.stage, "shootout");
+    s = submitTournamentShootout(s, [3, 4], t0 + 123000);
+    assert.equal(s.live!.stage, "finished");
+    assert.deepEqual(S.currentMatch(s)!.score, [2, 2]);
+    assert.equal(S.currentMatch(s)!.playedMs, 120000);
+  }
+console.log(
+  "✓ New Cup/Survie goal targets: timed overtime, equalizing goal, full duration, shootouts, Golden goal and legacy finish retained",
 );

@@ -179,8 +179,8 @@ export function computeQualification(
 
 // Optional new-launch policy. The legacy qualification function and ranking rules
 // remain unchanged for existing sessions. Perfect ties still require a human choice.
-export function computeConfiguredQualification(groups: Group[], matches: Match[], q: number, chosen: Record<string, string[]>, best: boolean): Qualification {
-  const rows = groups.map(g => computeStandings(g.teamIds, matches.filter(m => m.groupId === g.id), true));
+export function computeConfiguredQualification(groups: Group[], matches: Match[], q: number, chosen: Record<string, string[]>, best: boolean, requireScheduledComplete = false): Qualification {
+  const rows = groups.map(g => computeStandings(g.teamIds, matches.filter(m => m.groupId === g.id), true, requireScheduledComplete));
   const position = new Map<string, number>(), direct: StandingRow[] = [], leftovers: StandingRow[] = [];
   for (let i = 0; i < groups.length; i++) {
     const context = "Dernière place qualifiée · " + groups[i].name;

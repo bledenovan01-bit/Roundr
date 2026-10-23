@@ -200,6 +200,8 @@ export type CupState = {
 };
 
 export type Session = {
+  // Set only when creating a new tournament; absent saves retain prior rules.
+  sportingRules?: "lovable-final-v1";
   // Absent on older saves; their running clocks and launch policy are unchanged.
   tournamentView?: "hub" | "match" | "summary";
   id: string;

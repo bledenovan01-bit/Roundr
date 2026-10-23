@@ -1,0 +1,38 @@
+[
+  {
+    "path": "frontend/src/domain/types.ts",
+    "sha256": "4b07aedebad5a32f889bf973e73c9d7747502ae697c7672e925817c1f8604104"
+  },
+  {
+    "path": "frontend/src/domain/session.ts",
+    "sha256": "3191717f34b6bac207a7731c654286f7d213694564f0ff242760ab08ff98c765"
+  },
+  {
+    "path": "frontend/src/domain/standings.ts",
+    "sha256": "c50433af03a4dcd953824ce68cce2afb07bed3c59cdf22708970ebf89d69cd47"
+  },
+  {
+    "path": "frontend/src/domain/cup.ts",
+    "sha256": "e60b6d7e8b0416d24095fddae0248f15ac36f1bc50e0e440de2fd53bd0a24336"
+  },
+  {
+    "path": "frontend/src/domain/tournament-presentation.ts",
+    "sha256": "999bc0bb6eb14661f058d8a14f55a6323b2f8832131fca999fe1ef56099adc14"
+  },
+  {
+    "path": "frontend/src/store/storage-validation.ts",
+    "sha256": "0d80ed6c6f546d3fedd48f0b9e7c09027752ae9e5383d1763b5968c4e949b447"
+  },
+  {
+    "path": "frontend/src/components/lovable/history-summary.tsx",
+    "sha256": "d9f2255b33987441ca5f0352e8e55710ae37998c0bff619016b55ef577ca0e44"
+  },
+  {
+    "path": "frontend/scripts/test-tournament-phase3b.ts",
+    "sha256": "4b5b3209282efd909dfa23b3894da5993ab33c0180b0f59c49bdd6d06155c758"
+  },
+  {
+    "path": "frontend/scripts/test-tournament-storage-phase3b.ts",
+    "sha256": "14d42a3e6acc61282d816ab74c0d59a0d2cf2c330537774e20f1e240e491a50b"
+  }
+]

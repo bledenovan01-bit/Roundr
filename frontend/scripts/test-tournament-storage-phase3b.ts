@@ -102,10 +102,32 @@ async function run() {
       assert(st.startSession(create(mode)));
       st.dispatchSession((x) => ({ ...x, tournamentView: "hub" }));
       await st.flushStorage();
+      assert.equal(
+        st.getStoreState().session!.sportingRules,
+        "lovable-final-v1",
+      );
       const ready = memory.get(key)!;
       st = fresh();
       await st.loadStore();
       assert.equal(memory.get(key), ready);
+      assert.equal(
+        st.getStoreState().session!.sportingRules,
+        "lovable-final-v1",
+      );
+      const old = JSON.parse(ready);
+      delete old.sportingRules;
+      const oldRaw = JSON.stringify(old);
+      memory.set(key, oldRaw);
+      st = fresh();
+      await st.loadStore();
+      await st.flushStorage();
+      assert.equal(st.getStoreState().session!.sportingRules, undefined);
+      assert.equal(memory.get(key), oldRaw);
+      const invalid = { ...old, sportingRules: "unknown" };
+      assert.equal(validSession(invalid), false);
+      memory.set(key, ready);
+      st = fresh();
+      await st.loadStore();
       assert.equal(st.getStoreState().session!.tournamentView, "hub");
       assert.equal(st.getStoreState().session!.live, null);
       for (
@@ -334,6 +356,17 @@ async function run() {
       "✓ Interruption/repeated archival is idempotent; new sessions are blocked until failed history writes succeed",
     );
 
+    memory.clear();
+    const badVersion = { ...create("cup"), sportingRules: "unknown" };
+    const badRaw = JSON.stringify(badVersion);
+    memory.set(key, badRaw);
+    st = fresh();
+    await st.loadStore();
+    await st.flushStorage();
+    assert.equal(st.getStoreState().session, null);
+    assert.equal(memory.get(key), badRaw);
+    assert(st.getStoreState().saveError);
+    assert([...memory.entries()].some(([k, v]) => k !== key && v === badRaw));
     memory.clear();
     now = t0;
     const invalid: Session = create("survie");

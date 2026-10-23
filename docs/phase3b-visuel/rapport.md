@@ -1,3 +1,5 @@
+> Finalisation sportive : les deux écarts ci-dessous sont désormais corrigés pour les nouvelles compétitions. Voir [le rapport avant/après et la compatibilité des sauvegardes](../phase3b-finalisation/rapport.md). Ce rapport visuel conserve les constats du checkpoint 39db251.
+
 # Roundr — Phase 3B : Cup et Survie
 
 La branche `codex/roundr-lovable-phase-3b` part exactement de `d2e1b8840bf934c6d8a9b2b17691e5529c845bd8`. La cible est `codex/roundr-lovable-phase-3a`. La référence Lovable reste `v0-lovable-final`, commit `1c59720dc5b180d5b1bacfaf935902b4053895fa`, examinée dans une copie Git propre et laissée intacte. Aucune fusion, modification de main, publication ou construction EAS payante.

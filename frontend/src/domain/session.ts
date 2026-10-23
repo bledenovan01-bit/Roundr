@@ -425,7 +425,7 @@ function tryQualify(session: Session, chosen: string[] = []): Session {
   const c = session.config;
   if (c.mode !== "cup") return session;
   const q = c.tournamentPolicy === "lovable"
-    ? computeConfiguredQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? {}, !!c.bestNext)
+    ? computeConfiguredQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? {}, !!c.bestNext, session.sportingRules === "lovable-final-v1")
     : computeQualification(cup.groups, groupMatches, c.qualifiersPerGroup, cup.qualificationChoices ?? chosen);
   if (q.kind === "tie") return { ...session, cup: { ...cup, tieChoice: { candidates: q.candidates, slots: q.slots, context: q.context } } };
   const bracket = buildBracket(q.seeds, { smallFinal: c.smallFinal, startOrder: groupMatches.length + 1, idPrefix: "k", reference: c.tournamentPolicy === "lovable" });
@@ -484,7 +484,8 @@ export function goal(session: Session, side: 0 | 1, delta: 1 | -1, now: number):
   if (live.stage === "golden" || (live.stage === "extra" && live.maracanaExtension)) {
     return finishMatch(s, now, live.stage === "golden" ? "goldenGoal" : "extension", true);
   }
-  if (live.end.goalTarget != null && score[side] >= live.end.goalTarget) return finishMatch(s, now, "goalTarget", true);
+  const timedOvertime = session.sportingRules === "lovable-final-v1" && (session.mode === "cup" || session.mode === "survie") && live.stage === "extra";
+  if (!timedOvertime && live.end.goalTarget != null && score[side] >= live.end.goalTarget) return finishMatch(s, now, "goalTarget", true);
   return s;
 }
 

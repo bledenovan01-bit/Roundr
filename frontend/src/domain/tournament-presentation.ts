@@ -23,6 +23,7 @@ export function createTournamentSession(
   const session = S.createSession(config, teams, now);
   return {
     ...session,
+    sportingRules: "lovable-final-v1",
     tournamentView: "hub",
     live: null,
     matches: session.matches.map((m) =>
@@ -255,6 +256,7 @@ export function correctTournamentResult(
               s.config.qualifiersPerGroup,
               cup.qualificationChoices ?? {},
               !!s.config.bestNext,
+              s.sportingRules === "lovable-final-v1",
             )
           : computeQualification(
               cup.groups,
@@ -357,6 +359,7 @@ export function tournamentGroupRows(s: Session, groupId: string) {
         group.teamIds,
         s.matches.filter((m) => m.groupId === group.id),
         s.config.mode === "cup" && s.config.tournamentPolicy === "lovable",
+        s.sportingRules === "lovable-final-v1",
       )
     : [];
 }
