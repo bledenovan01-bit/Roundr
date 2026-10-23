@@ -1,5 +1,7 @@
 # Roundr — Phase 4A à valider
 
+Mise à jour : consulter les [retouches finales et leurs cinq comparaisons ciblées](retouches/rapport.md), qui complètent les captures initiales ci-dessous, notamment pour les espacements paysage et le focus naturel de la fenêtre.
+
 Base Expo : `9461e2fcb0855c469993b6bce07c0187959cc5cc`, branche `codex/roundr-lovable-phase-4a`. Référence : Lovable `v0-lovable-final`, commit `1c59720dc5b180d5b1bacfaf935902b4053895fa`. Cible de la PR : `codex/roundr-lovable-phase-3b`. Aucune fusion, modification de main ou construction payante.
 
 ## Parcours livrés
@@ -30,6 +32,8 @@ Deux défauts ont été reproduits avant correction : des périodes de 5 et 10 s
 ## Particularité de la référence conservée
 
 Dans le code Lovable figé, les programmes 30/30 et Tabata contiennent une seule période par série. Le repos entre périodes ne s'applique donc pas entre ces séries ; leur repos entre séries est nul. Le résumé donne respectivement 4 minutes et 2 minutes 40. Ce comportement est reproduit et comparé à un oracle exécutant la source figée, sans correction spontanée. Les anciens programmes Expo gardent leur ancienne durée, notamment 7 minutes 30 pour l'ancien 30/30.
+
+Arbitrage fonctionnel obligatoire avant publication : le programme rapide 30/30 actuel dure **4 minutes sans repos intercalé**. Décider séparément du maintien de ce comportement ou d'une évolution du programme et de son libellé. Aucune modification de cette règle dans la présente PR.
 
 ## Contrôles réellement exécutés
 

@@ -23,9 +23,14 @@ export function PhaseAction({label,onPress,disabled=false,kind="primary",icon,te
     <Text style={{fontFamily:kind==="primary"?f.extrabold:"ManropeRefined-Bold",fontSize:kind==="primary"?16:14,lineHeight:kind==="primary"?160/7:20,color,textAlign:"center",flexShrink:1}}>{label}</Text>
   </Pressable>;
 }
-export function PhaseFrame({title,subtitle,onBack,intro,children,footer,pair=false,blocked=false,hideBack=false,onContentHeight,onViewportHeight}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;pair?:boolean;blocked?:boolean;hideBack?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void}) {
+export function PhaseFrame({title,subtitle,onBack,intro,children,footer,pair=false,blocked=false,hideBack=false,onContentHeight,onViewportHeight,distributeRows=false}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;pair?:boolean;blocked?:boolean;hideBack?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void;distributeRows?:boolean}) {
   const {width,height,fontScale}=useWindowDimensions(),inset=useSafeAreaInsets(),landscape=width>height;
   const two=landscape&&width-inset.left-inset.right>=600&&fontScale<=1.5;
+  // Lovable's landscape CSS grid stretches each row by an equal share of
+  // unused height. Opt in only where that spacing has been visually verified.
+  const spread=two&&distributeRows;
+  const visible=children.filter(Boolean);
+  const rows=Array.from({length:Math.ceil(visible.length/2)},(_,i)=>visible.slice(i*2,i*2+2));
   return <KeyboardAvoidingView style={s.screen} behavior={Platform.OS==="ios"?"padding":"height"}>
     <LovableBackground/>
     <View style={[s.header,{paddingTop:inset.top+(landscape?10:18),paddingBottom:landscape?4:10,paddingLeft:20+inset.left,paddingRight:20+inset.right}]}>
@@ -33,9 +38,9 @@ export function PhaseFrame({title,subtitle,onBack,intro,children,footer,pair=fal
       <View style={{flex:1,minWidth:0}}><Text accessibilityRole="header" numberOfLines={1} style={s.title}>{title}</Text>{subtitle?<Text style={s.subtitle}>{subtitle}</Text>:null}</View><View style={{width:44}}/>
     </View>
     <ScrollView testID="config-scroll" style={{flex:1}} pointerEvents={blocked?"none":"auto"} onContentSizeChange={(_,h)=>onContentHeight?.(h)} onLayout={e=>onViewportHeight?.(e.nativeEvent.layout.height)} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false}
-      contentContainerStyle={{paddingTop:6,paddingLeft:20+inset.left,paddingRight:20+inset.right,paddingBottom:Math.max(16,inset.bottom),gap:12,flexDirection:"row",flexWrap:"wrap",alignItems:"flex-start"}}>
-      {intro?<View style={{width:"100%"}}>{intro}</View>:null}
-      {children.filter(Boolean).map((child,i)=><View key={isValidElement(child)?child.key??i:i} style={{width:two?(width-inset.left-inset.right-52)/2:"100%"}}>{child}</View>)}
+      contentContainerStyle={{paddingTop:6,paddingLeft:20+inset.left,paddingRight:20+inset.right,paddingBottom:Math.max(16,inset.bottom),gap:12,flexDirection:spread?"column":"row",flexWrap:spread?"nowrap":"wrap",alignItems:"flex-start",flexGrow:spread?1:undefined}}>
+      {intro?<View style={{width:"100%",flexGrow:spread?1:undefined}}>{intro}</View>:null}
+      {spread?rows.map((row,i)=><View key={i} style={{width:"100%",flexDirection:"row",gap:12,flexGrow:1,alignItems:"flex-start"}}>{row.map((child,j)=><View key={isValidElement(child)?child.key??j:j} style={{width:(width-inset.left-inset.right-52)/2}}>{child}</View>)}</View>):visible.map((child,i)=><View key={isValidElement(child)?child.key??i:i} style={{width:two?(width-inset.left-inset.right-52)/2:"100%"}}>{child}</View>)}
     </ScrollView>
     {footer?<View style={{paddingTop:landscape?8:12,paddingBottom:Math.max(inset.bottom,landscape?10:16),paddingLeft:20+inset.left,paddingRight:20+inset.right,alignItems:"center"}}>
       <View style={{width:"100%",maxWidth:landscape?(pair?REDRAW_MIN_WIDTH*2.4+10:420):undefined}}>{footer}</View>

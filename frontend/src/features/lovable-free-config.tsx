@@ -490,6 +490,7 @@ export function LovableFreeConfig({
   if (step === "type")
     return (
       <PhaseFrame
+        distributeRows
         title="Chrono libre"
         subtitle="Type de chrono"
         onBack={() => router.replace("/")}
@@ -1090,6 +1091,7 @@ export function LovableFreeConfig({
   return (
     <>
       <PhaseFrame
+        distributeRows={d.kind === "stopwatch"}
         onViewportHeight={setViewportHeight}
         onContentHeight={(h) =>
           setMeasure((previous) =>
