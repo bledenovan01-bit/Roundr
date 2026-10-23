@@ -1,0 +1,49 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?seed=saved&composition=1&commit=final".
+1 AXWebArea Roundr, URL: 127.0.0.1:8151/phase4aqa?seed=saved&composition=1&commit=final
+	2 container
+		3 button Retour
+		4 container
+			5 heading Chronomètre, Value: 1
+				6 text Chronomètre
+			7 text Chrono libre · Réglages
+		8 container
+			9 container
+				10 heading Chronomètre, Value: 1
+					11 text Chronomètre
+				12 text Démarre à 00:00 et continue jusqu'à votre arrêt. Tours illimités, aucune durée à régler.
+			13 container
+				14 container
+					15 heading Avec équipes, Value: 1
+						16 text Avec équipes
+					17 text Noms, couleurs et scores facultatifs
+				18 switch Description: Avec équipes, Value: 1
+				19 text Nombre d'équipes
+				20 container
+					21 button Réduire le nombre d'équipes
+					22 container
+						23 text 3
+					24 button Augmenter le nombre d'équipes
+				25 text Scores
+				26 switch Description: Scores, Value: 1
+				27 button Importer mes 3 équipes
+					28 text Importer mes 3 équipes
+				29 text Composition importée : vous pouvez encore la modifier ci-dessous.
+				30 container
+					31 text 1
+					32 button Changer la couleur de Les Renards
+					33 text field (settable) Description: Nom de l'équipe 1, Value: Les Renards
+				34 container
+					35 text 2
+					36 button Changer la couleur de FC Amigos
+					37 text field (settable) Description: Nom de l'équipe 2, Value: FC Amigos
+				38 container
+					39 text 3
+					40 button Changer la couleur de Panthères
+					41 text field (settable) Description: Nom de l'équipe 3, Value: Panthères
+			42 button Enregistrer dans Mes chronos
+				43 image
+				44 text Enregistrer dans Mes chronos
+		45 button Préparer le chrono
+			46 text Préparer le chrono
+
+The focused UI element is 27 button Importer mes 3 équipes

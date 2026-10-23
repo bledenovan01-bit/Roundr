@@ -1,0 +1,49 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?zero-reference=1", URL: "http://127.0.0.1:8150/?zero-reference=1".
+1 AXWebArea 127.0.0.1:8150/?zero-reference=1
+	2 container
+		3 button Retour
+		4 heading Compte à rebours, Value: 1
+			5 text Compte à rebours
+		6 text Chrono libre · Réglages
+		7 container
+			8 heading Durée, Value: 3
+				9 text Durée
+			10 text Choisissez une durée supérieure à zéro.
+			11 checkbox 1 min, Value: 0
+			12 checkbox 5 min, Value: 0
+			13 checkbox 10 min, Value: 0
+			14 checkbox 15 min, Value: 0
+			15 checkbox 30 min, Value: 0
+			16 text Heures
+			17 container les heures
+				18 button (disabled) Réduire les heures
+				19 container
+					20 text 0 h
+				21 button Augmenter les heures
+			22 text Minutes
+			23 container les minutes
+				24 button (disabled) Réduire les minutes
+				25 container
+					26 text 0 min
+				27 button Augmenter les minutes
+			28 text Secondes
+			29 container les secondes
+				30 button (disabled) Réduire les secondes
+				31 container
+					32 text 0 s
+				33 button Augmenter les secondes
+			34 text La durée doit être supérieure à zéro.
+		35 container
+			36 heading Signal de fin, Value: 3
+				37 text Signal de fin
+			38 text Son et vibration à zéro
+			39 switch Description: Signal de fin, Value: 1
+		40 container
+			41 heading Avec équipes, Value: 3
+				42 text Avec équipes
+			43 text Facultatif : sans équipe, seul le chrono s'affiche.
+			44 switch Description: Avec équipes, Value: 0
+		45 button (disabled) Enregistrer dans Mes chronos
+		46 button (disabled) Préparer le chrono
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8150/?zero-reference=1

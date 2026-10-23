@@ -1,0 +1,124 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?empty=1&final=1", URL: "http://127.0.0.1:8150/?empty=1&final=1".
+1 AXWebArea 127.0.0.1:8150/?empty=1&final=1
+	2 container
+		3 button Retour
+		4 heading Intervalles, Value: 1
+			5 text Intervalles
+		6 text Chrono libre · Réglages
+		7 container
+			8 heading Programmes rapides, Value: 3
+				9 text Programmes rapides
+			10 checkbox 30/30, Value: 0
+			11 checkbox Tabata, Value: 0
+			12 checkbox 4 × 10 min, Value: 0
+		13 container
+			14 heading Périodes, Value: 3
+				15 text Périodes
+			16 text 12 périodes par série Période  1
+			17 container la période 1
+				18 button Réduire la période 1
+				19 text 0:30
+				20 button Augmenter la période 1
+			21 button Supprimer la période 1
+			22 text Période  2
+			23 container la période 2
+				24 button Réduire la période 2
+				25 text 0:30
+				26 button Augmenter la période 2
+			27 button Supprimer la période 2
+			28 text Période  3
+			29 container la période 3
+				30 button Réduire la période 3
+				31 text 0:30
+				32 button Augmenter la période 3
+			33 button Supprimer la période 3
+			34 text Période  4
+			35 container la période 4
+				36 button Réduire la période 4
+				37 text 0:30
+				38 button Augmenter la période 4
+			39 button Supprimer la période 4
+			40 text Période  5
+			41 container la période 5
+				42 button Réduire la période 5
+				43 text 0:30
+				44 button Augmenter la période 5
+			45 button Supprimer la période 5
+			46 text Période  6
+			47 container la période 6
+				48 button Réduire la période 6
+				49 text 0:30
+				50 button Augmenter la période 6
+			51 button Supprimer la période 6
+			52 text Période  7
+			53 container la période 7
+				54 button Réduire la période 7
+				55 text 0:30
+				56 button Augmenter la période 7
+			57 button Supprimer la période 7
+			58 text Période  8
+			59 container la période 8
+				60 button Réduire la période 8
+				61 text 0:30
+				62 button Augmenter la période 8
+			63 button Supprimer la période 8
+			64 text Période  9
+			65 container la période 9
+				66 button Réduire la période 9
+				67 text 0:30
+				68 button Augmenter la période 9
+			69 button Supprimer la période 9
+			70 text Période  10
+			71 container la période 10
+				72 button Réduire la période 10
+				73 text 0:30
+				74 button Augmenter la période 10
+			75 button Supprimer la période 10
+			76 text Période  11
+			77 container la période 11
+				78 button Réduire la période 11
+				79 text 0:30
+				80 button Augmenter la période 11
+			81 button Supprimer la période 11
+			82 text Période  12
+			83 container la période 12
+				84 button Réduire la période 12
+				85 text 0:30
+				86 button Augmenter la période 12
+			87 button Supprimer la période 12
+		88 container
+			89 heading Repos et répétitions, Value: 3
+				90 text Repos et répétitions
+			91 text Repos entre périodes
+			92 container le repos
+				93 button Réduire le repos
+				94 text 0:30
+				95 button Augmenter le repos
+			96 text Répétitions
+			97 container les répétitions
+				98 button Réduire les répétitions
+				99 container
+					100 text 8 ×
+				101 button Augmenter les répétitions
+			102 text Repos entre séries
+			103 container le repos entre séries
+				104 button (disabled) Réduire le repos entre séries
+				105 text Aucun
+				106 button Augmenter le repos entre séries
+			107 text 184  intervalle s  · durée totale  1 h 32 min
+		108 container
+			109 heading Passage à la période suivante, Value: 3
+				110 text Passage à la période suivante
+			111 checkbox Automatique, Value: 1
+			112 checkbox Manuel, Value: 0
+			113 text Signaux de transition
+			114 switch Description: Signaux de transition, Value: 1
+		115 container
+			116 heading Avec équipes, Value: 3
+				117 text Avec équipes
+			118 text Facultatif : sans équipe, seul le chrono s'affiche.
+			119 switch Description: Avec équipes, Value: 0
+		120 button Enregistrer dans Mes chronos
+		121 button Préparer le chrono
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8150/?empty=1&final=1

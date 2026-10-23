@@ -1,16 +1,19 @@
 // Chrono libre (Phase 3 — réf. Lovable). Module AUTONOME : n'affecte ni le
 // moteur de session (matchs/tournois) ni ses sauvegardes. Modèle temporel basé
 // sur des horodatages (comme le moteur chrono) pour un calcul fiable.
-import type { Preset } from "./types";
+import type { Preset, Team } from "./types";
 
 export type FreeTimerDisplay = "numeric" | "circular" | "analog";
 export type FreeTimerKind = "stopwatch" | "countdown" | "interval";
 
-type Base = { withTeams: boolean; display: FreeTimerDisplay; sounds: boolean };
+type Base = { withTeams: boolean; display: FreeTimerDisplay; sounds: boolean; teams?: Team[]; scoreOn?: boolean };
 export type StopwatchConfig = { kind: "stopwatch" } & Base;
 export type CountdownConfig = { kind: "countdown"; durationMs: number; endSignal: boolean } & Base;
 export type IntervalConfig = {
   kind: "interval";
+  // Optional: old saves retain their exact repeated-work sequence. New configs
+  // repeat this list (one series) `sets` times, with restMs only inside a series.
+  periodsMs?: number[];
   workMs: number;
   restMs: number;
   reps: number;
@@ -49,7 +52,7 @@ export function buildSteps(c: FreeTimerConfig): FreeStep[] {
   const sets = Math.max(1, Math.floor(c.sets));
   for (let s = 1; s <= sets; s++) {
     for (let r = 1; r <= reps; r++) {
-      steps.push({ type: "work", durationMs: Math.max(1000, c.workMs), label: "Effort", rep: r, set: s, totalReps: reps, totalSets: sets });
+      steps.push({ type: "work", durationMs: c.periodsMs?.[r - 1] ?? Math.max(1000, c.workMs), label: c.periodsMs ? reps > 1 ? `Période ${r}` : "Travail" : "Effort", rep: r, set: s, totalReps: reps, totalSets: sets });
       if (r < reps && c.restMs > 0) steps.push({ type: "rest", durationMs: c.restMs, label: "Repos", rep: r, set: s, totalReps: reps, totalSets: sets });
     }
     if (s < sets && c.restBetweenSetsMs > 0) steps.push({ type: "restSet", durationMs: c.restBetweenSetsMs, label: "Repos entre séries", rep: reps, set: s, totalReps: reps, totalSets: sets });
@@ -66,12 +69,13 @@ export type FreeTimerState = {
   running: boolean;
   finished: boolean;
   laps: number[]; // chrono croissant : total écoulé à chaque tour
-  score: [number, number]; // équipes facultatives
+  score: number[]; // old saves: pair; configured teams: 2–8 independent scores
   createdAt: number;
 };
 
 export function createFreeTimer(config: FreeTimerConfig): FreeTimerState {
-  return { config, steps: buildSteps(config), stepIndex: 0, stepAccumulatedMs: 0, stepStartedAt: 0, running: false, finished: false, laps: [], score: [0, 0], createdAt: Date.now() };
+  const snapshot = JSON.parse(JSON.stringify(config)) as FreeTimerConfig;
+  return { config: snapshot, steps: buildSteps(snapshot), stepIndex: 0, stepAccumulatedMs: 0, stepStartedAt: 0, running: false, finished: false, laps: [], score: Array(snapshot.withTeams && snapshot.teams ? snapshot.teams.length : 2).fill(0), createdAt: Date.now() };
 }
 
 export function stepElapsed(ft: FreeTimerState, now: number): number {
@@ -128,7 +132,7 @@ export function resetTime(ft: FreeTimerState, now: number): FreeTimerState {
 }
 // Recommencer la séance : temps + tours + SCORES à zéro, arrêté.
 export function restartSession(ft: FreeTimerState): FreeTimerState {
-  return { ...ft, steps: buildSteps(ft.config), stepIndex: 0, stepAccumulatedMs: 0, stepStartedAt: 0, running: false, finished: false, laps: [], score: [0, 0] };
+  return { ...ft, steps: buildSteps(ft.config), stepIndex: 0, stepAccumulatedMs: 0, stepStartedAt: 0, running: false, finished: false, laps: [], score: ft.score.map(() => 0) };
 }
 
 // Splits (durée de chaque tour) à partir des totaux cumulés.
@@ -164,6 +168,12 @@ const isFiniteNum = (x: unknown): x is number => typeof x === "number" && Number
 export function validFreeConfig(c: unknown): c is FreeTimerConfig {
   if (!c || typeof c !== "object" || Array.isArray(c)) return false;
   const o = c as Record<string, unknown>;
+  if (o.scoreOn !== undefined && typeof o.scoreOn !== "boolean") return false;
+  if (o.teams !== undefined) {
+    if (!Array.isArray(o.teams) || o.teams.length < 2 || o.teams.length > 8 || !o.teams.every(t => t && typeof t.id === "string" && typeof t.name === "string" && typeof t.color === "string") || new Set(o.teams.map(t => t.id)).size !== o.teams.length) return false;
+    if (o.withTeams && (o.teams.some(t => !t.name.trim()) || new Set(o.teams.map(t => t.name.trim().toLocaleLowerCase())).size !== o.teams.length)) return false;
+  }
+  if (o.periodsMs !== undefined && (o.kind !== "interval" || !Array.isArray(o.periodsMs) || o.periodsMs.length < 1 || o.periodsMs.length > 12 || o.reps !== o.periodsMs.length || !o.periodsMs.every(n => Number.isSafeInteger(n) && n >= 5000 && n <= 3600000) || o.workMs !== o.periodsMs[0] || !Number.isSafeInteger(o.sets) || (o.sets as number) > 20)) return false;
   if (typeof o.withTeams !== "boolean" || typeof o.sounds !== "boolean") return false;
   if (o.display !== "numeric" && o.display !== "circular" && o.display !== "analog") return false;
   if (o.kind === "stopwatch") return true;

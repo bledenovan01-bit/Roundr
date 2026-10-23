@@ -1,0 +1,37 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?recapture=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 106-109
++				114 container
++					115 text 1
++					116 button Changer la couleur de Les Renards
++					117 text field (settable) Description: Nom de l'équipe 1, Value: Les Renards
++					118 Couleur de Les Renards
++						119 radio button Description: Orange, Value: 0
++						120 radio button Description: Vert, Value: 0
++						121 radio button Description: Bleu, Value: 0
++						122 radio button Description: Rouge, Value: 0
++						123 radio button Description: Jaune, Value: 0
++						124 radio button Description: Violet, Value: 0
++						125 radio button Description: Cyan, Value: 0
++						126 radio button Description: Rose vif, Value: 0
++						127 radio button Description: Citron vert, Value: 0
++						128 radio button Description: Turquoise, Value: 0
++						129 radio button Description: Bleu ciel, Value: 0
++						130 radio button Description: Indigo, Value: 0
++						131 radio button Description: Fuchsia, Value: 0
++						132 radio button Description: Rose pâle, Value: 0
++						133 radio button Description: Or, Value: 0
++						134 radio button Description: Blanc, Value: 0
++						135 radio button Description: Gris, Value: 0
++						136 radio button Description: Noir, Value: 0
++						137 radio button Description: Marine, Value: 0
++						138 radio button Description: Grenat, Value: 0
++						139 radio button Description: Olive, Value: 0
++						140 radio button Description: Menthe, Value: 0
++						141 radio button Description: Corail, Value: 0
++						142 radio button Description: Lavande, Value: 0
++						143 radio button Description: Marron, Value: 0
++						144 radio button Description: Sable, Value: 0
++						145 radio button Description: Vert forêt, Value: 0
++						146 radio button Description: Bordeaux, Value: 0
+The focused UI element is 116 button Changer la couleur de Les Renards

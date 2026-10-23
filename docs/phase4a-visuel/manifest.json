@@ -1,0 +1,463 @@
+{
+  "lovable": "1c59720dc5b180d5b1bacfaf935902b4053895fa",
+  "nativeBase": "9461e2fcb0855c469993b6bce07c0187959cc5cc",
+  "pairs": 38,
+  "images": [
+    {
+      "path": "raw/countdown-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "eee0f427c6a9e7a82b47a87c151a8408041b23cd56cd733dcacd13af5886aebe"
+    },
+    {
+      "path": "raw/countdown-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "9d998f3c179a1c65510c26b7f2f720406ff8cf019b997645f8cc1f1add851ca4"
+    },
+    {
+      "path": "raw/countdown-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "0efebba3928d607debfe804d7581526fc81932569a2dd06a3c07a6211a97dc98"
+    },
+    {
+      "path": "raw/countdown-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "b4abaedcc74fe51d8eff360a92e43cfb874332ca7cb616af534d434eb4a0a30b"
+    },
+    {
+      "path": "raw/countdown-zero-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "3320e0c08d1742a96e97737daa93563b9674a678d3a5871c334371ecf231b296"
+    },
+    {
+      "path": "raw/countdown-zero-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "4f838fb24cc077af4a3551f5e5f83d6ab8c67c0444c2cdced78e75afd955461b"
+    },
+    {
+      "path": "raw/countdown-zero-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "bcf6441f09fd15cbf213a8c37ab45cf277faec134ca616dd110461f4706c0c7c"
+    },
+    {
+      "path": "raw/countdown-zero-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "14080537d6a4e3c461f622a34dd3e3e1abf6738e709ff4697d051697b113f96a"
+    },
+    {
+      "path": "raw/hub-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "9fc7d8b87565fc20a6182c0dd8eb0a533b606113fa37336127e7c968e9db8ce1"
+    },
+    {
+      "path": "raw/hub-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "38f9054908261bd2fad0bd40e4cd4336a576e4e9cb0102155b528b07700c7b10"
+    },
+    {
+      "path": "raw/hub-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "73224579388b7f539d389942e53b3f2a66a0955bbb68997751b114a37baf4422"
+    },
+    {
+      "path": "raw/hub-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "6c978066efb812296f0b64d1ac1949913abff146a43466fdcc30477f2cbf8ece"
+    },
+    {
+      "path": "raw/interval-default-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "0fb57179b606056c1c2780f161579517cf49d495a4a62864bfad0b64d82bb72b"
+    },
+    {
+      "path": "raw/interval-default-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "cf53cb09f49397445ff9e13156ff57a7ca47d8184b64cfbcbdf3de6ba524a90c"
+    },
+    {
+      "path": "raw/interval-default-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "9572e0c0471f9acb2d34f07d378a5524cc9c455ef57856c0e0dcdac13ae651e6"
+    },
+    {
+      "path": "raw/interval-default-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "9130cb7832bbe071b0794a0e08dc10dfa12e29bbf39cc19a7fb99d69eca570d2"
+    },
+    {
+      "path": "raw/interval-four-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "f96a540f1ba42dbaf5db717e00b676918c6802aed8fb7ca439840a5b3e37efc2"
+    },
+    {
+      "path": "raw/interval-four-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "fa3d30fbebc145e0f33b082befb2ec981844e8907ed6afcd1f5ce3202b1e2d51"
+    },
+    {
+      "path": "raw/interval-four-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "f951419a635250bd3298dc49b9218640decbf6455bf1b27f5ebe85cc366e464e"
+    },
+    {
+      "path": "raw/interval-four-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "4ddc1ed0ab700eaaadf4494e8ddeb3b1be5d050786ee6449182c1d75e253b0e1"
+    },
+    {
+      "path": "raw/interval-manual-bottom-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "7865511318a4645550d967c352cc4d8064328f7add236c9aabe1f9d3ed31ae88"
+    },
+    {
+      "path": "raw/interval-manual-bottom-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "b219a5236d3d7e88deed7614507a74a3ec96608e3b11de90c050706b0e672a2a"
+    },
+    {
+      "path": "raw/interval-manual-bottom-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "3ebd83d5da9c5f92288f0b4875639ba81c739b7e68a3deafe2d8fd406019d746"
+    },
+    {
+      "path": "raw/interval-manual-bottom-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "e88b607d483fb208749059d7f028150f44de87309d3c3b2ac59d8c128420a310"
+    },
+    {
+      "path": "raw/interval-twelve-bottom-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "a016aff97d90d5601c47837f3fb7826e5d5daa141943743ccce687c0179cdb87"
+    },
+    {
+      "path": "raw/interval-twelve-bottom-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "4700dcfb7718b3ae22a051af1a7c527e8a0e378cab4b1eec9af79e4f38ac8fca"
+    },
+    {
+      "path": "raw/interval-twelve-bottom-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "fbc5517b3fb0b1ac069b8e98c0834ce2f5269e0f26498f0a2beb9db4341b54e1"
+    },
+    {
+      "path": "raw/interval-twelve-bottom-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "a1b4ab4384ccd7b1b5f865755985c78948f49fefbc4c5f0dad8bdcd3a43ab5ea"
+    },
+    {
+      "path": "raw/interval-twelve-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "c1e6d7ccb06cae785a248acafe87ec05f890419354a6679aa8ebe573ac5e88fb"
+    },
+    {
+      "path": "raw/interval-twelve-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "d7c4cabafad54ad05b0719bdc3ad4d7a50d13fee442d01cfc499c561ead74f3b"
+    },
+    {
+      "path": "raw/interval-twelve-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "827bba953326d6ea1afab769f1a31df6eaab49598a8977ae52914e5883503489"
+    },
+    {
+      "path": "raw/interval-twelve-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "fe9b7581baa172fe65e443868a00955a10735f703298a2a57717b3ed685694d5"
+    },
+    {
+      "path": "raw/save-empty-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "ee02d5d59647a8a89a042676cb7350fcb76cc13d6db986e86829f99ceabb9eca"
+    },
+    {
+      "path": "raw/save-empty-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "156978c58eec6578dfd9180a17b9a562b5c45a0fe2128d286ea30c01e55b6a8e"
+    },
+    {
+      "path": "raw/save-empty-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "77b8a21b55cf1326a8eeef672eb25c78a06a22fea4c63375b5c2eeb96de706a2"
+    },
+    {
+      "path": "raw/save-empty-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "c1fafe4b08cf5d496f971fa2ad16985a80047671f0f90c98daac9e458ea50f21"
+    },
+    {
+      "path": "raw/saved-delete-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "32e0ccc858f5f4953959916b386900e89224bf03d94b95b6987476517161845c"
+    },
+    {
+      "path": "raw/saved-delete-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "a860634e59f055b35635e80644dae8bb3ea27314bb90e8d005d784e2013628ad"
+    },
+    {
+      "path": "raw/saved-delete-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "bc418358f3a74ec295089757a5e65ffac4ddf360752a32edca4fd075b4702d97"
+    },
+    {
+      "path": "raw/saved-delete-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "f309826f5a7dc6ca9e6a298452aca71395122c967f1f5de6ec26799c3cf04c6b"
+    },
+    {
+      "path": "raw/saved-edit-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "a32b22e727637986f8c651ba87b4a51998bcea3e11eb3cfdafdf212952f1453f"
+    },
+    {
+      "path": "raw/saved-edit-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "45c17d8b07d25f0ddcca21e4e460918566358a1f744a761748e18632f8a09d49"
+    },
+    {
+      "path": "raw/saved-edit-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "8a608ff50e50e3abb90d19739d65d2f538c7b2108754716db37b1196adc97e9c"
+    },
+    {
+      "path": "raw/saved-edit-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "dcf245abc7753151f76949f548eb4de11b8301b0a113ef68eac88e722c921810"
+    },
+    {
+      "path": "raw/saved-empty-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "5f9216f5ba70063ef6da945bbac246adba8db0effc1d033cef3073698b5d384d"
+    },
+    {
+      "path": "raw/saved-empty-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "6a38f86545acafd5158377ceabae4328f3fe2eae75960dc8ae2f1f3a042c4073"
+    },
+    {
+      "path": "raw/saved-empty-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "ce96f5551324f383067570002738e2bd22c797a708a377eb1d8d9d96c3f07a5c"
+    },
+    {
+      "path": "raw/saved-empty-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "c401deac90e695b479b155de3805b0eba80e65f8cefc42244e6e92e17bdfee3d"
+    },
+    {
+      "path": "raw/saved-list-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "280e7db48ac3aa8aaa3d6fc32071248231aaf54310e3cbd8f139fadbf2217dec"
+    },
+    {
+      "path": "raw/saved-list-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "5eb047dc71ad682ea46b1beaab2d235024c3b1b74c8dea3afcfe2915a87787a6"
+    },
+    {
+      "path": "raw/saved-list-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "8dedd4a86ee3af9eb53296216a65fa07082c862970d33b18840abd170c888a8c"
+    },
+    {
+      "path": "raw/saved-list-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "d17796393ef36835705d6aae87f2ad55411e2c0a1b6e204f6686c505b54bad95"
+    },
+    {
+      "path": "raw/saved-update-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "b089c784f2f06049603d7f6459f034ee14793a0ce46f140b887bf1db7fbfe721"
+    },
+    {
+      "path": "raw/saved-update-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "a4d18a7415523c9df09485d33174dae01e7562cdf514ee1a278f15f753c98710"
+    },
+    {
+      "path": "raw/saved-update-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "3b7f5964b59279af1fbb776302dcda54b1848a1a194694e6a735e8c21a72f47e"
+    },
+    {
+      "path": "raw/saved-update-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "f11dc884a48a0cbefa02ecec477b4b6ea8117ff748822c03849912a231312d32"
+    },
+    {
+      "path": "raw/stopwatch-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "45b0ab5a8f638710d1f69c61698f7857d2743d36935b9514b57523d740a393e0"
+    },
+    {
+      "path": "raw/stopwatch-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "da3d0820c5716707447785cb05bcf60688d7eee449f02c864b878b6a458ca11b"
+    },
+    {
+      "path": "raw/stopwatch-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "1cf1493132dba7b365e077e39e85e4a57a7c890ab4c9d38b63de41c38cbe1799"
+    },
+    {
+      "path": "raw/stopwatch-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "95b089f79e9542f11d00201a2ec3dc71837b3fa75a305237646bed0d8c8170d8"
+    },
+    {
+      "path": "raw/teams-eight-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "3e5627b5e7b58f7c25e34785c9d68b7899de3187945439c6b9e6a45e468a19be"
+    },
+    {
+      "path": "raw/teams-eight-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "5418f4911eb1b1e2d3a9fac699ef83b1bfc0d5be2e166170acd18327eab90d73"
+    },
+    {
+      "path": "raw/teams-eight-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "d11ebf59c9b0565333d0e79cf633a519504ea0295166308237567447d9da54ea"
+    },
+    {
+      "path": "raw/teams-eight-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "ffda3ef8b759a176955fd2fe9b33f9c93ab2a0e9f791853e2a40e69bba2b30aa"
+    },
+    {
+      "path": "raw/teams-import-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "2a0c5d87e2afa4d8f806245a5ff82891bdd04c6974d90c6f8f6e6d6104d8e630"
+    },
+    {
+      "path": "raw/teams-import-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "6c70d8a532e013a004082fdcff9f0653a42b6b7b421722006274b09d646f8453"
+    },
+    {
+      "path": "raw/teams-import-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "9f69b1bd99b48b66ba71a2a647b71104e2cd43640d4b7222a61c259332f18fbe"
+    },
+    {
+      "path": "raw/teams-import-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "4f4a9a4308f4da68b02d8b93320650e55eb92fa908d6ae21c3654e544a277a8a"
+    },
+    {
+      "path": "raw/teams-palette-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "219c9fc53eee153f35554343f61d533d8e467517b24265e5db834c4a0c496db9"
+    },
+    {
+      "path": "raw/teams-palette-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "0b3466f2234fcaf07942bdcd9c789f6a5366960aec1f6e513c19cd0fd59d0012"
+    },
+    {
+      "path": "raw/teams-palette-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "1ad14092622cf5fa7585851074b4470e45c114e304eb10486fc0615401e51afc"
+    },
+    {
+      "path": "raw/teams-palette-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "502a7a095b1b9d75f2aa05ccea2894ebc37b4f44e3c15ab385883af37db5707f"
+    },
+    {
+      "path": "raw/teams-two-L-lovable.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "2f1b51f3b11a0b3c3f72c4a3d1f403f5e69fbb3ff1710c90d5214c98b2fd72cb"
+    },
+    {
+      "path": "raw/teams-two-L-expo.jpg",
+      "width": 844,
+      "height": 390,
+      "sha256": "dddafd15a45c4ac385eb1de97d5963d5516e5ccfd10a980d89775ba1c3558352"
+    },
+    {
+      "path": "raw/teams-two-P-lovable.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "e2bb35ede686a2a259aa98522847f01773c54ca6a74111a0192f0151b7bad190"
+    },
+    {
+      "path": "raw/teams-two-P-expo.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "4e8bcdf47066e618485b8b6d55484055262b053f7872b41da35256e3bcd55740"
+    }
+  ]
+}

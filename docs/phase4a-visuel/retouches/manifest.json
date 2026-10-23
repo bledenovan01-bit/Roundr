@@ -1,0 +1,82 @@
+[
+  {
+    "path": "raw/hub-L-lovable.jpg",
+    "size": [
+      844,
+      390
+    ],
+    "sha256": "3fc88fa4f64b65935acbb496016a0c7f8b1474a2efa773190b639468a12e0c85"
+  },
+  {
+    "path": "raw/hub-L-expo.jpg",
+    "size": [
+      844,
+      390
+    ],
+    "sha256": "0536fb7619e4b11b47c98b75768b1f2da61a5aa55a3fbc8b29b1be010e65dde5"
+  },
+  {
+    "path": "raw/hub-P-lovable.jpg",
+    "size": [
+      390,
+      844
+    ],
+    "sha256": "015d7a29ae538106fb64775afd18f93c3220efc40977a496443ea594d7c2517e"
+  },
+  {
+    "path": "raw/hub-P-expo.jpg",
+    "size": [
+      390,
+      844
+    ],
+    "sha256": "d91dcd2af09a5cd48b82ff380d62cfda0efe5ffed0fd4e383933e3ab5630e19a"
+  },
+  {
+    "path": "raw/saved-update-L-lovable.jpg",
+    "size": [
+      844,
+      390
+    ],
+    "sha256": "9b9bc02b2f8982901226ae7e0740475f077eaa7950fcaa79316c6edf2f04432c"
+  },
+  {
+    "path": "raw/saved-update-L-expo.jpg",
+    "size": [
+      844,
+      390
+    ],
+    "sha256": "430e1b7ce1c7d4d97c7fca1921dc192a7d1a626c51beb69f81f1ec22ae8940aa"
+  },
+  {
+    "path": "raw/stopwatch-L-lovable.jpg",
+    "size": [
+      844,
+      390
+    ],
+    "sha256": "b2b7e13fc84da103434c9476fe91d6361fd54cfda731abe1b1f2003b917f6e26"
+  },
+  {
+    "path": "raw/stopwatch-L-expo.jpg",
+    "size": [
+      844,
+      390
+    ],
+    "sha256": "5598c7d32d99aeeca55a497630486153a6a1cb06b0d829f9a03e627a10a860d1"
+  },
+  {
+    "path": "raw/stopwatch-P-lovable.jpg",
+    "size": [
+      390,
+      844
+    ],
+    "sha256": "a777b65a7ec8983528ef5285d2c754961397d0b21c3740c4455a368cdb7adaee"
+  },
+  {
+    "path": "raw/stopwatch-P-expo.jpg",
+    "size": [
+      390,
+      844
+    ],
+    "sha256": "d4251c7316760b1eed797be0690cb8d4edb3a7a81f2ee9c5b1e51115ee28f7d3"
+  }
+]

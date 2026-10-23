@@ -28,7 +28,8 @@ export function validFreeTimer(value: unknown, now = Date.now()): value is FreeT
   if (!Array.isArray(value.laps) || (c.kind !== "stopwatch" && value.laps.length !== 0)) return false;
   const elapsed = value.stepAccumulatedMs + (value.running ? Math.max(0, now - value.stepStartedAt) : 0);
   if (!value.laps.every((lap, i, laps) => nonnegative(lap) && (value.running || lap <= elapsed) && (i === 0 || lap >= laps[i - 1]))) return false;
-  return Array.isArray(value.score) && value.score.length === 2 && value.score.every(n => nonnegative(n) && Number.isSafeInteger(n));
+  const scoreCount = c.withTeams && c.teams ? c.teams.length : 2;
+  return Array.isArray(value.score) && value.score.length === scoreCount && value.score.every(n => nonnegative(n) && Number.isSafeInteger(n));
 }
 
 export function restoreFreeTimer(value: unknown): { value: FreeTimerState | null; repaired: boolean } {

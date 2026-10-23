@@ -1,0 +1,27 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?seed=saved&composition=1&commit=final".
+1 AXWebArea Roundr, URL: 127.0.0.1:8151/phase4aqa?seed=saved&composition=1&commit=final
+	2 container
+		3 button Retour
+		4 container
+			5 heading Mes chronos, Value: 1
+				6 text Mes chronos
+			7 text Chrono libre
+		8 container
+			9 container
+				10 text Fractionné personnalisé
+				11 text Intervalles · 30 s / 45 s / 1 min · repos 30 s · 3 séries
+				12 button Lancer
+					13 text Lancer
+				14 button Modifier
+					15 text Modifier
+				16 button Supprimer Fractionné personnalisé
+			17 container
+				18 text Football à 5 — 10 minutes
+				19 text Compte à rebours · 10 min
+				20 button Lancer
+					21 text Lancer
+				22 button Modifier
+					23 text Modifier
+				24 button Supprimer Football à 5 — 10 minutes
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8151/phase4aqa?seed=saved&composition=1&commit=final

@@ -1,0 +1,19 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?seed=saved&composition=1&commit=final".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
++	89 container
++		90 container
++			91 button Fermer
++			92 container Mettre à jour le chrono
++				93 container
++					94 heading Mettre à jour le chrono, Value: 1
++						95 text Mettre à jour le chrono
++					96 text Seuls les réglages sont enregistrés. Les temps et tours de vos sessions ne les modifient pas.
++					97 text field (settable) Description: Nom du chrono, Value: Fractionné personnalisé
++					98 button Mettre à jour
++						99 image
++						100 text Mettre à jour
++					101 button Enregistrer comme nouveau
++						102 text Enregistrer comme nouveau
++					103 button Annuler
++						104 text Annuler
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8151/phase4aqa?seed=saved&composition=1&commit=final

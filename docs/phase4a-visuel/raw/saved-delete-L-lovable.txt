@@ -1,0 +1,27 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?seed=saved&composition=1&final=1", URL: "http://127.0.0.1:8150/?seed=saved&composition=1&final=1".
+1 AXWebArea 127.0.0.1:8150/?seed=saved&composition=1&final=1
+	2 container
+		3 button Retour
+		4 heading Mes chronos, Value: 1
+			5 text Mes chronos
+		6 text Chrono libre
+		7 heading Fractionné personnalisé, Value: 3
+			8 text Fractionné personnalisé
+		9 text Intervalles · 30 s / 45 s / 1 min · repos 30 s · 3 séries
+		10 button Lancer
+		11 button Modifier Fractionné personnalisé
+		12 button Supprimer Fractionné personnalisé
+		13 heading Football à 5 — 10 minutes, Value: 3
+			14 text Football à 5 — 10 minutes
+		15 text Compte à rebours · 10 min
+		16 button Lancer
+		17 button Modifier Football à 5 — 10 minutes
+		18 button Supprimer Football à 5 — 10 minutes
+		19 container Supprimer le chrono
+			20 heading Supprimer « Fractionné personnalisé » ?, Value: 2
+				21 text Supprimer «  Fractionné personnalisé  » ?
+			22 text Ce chrono enregistré sera retiré de Mes chronos. Une session en cours n'est pas affectée.
+			23 button Supprimer
+			24 button Annuler
+
+The focused UI element is 12 button Supprimer Fractionné personnalisé

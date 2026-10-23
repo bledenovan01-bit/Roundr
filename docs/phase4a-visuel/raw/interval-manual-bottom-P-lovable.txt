@@ -1,0 +1,5 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~			45 checkbox Automatique, Value: 0
+~			46 checkbox Manuel, Value: 1
+The focused UI element is 46 checkbox Manuel, Value: 1

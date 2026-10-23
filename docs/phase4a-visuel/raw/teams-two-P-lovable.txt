@@ -1,0 +1,19 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~			52 text Noms, couleurs et scores facultatifs
+~			53 switch Description: Avec équipes, Value: 1
++			75 text Nombre d'équipes
++			76 container le nombre d'équipes
++				77 button (disabled) Réduire le nombre d'équipes
++				78 text 2
++				79 button Augmenter le nombre d'équipes
++			80 text Scores
++			81 switch Description: Scores, Value: 1
++			82 content list
++				83 container
++					84 button (collapsed) Description: Changer la couleur de Les Renards, Secondary Actions: Expand
++					85 text field (settable) Description: Nom de l'équipe 1, Value: Les Renards
++				86 container
++					87 button (collapsed) Description: Changer la couleur de FC Amigos, Secondary Actions: Expand
++					88 text field (settable) Description: Nom de l'équipe 2, Value: FC Amigos
+The focused UI element is 53 switch Description: Avec équipes, Value: 1

@@ -1,0 +1,42 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?seed=saved&composition=1&final=1", URL: "http://127.0.0.1:8150/?seed=saved&composition=1&final=1".
+1 AXWebArea 127.0.0.1:8150/?seed=saved&composition=1&final=1
+	2 container
+		3 button Retour
+		4 heading Chronomètre, Value: 1
+			5 text Chronomètre
+		6 text Chrono libre · Réglages
+		38 container
+			39 heading Chronomètre, Value: 3
+				40 text Chronomètre
+			41 text Démarre à 00:00 et continue jusqu'à votre arrêt. Tours illimités, aucune durée à régler.
+		42 container
+			43 heading Avec équipes, Value: 3
+				44 text Avec équipes
+			45 text Noms, couleurs et scores facultatifs
+			46 switch Description: Avec équipes, Value: 1
+			47 text Nombre d'équipes
+			48 container le nombre d'équipes
+				49 button Réduire le nombre d'équipes
+				50 text 3
+				51 button Augmenter le nombre d'équipes
+			52 text Scores
+			53 switch Description: Scores, Value: 1
+			54 button Importer mes 3 équipes
+				55 text Importer mes 
+				56 text 3
+				57 text  équipes
+			58 text Composition importée : vous pouvez encore la modifier ci-dessous.
+			59 content list
+				60 container
+					61 button (collapsed) Description: Changer la couleur de Les Renards, Secondary Actions: Expand
+					62 text field (settable) Description: Nom de l'équipe 1, Value: Les Renards
+				63 container
+					64 button (collapsed) Description: Changer la couleur de FC Amigos, Secondary Actions: Expand
+					65 text field (settable) Description: Nom de l'équipe 2, Value: FC Amigos
+				66 container
+					67 button (collapsed) Description: Changer la couleur de Panthères, Secondary Actions: Expand
+					68 text field (settable) Description: Nom de l'équipe 3, Value: Panthères
+		36 button Enregistrer dans Mes chronos
+		37 button Préparer le chrono
+
+The focused UI element is 54 button Importer mes 3 équipes

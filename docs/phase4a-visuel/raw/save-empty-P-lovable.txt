@@ -1,0 +1,26 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+1 AXWebArea 127.0.0.1:8150/?final=1
+	2 container
+		3 button Retour
+		4 heading Chronomètre, Value: 1
+			5 text Chronomètre
+		6 text Chrono libre · Réglages
+		7 heading Chronomètre, Value: 3
+			8 text Chronomètre
+		9 text Démarre à 00:00 et continue jusqu'à votre arrêt. Tours illimités, aucune durée à régler.
+		10 heading Avec équipes, Value: 3
+			11 text Avec équipes
+		12 text Facultatif : sans équipe, seul le chrono s'affiche.
+		13 switch Description: Avec équipes, Value: 0
+		14 button Enregistrer dans Mes chronos
+		16 container Enregistrer le chrono
+			17 heading Enregistrer le chrono, Value: 2
+				18 text Enregistrer le chrono
+			19 text Seuls les réglages sont enregistrés. Les temps et tours de vos sessions ne les modifient pas.
+			20 text field (settable) Nom du chrono
+			21 text Donnez un nom à ce chrono.
+			22 button (disabled) Enregistrer
+			23 button Annuler
+		15 button Préparer le chrono
+
+The focused UI element is 20 text field (settable) Nom du chrono

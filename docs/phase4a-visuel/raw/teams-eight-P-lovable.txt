@@ -1,0 +1,27 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 89-117
+~				77 button Réduire le nombre d'équipes
+~				78 text 8
+~				79 button (disabled) Augmenter le nombre d'équipes
+~			81 switch Description: Scores, Value: 0
+~					84 button (collapsed) Description: Changer la couleur de Les Renards, Secondary Actions: Expand
++				89 container
++					90 button (collapsed) Description: Changer la couleur de Panthères, Secondary Actions: Expand
++					91 text field (settable) Description: Nom de l'équipe 3, Value: Panthères
++				92 container
++					93 button (collapsed) Description: Changer la couleur de Galactiques, Secondary Actions: Expand
++					94 text field (settable) Description: Nom de l'équipe 4, Value: Galactiques
++				95 container
++					96 button (collapsed) Description: Changer la couleur de Tigers, Secondary Actions: Expand
++					97 text field (settable) Description: Nom de l'équipe 5, Value: Tigers
++				98 container
++					99 button (collapsed) Description: Changer la couleur de Squad FC, Secondary Actions: Expand
++					100 text field (settable) Description: Nom de l'équipe 6, Value: Squad FC
++				101 container
++					102 button (collapsed) Description: Changer la couleur de Los Amigos, Secondary Actions: Expand
++					103 text field (settable) Description: Nom de l'équipe 7, Value: Los Amigos
++				104 container
++					105 button (collapsed) Description: Changer la couleur de Dream Team, Secondary Actions: Expand
++					106 text field (settable) Description: Nom de l'équipe 8, Value: Dream Team
+The focused UI element is 81 switch Description: Scores, Value: 0

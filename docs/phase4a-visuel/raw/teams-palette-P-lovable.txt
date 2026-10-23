@@ -1,0 +1,33 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~					84 button (expanded) Description: Changer la couleur de Les Renards, Secondary Actions: Collapse
++					89 Couleur de Les Renards
++						90 radio button Description: Orange, Value: 1
++						91 radio button Description: Vert, Value: 0
++						92 radio button Description: Bleu, Value: 0
++						93 radio button Description: Rouge, Value: 0
++						94 radio button Description: Jaune, Value: 0
++						95 radio button Description: Violet, Value: 0
++						96 radio button Description: Cyan, Value: 0
++						97 radio button Description: Rose vif, Value: 0
++						98 radio button Description: Citron vert, Value: 0
++						99 radio button Description: Turquoise, Value: 0
++						100 radio button Description: Bleu ciel, Value: 0
++						101 radio button Description: Indigo, Value: 0
++						102 radio button Description: Fuchsia, Value: 0
++						103 radio button Description: Rose pâle, Value: 0
++						104 radio button Description: Or, Value: 0
++						105 radio button Description: Blanc, Value: 0
++						106 radio button Description: Gris, Value: 0
++						107 radio button Description: Noir, Value: 0
++						108 radio button Description: Marine, Value: 0
++						109 radio button Description: Grenat, Value: 0
++						110 radio button Description: Olive, Value: 0
++						111 radio button Description: Menthe, Value: 0
++						112 radio button Description: Corail, Value: 0
++						113 radio button Description: Lavande, Value: 0
++						114 radio button Description: Marron, Value: 0
++						115 radio button Description: Sable, Value: 0
++						116 radio button Description: Vert forêt, Value: 0
++						117 radio button Description: Bordeaux, Value: 0
+The focused UI element is 84 button (expanded) Description: Changer la couleur de Les Renards, Secondary Actions: Collapse

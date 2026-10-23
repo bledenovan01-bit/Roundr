@@ -1,0 +1,12 @@
+AssertionError [ERR_ASSERTION]: Unconfirmed writes must not appear as saved chronos
+
+1 !== 0
+
+    at run (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\phase1-validation\frontend\scripts\test-free-storage-phase4a.ts:72:12) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}

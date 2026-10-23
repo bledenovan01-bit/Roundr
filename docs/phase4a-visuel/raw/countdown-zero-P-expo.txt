@@ -1,0 +1,60 @@
+Browser tab: 28, Title: "Roundr", URL: "http://127.0.0.1:8151/phase4aqa?recapture=1".
+1 AXWebArea Roundr, URL: 127.0.0.1:8151/phase4aqa?recapture=1
+	2 container
+		3 button Retour
+		4 container
+			5 heading Compte à rebours, Value: 1
+				6 text Compte à rebours
+			7 text Chrono libre · Réglages
+		8 container
+			9 container
+				10 container
+					11 heading Durée, Value: 1
+						12 text Durée
+					13 text Choisissez une durée supérieure à zéro.
+				14 checkbox Description: 1 min, Value: 0
+					15 text 1 min
+				16 checkbox Description: 5 min, Value: 0
+					17 text 5 min
+				18 checkbox Description: 10 min, Value: 0
+					19 text 10 min
+				20 checkbox Description: 15 min, Value: 0
+					21 text 15 min
+				22 checkbox Description: 30 min, Value: 0
+					23 text 30 min
+				24 text Heures
+				25 container
+					26 button (disabled) Réduire les heures
+					27 container
+						28 text 0 h
+					29 button Augmenter les heures
+				30 text Minutes
+				31 container
+					32 button (disabled) Réduire les minutes
+					33 container
+						34 text 0 min
+					35 button Augmenter les minutes
+				36 text Secondes
+				37 container
+					38 button (disabled) Réduire les secondes
+					39 container
+						40 text 0 s
+					41 button Augmenter les secondes
+				42 text La durée doit être supérieure à zéro.
+			43 container
+				44 heading Signal de fin, Value: 1
+					45 text Signal de fin
+				46 text Son et vibration à zéro
+				47 switch Description: Signal de fin, Value: 1
+			48 container
+				49 heading Avec équipes, Value: 1
+					50 text Avec équipes
+				51 text Facultatif : sans équipe, seul le chrono s'affiche.
+				52 switch Description: Avec équipes, Value: 0
+			53 button (disabled) Enregistrer dans Mes chronos
+				54 image
+				55 text Enregistrer dans Mes chronos
+		56 button (disabled) Préparer le chrono
+			57 text Préparer le chrono
+
+The focused UI element is 1 AXWebArea Roundr, URL: 127.0.0.1:8151/phase4aqa?recapture=1

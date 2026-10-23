@@ -1,6 +1,6 @@
 import { Alert } from "@/src/alert";
 import { createFreeTimer, stepElapsed, validFreeConfig, type FreeTimerConfig, type FreeTimerState } from "@/src/domain/free-timer";
-import { getStoreState, replaceFreeTimer } from "@/src/store/session-store";
+import { freeTimerRecoveryPending, getStoreState, replaceFreeTimer } from "@/src/store/session-store";
 
 export function hasFreeTimerProgress(timer: FreeTimerState | null, now = Date.now()): boolean {
   return !!timer && !timer.finished && (timer.stepIndex > 0 || stepElapsed(timer, now) > 0 || timer.laps.length > 0 || timer.score.some(n => n > 0));
@@ -22,6 +22,13 @@ export function prepareFreeTimer(config: FreeTimerConfig, onReady: () => void): 
     }
     if (await replaceFreeTimer(createFreeTimer(snapshot), current)) onReady();
   };
+  if (freeTimerRecoveryPending()) {
+    Alert.alert("Sauvegarde non restaurée", "Une sauvegarde n’a pas pu être lue ou restaurée. Consulte l’erreur affichée avant de préparer une nouvelle séance. Annuler conserve la sauvegarde actuelle.", [
+      { text: "Annuler", style: "cancel" },
+      { text: "Préparer une nouvelle séance", onPress: replace },
+    ], { cancelable: true });
+    return;
+  }
   if (!hasFreeTimerProgress(current)) { replace(); return; }
   Alert.alert("Remplacer le chrono en cours ?", "Sa progression, ses tours et ses scores seront remplacés par une nouvelle séance.", [
     { text: "Annuler", style: "cancel" },

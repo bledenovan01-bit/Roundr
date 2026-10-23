@@ -1,0 +1,12 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?empty=1&final=1", URL: "http://127.0.0.1:8150/?empty=1&final=1".
+1 AXWebArea 127.0.0.1:8150/?empty=1&final=1
+	2 container
+		3 button Retour
+		4 heading Mes chronos, Value: 1
+			5 text Mes chronos
+		6 text Chrono libre
+		7 heading Aucun chrono enregistré, Value: 3
+			8 text Aucun chrono enregistré
+		9 text Réglez un chrono puis touchez « Enregistrer dans Mes chronos ». Par exemple : Football à 5 — 10 minutes, Fractionné 30/30.
+
+The focused UI element is 1 AXWebArea 127.0.0.1:8150/?empty=1&final=1

@@ -1,0 +1,29 @@
+Browser tab: 28, Title: "127.0.0.1:8150/?final=1", URL: "http://127.0.0.1:8150/?final=1".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 36-40
+~			16 text 4 périodes par série Période  1
+~				19 text 10:00
++			56 button Supprimer la période 1
++			57 text Période  2
++			58 container la période 2
++				59 button Réduire la période 2
++				60 text 10:00
++				61 button Augmenter la période 2
++			62 button Supprimer la période 2
++			63 text Période  3
++			64 container la période 3
++				65 button Réduire la période 3
++				66 text 10:00
++				67 button Augmenter la période 3
++			68 button Supprimer la période 3
++			69 text Période  4
++			70 container la période 4
++				71 button Réduire la période 4
++				72 text 10:00
++				73 button Augmenter la période 4
++			74 button Supprimer la période 4
+~				28 text 2:00
+~				32 button (disabled) Réduire les répétitions
+~					34 text 1 ×
+~			41 text 7  intervalle s  · durée totale  46 min
+The focused UI element is 12 checkbox 4 × 10 min, Value: 0
