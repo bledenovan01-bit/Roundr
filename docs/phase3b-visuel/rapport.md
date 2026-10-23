@@ -26,6 +26,8 @@ Le nouveau test a reproduit un défaut : après une correction et un échec d’
 
 Si une correction rouvre un tableau, le palmarès précédent reste conservé et est explicitement signalé comme antérieur jusqu’à la nouvelle finalisation. Aucun résultat indépendant n’est supprimé. Un second test a reproduit un mauvais ordre visuel des exemptions : le tableau ne trie plus ses cases selon l’ordre de lancement des matchs, ce qui conserve les positions Lovable des équipes. Les données et l’ordre sportif des rencontres restent inchangés. Les valeurs brutes invalides restent conservées et une copie dont l’écriture échoue n’est jamais annoncée comme sauvegardée.
 
+Une régression supplémentaire couvre la correction d’un résultat après préparation de la rencontre suivante. Cette rencontre sans résultat est remise dans le planning avant de retirer son chrono préparé ; elle ne peut plus rester marquée « live » sans séance et être sautée. Le test a échoué avant correction, puis passe pour Cup et Survie, y compris après redémarrage du stockage.
+
 Les nouveaux champs sont facultatifs. Les anciennes séances gardent leurs paramètres, critères de qualification et comportement temporel ; une correction ne les fait pas basculer implicitement dans le nouveau parcours de préparation. Un rejeu crée une nouvelle compétition, avec les paramètres conservés, et conserve l’archive précédente.
 
 ## Défaut confirmé dans la référence figée
@@ -52,6 +54,7 @@ La préparation des nouvelles prolongations est désormais explicite, comme dans
 ## Interactions réellement manipulées dans le navigateur
 
 - Correction Cup : modifier puis fermer laisse 2–0 ; modifier puis enregistrer donne 3–0. Le parcours de résultat est conservé. Un chargement de la vraie route `/live`, sans réexécuter le semeur QA, restaure 3–0.
+- Après préparation du match 2, retour au tableau puis correction du résultat du match 1 : la même confrontation Panthères–Tigers reste proposée. Sa nouvelle préparation puis le rechargement de la vraie route /live conservent Match 2/12, 0–0, 10:00 et Démarrer.
 - « Lancer le prochain match » prépare la deuxième rencontre à 0–0 et 10:00, avec bouton Démarrer et chrono arrêté.
 - La vue Tournoi sélectionnée est restée visible après **38,227 secondes** d’horloge réelle, sans retour automatique au chrono.
 - TAB Survie : 0–0 refusé, saisie 1–0 acceptée, score de jeu conservé à 0–0, vainqueur et palmarès corrects.

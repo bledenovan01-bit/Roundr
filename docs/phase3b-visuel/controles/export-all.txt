@@ -1,12 +1,10 @@
 Starting Metro Bundler
 
-| (node:26104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (node:6216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 | (Use `node --trace-warnings ...` to show where the warning was created)
-| (node:26104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-| (Use `node --trace-warnings ...` to show where the warning was created)
-Web Bundled 6086ms ..\..\preview-install\node_modules\expo-router\entry.js (1472 modules)
-Android Bundled 20068ms ..\..\preview-install\node_modules\expo-router\entry.js (1827 modules)
-iOS Bundled 30756ms ..\..\preview-install\node_modules\expo-router\entry.js (1889 modules)
+Web Bundled 6744ms ..\..\preview-install\node_modules\expo-router\entry.js (1490 modules)
+iOS Bundled 19637ms ..\..\preview-install\node_modules\expo-router\entry.js (1889 modules)
+Android Bundled 33085ms ..\..\preview-install\node_modules\expo-router\entry.js (1973 modules)
 
 › Assets (115):
 ..\..\preview-install\node_modules\@expo-google-fonts\material-symbols\400Regular\MaterialSymbols_400Regular.ttf (971KB)
@@ -101,13 +99,13 @@ assets\sounds\whistle.2d4f6ec9eb91831927b221b8a6b0d214.wav (57KB)
 assets\sounds\whistle.wav (57KB)
 
 › web bundles (1):
-_expo/static/js/web/entry-48051371e47b207da58c614621aee3b7.js (3MB)
-
-› android bundles (1):
-_expo/static/js/android/entry-a601b8ed4b785361c10fec47e3d6f68c.hbc (5MB)
+_expo/static/js/web/entry-9cf078b46785564dd5e085c304af0e5f.js (3MB)
 
 › ios bundles (1):
-_expo/static/js/ios/entry-b3a64d155017bf455c230b907bbc901a.hbc (4.8MB)
+_expo/static/js/ios/entry-324d4bfa1d5f096a613948456739ba0d.hbc (4.8MB)
+
+› android bundles (1):
+_expo/static/js/android/entry-f95959f2bd6a7dbc6ea01391a32d8359.hbc (5MB)
 
 › Files (3):
 favicon.ico (15KB)

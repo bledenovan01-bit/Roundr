@@ -310,8 +310,13 @@ export function correctTournamentResult(
   }
   let live = s.live;
   const current = live && matches.find((m) => m.id === live!.matchId);
-  if (!current || current.status !== "finished") live = null;
-  else if (live)
+  if (!current || current.status !== "finished") {
+    // A prepared fixture has no result yet. Dropping its live clock must also
+    // return it to the schedule, otherwise the engine can never select it.
+    if (current?.status === "live")
+      matches = matches.map((m) => (m.id === current.id ? resetResult(m) : m));
+    live = null;
+  } else if (live)
     live = {
       ...live,
       score: current.score ?? live.score,

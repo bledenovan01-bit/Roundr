@@ -226,9 +226,11 @@ Phase 2A configuration and launch scenarios passed
 ✓ Correcting an old save never silently switches its future overtime clocks to the new UI policy
 ✓ Known frozen-reference one-qualifier archival error characterized; native archives the champion without inventing a final
 ✓ Bracket display preserves the reference seed positions; exempt teams are not sorted ahead of playable quarter-finals
+✓ Correcting a previous result after preparing the next match returns that unstarted fixture to the schedule; no orphan live match or skipped encounter
 ✓ cup: hub/ready restoration, atomic history update, failed history write preserves durable archive, restart/retry updates exactly one entry; stale summary cannot roll it back
 ✓ survie: hub/ready restoration, atomic history update, failed history write preserves durable archive, restart/retry updates exactly one entry; stale summary cannot roll it back
 ✓ A correction reopening the bracket preserves and identifies the prior palmarès until the competition is completed again
+✓ A prepared next fixture stays selectable after a previous-result correction and a storage restart
 ✓ Choosing/preparing overtime survives a closed/reopened store without invented elapsed time or automatic start
 ✓ Interruption/repeated archival is idempotent; new sessions are blocked until failed history writes succeed
 ✓ Invalid tournament UI metadata is rejected; raw bytes are preserved and a failed backup is never reported as saved

@@ -223,6 +223,45 @@ async function run() {
       "✓ A correction reopening the bracket preserves and identifies the prior palmarès until the competition is completed again",
     );
 
+    for (const mode of ["cup", "survie"] as const) {
+      memory.clear();
+      now = t0;
+      st = fresh();
+      await st.loadStore();
+      assert(st.startSession(create(mode, 8)));
+      await play(st);
+      const previous = S.currentMatch(st.getStoreState().session!)!;
+      st.dispatchSession(S.launchNext);
+      const preparedId = st.getStoreState().session!.live!.matchId;
+      st.dispatchSession((s, t) =>
+        correctTournamentResult(
+          s,
+          previous.id,
+          [previous.score![0] + 1, previous.score![1]],
+          null,
+          t,
+        ),
+      );
+      await st.flushStorage();
+      const raw = memory.get(key)!;
+      st = fresh();
+      await st.loadStore();
+      assert.equal(memory.get(key), raw);
+      assert.equal(st.getStoreState().session!.live, null);
+      assert.equal(
+        st.getStoreState().session!.matches.find((m) => m.id === preparedId)!
+          .status,
+        "scheduled",
+      );
+      assert.equal(
+        tournamentProjection(st.getStoreState().session!).next!.id,
+        preparedId,
+      );
+    }
+    console.log(
+      "✓ A prepared next fixture stays selectable after a previous-result correction and a storage restart",
+    );
+
     for (const step of ["choice", "ready"] as const) {
       memory.clear();
       now = t0;

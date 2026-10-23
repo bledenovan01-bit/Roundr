@@ -1,10 +1,10 @@
 Starting Metro Bundler
 
-| (node:10224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (node:6388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 | (Use `node --trace-warnings ...` to show where the warning was created)
-| (node:10224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (node:6388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 | (Use `node --trace-warnings ...` to show where the warning was created)
-Web Bundled 2654ms ..\preview-install\node_modules\expo-router\entry.js (1527 modules)
+Web Bundled 2095ms ..\preview-install\node_modules\expo-router\entry.js (1527 modules)
 
 › Assets (50):
 ..\preview-install\node_modules\@react-native-vector-icons\material-design-icons\fonts\MaterialDesignIcons.6e435534bd35da5fef04168860a9b8fa.ttf (1.3MB)
@@ -53,7 +53,7 @@ assets\sounds\prep.ab6b19231dcc20bd061ddd0f6e1de6ae.wav (106KB)
 assets\sounds\whistle.2d4f6ec9eb91831927b221b8a6b0d214.wav (57KB)
 
 › web bundles (1):
-_expo/static/js/web/entry-56c085d2a0fda3cb80c806b6564a69d7.js (3.3MB)
+_expo/static/js/web/entry-b20f04cfe64023b24e243bbe34845565.js (3.3MB)
 
 › Files (3):
 favicon.ico (15KB)

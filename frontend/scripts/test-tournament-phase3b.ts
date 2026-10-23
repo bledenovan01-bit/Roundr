@@ -601,3 +601,36 @@ assert.deepEqual(
 console.log(
   "✓ Bracket display preserves the reference seed positions; exempt teams are not sorted ahead of playable quarter-finals",
 );
+for (const mode of ["cup", "survie"] as const) {
+  let prepared = win(fresh(mode, 8));
+  const previous = S.currentMatch(prepared)!;
+  prepared = S.launchNext(prepared, prepared.updatedAt + 1000);
+  const unstarted = S.currentMatch(prepared)!;
+  assert.equal(prepared.live!.stage, "ready");
+  const corrected = correctTournamentResult(
+    prepared,
+    previous.id,
+    [previous.score![0] + 1, previous.score![1]],
+    null,
+    prepared.updatedAt + 1000,
+  );
+  assert.equal(corrected.live, null);
+  assert.equal(
+    corrected.matches.find((m) => m.id === unstarted.id)!.status,
+    "scheduled",
+  );
+  assert.equal(
+    corrected.matches.some((m) => m.status === "live"),
+    false,
+  );
+  assert.equal(tournamentProjection(corrected).next!.id, unstarted.id);
+  assert(validSession(corrected));
+  const completed = finish(corrected);
+  assert.equal(
+    tournamentProjection(completed).done.length,
+    tournamentProjection(completed).total,
+  );
+}
+console.log(
+  "✓ Correcting a previous result after preparing the next match returns that unstarted fixture to the schedule; no orphan live match or skipped encounter",
+);
