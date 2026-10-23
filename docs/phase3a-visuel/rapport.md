@@ -81,3 +81,8 @@ Dans le navigateur de production, restauration de la pause (14:12.11, score 1–
 8. Tester VoiceOver/TalkBack, grande taille de texte et Réduire les animations. Vérifier aussi une ancienne sauvegarde sans détail des buts.
 
 Aucun appareil physique n’a été utilisé pour cette livraison. Ces essais et votre validation visuelle restent nécessaires avant la suite. Aucune Phase suivante ne commence et aucune PR n’est fusionnée.
+
+
+## Complément de finalisation
+
+Voir [la finalisation de la PR #9](finalisation/rapport.md) et [les six nouvelles paires de rotations](finalisation/index.html) : libellés paysage corrigés, contrôle du portrait, nouvelle suite de confirmations, résultats actualisés et limites des boîtes réelles. Les résultats ci-dessus décrivent le checkpoint initial ; le complément fait foi pour ces retouches.

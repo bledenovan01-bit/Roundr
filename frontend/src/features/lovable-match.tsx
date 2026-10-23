@@ -53,6 +53,7 @@ import {
   rotationCards,
 } from "./match-presentation";
 import { referenceTeamPalette } from "./lovable-config-state";
+import { confirmMatchRestart } from "./match-confirmations";
 
 const fmt = (ms: number) => {
   const s = Math.max(0, Math.floor(ms / 1000));
@@ -168,20 +169,10 @@ export function LovableMatchScreen() {
   };
   const restart = () => {
     if (locked) return;
-    Alert.alert(
-      "Relancer le match ?",
-      "Le score et le temps du match actuel seront remis à zéro.",
-      [
-        { text: "Annuler", style: "cancel" },
-        {
-          text: "Relancer",
-          onPress: () => {
-            setShowElapsed(false);
-            dispatchSession(S.restartCurrent);
-          },
-        },
-      ],
-    );
+    confirmMatchRestart(() => {
+      setShowElapsed(false);
+      dispatchSession(S.restartCurrent);
+    });
   };
   if (session.mode === "classique" && finished)
     return (
@@ -835,7 +826,8 @@ function Rotation({ session }: { session: Session }) {
                 cols === 1
                   ? "100%"
                   : listWidth
-                    ? (listWidth - 6 * (cols - 1)) / cols
+                    // LayoutEvent can round the available width up by a fraction.
+                    ? (listWidth - 6 * (cols - 1) - 1) / cols
                     : cols === 2
                       ? "49%"
                       : "32%",
@@ -848,6 +840,7 @@ function Rotation({ session }: { session: Session }) {
               backgroundColor:
                 kind === "stay" ? withAlpha(c.primary, 0.14) : c.secondary,
               opacity: kind === "out" ? 0.85 : 1,
+              zIndex: cols > 1 && kind === "stay" ? 1 : undefined,
               flexDirection: "row",
               alignItems: "center",
               gap: 10,
@@ -868,7 +861,7 @@ function Rotation({ session }: { session: Session }) {
                   />
                 )}
                 <Text
-                  numberOfLines={1}
+                  numberOfLines={cols === 1 ? 1 : undefined}
                   style={{
                     fontFamily: f.extrabold,
                     fontSize: cols === 1 ? 10 : 9,

@@ -1,0 +1,34 @@
+{
+  "carousel": {
+    "durationMs": 53248,
+    "sessionUnchanged": true,
+    "selected": "ring"
+  },
+  "reload": {
+    "identical": true,
+    "score": [
+      1,
+      0
+    ],
+    "period": 0,
+    "accumulatedMs": 12345
+  },
+  "manualPrepared": {
+    "stage": "ready",
+    "runningSince": null,
+    "score": [
+      0,
+      0
+    ]
+  },
+  "banner": {
+    "observedMs": 4836,
+    "hidden": true,
+    "ringAfter": "true",
+    "note": "Observation de la disparition complète, incluant le fondu."
+  },
+  "returnHome": {
+    "identicalBeforeAfterReloadAndResume": true,
+    "confirmation": "Retour non destructif direct, conforme à Lovable ; la séance reste reprise."
+  }
+}

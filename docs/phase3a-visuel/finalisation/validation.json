@@ -1,0 +1,21 @@
+{
+  "base": "8110eec9678dc10067f15ff502e959b9d64c24d5",
+  "reference": "1c59720dc5b180d5b1bacfaf935902b4053895fa",
+  "branch": "codex/roundr-lovable-phase-3a",
+  "checks": {
+    "suites": 16,
+    "syntaxFiles": 96,
+    "typesExit": 0,
+    "lintExit": 0,
+    "expoLintExit": 0,
+    "exportExit": 0
+  },
+  "phoneTested": false,
+  "realConfirmationValidated": false,
+  "sourceHashes": {
+    "frontend/src/features/lovable-match.tsx": "0565b58caafebf5b91689bd7fd78969be73a4b8429bfb9fa537d444abc2f00f6",
+    "frontend/src/features/match-confirmations.ts": "ce712f0c066278790ba9ec0528dc62df8dc2c955cf13628d11ca1c2b6a716500",
+    "frontend/scripts/test-match-confirmations.ts": "615e97b5941e36e75ac5100e23a7f62ee661798c06b0d023de06a355d5651cfb",
+    "frontend/scripts/run-domain-tests.cjs": "aee0965110411415cd8645505f2959b16f1d3ea83eddac83701a0bca3949dcb8"
+  }
+}
