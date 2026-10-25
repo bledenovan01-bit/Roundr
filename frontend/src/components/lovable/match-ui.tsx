@@ -606,7 +606,7 @@ export function MatchCarousel({
                         aria-hidden
                         accessible={false}
                       >
-                        <G rotation={-90} origin="70,70">
+                        <G transform="rotate(-90 70 70)">
                           <Circle
                             cx={70}
                             cy={70}

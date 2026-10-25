@@ -6,7 +6,7 @@ import Svg, { Circle, Line, Path, Polyline, Rect } from "react-native-svg";
 export type LovableIconName = "pitch" | "refresh" | "trophy" | "swords" | "timer" | "users" | "history" | "settings" | "chevron" | "back" | "pencil" | "trash" | "flag" | "archive" | "check";
 
 export function LovableIcon({ name, color, size = 16 }: { name: LovableIconName; color: string; size?: number }) {
-  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={name === "settings" ? 1.8 : 2} strokeLinecap={name === "pitch" ? "butt" : "round"} strokeLinejoin={name === "pitch" ? "miter" : "round"} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden>
+  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={name === "settings" ? 1.8 : 2} strokeLinecap={name === "pitch" ? "butt" : "round"} strokeLinejoin={name === "pitch" ? "miter" : "round"} aria-hidden={true}>
     {name === "pitch" ? <><Rect x="2" y="4" width="20" height="16" rx="1" /><Path d="M12 4v16M2 8h4v8H2m20-8h-4v8h4" /><Circle cx="12" cy="12" r="3" /></> : null}
     {name === "refresh" ? <><Path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><Path d="M21 3v5h-5" /><Path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><Path d="M8 16H3v5" /></> : null}
     {name === "trophy" ? <><Path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978" /><Path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978" /><Path d="M18 9h1.5a1 1 0 0 0 0-5H18" /><Path d="M4 22h16" /><Path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" /><Path d="M6 9H4.5a1 1 0 0 1 0-5H6" /></> : null}
