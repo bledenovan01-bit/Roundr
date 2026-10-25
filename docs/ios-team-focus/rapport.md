@@ -1,5 +1,7 @@
 # Focus des noms d’équipes sur le web mobile
 
+> Historique de la première correction. Après test réel sur iPhone, le calcul d’orientation a été complété : lire [le diagnostic et les résultats actuels](complement-iphone.md). Les preuves ci-dessous décrivent le premier passage, dont la simulation de clavier était insuffisante.
+
 ## Base et périmètre
 
 Base vérifiée : `codex/roundr-liaison-compte-expo`, commit `685907504a40a93d3dd8d8628fe9eef14baf5edf`.

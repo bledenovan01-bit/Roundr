@@ -1,0 +1,192 @@
+[
+  {
+    "mode": "classique",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "maracana",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "cup",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "survie",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "libre",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "classique",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "maracana",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "cup",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "survie",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  },
+  {
+    "mode": "libre",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "engine": "chromium",
+    "focusOnTap": true,
+    "focusOnScroll": true,
+    "visualAndLayoutKeyboardResizeStable": true,
+    "actualViewportHeightResize": true,
+    "sameInputWhileEditing": true,
+    "editClearReplaceBothNames": true,
+    "switchFields": true,
+    "toggleRetainsNames": true,
+    "rotateWithKeyboardRetainsNames": true,
+    "savedAndReloaded": true,
+    "errors": []
+  }
+]

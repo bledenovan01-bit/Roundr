@@ -1,5 +1,7 @@
 # Tester le correctif sur votre iPhone
 
+Complément après votre premier test : la correction du clavier a été confirmée par votre retour ; la correction des colonnes doit être retestée. Voir [le diagnostic complémentaire](complement-iphone.md). Si vous avez déjà cette branche, récupérer la mise à jour avec `git pull --ff-only` avant de relancer Expo.
+
 Cette vérification ne nécessite aucun APK, compte Expo, build EAS ou achat. La PR ne met pas automatiquement à jour le site que vous utilisez actuellement.
 
 ## 1. Récupérer la branche sur le PC
