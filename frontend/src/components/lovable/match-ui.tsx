@@ -28,6 +28,8 @@ import {
   type matchProjection,
 } from "@/src/features/match-presentation";
 
+import { TimerDigits } from "./timer-digits";
+
 export type MatchIconName =
   | "check"
   | "pencil"
@@ -774,47 +776,9 @@ export function MatchDigits({
   size: number;
   ring?: boolean;
 }) {
-  return (
-    <View
-      testID="match-digits"
-      accessibilityLabel={projection.main + projection.cents}
-      style={{
-        flexDirection: "row",
-        alignItems: "baseline",
-        justifyContent: "center",
-      }}
-    >
-      <Text
-        style={[
-          m.big,
-          {
-            fontSize: size,
-            lineHeight: size,
-            letterSpacing: ring ? 0 : -size * 0.01,
-          },
-        ]}
-      >
-        {projection.main}
-      </Text>
-      <Text
-        testID="match-centiseconds"
-        style={[
-          m.big,
-          {
-            fontSize: size * 0.42,
-            lineHeight: size * 0.42,
-            letterSpacing: 0,
-            minWidth: size * 0.42 * 1.7,
-            marginLeft: 1,
-            color: c.muted,
-          },
-        ]}
-      >
-        {projection.cents}
-      </Text>
-    </View>
-  );
+  return <TimerDigits main={projection.main} cents={projection.cents} size={size} ring={ring} testID="match-digits" centsTestID="match-centiseconds" />;
 }
+
 export function MatchSheet({
   label,
   onClose,

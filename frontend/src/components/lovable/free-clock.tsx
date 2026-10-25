@@ -11,6 +11,8 @@ import Svg, { Circle, G, Line, Text as SvgText, TSpan } from "react-native-svg";
 import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
 import type { FreeTimerDisplay } from "@/src/domain/free-timer";
 import type { freeReadout } from "@/src/features/free-live-state";
+import { TimerDigits } from "./timer-digits";
+
 type Readout = ReturnType<typeof freeReadout>;
 export function FreeDigits({
   r,
@@ -21,43 +23,9 @@ export function FreeDigits({
   size: number;
   ring?: boolean;
 }) {
-  return (
-    <View
-      accessibilityLabel={r.main + r.cents}
-      style={{
-        flexDirection: "row",
-        alignItems: "baseline",
-        justifyContent: "center",
-      }}
-    >
-      <Text
-        style={{
-          fontFamily: f.extrabold,
-          fontSize: size,
-          lineHeight: size,
-          color: c.foreground,
-          letterSpacing: 0,
-          fontVariant: ["tabular-nums"],
-        }}
-      >
-        {r.main}
-      </Text>
-      <Text
-        style={{
-          fontFamily: f.extrabold,
-          fontSize: size * (ring ? 0.42 : 0.5),
-          lineHeight: size * (ring ? 0.42 : 0.5),
-          color: c.muted,
-          marginLeft: ring ? 1 : 2,
-          minWidth: ring ? size * 0.42 * 1.7 : undefined,
-          fontVariant: ["tabular-nums"],
-        }}
-      >
-        {r.cents}
-      </Text>
-    </View>
-  );
+  return <TimerDigits main={r.main} cents={r.cents} size={size} ratio={ring ? 0.42 : 0.5} ring={ring} testID="free-digits" />;
 }
+
 export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
   const { width, height } = useWindowDimensions(),
     land = width > height,

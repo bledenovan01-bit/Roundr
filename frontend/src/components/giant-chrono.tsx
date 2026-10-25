@@ -52,7 +52,7 @@ function GiantChronoContent({ time, caption, status, scoreLine, paused, canPause
         <ScrollView testID="giant-scroll" style={styles.scroll} contentContainerStyle={[styles.body, landscape && styles.bodyLandscape]}>
         <View style={[styles.timerGroup, landscape && styles.timerGroupLandscape]}>
         <Text testID="giant-caption" style={styles.caption}>{caption.toUpperCase()}</Text>
-        <ChronoTime maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} time={time} style={[styles.time, { fontSize: size, lineHeight: size }]} ccStyle={{ fontFamily: fontFamily.display, color: colors.onSurfaceTertiary, fontSize: size * 0.5, fontVariant: ["tabular-nums"] }} testID="giant-time" />
+        <ChronoTime maxFontSizeMultiplier={1} accessibilityLabel={`${caption} : ${time}`} time={time} style={[styles.time, { fontSize: size, lineHeight: size * 1.35, width: "100%" }]} ccStyle={{ fontFamily: fontFamily.display, color: colors.onSurfaceTertiary, fontSize: size * 0.5, fontVariant: ["tabular-nums"] }} testID="giant-time" />
         <Text testID="giant-status" style={[styles.status, paused && { color: colors.warning }]}>{status}</Text>
         </View>
         <View style={[styles.actions, landscape && styles.actionsLandscape]}>
