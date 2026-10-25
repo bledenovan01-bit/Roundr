@@ -1,6 +1,7 @@
 import { isValidElement, useState, type ReactNode } from "react";
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions, type TextInputProps } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useFormWindowDimensions } from "@/src/hooks/use-form-window-dimensions";
 import Svg, { Path } from "react-native-svg";
 import { LovableBackground } from "./background";
 import { LovableIcon, type LovableIconName } from "./icon";
@@ -15,7 +16,7 @@ export function PhaseIcon({name,color,size=16}:{name:"shuffle"|"plus"|"x";color:
   </Svg>;
 }
 export function PhaseAction({label,onPress,disabled=false,kind="primary",icon,testID,height}:{label:string;onPress:()=>void;disabled?:boolean;kind?:"primary"|"secondary"|"ghost";icon?:"shuffle"|"plus"|"play"|LovableIconName;testID?:string;height?:number}) {
-  const {width,height:screenHeight}=useWindowDimensions(),landscape=width>screenHeight;
+  const {width,height:screenHeight}=useFormWindowDimensions(),landscape=width>screenHeight;
   const color=kind==="primary"?c.onPrimary:kind==="ghost"?c.muted:c.foreground;
   return <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{disabled}} disabled={disabled} testID={testID} onPress={onPress}
     hitSlop={height===36?4:0} style={({pressed})=>[s.action,{minHeight:height??(kind==="primary"?(landscape?48:56):kind==="secondary"?50:44),backgroundColor:kind==="primary"?c.primary:kind==="secondary"?c.cardRaised:"transparent",borderWidth:kind==="secondary"?1:0,opacity:disabled?.4:1,gap:kind==="primary"?10:8},pressed&&s.pressed]}>
@@ -24,7 +25,7 @@ export function PhaseAction({label,onPress,disabled=false,kind="primary",icon,te
   </Pressable>;
 }
 export function PhaseFrame({title,subtitle,onBack,intro,children,footer,right,pair=false,blocked=false,hideBack=false,onContentHeight,onViewportHeight,distributeRows=false}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;right?:ReactNode;pair?:boolean;blocked?:boolean;hideBack?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void;distributeRows?:boolean}) {
-  const {width,height,fontScale}=useWindowDimensions(),inset=useSafeAreaInsets(),landscape=width>height;
+  const {width,height,fontScale}=useFormWindowDimensions(),inset=useSafeAreaInsets(),landscape=width>height;
   const two=landscape&&width-inset.left-inset.right>=600&&fontScale<=1.5;
   // Lovable's landscape CSS grid stretches each row by an equal share of
   // unused height. Opt in only where that spacing has been visually verified.
@@ -37,7 +38,7 @@ export function PhaseFrame({title,subtitle,onBack,intro,children,footer,right,pa
       {hideBack?<View style={{width:44}}/>:<Pressable accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} disabled={blocked} accessibilityState={{disabled:blocked}} style={s.back}><LovableIcon name="back" color={c.foreground} size={20}/></Pressable>}
       <View style={{flex:1,minWidth:0}}><Text accessibilityRole="header" numberOfLines={1} style={s.title}>{title}</Text>{subtitle?<Text style={s.subtitle}>{subtitle}</Text>:null}</View>{right??<View style={{width:44}}/>}
     </View>
-    <ScrollView testID="config-scroll" style={{flex:1}} pointerEvents={blocked?"none":"auto"} onContentSizeChange={(_,h)=>onContentHeight?.(h)} onLayout={e=>onViewportHeight?.(e.nativeEvent.layout.height)} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false}
+    <ScrollView testID="config-scroll" style={{flex:1}} pointerEvents={blocked?"none":"auto"} onContentSizeChange={(_,h)=>onContentHeight?.(h)} onLayout={e=>onViewportHeight?.(e.nativeEvent.layout.height)} keyboardShouldPersistTaps="handled" keyboardDismissMode={Platform.OS === "web" ? "none" : "on-drag"} showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingTop:6,paddingLeft:20+inset.left,paddingRight:20+inset.right,paddingBottom:Math.max(16,inset.bottom),gap:12,flexDirection:spread?"column":"row",flexWrap:spread?"nowrap":"wrap",alignItems:"flex-start",flexGrow:spread?1:undefined}}>
       {intro?<View style={{width:"100%",flexGrow:spread?1:undefined}}>{intro}</View>:null}
       {spread?rows.map((row,i)=><View key={i} style={{width:"100%",flexDirection:"row",gap:12,flexGrow:1,alignItems:"flex-start"}}>{row.map((child,j)=><View key={isValidElement(child)?child.key??j:j} style={{width:(width-inset.left-inset.right-52)/2}}>{child}</View>)}</View>):visible.map((child,i)=><View key={isValidElement(child)?child.key??i:i} style={{width:two?(width-inset.left-inset.right-52)/2:"100%"}}>{child}</View>)}

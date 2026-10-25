@@ -1,5 +1,6 @@
 import { isValidElement, useState, type ReactNode } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { useFormWindowDimensions } from "@/src/hooks/use-form-window-dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Circle, Line, Path } from "react-native-svg";
 import type { ClassicConfig, MaracanaConfig, Team } from "@/src/domain/types";
@@ -19,13 +20,13 @@ export function Mark({ name, color = c.foreground, size: customSize }: { name: "
   </Svg>;
 }
 export function ConfigAction({ label, onPress, disabled = false, primary = false, testID, importTeams = false }: { label: string; onPress: () => void; disabled?: boolean; primary?: boolean; testID?: string; importTeams?: boolean }) {
-  const { width, height } = useWindowDimensions();
+  const { width, height } = useFormWindowDimensions();
   return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [s.action, { minHeight: primary ? width > height ? 48 : 56 : importTeams ? 44 : 50, backgroundColor: primary ? c.primary : c.cardRaised, opacity: disabled ? .4 : 1, borderWidth: primary ? 0 : 1 }, pressed && s.pressed]}>
     {primary ? <Mark name="play" color={c.onPrimary} /> : importTeams ? <LovableIcon name="users" color={c.foreground} /> : null}<Text style={[s.actionText, { color: primary ? c.onPrimary : c.foreground, fontSize: primary ? 16 : 14, lineHeight: primary ? 160 / 7 : 20, fontFamily: primary ? f.extrabold : bold }]}>{label}</Text>
   </Pressable>;
 }
 export function LovableConfigFrame({ mode, onBack, onLaunch, disabled, children }: { mode: Config["mode"]; onBack: () => void; onLaunch: () => void; disabled: boolean; children: ReactNode }) {
-  const { width, height } = useWindowDimensions(), inset = useSafeAreaInsets(), landscape = width > height;
+  const { width, height } = useFormWindowDimensions(), inset = useSafeAreaInsets(), landscape = width > height;
   const cardWidth = landscape ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40;
   return <KeyboardAvoidingView style={s.screen} behavior={Platform.OS === "ios" ? "padding" : "height"}>
     <LovableBackground />
@@ -33,7 +34,8 @@ export function LovableConfigFrame({ mode, onBack, onLaunch, disabled, children 
       <Pressable testID="config-back" accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} style={s.back}><LovableIcon name="back" color={c.foreground} size={20} /></Pressable>
       <View style={{ flex: 1, minWidth: 0 }}><Text testID="config-title" accessibilityRole="header" numberOfLines={1} style={s.title}>{mode === "classique" ? "Match classique" : "Maracana"}</Text><Text style={s.subtitle}>Paramètres</Text></View><View style={{ width: 44 }} />
     </View>
-    <ScrollView testID="config-scroll" style={{ flex: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 6, paddingLeft: 20 + inset.left, paddingRight: 20 + inset.right, paddingBottom: Math.max(16, inset.bottom), gap: 12, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
+    {/* RN Web's on-drag blurs inputs on every scroll, including focus/keyboard scrolling. */}
+    <ScrollView testID="config-scroll" style={{ flex: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode={Platform.OS === "web" ? "none" : "on-drag"} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 6, paddingLeft: 20 + inset.left, paddingRight: 20 + inset.right, paddingBottom: Math.max(16, inset.bottom), gap: 12, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
       <View testID="config-intro" style={[s.intro, { width: "100%" }]}><View style={[s.modeIcon, { backgroundColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .16), borderColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .35) }]}><LovableIcon name={mode === "classique" ? "pitch" : "refresh"} color={mode === "classique" ? c.classic : c.maracana} size={22} /></View><Text style={s.introText}>{mode === "classique" ? "Un match simple entre deux équipes, avec ou sans mi-temps." : "Les équipes tournent à chaque match. Les deux équipes en attente entrent, celles qui sortent repassent en fin de file."}</Text></View>
       {(children as ReactNode[]).filter(Boolean).map((child, i) => <View key={isValidElement(child) ? child.key ?? i : i} style={{ width: cardWidth }}>{child}</View>)}
     </ScrollView>
@@ -88,7 +90,7 @@ function CompositionPicker({ config, onUse }: { config: Config; onUse: (teams: T
   </View>;
 }
 export function useLovableConfigCards({ config, onChange, teams, onTeams, extra }: { config: Config; onChange: (config: Config) => void; teams: Team[]; onTeams: (teams: Team[]) => void; extra?: ReactNode }): ReactNode[] {
-  const { width, height } = useWindowDimensions(), inset = useSafeAreaInsets();
+  const { width, height } = useFormWindowDimensions(), inset = useSafeAreaInsets();
   const [rememberedGoals, setRememberedGoals] = useState(config.mode === "maracana" ? config.end.goalTarget ?? 3 : 3);
   const compact = (width > height ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40) - 30 <= 360;
   const cards: ReactNode[] = [];
