@@ -23,6 +23,13 @@ async function main() {
         console.log('case', mode, viewport.width);
         const context = await browser.newContext({ viewport, isMobile: true, hasTouch: true });
         const page = await context.newPage(), errors = [];
+        // Stable device orientation, independent of keyboard/viewport dimensions.
+        await page.addInitScript(({ width, height }) => {
+          const orientation = new EventTarget();
+          orientation.type = width > height ? 'landscape-primary' : 'portrait-primary';
+          Object.defineProperty(screen, 'orientation', { configurable: true, value: orientation });
+          window.__formOrientation = orientation;
+        }, viewport);
         page.on('pageerror', e => errors.push(String(e)));
         const route = mode === 'libre' ? '/chrono-libre/stopwatch' : '/config/' + mode;
         await page.goto(`http://127.0.0.1:${server.address().port}${route}`);
@@ -45,12 +52,22 @@ async function main() {
         assert.equal(await first.evaluate(e => e === document.activeElement), true, mode + ': scroll must not blur');
         const card = page.getByTestId(mode === 'libre' ? 'card-Avec équipes' : 'card-Personnaliser les équipes');
         const cardWidth = await card.evaluate(e => e.getBoundingClientRect().width);
-        await page.evaluate(() => { Object.defineProperty(window.visualViewport, 'height', { configurable: true, get: () => 260 }); window.visualViewport.dispatchEvent(new Event('resize')); });
+        await page.evaluate(() => {
+          // The first PR only simulated visualViewport. Also shrink clientHeight
+          // and innerHeight: neither is an authoritative device orientation.
+          Object.defineProperty(document.documentElement, 'clientHeight', { configurable: true, get: () => 260 });
+          Object.defineProperty(window, 'innerHeight', { configurable: true, get: () => 260 });
+          Object.defineProperty(window.visualViewport, 'height', { configurable: true, get: () => 260 });
+          window.dispatchEvent(new Event('resize'));
+          window.visualViewport.dispatchEvent(new Event('resize'));
+        });
         await pause(page);
+        await page.setViewportSize({ width: viewport.width, height: 260 });
+        await first.scrollIntoViewIfNeeded(); await pause(page);
         assert.equal(await first.evaluate(e => e === document.activeElement && e === window.__originalTeamInput && e.isConnected), true, mode + ': keyboard resize must preserve node/focus');
         assert.equal(await card.evaluate(e => e.getBoundingClientRect().width), cardWidth, mode + ': visual viewport must not change columns');
         await page.screenshot({ path: path.join(out, `${mode}-${viewport.width}-keyboard-resize.png`) });
-        await page.evaluate(() => { delete window.visualViewport.height; window.visualViewport.dispatchEvent(new Event('resize')); }); await pause(page);
+        // Keep the simulated keyboard open throughout editing.
         const names = ['Équipe Alpha', 'FC Rivière'];
         for (const [input, name] of [[first, names[0]], [second, names[1]]]) {
           await input.tap();
@@ -66,12 +83,21 @@ async function main() {
         assert.equal(await first.evaluate(e => e === window.__originalTeamInput), true, 'Editing must not remount the first input');
         await toggle.tap(); assert.equal(await first.count(), 0, 'OFF intentionally hides inputs');
         await toggle.tap(); assert.equal(await first.inputValue(), names[0]); assert.equal(await second.inputValue(), names[1]);
-        // This is a real layout rotation, unlike the visual-only keyboard resize.
+
+        // A real device rotation changes screen orientation as well as layout.
+        await page.evaluate(() => {
+          window.__formOrientation.type = window.__formOrientation.type.startsWith('portrait') ? 'landscape-primary' : 'portrait-primary';
+          window.__formOrientation.dispatchEvent(new Event('change'));
+        });
         await page.setViewportSize({ width: viewport.height, height: viewport.width }); await pause(page);
         assert.equal(await first.inputValue(), names[0]); assert.equal(await second.inputValue(), names[1]);
         const twoColumns = viewport.height > viewport.width && (viewport.height >= 600 || mode === 'classique' || mode === 'maracana');
         const expectedWidth = twoColumns ? (viewport.height - 52) / 2 : viewport.height - 40;
         assert.equal(await card.evaluate(e => e.getBoundingClientRect().width), expectedWidth, 'Real layout rotation still changes the columns');
+        await page.evaluate(() => {
+          delete document.documentElement.clientHeight; delete window.innerHeight; delete window.visualViewport.height;
+          window.dispatchEvent(new Event('resize')); window.visualViewport.dispatchEvent(new Event('resize'));
+        });
         const launch = page.getByTestId(mode === 'libre' ? 'free-prepare' : 'config-launch');
         await launch.tap();
         const key = mode === 'libre' ? 'roundr.free-timer.v1' : 'roundr.session.v1';
@@ -83,7 +109,7 @@ async function main() {
         const reloaded = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
         assert.deepEqual((mode === 'libre' ? reloaded.config.teams : reloaded.teams).slice(0, 2).map(t => t.name), names);
         assert.deepEqual(errors, []);
-        results.push({ mode, viewport, engine, focusOnTap: true, focusOnScroll: true, visualResizeStable: true, sameInputWhileEditing: true, editClearReplaceBothNames: true, switchFields: true, toggleRetainsNames: true, rotateRetainsNames: true, savedAndReloaded: true, errors });
+        results.push({ mode, viewport, engine, focusOnTap: true, focusOnScroll: true, visualAndLayoutKeyboardResizeStable: true, actualViewportHeightResize: true, sameInputWhileEditing: true, editClearReplaceBothNames: true, switchFields: true, toggleRetainsNames: true, rotateWithKeyboardRetainsNames: true, savedAndReloaded: true, errors });
         console.log(mode, viewport.width, 'passed');
         await context.close();
       }

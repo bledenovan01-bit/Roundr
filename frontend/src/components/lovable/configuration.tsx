@@ -15,18 +15,18 @@ const bold = "ManropeRefined-Bold";
 const rectText = { includeFontPadding: false } as const;
 export function Mark({ name, color = c.foreground, size: customSize }: { name: "play" | "minus" | "plus" | "info" | "warning"; color?: string; size?: number }) {
   const size = customSize ?? (name === "play" ? 18 : name === "warning" ? 14 : 16);
-  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" accessible={false} aria-hidden>
+  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden={true}>
     {name === "play" ? <Path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" fill={color} /> : name === "warning" ? <><Path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><Path d="M12 9v4M12 17h.01" /></> : name === "info" ? <><Circle cx="12" cy="12" r="10" /><Path d="M12 16v-4M12 8h.01" /></> : <><Line x1="5" x2="19" y1="12" y2="12" />{name === "plus" ? <Line x1="12" x2="12" y1="5" y2="19" /> : null}</>}
   </Svg>;
 }
 export function ConfigAction({ label, onPress, disabled = false, primary = false, testID, importTeams = false }: { label: string; onPress: () => void; disabled?: boolean; primary?: boolean; testID?: string; importTeams?: boolean }) {
-  const { width, height } = useFormWindowDimensions();
-  return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [s.action, { minHeight: primary ? width > height ? 48 : 56 : importTeams ? 44 : 50, backgroundColor: primary ? c.primary : c.cardRaised, opacity: disabled ? .4 : 1, borderWidth: primary ? 0 : 1 }, pressed && s.pressed]}>
+  const { landscape } = useFormWindowDimensions();
+  return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [s.action, { minHeight: primary ? landscape ? 48 : 56 : importTeams ? 44 : 50, backgroundColor: primary ? c.primary : c.cardRaised, opacity: disabled ? .4 : 1, borderWidth: primary ? 0 : 1 }, pressed && s.pressed]}>
     {primary ? <Mark name="play" color={c.onPrimary} /> : importTeams ? <LovableIcon name="users" color={c.foreground} /> : null}<Text style={[s.actionText, { color: primary ? c.onPrimary : c.foreground, fontSize: primary ? 16 : 14, lineHeight: primary ? 160 / 7 : 20, fontFamily: primary ? f.extrabold : bold }]}>{label}</Text>
   </Pressable>;
 }
 export function LovableConfigFrame({ mode, onBack, onLaunch, disabled, children }: { mode: Config["mode"]; onBack: () => void; onLaunch: () => void; disabled: boolean; children: ReactNode }) {
-  const { width, height } = useFormWindowDimensions(), inset = useSafeAreaInsets(), landscape = width > height;
+  const { width, landscape } = useFormWindowDimensions(), inset = useSafeAreaInsets();
   const cardWidth = landscape ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40;
   return <KeyboardAvoidingView style={s.screen} behavior={Platform.OS === "ios" ? "padding" : "height"}>
     <LovableBackground />
@@ -90,9 +90,9 @@ function CompositionPicker({ config, onUse }: { config: Config; onUse: (teams: T
   </View>;
 }
 export function useLovableConfigCards({ config, onChange, teams, onTeams, extra }: { config: Config; onChange: (config: Config) => void; teams: Team[]; onTeams: (teams: Team[]) => void; extra?: ReactNode }): ReactNode[] {
-  const { width, height } = useFormWindowDimensions(), inset = useSafeAreaInsets();
+  const { width, landscape } = useFormWindowDimensions(), inset = useSafeAreaInsets();
   const [rememberedGoals, setRememberedGoals] = useState(config.mode === "maracana" ? config.end.goalTarget ?? 3 : 3);
-  const compact = (width > height ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40) - 30 <= 360;
+  const compact = (landscape ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40) - 30 <= 360;
   const cards: ReactNode[] = [];
   const duration = config.mode === "classique" ? config.totalMin : config.matchMin;
   cards.push(<Duration key="duration" mode={config.mode} value={duration} compact={compact} onChange={n => onChange(config.mode === "classique" ? { ...config, totalMin: n } : { ...config, matchMin: n })} />);

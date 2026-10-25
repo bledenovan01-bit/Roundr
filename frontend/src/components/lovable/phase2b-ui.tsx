@@ -16,7 +16,7 @@ export function PhaseIcon({name,color,size=16}:{name:"shuffle"|"plus"|"x";color:
   </Svg>;
 }
 export function PhaseAction({label,onPress,disabled=false,kind="primary",icon,testID,height}:{label:string;onPress:()=>void;disabled?:boolean;kind?:"primary"|"secondary"|"ghost";icon?:"shuffle"|"plus"|"play"|LovableIconName;testID?:string;height?:number}) {
-  const {width,height:screenHeight}=useFormWindowDimensions(),landscape=width>screenHeight;
+  const {landscape}=useFormWindowDimensions();
   const color=kind==="primary"?c.onPrimary:kind==="ghost"?c.muted:c.foreground;
   return <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{disabled}} disabled={disabled} testID={testID} onPress={onPress}
     hitSlop={height===36?4:0} style={({pressed})=>[s.action,{minHeight:height??(kind==="primary"?(landscape?48:56):kind==="secondary"?50:44),backgroundColor:kind==="primary"?c.primary:kind==="secondary"?c.cardRaised:"transparent",borderWidth:kind==="secondary"?1:0,opacity:disabled?.4:1,gap:kind==="primary"?10:8},pressed&&s.pressed]}>
@@ -25,7 +25,7 @@ export function PhaseAction({label,onPress,disabled=false,kind="primary",icon,te
   </Pressable>;
 }
 export function PhaseFrame({title,subtitle,onBack,intro,children,footer,right,pair=false,blocked=false,hideBack=false,onContentHeight,onViewportHeight,distributeRows=false}:{title:string;subtitle?:string;onBack:()=>void;intro?:ReactNode;children:ReactNode[];footer?:ReactNode;right?:ReactNode;pair?:boolean;blocked?:boolean;hideBack?:boolean;onContentHeight?:(n:number)=>void;onViewportHeight?:(n:number)=>void;distributeRows?:boolean}) {
-  const {width,height,fontScale}=useFormWindowDimensions(),inset=useSafeAreaInsets(),landscape=width>height;
+  const {width,fontScale,landscape}=useFormWindowDimensions(),inset=useSafeAreaInsets();
   const two=landscape&&width-inset.left-inset.right>=600&&fontScale<=1.5;
   // Lovable's landscape CSS grid stretches each row by an equal share of
   // unused height. Opt in only where that spacing has been visually verified.
