@@ -1,0 +1,942 @@
+{
+  "base": "739fc950d274ef3a20ce057a4a2dd870ee4f8ecb",
+  "changedFrontendFiles": [
+    "frontend/app.json",
+    "frontend/package.json",
+    "frontend/yarn.lock"
+  ],
+  "validatedSourceCount": 215,
+  "protectedFileCount": 212,
+  "onlyAndroidPackageChanged": true,
+  "package": "com.bledenovan.roundr.recette",
+  "owner": null,
+  "projectId": null,
+  "sdk57Versions": {
+    "expo": "57.0.31",
+    "expo-router": "57.0.29",
+    "expo-sharing": "57.0.24"
+  },
+  "easProfileByteIdentical": true,
+  "nativeAudioInclusion": [
+    {
+      "platform": "android",
+      "file": "alert.wav",
+      "sha256": "fe1650deda6a99e0f7b5de436fee80772b0b483abf0e500b0c80b6f9ed7791fb"
+    },
+    {
+      "platform": "android",
+      "file": "confirmation.wav",
+      "sha256": "1e273d7ceaa29a61ba4b7c4d55fd6b52546ca30c075954263492fa0a903287c3"
+    },
+    {
+      "platform": "android",
+      "file": "final.wav",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    },
+    {
+      "platform": "android",
+      "file": "free-final.wav",
+      "sha256": "90d8787608e70134ebe685df48966c620118db95d13b9959885ba1671f77a4eb"
+    },
+    {
+      "platform": "android",
+      "file": "gong.wav",
+      "sha256": "a2fd42f04333682dfe09b70f74827527b8ab3a5eeb51194d5bdb415c90d94766"
+    },
+    {
+      "platform": "android",
+      "file": "prep.wav",
+      "sha256": "ac4385b1f994a5e0522f6189f2dbfb5757d70d93eda3cd60cc084d5cf1f2dbbe"
+    },
+    {
+      "platform": "android",
+      "file": "whistle.wav",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    },
+    {
+      "platform": "ios",
+      "file": "alert.wav",
+      "sha256": "fe1650deda6a99e0f7b5de436fee80772b0b483abf0e500b0c80b6f9ed7791fb"
+    },
+    {
+      "platform": "ios",
+      "file": "confirmation.wav",
+      "sha256": "1e273d7ceaa29a61ba4b7c4d55fd6b52546ca30c075954263492fa0a903287c3"
+    },
+    {
+      "platform": "ios",
+      "file": "final.wav",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    },
+    {
+      "platform": "ios",
+      "file": "free-final.wav",
+      "sha256": "90d8787608e70134ebe685df48966c620118db95d13b9959885ba1671f77a4eb"
+    },
+    {
+      "platform": "ios",
+      "file": "gong.wav",
+      "sha256": "a2fd42f04333682dfe09b70f74827527b8ab3a5eeb51194d5bdb415c90d94766"
+    },
+    {
+      "platform": "ios",
+      "file": "prep.wav",
+      "sha256": "ac4385b1f994a5e0522f6189f2dbfb5757d70d93eda3cd60cc084d5cf1f2dbbe"
+    },
+    {
+      "platform": "ios",
+      "file": "whistle.wav",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    }
+  ],
+  "protectedFiles": [
+    {
+      "file": "frontend/.gitignore",
+      "sha256": "75708e13f9dcb80547c3938004698090f8151e81949bfa4e1a81ceede2080f66"
+    },
+    {
+      "file": "frontend/.npmrc",
+      "sha256": "ee95d5d3662c62f27736551b1ce9d911de83becd845fa99a698d1da500875dbd"
+    },
+    {
+      "file": "frontend/README.md",
+      "sha256": "fb3c1034e1b06301eb75fd44b8f612ba33a79be202ed5541edaa8de4a7e6f237"
+    },
+    {
+      "file": "frontend/app/+html.tsx",
+      "sha256": "3d6baa50f2e42d1f3883581a3d728a257e034aa21e331c7d4d8c50f08d2aa32c"
+    },
+    {
+      "file": "frontend/app/_layout.tsx",
+      "sha256": "481b71ab2caacc479c39033e314cc54c1f2a90dfce95d1bedc166126a3598f8f"
+    },
+    {
+      "file": "frontend/app/chrono-libre/countdown.tsx",
+      "sha256": "d98eb3ce28a4ae802dce54c5c34aa1e5f6f96af566ce6c578ecfbcbc296cd128"
+    },
+    {
+      "file": "frontend/app/chrono-libre/index.tsx",
+      "sha256": "b474e21129f988a5b5c4b6304e07fa32ea3ae70b276654095fefa6d11079a6c3"
+    },
+    {
+      "file": "frontend/app/chrono-libre/interval.tsx",
+      "sha256": "04dd0baa4432feeae7df13956c5b97197c9073f0e59b3e37832f4d8a42a5e49f"
+    },
+    {
+      "file": "frontend/app/chrono-libre/presets.tsx",
+      "sha256": "f07af3d0ce329e529a3bd8b3c157ed04aae355f6d129932ba12909f981dae605"
+    },
+    {
+      "file": "frontend/app/chrono-libre/run.tsx",
+      "sha256": "cf80602a649307648a8659a1de64b282f98d38abb21d26d15246099556ae8486"
+    },
+    {
+      "file": "frontend/app/chrono-libre/stopwatch.tsx",
+      "sha256": "c2933b58606eeac4fadc0f1d053aa43e5c3d392a88204327139f73ad59077c24"
+    },
+    {
+      "file": "frontend/app/config/[mode].tsx",
+      "sha256": "81c59b3de5d7568fd5c5ff230129b4056b58f30a027aad874134b38dc38b46a8"
+    },
+    {
+      "file": "frontend/app/history.tsx",
+      "sha256": "99ddf10111323961c679c3b67ddafbc754c8d93d02f30bd8825e383738b8aa9d"
+    },
+    {
+      "file": "frontend/app/index.tsx",
+      "sha256": "c32de9c6fb54c58952f26c2163406ecf06da8d3df3c93ef533e7f2551c71f506"
+    },
+    {
+      "file": "frontend/app/live.tsx",
+      "sha256": "939b27cc03d3748ab29278724a7a6dc8bbc067cecade309dc3458fe282c3a7b6"
+    },
+    {
+      "file": "frontend/app/settings.tsx",
+      "sha256": "32d806f765305ab356736fa6dcfe10d43992b7f0af73bdd96622686cdbd71088"
+    },
+    {
+      "file": "frontend/app/standings.tsx",
+      "sha256": "433072afa8975758520604b490acff79b76a1d4629191f7ecf7a201d923532d5"
+    },
+    {
+      "file": "frontend/app/summary.tsx",
+      "sha256": "cf435e17baf88fa377b5f4ada3c25fa37aaec0de33eb780ece36afcf4dcd81b2"
+    },
+    {
+      "file": "frontend/app/team-builder.tsx",
+      "sha256": "0b8857804cc0ee6f753078ea8038a0d8a2d337e0adfadf9d032c840c0a1abb46"
+    },
+    {
+      "file": "frontend/app/teams.tsx",
+      "sha256": "e90841b47bd465ffba6318fe7fa76fef3eaa6d2ab5a385eae1020ba4d6aed575"
+    },
+    {
+      "file": "frontend/assets/figma/0494e.svg",
+      "sha256": "bcf8b8ad49653244ca9e4c46c74bad03f1fc13680cc91bbc8cd340569856bbaa"
+    },
+    {
+      "file": "frontend/assets/figma/2edfd.svg",
+      "sha256": "f9082ed9fd85c9dce74e470e81eba2df3223d0e25343601d97233fc16703c1fb"
+    },
+    {
+      "file": "frontend/assets/figma/3b038.svg",
+      "sha256": "6431d5bff3c47fde44c4e50ae99dfc0bd8465cca3349b57fe238f4fbd339f5db"
+    },
+    {
+      "file": "frontend/assets/figma/44655.svg",
+      "sha256": "4e64b3281e188c14bb8e8c1f39f575b34072405ae974d30357c66b4377055585"
+    },
+    {
+      "file": "frontend/assets/figma/4b8f2.svg",
+      "sha256": "25a95b6afe3fd981e127760a733f1b17a377283c88cc37f8193fa3933efe95b9"
+    },
+    {
+      "file": "frontend/assets/figma/4dfb8.svg",
+      "sha256": "49fcc086a3ca850feb4b791d0f90dd222cdb777ca07e542edbf4b83cfd3e3226"
+    },
+    {
+      "file": "frontend/assets/figma/57c8e.svg",
+      "sha256": "3dab25d1d8fd722aa064853b3a16a5ab911a089f9179c6a96155513db91922d8"
+    },
+    {
+      "file": "frontend/assets/figma/5f2b8.svg",
+      "sha256": "0f253954001530820d3294f8df4edf0b53596446a2ae7076b251bac568466e55"
+    },
+    {
+      "file": "frontend/assets/figma/878e0.svg",
+      "sha256": "a7238ad83e392ff633e65d73f7468d52b3c8d2fd83811d30696845bb702c06e1"
+    },
+    {
+      "file": "frontend/assets/figma/8f287.svg",
+      "sha256": "220c3f113e2e6675727094fec56925e5e58e6192345e949d8b8ca92284b9587e"
+    },
+    {
+      "file": "frontend/assets/figma/9489a.svg",
+      "sha256": "39e9743f8661d96c74ec0a30394dcfb4e9cec0e1f4f9d1441020391e3bdca996"
+    },
+    {
+      "file": "frontend/assets/figma/968c8.svg",
+      "sha256": "952bc0583a55a73dc2e7a629298b95ff78f75b8f2133e837bd0435bbb5dfa4df"
+    },
+    {
+      "file": "frontend/assets/figma/9e63c.svg",
+      "sha256": "6f06b753549971894ca2566d7915a8b02c576dd100f8311512791019d8087003"
+    },
+    {
+      "file": "frontend/assets/figma/ceef6.svg",
+      "sha256": "2841b6187636ac97c2cf7cf53462f4c09ebfc7a8927fd66c10915fdbafbdf3e5"
+    },
+    {
+      "file": "frontend/assets/figma/d0f6c.svg",
+      "sha256": "0f44fa9bab44bec648072dcabd26546dc1988ae977df7db1df939e308375abb7"
+    },
+    {
+      "file": "frontend/assets/figma/eb3d7.svg",
+      "sha256": "8f6a66f319a953146bee46b83e36944291e823ec5bfc63f6a8aa4fdb8b1fade9"
+    },
+    {
+      "file": "frontend/assets/figma/ffd1a.svg",
+      "sha256": "8a0319a76a8f682f940b7e8c6562eb50d5bbe6ba7bb3c0922f2a5493126b764e"
+    },
+    {
+      "file": "frontend/assets/fonts/BarlowCondensed-Bold.ttf",
+      "sha256": "e476562ec9c1e16cf16475895b511f08c804f438cc9a9f80a44ea50a0eeb5b65"
+    },
+    {
+      "file": "frontend/assets/fonts/Manrope-Bold.ttf",
+      "sha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40"
+    },
+    {
+      "file": "frontend/assets/fonts/Manrope-Medium.ttf",
+      "sha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40"
+    },
+    {
+      "file": "frontend/assets/fonts/ManropeRefined-Bold.ttf",
+      "sha256": "9f8f472bb622cf483a01d6484b04ffb2ec4a17becd38cbdf1eba496637371d4e"
+    },
+    {
+      "file": "frontend/assets/fonts/ManropeRefined-ExtraBold.ttf",
+      "sha256": "08e9fd27fc574467ce3ab456d4831183ed6f3504a31de42a268830776215ca83"
+    },
+    {
+      "file": "frontend/assets/fonts/ManropeRefined-Heavy.ttf",
+      "sha256": "e0c28680d479e342439c1a59c05964d5c42b915e2a1fa90decf2f6993d07fc9b"
+    },
+    {
+      "file": "frontend/assets/fonts/ManropeRefined-Medium.ttf",
+      "sha256": "3b5ec3bc0ce60acf795f90156c4b1d110835c87310ef7fe533a8875d7e52a4c5"
+    },
+    {
+      "file": "frontend/assets/fonts/ManropeRefined-Regular.ttf",
+      "sha256": "8a35c0548ac79ae2d6047052ecac2d8be3bc28fed377722775a54d8ca6d6d8d4"
+    },
+    {
+      "file": "frontend/assets/fonts/ManropeRefined-SemiBold.ttf",
+      "sha256": "275e6864c5a15580570db7d23557de61dff208298dd47af804514b43160fca78"
+    },
+    {
+      "file": "frontend/assets/fonts/SpaceMono-Regular.ttf",
+      "sha256": "4c322514d265062aa3f7fbd81f5b79391ccb74268e6a20600061e0ce33234f41"
+    },
+    {
+      "file": "frontend/assets/images/adaptive-icon.png",
+      "sha256": "2800a149cb4d3c1507b82bdc82ed8f2ce09678585ed279f63ca1ffdc91572722"
+    },
+    {
+      "file": "frontend/assets/images/app-image.png",
+      "sha256": "1d5f9e9f69ee62a572d48a9537fbc8844d52c8b3f8297ee54a6d19b7ace9495d"
+    },
+    {
+      "file": "frontend/assets/images/favicon.png",
+      "sha256": "38240320cf730bf9164ef0744cf2a428c827c0312c0c42a057ac3a4b7de0aafd"
+    },
+    {
+      "file": "frontend/assets/images/icon.png",
+      "sha256": "2800a149cb4d3c1507b82bdc82ed8f2ce09678585ed279f63ca1ffdc91572722"
+    },
+    {
+      "file": "frontend/assets/images/partial-react-logo.png",
+      "sha256": "015a72aeb24c1166243ebc185355c9488cc892fbf3aa82f9ae66819a10f3451c"
+    },
+    {
+      "file": "frontend/assets/images/pitch-night.png",
+      "sha256": "f1701868510435218f1a136e866d1cc6cd41f2da6a971f6b3ea20b55d319ed99"
+    },
+    {
+      "file": "frontend/assets/images/react-logo.png",
+      "sha256": "224b7636b15e672801579b5b418077cbc2ca42f0146389062364356b0ecb5c5c"
+    },
+    {
+      "file": "frontend/assets/images/react-logo@2x.png",
+      "sha256": "fa600be9ad2f869c7a8dbaffc78bb15af741123e1319c948f0be51753a153cde"
+    },
+    {
+      "file": "frontend/assets/images/react-logo@3x.png",
+      "sha256": "cd84e02a5d542a3e71b7fa10a685c1b9fb51db4aff92aca6c0da6461ce17be16"
+    },
+    {
+      "file": "frontend/assets/images/splash-image.png",
+      "sha256": "1d5f9e9f69ee62a572d48a9537fbc8844d52c8b3f8297ee54a6d19b7ace9495d"
+    },
+    {
+      "file": "frontend/assets/sounds/README.md",
+      "sha256": "3a8079d1f45c408508409bbd4958c5baee3c8d4558dc02138add8c6df03d98a7"
+    },
+    {
+      "file": "frontend/assets/sounds/SOURCES.md",
+      "sha256": "608c6312f8f5894d37cc5e4f376377ec34c8f631d49280b06f4493b7d91cb1a4"
+    },
+    {
+      "file": "frontend/assets/sounds/alert.wav",
+      "sha256": "fe1650deda6a99e0f7b5de436fee80772b0b483abf0e500b0c80b6f9ed7791fb"
+    },
+    {
+      "file": "frontend/assets/sounds/confirmation.wav",
+      "sha256": "1e273d7ceaa29a61ba4b7c4d55fd6b52546ca30c075954263492fa0a903287c3"
+    },
+    {
+      "file": "frontend/assets/sounds/final.wav",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    },
+    {
+      "file": "frontend/assets/sounds/free-final.wav",
+      "sha256": "90d8787608e70134ebe685df48966c620118db95d13b9959885ba1671f77a4eb"
+    },
+    {
+      "file": "frontend/assets/sounds/gong.wav",
+      "sha256": "a2fd42f04333682dfe09b70f74827527b8ab3a5eeb51194d5bdb415c90d94766"
+    },
+    {
+      "file": "frontend/assets/sounds/official-manifest.json",
+      "sha256": "c18b619540de92618c97c22a335f389947bef895a8800e0008e08974374fcf1a"
+    },
+    {
+      "file": "frontend/assets/sounds/prep.wav",
+      "sha256": "ac4385b1f994a5e0522f6189f2dbfb5757d70d93eda3cd60cc084d5cf1f2dbbe"
+    },
+    {
+      "file": "frontend/assets/sounds/whistle.wav",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    },
+    {
+      "file": "frontend/constants/testIds/auth.js",
+      "sha256": "3b2a266cb5f46b6f450fef308a9325d81b6e75b0eba9e3288063b31a1fd2412e"
+    },
+    {
+      "file": "frontend/constants/testIds/index.js",
+      "sha256": "9c79c18f589912f632ead3b00ac2a19f425b6300943e003d1ddde9244fe9fe8e"
+    },
+    {
+      "file": "frontend/eas.json",
+      "sha256": "e4d37a813bb03b8dc4fb82a68f94f9d16859b08b6c47a066888d778188c22f9b"
+    },
+    {
+      "file": "frontend/eslint.config.js",
+      "sha256": "ac9939c71d4f68bf634abfe279613fbb5b4701a001346b846d98606f5c805755"
+    },
+    {
+      "file": "frontend/metro.config.js",
+      "sha256": "12b30d00b4edbb8a2484a59ad452015aa47f3a74b36e362275f443aca283eeac"
+    },
+    {
+      "file": "frontend/scripts/check-syntax.cjs",
+      "sha256": "0b33f7e7bc53d6a5da55cec6dfc3cc456656303ab038b381ccd21578fcaaae45"
+    },
+    {
+      "file": "frontend/scripts/cmd-guard.js",
+      "sha256": "c64d712198310f58ae712ce1a182bfb077d140e6068d49d359679a89a077b11f"
+    },
+    {
+      "file": "frontend/scripts/cmd-guard/matcher.js",
+      "sha256": "95fba7e7b04cc81acd2166b4e8d93d58774b1b4928c25242b48242983fa170f3"
+    },
+    {
+      "file": "frontend/scripts/cmd-guard/modes.js",
+      "sha256": "7d498e69032b3551ae43d9543c6faa515c0d27f0eddbe55a6002063c9e91dc2d"
+    },
+    {
+      "file": "frontend/scripts/cmd-guard/rules.js",
+      "sha256": "b272209185eb83bb8af6cc56bc4b81029153b534552b68adc049c75d5a0578eb"
+    },
+    {
+      "file": "frontend/scripts/cmd-guard/vendor/wildcard-match.js",
+      "sha256": "5f54d4ec9f68ab70f614a63d3a78b6b1d4778abf6ffe00d09b9bb7dbb2badb96"
+    },
+    {
+      "file": "frontend/scripts/fixtures/lovable-chrono-1c59720.txt",
+      "sha256": "5a1013b360ee6c989de10dec4398bd9bd02dbb7def28cba49a14db3cb96df3bf"
+    },
+    {
+      "file": "frontend/scripts/fixtures/lovable-tournament-1c59720.txt",
+      "sha256": "f4b573122bda79d31e03b4667b75879396020f2ca76e27fd99bba181b57e8c42"
+    },
+    {
+      "file": "frontend/scripts/free-reference.cjs",
+      "sha256": "1c5f996f0e43a5b3ba9a8d9c276ffe5d6162ec0c13e223c3ba63e0888fb8dab8"
+    },
+    {
+      "file": "frontend/scripts/generate-sport-sounds.cjs",
+      "sha256": "f38ed4718ef8f141f0437f22c4a28627f861f18646a8ccff45880e8443fc31da"
+    },
+    {
+      "file": "frontend/scripts/install-guard.sh",
+      "sha256": "a4ed5a3748308a548d149c25201f59ce23b1803d13c19a516fd8df10c7ff5ced"
+    },
+    {
+      "file": "frontend/scripts/prepare-lovable-fonts.py",
+      "sha256": "4e2f28f6598b011c603cfa30287fe7e61102374caab43d979fab72d52d4d7647"
+    },
+    {
+      "file": "frontend/scripts/prepare-match-font.py",
+      "sha256": "c39a95315efdf3e5e99de6c6152681a97f20ccbed2ae247c57ea0a5729a3e98f"
+    },
+    {
+      "file": "frontend/scripts/prepare-official-audio.py",
+      "sha256": "90f2734a27a913c0ea1499d0016ff1df8dc35522dded8d378f609144e45e3137"
+    },
+    {
+      "file": "frontend/scripts/prepare-typography-fonts.py",
+      "sha256": "3b79cb4f645f7a8c2cf85539d7ab468d54a3e68341a430a3a1c9ca600c0417c0"
+    },
+    {
+      "file": "frontend/scripts/register-ts.cjs",
+      "sha256": "7c701c79b1df10673d6093409068cf925c8e2a46ceae18bf110a5c88b26d39e2"
+    },
+    {
+      "file": "frontend/scripts/reset-project.js",
+      "sha256": "c8a8c378d68bf01c8597d43b0ec77fcaae9124c8d22c0fdba486bd6a628f3894"
+    },
+    {
+      "file": "frontend/scripts/run-domain-tests.cjs",
+      "sha256": "959dd5f9837e7a252a5abefdfc1c76ad3ca44a68268ea6bac033fc03ebe83705"
+    },
+    {
+      "file": "frontend/scripts/sync-shims.sh",
+      "sha256": "99fa099e029ed4ade2279b3096d4ba1d26dc7adcd5419f040c924a87d18220c6"
+    },
+    {
+      "file": "frontend/scripts/test-chrono.ts",
+      "sha256": "ff2ea1c7e06294898d1d2dc0ce8fb7de06a9e48b93cd93d6a7dbe7726fad9a7e"
+    },
+    {
+      "file": "frontend/scripts/test-competition-history.ts",
+      "sha256": "bee981bc651798d42d7f8c375848f04a7f026d5805723ddf9e4f23fb9d3e5725"
+    },
+    {
+      "file": "frontend/scripts/test-config-phase2a.ts",
+      "sha256": "5393e429eed29dcf4dd01a47c13b57f5dc57701b6012cef41848d2f4c027bc56"
+    },
+    {
+      "file": "frontend/scripts/test-domain.ts",
+      "sha256": "622fd3e290a947c03e1f650473d9a924083bb6d061c56d14a7b0940ff6f85630"
+    },
+    {
+      "file": "frontend/scripts/test-free-configuration-phase4a.ts",
+      "sha256": "dfab574edab622473fa470d16b7195bb4100b133a3f03dad0f151e8fcd18c788"
+    },
+    {
+      "file": "frontend/scripts/test-free-live-phase4b.ts",
+      "sha256": "84e8672eb92ff8398b56579c01a35127db241899267fc2a1aa102ecd91aa17f1"
+    },
+    {
+      "file": "frontend/scripts/test-free-storage-phase4a.ts",
+      "sha256": "1531b90a8e1cc69f5b54795cce8b4ca785a578f751ec3c5aac5f0654cdba5221"
+    },
+    {
+      "file": "frontend/scripts/test-free-timer.ts",
+      "sha256": "3773deae60c87a812ee2f437052da7c430acc4894008c693aa9379681b10fedf"
+    },
+    {
+      "file": "frontend/scripts/test-home-session-preview.ts",
+      "sha256": "82e6c8eaa06ca367ba52a26f7d756370f991c57be4cd92aaf2ac7b0fe2d11639"
+    },
+    {
+      "file": "frontend/scripts/test-live-notices.ts",
+      "sha256": "7e30ea1efc4602ee7db899711b4ecdc8b3f9ab21932b82c186a0fa102322d68b"
+    },
+    {
+      "file": "frontend/scripts/test-maracana-launch-storage.ts",
+      "sha256": "5b03016fa97d5728d6792312b0b84d0804d0308c5ba5eaaf6a0aa1a7f4be4e39"
+    },
+    {
+      "file": "frontend/scripts/test-maracana-rotation.ts",
+      "sha256": "eed03110119d528ab3556a5bf12cde3229d0b548ae197f4158d4fef3650ae6a0"
+    },
+    {
+      "file": "frontend/scripts/test-match-confirmations.ts",
+      "sha256": "615e97b5941e36e75ac5100e23a7f62ee661798c06b0d023de06a355d5651cfb"
+    },
+    {
+      "file": "frontend/scripts/test-match-phase3a.ts",
+      "sha256": "94dbf6e6fc9b5aefe64b25f03c209fc2c6dd3404257b8f34158b7e2a6053e351"
+    },
+    {
+      "file": "frontend/scripts/test-regressions.ts",
+      "sha256": "30df1fd10a963a146942bf080e325aee32364a0be1c6c91fa47a5e0260f32399"
+    },
+    {
+      "file": "frontend/scripts/test-settings-phase5a.ts",
+      "sha256": "58671fd78435be861e2dc4c16eb9f21bf4f27bdf55b1d4931392752748030d1b"
+    },
+    {
+      "file": "frontend/scripts/test-sound-identity.ts",
+      "sha256": "107bd49317fd914fdea77325b5139a681abaebf7e95cba09cd3057c2e2f1aacd"
+    },
+    {
+      "file": "frontend/scripts/test-storage-reliability.ts",
+      "sha256": "21a4834e5f732b9be0b656ff5281036f9be096456f0fdf5997278f8267f5764e"
+    },
+    {
+      "file": "frontend/scripts/test-store-regressions.ts",
+      "sha256": "ec0bed82ac2cd15cdbc23454cc834955c53828063ccca816741b7ca9546aee44"
+    },
+    {
+      "file": "frontend/scripts/test-team-composition.ts",
+      "sha256": "f5b613ac38b89bf431e2797180aeb95accb567f89099beb4dc07f08987cb20f1"
+    },
+    {
+      "file": "frontend/scripts/test-tournament-phase2b.ts",
+      "sha256": "02bda91af5550d2332c117e14dcea98ab479dc0b9161c6eefa5df37c4068bcba"
+    },
+    {
+      "file": "frontend/scripts/test-tournament-phase3b.ts",
+      "sha256": "4b5b3209282efd909dfa23b3894da5993ab33c0180b0f59c49bdd6d06155c758"
+    },
+    {
+      "file": "frontend/scripts/test-tournament-storage-phase3b.ts",
+      "sha256": "14d42a3e6acc61282d816ab74c0d59a0d2cf2c330537774e20f1e240e491a50b"
+    },
+    {
+      "file": "frontend/scripts/tournament-reference.cjs",
+      "sha256": "de09ce57f40e37d6f11a31df3c9b3d4b91d7c0aae6e5501354ce10cb1d3b9d1b"
+    },
+    {
+      "file": "frontend/src/alert.ts",
+      "sha256": "71c63b8210ace50b003b787fcdbdfc0f97acf68f20bbbf830c5fa894a2cc4f2d"
+    },
+    {
+      "file": "frontend/src/audio/sound-identity.ts",
+      "sha256": "9cc937918fc95cd88e856a6cf37651b1b629af4f7f689f7237fc0e808f3fc626"
+    },
+    {
+      "file": "frontend/src/audio/sounds.ts",
+      "sha256": "11607ea9ebf708de06c3bf8fd23f1a3c19e8b66eeb31d7a6bd696c3e18713303"
+    },
+    {
+      "file": "frontend/src/chrono/engine.ts",
+      "sha256": "8ab0f567b7d54f3f3641b28c64e72854b7e9142dc8ccbd6ed6658a54095d5c8b"
+    },
+    {
+      "file": "frontend/src/chrono/format.ts",
+      "sha256": "0fe6209e7013b3ebd3498ad66ea8bc971e70a935b4264e82daafd05dc04a7f8d"
+    },
+    {
+      "file": "frontend/src/chrono/use-display-clock.ts",
+      "sha256": "7df57869173ee7e5648194f640cdbf76d8e0fad7048281f62d97f91acfa17ceb"
+    },
+    {
+      "file": "frontend/src/components/analog-chrono.tsx",
+      "sha256": "d0ad202373e63a6aee5eabf5f977869d473b523367ddf3f661b4b00ac09eab5d"
+    },
+    {
+      "file": "frontend/src/components/chrono-carousel.tsx",
+      "sha256": "1ee25bf560ef7ff2e2b05ea9ac53546af871ef95ecbc249296745da5cc4f8b7b"
+    },
+    {
+      "file": "frontend/src/components/chrono-ring.tsx",
+      "sha256": "b0ba0cb24e0545edbf4699b06ee89b977cff9637cd06e3ee9ebcf1050ef9dedb"
+    },
+    {
+      "file": "frontend/src/components/chrono-time.tsx",
+      "sha256": "ee5b4f3989a1ff2986e978f4f1bf51c9c2b4b31265bac97bd936539f8cd9ffe0"
+    },
+    {
+      "file": "frontend/src/components/design-live.tsx",
+      "sha256": "7a16e126ed09c1bfe0faefb0fafe415ea93efbddc161111877b2d2cec131ce7b"
+    },
+    {
+      "file": "frontend/src/components/design-screen.tsx",
+      "sha256": "ef939b06483c385663115814c7a4f8014fe9f262ee9ed071e585e7b529928ed0"
+    },
+    {
+      "file": "frontend/src/components/error-boundary.tsx",
+      "sha256": "989ab2f4d9aad13e30dfe3ee0fc284f2b7723fbb9297723ac25483a471e78c02"
+    },
+    {
+      "file": "frontend/src/components/fields.tsx",
+      "sha256": "4f42b1501f9a89467c62e7c33737e7feff309a8968b84c9773bb354583bfb741"
+    },
+    {
+      "file": "frontend/src/components/free-storage-notice.tsx",
+      "sha256": "baf5e24ed3073cc3924c4c8cb0b8798988c1257ad1fbdbc85c64c53ef5027354"
+    },
+    {
+      "file": "frontend/src/components/free-timer-runtime.ts",
+      "sha256": "c6f6a27218b0163533d09fdf0539699b93cfc277c4ef49936af02349f24a9987"
+    },
+    {
+      "file": "frontend/src/components/giant-chrono.tsx",
+      "sha256": "9666cd600658cdc987783fed1cbc9a15adcfba7b3ec92bf6862f92eeb4643e1f"
+    },
+    {
+      "file": "frontend/src/components/live-notice-banner.tsx",
+      "sha256": "ae6ef1ca4a94f5d17260006bcf6d3cde0cfc59e932b46c7310b4ead25da11f18"
+    },
+    {
+      "file": "frontend/src/components/lovable/background.tsx",
+      "sha256": "042f43e0eb97ed93cc81806b066590fdb9cefea67130c34fcb17ac6356f57bdc"
+    },
+    {
+      "file": "frontend/src/components/lovable/button.tsx",
+      "sha256": "2d26980100dc1f7eb648670b9954479f9fff49e208597cd51d7c97898bb1b914"
+    },
+    {
+      "file": "frontend/src/components/lovable/configuration.tsx",
+      "sha256": "2fa57734c57ed3940be69ea41d385697fb0c9cf3064c86d35d9767d9d86204a1"
+    },
+    {
+      "file": "frontend/src/components/lovable/free-clock.tsx",
+      "sha256": "50fcb0216478bc9853dd83273884432deed1b9180b012bcc83bd8ef8706ad909"
+    },
+    {
+      "file": "frontend/src/components/lovable/free-motion.tsx",
+      "sha256": "39371e462b98d85132d9221a1e086b4cbb1e8935c151dcd8d745282c3758e721"
+    },
+    {
+      "file": "frontend/src/components/lovable/history-summary.tsx",
+      "sha256": "d9f2255b33987441ca5f0352e8e55710ae37998c0bff619016b55ef577ca0e44"
+    },
+    {
+      "file": "frontend/src/components/lovable/history-ui.tsx",
+      "sha256": "b1cdb4b373a6df23b419daf62ee37c8ded4abfaf32eb7082384704cb9c95d7d5"
+    },
+    {
+      "file": "frontend/src/components/lovable/icon.tsx",
+      "sha256": "d5d7a6f1eb96b5c17d81ac4e4bb7fe5c1332cd37e9196efd6e1d68ffabfdc35c"
+    },
+    {
+      "file": "frontend/src/components/lovable/intro.tsx",
+      "sha256": "5bce204f2e6f9cbc8900ad713c74e9a223788c263e9373684f8db75f2db2a3cf"
+    },
+    {
+      "file": "frontend/src/components/lovable/match-announcer.tsx",
+      "sha256": "d0c824f974fc3ceffa9d56c393d29c3a2a39bb3c97d4349ad60c9d5592709084"
+    },
+    {
+      "file": "frontend/src/components/lovable/match-ui.tsx",
+      "sha256": "e724214a46088126b19fda0bfb8ec7b3bac65290380346f9f7f61ae9a59c83d5"
+    },
+    {
+      "file": "frontend/src/components/lovable/phase2b-ui.tsx",
+      "sha256": "1968fde86d429868b81e0ec07f0f7bc51ed38f5a5fe7cfd8a2c5ec9947efb439"
+    },
+    {
+      "file": "frontend/src/components/lovable/timer-digits.tsx",
+      "sha256": "a5e476cce26bc915f7224d0a197f8c42b81e63a01e48955cd84b887da40d0c85"
+    },
+    {
+      "file": "frontend/src/components/lovable/tournament-ui.tsx",
+      "sha256": "c2cd807ba4046f02b4f815db422572d58795af908b520184c04cf2a4fd38bc2b"
+    },
+    {
+      "file": "frontend/src/components/lovable/wordmark.tsx",
+      "sha256": "5d0997bb6aab6b9ed8bad21a9f1d55b2df77e8e5b6cb943ba262ccfbc0350fe8"
+    },
+    {
+      "file": "frontend/src/components/maracana-launch.tsx",
+      "sha256": "23e0a0c56bf2a1fa6dd00c3e39fee8c21c5e16f26901eb86dbb296e1b6882e6a"
+    },
+    {
+      "file": "frontend/src/components/mode-card.tsx",
+      "sha256": "73de9f39e23663816f4b8024b33787c1f9c710f72462950ed39a2b451279459a"
+    },
+    {
+      "file": "frontend/src/components/preset-pill.tsx",
+      "sha256": "202d72ca4e654bedb3553275e6242b8eb281c6e8d48d306edb006b20fdcc6630"
+    },
+    {
+      "file": "frontend/src/components/primary-button.tsx",
+      "sha256": "6ce882c47ac37f2cf0315c34a95f0bf01b85a8c36b178880df27a411f9c5888f"
+    },
+    {
+      "file": "frontend/src/components/resume-card.tsx",
+      "sha256": "5946a8a47e7ec5136eb382ce7a8db52e96ad42f5360666dee25c0a33a1ec6b1a"
+    },
+    {
+      "file": "frontend/src/components/session-runtime.tsx",
+      "sha256": "df4082ea948002ce8c4f70311943279519a9846ce58a4b4ec007cc59f9735767"
+    },
+    {
+      "file": "frontend/src/components/volume-slider.tsx",
+      "sha256": "7d5af46c8792463fe90baca6ae740c70f4257e721a2469eebc4d14f6e2994da7"
+    },
+    {
+      "file": "frontend/src/data/modes.ts",
+      "sha256": "421bcb4ef0cf0a1920d0e661c3a0eb2b22800e6682a93894a785e8f4e974f5fc"
+    },
+    {
+      "file": "frontend/src/domain/bracket.ts",
+      "sha256": "6be27d69936e38d24bb10301d46846a31c65fb283068be89261dbeea471db8e4"
+    },
+    {
+      "file": "frontend/src/domain/cup.ts",
+      "sha256": "e60b6d7e8b0416d24095fddae0248f15ac36f1bc50e0e440de2fd53bd0a24336"
+    },
+    {
+      "file": "frontend/src/domain/custom-split.ts",
+      "sha256": "4aae39c067c93d41510652c07b4a6f454b169e402447251f2b463d8ccc70edb5"
+    },
+    {
+      "file": "frontend/src/domain/defaults.ts",
+      "sha256": "44452cdd383ac623e63c22643843b6c5f8366b475e206af06f73c85bc208067d"
+    },
+    {
+      "file": "frontend/src/domain/free-configuration.ts",
+      "sha256": "7cb2455fcb5eabe7cb082ceab4a150841d86086ca822d4c555cbba297b7a1c0f"
+    },
+    {
+      "file": "frontend/src/domain/free-timer.ts",
+      "sha256": "708a64e05e99a2357df5ad2bbde4f41bad92b20bfdaab82f1d2b644b24418ac7"
+    },
+    {
+      "file": "frontend/src/domain/live-notices.ts",
+      "sha256": "a9f3ae87601a1f483b7e8e5de5127ec7f165d2b3233a1e71c4face77434b1774"
+    },
+    {
+      "file": "frontend/src/domain/maracana.ts",
+      "sha256": "5fe2be0fa4e1a677d745e504db58965875b245a1b52709bc5ca1ab2066a7527b"
+    },
+    {
+      "file": "frontend/src/domain/match-detail.ts",
+      "sha256": "5c8b5d764a2a3f5f9b70f98ab1f2e362b383e1fe8e79c88cf90c0b5e2fad1c0b"
+    },
+    {
+      "file": "frontend/src/domain/preparation.ts",
+      "sha256": "a7fef65f81c255d0ebc1065640b72ca0ae9e2eb13a88cb28968f7ea034ed2db8"
+    },
+    {
+      "file": "frontend/src/domain/session-events.ts",
+      "sha256": "88a80566128d3dc306bdb58112fa2634864d7255f364699050b6747bf92ee06b"
+    },
+    {
+      "file": "frontend/src/domain/session.ts",
+      "sha256": "3191717f34b6bac207a7731c654286f7d213694564f0ff242760ab08ff98c765"
+    },
+    {
+      "file": "frontend/src/domain/standings.ts",
+      "sha256": "c50433af03a4dcd953824ce68cce2afb07bed3c59cdf22708970ebf89d69cd47"
+    },
+    {
+      "file": "frontend/src/domain/summary.ts",
+      "sha256": "db7a27cdb3ed1a81b0eebb4d24c6f71d6539ceb34726ab6302695402ad46106e"
+    },
+    {
+      "file": "frontend/src/domain/team-maker.ts",
+      "sha256": "b1d936e5006c7340a61b6525e611f5ba58bcd26773ec48a344029c09c233fdcc"
+    },
+    {
+      "file": "frontend/src/domain/tournament-presentation.ts",
+      "sha256": "999bc0bb6eb14661f058d8a14f55a6323b2f8832131fca999fe1ef56099adc14"
+    },
+    {
+      "file": "frontend/src/domain/types.ts",
+      "sha256": "4b07aedebad5a32f889bf973e73c9d7747502ae697c7672e925817c1f8604104"
+    },
+    {
+      "file": "frontend/src/domain/validate.ts",
+      "sha256": "4cb07aa05e9943e77391f652db6dbab1c1aaf5cdfb512d1f23da308d0bd97076"
+    },
+    {
+      "file": "frontend/src/features/config-forms.tsx",
+      "sha256": "53e313091e4002b9270e882a049ba4898bb8cfa6d9d4b610d9ee17b29a84dd70"
+    },
+    {
+      "file": "frontend/src/features/design-config.tsx",
+      "sha256": "72078b03fc5fdc8987e1296cc684c8894a38806c57430744738a5be83137b7e7"
+    },
+    {
+      "file": "frontend/src/features/free-config-draft.ts",
+      "sha256": "162cc1f7ccf02280aafb9d78ad095687899b5798b5acefe704e95374364a5818"
+    },
+    {
+      "file": "frontend/src/features/free-live-actions.ts",
+      "sha256": "df93675df1a61b9c06f767920fdd9f288aa2c025562627712363d096ecc1b505"
+    },
+    {
+      "file": "frontend/src/features/free-live-state.ts",
+      "sha256": "9aa7c48ef94afe0e291cf2493e41afd25a546cb2e63e820fd0e56edba82b05a5"
+    },
+    {
+      "file": "frontend/src/features/free-save.tsx",
+      "sha256": "81ca369d7b87484ba7c3e54afb6112998ed06c51f6f7ed77f44d6a6abbbb6b14"
+    },
+    {
+      "file": "frontend/src/features/home-session-preview.ts",
+      "sha256": "6babd0cbca693f00eb7a69db35f3726844d4764429d7a622797ed9010e156564"
+    },
+    {
+      "file": "frontend/src/features/lovable-config-state.ts",
+      "sha256": "8919fcbd2cafc28d053c51f54c180a2123bcc63f42cd4e694f3a1484262ee461"
+    },
+    {
+      "file": "frontend/src/features/lovable-config.tsx",
+      "sha256": "dcb877bf078ac1f42f76518379ee6252a76c5d666b29e18707e912dacc70df47"
+    },
+    {
+      "file": "frontend/src/features/lovable-free-config.tsx",
+      "sha256": "13b529f9ef65ba7735c9a0c5c6c08c2b3fd47cb1801e841df155ed972eb5c7f8"
+    },
+    {
+      "file": "frontend/src/features/lovable-free-live.tsx",
+      "sha256": "bbd54410660f8451de38120d16317b1a9ad495934d9e285518c3af30605b55c3"
+    },
+    {
+      "file": "frontend/src/features/lovable-match.tsx",
+      "sha256": "c6dc28a3334d66fe617a8952c0b04520866131e1878aa654819d2042bddb3334"
+    },
+    {
+      "file": "frontend/src/features/lovable-settings.tsx",
+      "sha256": "68e32046b68893e737971d08299a18fcbfdf838312cc7fd92a42eaf7960a4b07"
+    },
+    {
+      "file": "frontend/src/features/lovable-team-maker.tsx",
+      "sha256": "18fad27f3598ecc3fa8bda6009a98abadf1fd16380e1ce82ff9f4851c6f70936"
+    },
+    {
+      "file": "frontend/src/features/lovable-tournament.tsx",
+      "sha256": "0e782ea4fbb65a6ecd887c0640876d42d4252c5da07de0342a2499f3b78c480c"
+    },
+    {
+      "file": "frontend/src/features/match-announcements.ts",
+      "sha256": "93c628ed01ae9eaab4790f930083ce28ace76a40ad52f0858461604ec206e25b"
+    },
+    {
+      "file": "frontend/src/features/match-confirmations.ts",
+      "sha256": "39b2c5c6a7e639c1504117f7c44b4ee195128bfa7991a876130ce22aac451850"
+    },
+    {
+      "file": "frontend/src/features/match-presentation.ts",
+      "sha256": "504a464f9aae3083210c9fa2414cd1d298ea54c4edde55f5c01c7d2857fed7b4"
+    },
+    {
+      "file": "frontend/src/features/prepare-free-timer.ts",
+      "sha256": "c010ab56341fcc62176b67cc4343c0eecca4d0d1038fa4db53f899f7c7ea5e87"
+    },
+    {
+      "file": "frontend/src/features/settings-state.ts",
+      "sha256": "30d8529c1ba8e877159a93eadefc89fc30a75e098b5454a6dd24c70e4b9093e8"
+    },
+    {
+      "file": "frontend/src/features/tournament-config-state.ts",
+      "sha256": "549adfe50b0636d103954fca7829d07f0f85a4aaf1e6682513ed4b5fc10275a3"
+    },
+    {
+      "file": "frontend/src/features/tournament-configuration.tsx",
+      "sha256": "19cab8d56be8dcd962f89e8b405357f2bcb7b3a5568ef5f93bed9888fc420bff"
+    },
+    {
+      "file": "frontend/src/haptics.ts",
+      "sha256": "ec4c40039b231ab055428465981c886bead4ade31d78a83b12d8a24ee41c2409"
+    },
+    {
+      "file": "frontend/src/hooks/use-unsaved-changes.ts",
+      "sha256": "00198c0fbdde02f7b1da66b11832781b9d30708841f7427a40825066d5e9fcdd"
+    },
+    {
+      "file": "frontend/src/layout.ts",
+      "sha256": "73d7121d9bac921eeb27fbac8f8595284d069e618f2a0271b62b48829ce0e8f2"
+    },
+    {
+      "file": "frontend/src/query-client.ts",
+      "sha256": "780771570dcfa4303d2ea82cb987131d5fa08b2a0d15ddb69d9c8bfebdea378c"
+    },
+    {
+      "file": "frontend/src/store/competition-history.ts",
+      "sha256": "eccaecd9652f3ae4537f9cce310dcd3096fb8004f15a225a9a92dc0f550a068a"
+    },
+    {
+      "file": "frontend/src/store/free-timer-validation.ts",
+      "sha256": "e5d0df2214a0e3c813d3db38761f886371f4a1597f52d6f2c577500b48ada47a"
+    },
+    {
+      "file": "frontend/src/store/preferences.ts",
+      "sha256": "8c37a8624656659b29bb5a3a6af4b23a1c02bafb4d41e8372446a04a12f8d46f"
+    },
+    {
+      "file": "frontend/src/store/session-store.ts",
+      "sha256": "ff5890cbd2f6aa7ebc0e01680f47ad4bd64f8006de54cfc561eb086aa32eab43"
+    },
+    {
+      "file": "frontend/src/store/storage-validation.ts",
+      "sha256": "0d80ed6c6f546d3fedd48f0b9e7c09027752ae9e5383d1763b5968c4e949b447"
+    },
+    {
+      "file": "frontend/src/theme.ts",
+      "sha256": "7865b84194470e066666e485f324058068da6e5dbe218d183b1e5f1c96ff09b8"
+    },
+    {
+      "file": "frontend/src/typography-preview.ts",
+      "sha256": "5d3f208ea58da3ba15101b52a9efbe191e6178aeedb41f3be7ad48a44cc83e32"
+    },
+    {
+      "file": "frontend/src/utils/storage/index.ts",
+      "sha256": "21843055e941c012f82cf0277c755a10f81b5333d577504d0aba2bfc28818a76"
+    },
+    {
+      "file": "frontend/src/utils/storage/index.web.ts",
+      "sha256": "b5a8011478897e213aa5fa9150558eff200cfc6a21f09485576a4ebc29743dfa"
+    },
+    {
+      "file": "frontend/src/utils/storage/storage-base.ts",
+      "sha256": "60efe1aca0b53a40f435a5220663076613c4b96dafd5f39c1f3bdc21ad999e54"
+    },
+    {
+      "file": "frontend/src/visual/lovable.ts",
+      "sha256": "c1fd9f260d91ce0d720cf823b826f4706bc1a5f072c7d17b02ec86a0202550c4"
+    },
+    {
+      "file": "frontend/tsconfig.json",
+      "sha256": "4a83022f6957937d671b1d16f95c8174d7522a356c1402c09ac9350eebdf82b2"
+    }
+  ]
+}
