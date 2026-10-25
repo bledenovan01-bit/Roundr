@@ -370,10 +370,11 @@ function emitSounds(prev: Session | null, next: Session | null, silent: boolean)
     start:p.startSound, goal:p.goalSound, minute:p.minuteSound, periodEnd:p.periodSound, matchEnd:p.endSound, warmup:p.warmupSound,
   };
   // Prefer the end event; never replay a burst of missed alerts after a delay.
-  const sound = sounds[events.find(e => e.kind === "matchEnd")?.kind ?? events[0].kind];
+  const soundEvent = events.find(e => e.kind === "matchEnd")?.kind ?? events[0].kind;
+  const sound = sounds[soundEvent];
   const localSoundControl = (next.config.mode === "classique" || next.config.mode === "maracana" || next.config.mode === "survie") && next.config.soundControl === "session";
   const sessionSound = !localSoundControl || next.config.sounds;
-  if (p.sounds && sessionSound && sound && sound !== "off") void playSound(sound);
+  if (p.sounds && sessionSound && sound && sound !== "off") void playSound(sound, soundEvent === "periodEnd" ? "periodEnd" : undefined);
   void Haptics.selectionAsync().catch(() => {});
 }
 
