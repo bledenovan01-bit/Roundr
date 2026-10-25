@@ -1,0 +1,10 @@
+
+C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\Roundr\frontend\scripts\test-sound-identity.ts
+  2:16  warning  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  3:12  warning  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  3:39  warning  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  3:70  warning  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+✖ 4 problems (0 errors, 4 warnings)
+
+ESLint found too many warnings (maximum: 0).

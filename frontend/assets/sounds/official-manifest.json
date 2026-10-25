@@ -1,0 +1,91 @@
+{
+  "sampleRate": 44100,
+  "channels": 2,
+  "bits": 16,
+  "sources": [
+    {
+      "id": 568995,
+      "file": "568995__strongbot__metal-whistle.wav",
+      "sha256": "2bb866e556c2bb0e96fa421132711b6a1164251b5d7512deee7a02f96eccedf8",
+      "seconds": 20.546507936507936,
+      "sampleRate": 44100,
+      "bits": 16
+    },
+    {
+      "id": 829455,
+      "file": "829455__itmightgetloud__crwdreac-soccer_millerntor-stadium-crowd-reaction-goal-01_philipp-feit_fcsp-29.wav",
+      "sha256": "b4a09cbf9a902804d89de6c99f27dc2491df058490e28aec783bcedce4f0cd44",
+      "seconds": 68.48958333333333,
+      "sampleRate": 48000,
+      "bits": 24
+    },
+    {
+      "id": 815943,
+      "file": "815943__jw_audio__uimisc_digital-intreface-data-notification-alert-20-_jw-audio_ui1.wav",
+      "sha256": "7270775d78619b7d639a68b7b4ab46845f0dd8d5282cb23c9868ca4a097238af",
+      "seconds": 0.5517291666666667,
+      "sampleRate": 96000,
+      "bits": 24
+    },
+    {
+      "id": 320181,
+      "file": "320181__dland__hint.wav",
+      "sha256": "9ee1e85e96956b5161a15d7d80d9e1a7aab703a0407594456414610ddaf9762c",
+      "seconds": 0.26519274376417235,
+      "sampleRate": 44100,
+      "bits": 16
+    },
+    {
+      "id": 171697,
+      "file": "171697__nenadsimic__menu-selection-click.wav",
+      "sha256": "aa10d400e97a59aa8fc1f8bc88b24c7d888ede9bd9e457b340ad659a045b440a",
+      "seconds": 0.22768707482993197,
+      "sampleRate": 44100,
+      "bits": 24
+    }
+  ],
+  "outputs": [
+    {
+      "file": "whistle.wav",
+      "seconds": 0.8,
+      "edit": "A2: 0.65–1.45 s, 10 ms edge fades",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    },
+    {
+      "file": "final.wav",
+      "seconds": 0.8,
+      "edit": "A2: same selected whistle, match end",
+      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+    },
+    {
+      "file": "alert.wav",
+      "seconds": 4.0,
+      "edit": "B1: 0.35–4.35 s, 150 ms edge fades",
+      "sha256": "fe1650deda6a99e0f7b5de436fee80772b0b483abf0e500b0c80b6f9ed7791fb"
+    },
+    {
+      "file": "gong.wav",
+      "seconds": 0.5517233560090703,
+      "edit": "C1: complete source, PCM16/44.1 kHz conversion",
+      "sha256": "a2fd42f04333682dfe09b70f74827527b8ab3a5eeb51194d5bdb415c90d94766"
+    },
+    {
+      "file": "prep.wav",
+      "seconds": 0.26519274376417235,
+      "edit": "D1-A: complete unchanged PCM source",
+      "sha256": "ac4385b1f994a5e0522f6189f2dbfb5757d70d93eda3cd60cc084d5cf1f2dbbe"
+    },
+    {
+      "file": "free-final.wav",
+      "seconds": 0.6103854875283447,
+      "edit": "D2: Hint + 80 ms silence + identical Hint",
+      "sha256": "90d8787608e70134ebe685df48966c620118db95d13b9959885ba1671f77a4eb"
+    },
+    {
+      "file": "confirmation.wav",
+      "seconds": 0.22768707482993197,
+      "edit": "E1: complete source, PCM16 conversion; no new event wired",
+      "sha256": "1e273d7ceaa29a61ba4b7c4d55fd6b52546ca30c075954263492fa0a903287c3"
+    }
+  ]
+}

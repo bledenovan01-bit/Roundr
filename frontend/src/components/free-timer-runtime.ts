@@ -85,7 +85,7 @@ export function FreeTimerRuntime() {
     )
       return;
     if (prefs.sounds && ft.config.sounds)
-      void playSound(ft.finished ? "final" : "gong");
+      void playSound(ft.finished ? "final" : "gong", ft.finished ? "freeEnd" : "freeTransition");
     if (prefs.vibrations) void Haptics.selectionAsync().catch(() => {});
   }, [ft, prefs.sounds, prefs.vibrations]);
   useEffect(() => {
