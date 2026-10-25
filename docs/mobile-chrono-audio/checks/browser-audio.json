@@ -1,0 +1,58 @@
+[
+  {
+    "name": "alert.e9cd1b8684997c55c170726b4244efcc.wav",
+    "loaded": true,
+    "seconds": 4,
+    "sampleRate": 48000,
+    "channels": 2,
+    "playEnded": true
+  },
+  {
+    "name": "confirmation.7e1a7d55aafde955f33d714d77476190.wav",
+    "loaded": true,
+    "seconds": 0.22766666666666666,
+    "sampleRate": 48000,
+    "channels": 2,
+    "playEnded": true
+  },
+  {
+    "name": "final.564fe441751684f6fbe31bff0ac26d5e.wav",
+    "loaded": true,
+    "seconds": 0.8,
+    "sampleRate": 48000,
+    "channels": 2,
+    "playEnded": true
+  },
+  {
+    "name": "free-final.680f2af1c1120c158c5881010c80457f.wav",
+    "loaded": true,
+    "seconds": 0.610375,
+    "sampleRate": 48000,
+    "channels": 2,
+    "playEnded": true
+  },
+  {
+    "name": "gong.9fa5e4431a710654cf7a116293ccadcb.wav",
+    "loaded": true,
+    "seconds": 0.5517083333333334,
+    "sampleRate": 48000,
+    "channels": 2,
+    "playEnded": true
+  },
+  {
+    "name": "prep.cafc48752ca45f4cc55fb25e5ad0b856.wav",
+    "loaded": true,
+    "seconds": 0.2651875,
+    "sampleRate": 48000,
+    "channels": 2,
+    "playEnded": true
+  },
+  {
+    "name": "whistle.564fe441751684f6fbe31bff0ac26d5e.wav",
+    "loaded": true,
+    "seconds": 0.8,
+    "sampleRate": 48000,
+    "channels": 2,
+    "playEnded": true
+  }
+]

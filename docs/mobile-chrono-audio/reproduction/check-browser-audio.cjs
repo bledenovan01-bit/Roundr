@@ -1,0 +1,12 @@
+const qaWork=process.env.ROUNDR_QA_WORK;if(!qaWork)throw Error("Set ROUNDR_QA_WORK");
+const {chromium}=require(process.env.ROUNDR_PLAYWRIGHT_MODULE||'C:/Users/denoe/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('fs'),path=require('path'),cp=require('child_process');
+(async()=>{fs.mkdirSync(path.join(qaWork,"../outputs/mobile-chrono/checks"),{recursive:true});const root=path.join(qaWork,'mobile-chrono-after'),port=8186;
+const server=cp.spawn(process.execPath,[path.join(__dirname,'serve-phase3b.cjs'),root,port],{stdio:'ignore'});process.on('exit',()=>server.kill());
+await new Promise(r=>setTimeout(r,1000));const browser=await chromium.launch({headless:true,channel:'msedge',args:['--autoplay-policy=no-user-gesture-required']});
+const page=await browser.newPage();await page.goto(`http://127.0.0.1:${port}/`);
+const names=fs.readdirSync(path.join(root,'assets/assets/sounds')).filter(x=>x.endsWith('.wav'));
+const results=await page.evaluate(async names=>{const context=new AudioContext(),results=[];for(const name of names){const response=await fetch('/assets/assets/sounds/'+name),buf=await context.decodeAudioData(await response.arrayBuffer());
+const audio=new Audio('/assets/assets/sounds/'+name);audio.volume=0.8;const ended=new Promise((resolve,reject)=>{audio.onended=()=>resolve(true);audio.onerror=()=>reject(new Error(name+' unreadable'));setTimeout(()=>reject(new Error(name+' timed out')),7000)});await audio.play();await ended;
+results.push({name,loaded:response.ok,seconds:buf.duration,sampleRate:buf.sampleRate,channels:buf.numberOfChannels,playEnded:true});}await context.close();return results},names);
+fs.writeFileSync(path.join(qaWork,'../outputs/mobile-chrono/checks/browser-audio.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results));await browser.close();server.kill();})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,3 @@
+scripts/test-sound-identity.ts(4,24): error TS2304: Cannot find name '__dirname'.
+scripts/test-sound-identity.ts(30,26): error TS2591: Cannot find name 'Buffer'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/test-sound-identity.ts(30,47): error TS2591: Cannot find name 'Buffer'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.

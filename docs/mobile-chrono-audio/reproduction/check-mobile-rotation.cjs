@@ -1,0 +1,12 @@
+const qaWork=process.env.ROUNDR_QA_WORK;if(!qaWork)throw Error("Set ROUNDR_QA_WORK");
+const {chromium}=require(process.env.ROUNDR_PLAYWRIGHT_MODULE||'C:/Users/denoe/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('fs'),path=require('path'),cp=require('child_process'),assert=require('assert/strict');
+(async()=>{fs.mkdirSync(path.join(qaWork,"../outputs/mobile-chrono/checks"),{recursive:true});const server=cp.spawn(process.execPath,[path.join(__dirname,'serve-phase3b.cjs'),path.join(qaWork,'mobile-chrono-after'),'8187'],{stdio:'ignore'});process.on('exit',()=>server.kill());await new Promise(r=>setTimeout(r,1000));
+const browser=await chromium.launch({headless:true,channel:'msedge'}),results=[];
+for(const [mode,route] of [['classique','phase3qa?scenario=classic-paused-remaining'],['maracana','phase3qa?scenario=mara-running-ring'],['cup','phase3bqa?scenario=cup-paused'],['survie','phase3bqa?scenario=survie-final'],['libre','phase4bqa?kind=intervals&state=paused&teams=8']]){
+const context=await browser.newContext({viewport:{width:320,height:568}}),page=await context.newPage();await page.goto('http://127.0.0.1:8187/'+route);await page.waitForTimeout(700);
+const read=()=>page.evaluate(()=>({time:document.querySelector('[data-testid="match-digits"],[data-testid="free-digits"]')?.getAttribute('aria-label'),scores:document.querySelector('[data-testid="match-scoreboard"]')?.textContent,keys:Object.keys(localStorage).filter(x=>x.startsWith('roundr.')).sort().map(k=>[k,localStorage.getItem(k)])}));
+const before=await read();assert.ok(before.time);await page.getByRole(mode==='libre'?'tab':'button',{name:mode==='libre'?'Circulaire':'Chrono circulaire',exact:true}).click();await page.waitForTimeout(350);
+const selected=await read();for(const viewport of [{width:568,height:320},{width:320,height:568}]){await page.setViewportSize(viewport);await page.waitForTimeout(500);const rotated=await read();assert.equal(rotated.time,selected.time);assert.equal(rotated.scores,selected.scores);assert.deepEqual(rotated.keys,selected.keys);}
+results.push({mode,portraitLandscapePortrait:true,timeAndScoresUnchanged:true,persistedBytesUnchanged:true});await context.close();}
+await browser.close();server.kill();fs.writeFileSync(path.join(qaWork,'../outputs/mobile-chrono/checks/rotation.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results));})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,32 @@
+[
+  {
+    "mode": "classique",
+    "portraitLandscapePortrait": true,
+    "timeAndScoresUnchanged": true,
+    "persistedBytesUnchanged": true
+  },
+  {
+    "mode": "maracana",
+    "portraitLandscapePortrait": true,
+    "timeAndScoresUnchanged": true,
+    "persistedBytesUnchanged": true
+  },
+  {
+    "mode": "cup",
+    "portraitLandscapePortrait": true,
+    "timeAndScoresUnchanged": true,
+    "persistedBytesUnchanged": true
+  },
+  {
+    "mode": "survie",
+    "portraitLandscapePortrait": true,
+    "timeAndScoresUnchanged": true,
+    "persistedBytesUnchanged": true
+  },
+  {
+    "mode": "libre",
+    "portraitLandscapePortrait": true,
+    "timeAndScoresUnchanged": true,
+    "persistedBytesUnchanged": true
+  }
+]
