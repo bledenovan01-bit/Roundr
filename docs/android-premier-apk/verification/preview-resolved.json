@@ -1,0 +1,10 @@
+{
+  "credentialsSource": "remote",
+  "distribution": "internal",
+  "developmentClient": false,
+  "environment": "preview",
+  "autoIncrement": false,
+  "buildType": "apk",
+  "image": "sdk-57",
+  "resourceClass": "medium"
+}

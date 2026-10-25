@@ -1,0 +1,37 @@
+[
+  {
+    "name": "typescript",
+    "exit": 0,
+    "seconds": 26
+  },
+  {
+    "name": "eslint",
+    "exit": 0,
+    "seconds": 89
+  },
+  {
+    "name": "tests",
+    "exit": 0,
+    "seconds": 27
+  },
+  {
+    "name": "syntax",
+    "exit": 0,
+    "seconds": 6
+  },
+  {
+    "name": "dependencies",
+    "exit": 0,
+    "seconds": 6
+  },
+  {
+    "name": "doctor",
+    "exit": 0,
+    "seconds": 51
+  },
+  {
+    "name": "export-all",
+    "exit": 0,
+    "seconds": 202
+  }
+]

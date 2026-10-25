@@ -1,0 +1,110 @@
+[
+  {
+    "route": "/",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/classique",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/maracana",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/cup",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/survie",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/chrono-libre",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/classique",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/maracana",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/cup",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/config/survie",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "loaded": true,
+    "errors": []
+  },
+  {
+    "route": "/chrono-libre",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "loaded": true,
+    "errors": []
+  }
+]
