@@ -116,7 +116,7 @@ export function useLovableConfigCards({ config, onChange, teams, onTeams, extra 
   return cards;
 }
 export function Jersey({ color, size = 32 }: { color: string; size?: number }) {
-  return <Svg width={size} height={size} viewBox="0 0 52 54" fill="none" accessible={false} aria-hidden><Path d="M17 4.5 11 7 2.8 15.7 8.7 23l5.2-3.4V48c0 1.2 1 2.2 2.2 2.2h19.8c1.2 0 2.2-1 2.2-2.2V19.6l5.2 3.4 5.9-7.3L41 7l-6-2.5c-2 3.1-5.1 4.7-9 4.7s-7-1.6-9-4.7Z" fill={color} stroke={c.foreground} strokeOpacity={.35} strokeWidth={1.4} strokeLinejoin="round" /><Path d="M17 4.5c2 3.1 5.1 4.7 9 4.7s7-1.6 9-4.7" stroke={c.background} strokeWidth={2.7} strokeLinecap="round" /><Path d="M2.8 15.7 8.7 23l5.2-3.4m24.2 0 5.2 3.4 5.9-7.3" stroke={c.foreground} strokeOpacity={.22} strokeWidth={1.2} /></Svg>;
+  return <Svg width={size} height={size} viewBox="0 0 52 54" fill="none" aria-hidden={true}><Path d="M17 4.5 11 7 2.8 15.7 8.7 23l5.2-3.4V48c0 1.2 1 2.2 2.2 2.2h19.8c1.2 0 2.2-1 2.2-2.2V19.6l5.2 3.4 5.9-7.3L41 7l-6-2.5c-2 3.1-5.1 4.7-9 4.7s-7-1.6-9-4.7Z" fill={color} stroke={c.foreground} strokeOpacity={.35} strokeWidth={1.4} strokeLinejoin="round" /><Path d="M17 4.5c2 3.1 5.1 4.7 9 4.7s7-1.6 9-4.7" stroke={c.background} strokeWidth={2.7} strokeLinecap="round" /><Path d="M2.8 15.7 8.7 23l5.2-3.4m24.2 0 5.2 3.4 5.9-7.3" stroke={c.foreground} strokeOpacity={.22} strokeWidth={1.2} /></Svg>;
 }
 export function TeamError({ children }: { children: ReactNode }) {
   return <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}><Mark name="warning" color={c.error} /><Text accessibilityRole="alert" style={s.error}>{children}</Text></View>;

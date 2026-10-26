@@ -74,7 +74,7 @@ export function MatchIcon({
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
-      accessible={false}
+      
       aria-hidden
     >
       {name === "home" ? (
@@ -604,7 +604,7 @@ export function MatchCarousel({
                         height={dialSize}
                         viewBox="0 0 140 140"
                         aria-hidden
-                        accessible={false}
+                        
                       >
                         <G transform="rotate(-90 70 70)">
                           <Circle
