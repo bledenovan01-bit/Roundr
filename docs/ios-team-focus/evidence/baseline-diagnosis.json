@@ -1,0 +1,130 @@
+[
+  {
+    "mode": "classique",
+    "focusedBefore": true,
+    "moved": {
+      "before": 159,
+      "after": 135,
+      "scrollHeight": 960,
+      "clientHeight": 682
+    },
+    "afterScroll": {
+      "focused": false,
+      "sameNode": true,
+      "connected": true
+    },
+    "widthBefore": 350,
+    "widthAfter": 169,
+    "trace": [
+      {
+        "kind": "focusin",
+        "label": "Nom de l'équipe 1"
+      },
+      {
+        "kind": "blur-call",
+        "label": "Nom de l'équipe 1",
+        "stack": "Error\n    at HTMLElement.blur (<anonymous>:2:203)\n    at Object.blur (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:171:787)\n    at Object.blurTextInput (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:256:603)\n    at l (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:255:239)\n    at _handleScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:254:5579)\n    at k (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1498)\n    at P (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1440)\n    at onScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1880)\n    at mf (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:132438)\n    at http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:137397"
+      },
+      {
+        "kind": "focusout",
+        "label": "Nom de l'équipe 1"
+      }
+    ]
+  },
+  {
+    "mode": "maracana",
+    "focusedBefore": true,
+    "moved": {
+      "before": 530,
+      "after": 506,
+      "scrollHeight": 1217,
+      "clientHeight": 682
+    },
+    "afterScroll": {
+      "focused": false,
+      "sameNode": true,
+      "connected": true
+    },
+    "widthBefore": 350,
+    "widthAfter": 169,
+    "trace": [
+      {
+        "kind": "focusin",
+        "label": "Nom de l'équipe 1"
+      },
+      {
+        "kind": "blur-call",
+        "label": "Nom de l'équipe 1",
+        "stack": "Error\n    at HTMLElement.blur (<anonymous>:2:203)\n    at Object.blur (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:171:787)\n    at Object.blurTextInput (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:256:603)\n    at l (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:255:239)\n    at _handleScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:254:5579)\n    at k (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1498)\n    at P (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1440)\n    at onScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1880)\n    at mf (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:132438)\n    at http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:137397"
+      },
+      {
+        "kind": "focusout",
+        "label": "Nom de l'équipe 1"
+      }
+    ]
+  },
+  {
+    "mode": "cup",
+    "focusedBefore": true,
+    "moved": {
+      "before": 1098,
+      "after": 1074,
+      "scrollHeight": 2175,
+      "clientHeight": 682
+    },
+    "afterScroll": {
+      "focused": false,
+      "sameNode": true,
+      "connected": true
+    },
+    "widthBefore": 350,
+    "widthAfter": 350,
+    "trace": [
+      {
+        "kind": "focusin",
+        "label": "Nom de l'équipe 1"
+      },
+      {
+        "kind": "blur-call",
+        "label": "Nom de l'équipe 1",
+        "stack": "Error\n    at HTMLElement.blur (<anonymous>:2:203)\n    at Object.blur (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:171:787)\n    at Object.blurTextInput (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:256:603)\n    at l (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:255:239)\n    at _handleScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:254:5579)\n    at k (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1498)\n    at P (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1440)\n    at onScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1880)\n    at mf (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:132438)\n    at http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:137397"
+      },
+      {
+        "kind": "focusout",
+        "label": "Nom de l'équipe 1"
+      }
+    ]
+  },
+  {
+    "mode": "survie",
+    "focusedBefore": true,
+    "moved": {
+      "before": 842,
+      "after": 818,
+      "scrollHeight": 1955,
+      "clientHeight": 682
+    },
+    "afterScroll": {
+      "focused": false,
+      "sameNode": true,
+      "connected": true
+    },
+    "widthBefore": 350,
+    "widthAfter": 350,
+    "trace": [
+      {
+        "kind": "focusin",
+        "label": "Nom de l'équipe 1"
+      },
+      {
+        "kind": "blur-call",
+        "label": "Nom de l'équipe 1",
+        "stack": "Error\n    at HTMLElement.blur (<anonymous>:2:203)\n    at Object.blur (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:171:787)\n    at Object.blurTextInput (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:256:603)\n    at l (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:255:239)\n    at _handleScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:254:5579)\n    at k (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1498)\n    at P (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1440)\n    at onScroll (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:257:1880)\n    at mf (http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:132438)\n    at http://127.0.0.1:64594/_expo/static/js/web/entry-8b520f0c65d3c2dfef0d2f9f05f20ef4.js:212:137397"
+      },
+      {
+        "kind": "focusout",
+        "label": "Nom de l'équipe 1"
+      }
+    ]
+  }
+]

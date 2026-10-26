@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 import { lovable } from "@/src/visual/lovable";
 
 // The reference's CSS radial gradients, rendered natively rather than as photos.
 export function LovableBackground({ intro = false }: { intro?: boolean }) {
-  return <Svg style={StyleSheet.absoluteFill} width="100%" height="100%" pointerEvents="none" aria-hidden={true}>
+  return <Svg style={[StyleSheet.absoluteFill, Platform.OS === "web" && { pointerEvents: "none" }]} width="100%" height="100%" pointerEvents={Platform.OS === "web" ? undefined : "none"} aria-hidden={true}>
     <Defs><RadialGradient id={intro ? "intro-glow" : "home-glow"} cx="50%" cy={intro ? "0%" : "25%"} rx={intro ? "120%" : "80%"} ry={intro ? "55%" : "30%"}>
       <Stop offset="0" stopColor={intro ? lovable.introGlow : lovable.homeGlow} stopOpacity={intro ? 0.5 : 0.12} />
       <Stop offset={intro ? "65%" : "100%"} stopColor={intro ? lovable.introGlow : lovable.homeGlow} stopOpacity="0" />

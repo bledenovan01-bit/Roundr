@@ -1,5 +1,6 @@
 import { isValidElement, useState, type ReactNode } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { useFormWindowDimensions } from "@/src/hooks/use-form-window-dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Circle, Line, Path } from "react-native-svg";
 import type { ClassicConfig, MaracanaConfig, Team } from "@/src/domain/types";
@@ -14,18 +15,18 @@ const bold = "ManropeRefined-Bold";
 const rectText = { includeFontPadding: false } as const;
 export function Mark({ name, color = c.foreground, size: customSize }: { name: "play" | "minus" | "plus" | "info" | "warning"; color?: string; size?: number }) {
   const size = customSize ?? (name === "play" ? 18 : name === "warning" ? 14 : 16);
-  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" accessible={false} aria-hidden>
+  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden={true}>
     {name === "play" ? <Path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" fill={color} /> : name === "warning" ? <><Path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><Path d="M12 9v4M12 17h.01" /></> : name === "info" ? <><Circle cx="12" cy="12" r="10" /><Path d="M12 16v-4M12 8h.01" /></> : <><Line x1="5" x2="19" y1="12" y2="12" />{name === "plus" ? <Line x1="12" x2="12" y1="5" y2="19" /> : null}</>}
   </Svg>;
 }
 export function ConfigAction({ label, onPress, disabled = false, primary = false, testID, importTeams = false }: { label: string; onPress: () => void; disabled?: boolean; primary?: boolean; testID?: string; importTeams?: boolean }) {
-  const { width, height } = useWindowDimensions();
-  return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [s.action, { minHeight: primary ? width > height ? 48 : 56 : importTeams ? 44 : 50, backgroundColor: primary ? c.primary : c.cardRaised, opacity: disabled ? .4 : 1, borderWidth: primary ? 0 : 1 }, pressed && s.pressed]}>
+  const { landscape } = useFormWindowDimensions();
+  return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [s.action, { minHeight: primary ? landscape ? 48 : 56 : importTeams ? 44 : 50, backgroundColor: primary ? c.primary : c.cardRaised, opacity: disabled ? .4 : 1, borderWidth: primary ? 0 : 1 }, pressed && s.pressed]}>
     {primary ? <Mark name="play" color={c.onPrimary} /> : importTeams ? <LovableIcon name="users" color={c.foreground} /> : null}<Text style={[s.actionText, { color: primary ? c.onPrimary : c.foreground, fontSize: primary ? 16 : 14, lineHeight: primary ? 160 / 7 : 20, fontFamily: primary ? f.extrabold : bold }]}>{label}</Text>
   </Pressable>;
 }
 export function LovableConfigFrame({ mode, onBack, onLaunch, disabled, children }: { mode: Config["mode"]; onBack: () => void; onLaunch: () => void; disabled: boolean; children: ReactNode }) {
-  const { width, height } = useWindowDimensions(), inset = useSafeAreaInsets(), landscape = width > height;
+  const { width, landscape } = useFormWindowDimensions(), inset = useSafeAreaInsets();
   const cardWidth = landscape ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40;
   return <KeyboardAvoidingView style={s.screen} behavior={Platform.OS === "ios" ? "padding" : "height"}>
     <LovableBackground />
@@ -33,7 +34,8 @@ export function LovableConfigFrame({ mode, onBack, onLaunch, disabled, children 
       <Pressable testID="config-back" accessibilityRole="button" accessibilityLabel="Retour" onPress={onBack} style={s.back}><LovableIcon name="back" color={c.foreground} size={20} /></Pressable>
       <View style={{ flex: 1, minWidth: 0 }}><Text testID="config-title" accessibilityRole="header" numberOfLines={1} style={s.title}>{mode === "classique" ? "Match classique" : "Maracana"}</Text><Text style={s.subtitle}>Paramètres</Text></View><View style={{ width: 44 }} />
     </View>
-    <ScrollView testID="config-scroll" style={{ flex: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 6, paddingLeft: 20 + inset.left, paddingRight: 20 + inset.right, paddingBottom: Math.max(16, inset.bottom), gap: 12, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
+    {/* RN Web's on-drag blurs inputs on every scroll, including focus/keyboard scrolling. */}
+    <ScrollView testID="config-scroll" style={{ flex: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode={Platform.OS === "web" ? "none" : "on-drag"} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 6, paddingLeft: 20 + inset.left, paddingRight: 20 + inset.right, paddingBottom: Math.max(16, inset.bottom), gap: 12, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
       <View testID="config-intro" style={[s.intro, { width: "100%" }]}><View style={[s.modeIcon, { backgroundColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .16), borderColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .35) }]}><LovableIcon name={mode === "classique" ? "pitch" : "refresh"} color={mode === "classique" ? c.classic : c.maracana} size={22} /></View><Text style={s.introText}>{mode === "classique" ? "Un match simple entre deux équipes, avec ou sans mi-temps." : "Les équipes tournent à chaque match. Les deux équipes en attente entrent, celles qui sortent repassent en fin de file."}</Text></View>
       {(children as ReactNode[]).filter(Boolean).map((child, i) => <View key={isValidElement(child) ? child.key ?? i : i} style={{ width: cardWidth }}>{child}</View>)}
     </ScrollView>
@@ -88,9 +90,9 @@ function CompositionPicker({ config, onUse }: { config: Config; onUse: (teams: T
   </View>;
 }
 export function useLovableConfigCards({ config, onChange, teams, onTeams, extra }: { config: Config; onChange: (config: Config) => void; teams: Team[]; onTeams: (teams: Team[]) => void; extra?: ReactNode }): ReactNode[] {
-  const { width, height } = useWindowDimensions(), inset = useSafeAreaInsets();
+  const { width, landscape } = useFormWindowDimensions(), inset = useSafeAreaInsets();
   const [rememberedGoals, setRememberedGoals] = useState(config.mode === "maracana" ? config.end.goalTarget ?? 3 : 3);
-  const compact = (width > height ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40) - 30 <= 360;
+  const compact = (landscape ? (width - inset.left - inset.right - 52) / 2 : width - inset.left - inset.right - 40) - 30 <= 360;
   const cards: ReactNode[] = [];
   const duration = config.mode === "classique" ? config.totalMin : config.matchMin;
   cards.push(<Duration key="duration" mode={config.mode} value={duration} compact={compact} onChange={n => onChange(config.mode === "classique" ? { ...config, totalMin: n } : { ...config, matchMin: n })} />);
@@ -114,7 +116,7 @@ export function useLovableConfigCards({ config, onChange, teams, onTeams, extra 
   return cards;
 }
 export function Jersey({ color, size = 32 }: { color: string; size?: number }) {
-  return <Svg width={size} height={size} viewBox="0 0 52 54" fill="none" accessible={false} aria-hidden><Path d="M17 4.5 11 7 2.8 15.7 8.7 23l5.2-3.4V48c0 1.2 1 2.2 2.2 2.2h19.8c1.2 0 2.2-1 2.2-2.2V19.6l5.2 3.4 5.9-7.3L41 7l-6-2.5c-2 3.1-5.1 4.7-9 4.7s-7-1.6-9-4.7Z" fill={color} stroke={c.foreground} strokeOpacity={.35} strokeWidth={1.4} strokeLinejoin="round" /><Path d="M17 4.5c2 3.1 5.1 4.7 9 4.7s7-1.6 9-4.7" stroke={c.background} strokeWidth={2.7} strokeLinecap="round" /><Path d="M2.8 15.7 8.7 23l5.2-3.4m24.2 0 5.2 3.4 5.9-7.3" stroke={c.foreground} strokeOpacity={.22} strokeWidth={1.2} /></Svg>;
+  return <Svg width={size} height={size} viewBox="0 0 52 54" fill="none" aria-hidden={true}><Path d="M17 4.5 11 7 2.8 15.7 8.7 23l5.2-3.4V48c0 1.2 1 2.2 2.2 2.2h19.8c1.2 0 2.2-1 2.2-2.2V19.6l5.2 3.4 5.9-7.3L41 7l-6-2.5c-2 3.1-5.1 4.7-9 4.7s-7-1.6-9-4.7Z" fill={color} stroke={c.foreground} strokeOpacity={.35} strokeWidth={1.4} strokeLinejoin="round" /><Path d="M17 4.5c2 3.1 5.1 4.7 9 4.7s7-1.6 9-4.7" stroke={c.background} strokeWidth={2.7} strokeLinecap="round" /><Path d="M2.8 15.7 8.7 23l5.2-3.4m24.2 0 5.2 3.4 5.9-7.3" stroke={c.foreground} strokeOpacity={.22} strokeWidth={1.2} /></Svg>;
 }
 export function TeamError({ children }: { children: ReactNode }) {
   return <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}><Mark name="warning" color={c.error} /><Text accessibilityRole="alert" style={s.error}>{children}</Text></View>;

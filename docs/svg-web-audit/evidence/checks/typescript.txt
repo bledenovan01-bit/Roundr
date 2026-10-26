@@ -1,0 +1,4 @@
+src/components/lovable/free-clock.tsx(101,14): error TS2322: Type '{ children: Element[]; transform: string; rotation?: undefined; origin?: undefined; } | { children: Element[]; rotation: number; origin: string; transform?: undefined; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<G<{ children: Element[]; transform: string; rotation?: undefined; origin?: undefined; }>> & Readonly<...>'.
+  Type '{ children: Element[]; rotation: number; origin: string; transform?: undefined; }' is not assignable to type 'Readonly<GProps & { children: Element[]; transform: string; rotation?: undefined; origin?: undefined; }>'.
+    Types of property 'origin' are incompatible.
+      Type 'string' is not assignable to type 'undefined'.

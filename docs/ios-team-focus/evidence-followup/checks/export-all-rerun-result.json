@@ -1,0 +1,1 @@
+{"command":"expo export --platform all --output-dir ../../ios-focus-followup-production","exit":0,"temporaryDirectory":"workspace/work/ios-focus-hermes-temp","note":"Rerun after initial Hermes temporary-file permission failure; no source/configuration change"}

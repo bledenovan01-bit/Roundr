@@ -1,0 +1,1933 @@
+{
+  "developmentCases": 85,
+  "pageErrors": 0,
+  "consoleErrors": 0,
+  "invalidSvgAttributes": 0,
+  "remainingWarnings": [
+    "props.pointerEvents is deprecated. Use style.pointerEvents",
+    "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+  ],
+  "cases": [
+    {
+      "name": "classique-config",
+      "group": "after",
+      "route": "/config/classique",
+      "renderedRoute": "/config/classique",
+      "headings": [
+        "Match classique",
+        "Temps de jeu",
+        "Format",
+        "Temps additionnel",
+        "Score",
+        "Personnaliser les équipes",
+        "Sons / effets"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 10,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "classique-ready",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "MATCH CLASSIQUE"
+      ],
+      "actions": [],
+      "svgCount": 7,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "classique-running",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "MATCH CLASSIQUE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "classique-paused",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "MATCH CLASSIQUE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "classique-break",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Résultat"
+      ],
+      "actions": [],
+      "svgCount": 5,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "classique-result",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Résultat"
+      ],
+      "actions": [],
+      "svgCount": 5,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "maracana-config",
+      "group": "after",
+      "route": "/config/maracana",
+      "renderedRoute": "/config/maracana",
+      "headings": [
+        "Maracana",
+        "Durée des matchs",
+        "Fin du match",
+        "Lancement du prochain match",
+        "Règle de rotation",
+        "Nombre d'équipes",
+        "Personnaliser les équipes",
+        "Sons / effets"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 11,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "maracana-ready",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "MARACANA"
+      ],
+      "actions": [],
+      "svgCount": 9,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "maracana-running",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "MARACANA"
+      ],
+      "actions": [],
+      "svgCount": 12,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "maracana-paused",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "MARACANA"
+      ],
+      "actions": [],
+      "svgCount": 12,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "maracana-result",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "MARACANA"
+      ],
+      "actions": [],
+      "svgCount": 26,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-config",
+      "group": "after",
+      "route": "/config/cup",
+      "renderedRoute": "/config/cup",
+      "headings": [
+        "Cup",
+        "Nom de la compétition",
+        "Nombre d'équipes",
+        "Durée des matchs de poule",
+        "Fin du match",
+        "Lancement du prochain match",
+        "Poules",
+        "Durées spécifiques par tour",
+        "Temps additionnel en poules",
+        "Petite finale",
+        "Gestion des égalités",
+        "Personnaliser les équipes"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 21,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-hub",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Cup",
+        "Rencontres"
+      ],
+      "actions": [],
+      "svgCount": 6,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-ready",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "CUP"
+      ],
+      "actions": [],
+      "svgCount": 9,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-running",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "CUP"
+      ],
+      "actions": [],
+      "svgCount": 12,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-paused",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "CUP"
+      ],
+      "actions": [],
+      "svgCount": 12,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-result",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "CUP"
+      ],
+      "actions": [],
+      "svgCount": 18,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-summary",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Tournoi interrompu",
+        "Nom de la compétition",
+        "Statistiques",
+        "Tableau final",
+        "Poule A",
+        "Poule B",
+        "Rencontres"
+      ],
+      "actions": [],
+      "svgCount": 4,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-history",
+      "group": "after",
+      "route": "/history",
+      "renderedRoute": "/history",
+      "headings": [
+        "Cup du 26/10/2026",
+        "Statistiques",
+        "Tableau final",
+        "Poule A",
+        "Poule B",
+        "Rencontres",
+        "Équipes participantes"
+      ],
+      "actions": [
+        "open-archived-summary"
+      ],
+      "svgCount": 5,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-config",
+      "group": "after",
+      "route": "/config/survie",
+      "renderedRoute": "/config/survie",
+      "headings": [
+        "Survie",
+        "Nom de la compétition",
+        "Nombre d'équipes",
+        "Durée des matchs",
+        "Fin du match",
+        "Lancement du prochain match",
+        "Tirage",
+        "Durées spécifiques par tour",
+        "Match pour la 3e place",
+        "Gestion des égalités",
+        "Personnaliser les équipes",
+        "Sons / effets"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 17,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-hub",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Survie",
+        "Tableau final"
+      ],
+      "actions": [],
+      "svgCount": 6,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-ready",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "SURVIE"
+      ],
+      "actions": [],
+      "svgCount": 9,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-running",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "SURVIE"
+      ],
+      "actions": [],
+      "svgCount": 12,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-paused",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "SURVIE"
+      ],
+      "actions": [],
+      "svgCount": 12,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-result",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "SURVIE"
+      ],
+      "actions": [],
+      "svgCount": 18,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-summary",
+      "group": "after",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Tournoi interrompu",
+        "Nom de la compétition",
+        "Statistiques",
+        "Tableau final",
+        "Rencontres"
+      ],
+      "actions": [],
+      "svgCount": 4,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-history",
+      "group": "after",
+      "route": "/history",
+      "renderedRoute": "/history",
+      "headings": [
+        "Survie du 26/10/2026",
+        "Statistiques",
+        "Tableau final",
+        "Rencontres",
+        "Équipes participantes"
+      ],
+      "actions": [
+        "open-archived-summary"
+      ],
+      "svgCount": 5,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-config",
+      "group": "after",
+      "route": "/chrono-libre/stopwatch",
+      "renderedRoute": "/chrono-libre/stopwatch",
+      "headings": [
+        "Chronomètre",
+        "Chronomètre",
+        "Avec équipes"
+      ],
+      "actions": [],
+      "svgCount": 4,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-ready-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-ready-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-ready-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-running-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-running-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-running-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-paused-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-paused-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-paused-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-config",
+      "group": "after",
+      "route": "/chrono-libre/countdown",
+      "renderedRoute": "/chrono-libre/countdown",
+      "headings": [
+        "Compte à rebours",
+        "Durée",
+        "Signal de fin",
+        "Avec équipes"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-ready-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-ready-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-ready-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-running-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-running-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-running-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-paused-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-paused-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-paused-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-finished-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-finished-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-finished-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-config",
+      "group": "after",
+      "route": "/chrono-libre/interval",
+      "renderedRoute": "/chrono-libre/interval",
+      "headings": [
+        "Intervalles",
+        "Programmes rapides",
+        "Périodes",
+        "Repos et répétitions",
+        "Passage à la période suivante",
+        "Avec équipes"
+      ],
+      "actions": [],
+      "svgCount": 13,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-ready-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-ready-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-ready-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-running-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-running-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-running-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-paused-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-paused-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-paused-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-finished-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-finished-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-finished-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-waiting-numeric",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 9,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-waiting-analog",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 9,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-waiting-circular",
+      "group": "after",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 9,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "shared-_",
+      "group": "after",
+      "route": "/",
+      "renderedRoute": "/",
+      "headings": [
+        "Plus de jeu.\nMoins d'organisation."
+      ],
+      "actions": [],
+      "svgCount": 2,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "shared-_history",
+      "group": "after",
+      "route": "/history",
+      "renderedRoute": "/history",
+      "headings": [
+        "Historique",
+        "Aucune compétition enregistrée"
+      ],
+      "actions": [],
+      "svgCount": 3,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "shared-_teams",
+      "group": "after",
+      "route": "/teams",
+      "renderedRoute": "/teams",
+      "headings": [
+        "Équipes"
+      ],
+      "actions": [],
+      "svgCount": 0,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "shared-_team-builder",
+      "group": "after",
+      "route": "/team-builder",
+      "renderedRoute": "/team-builder",
+      "headings": [
+        "Faire les équipes",
+        "Joueurs",
+        "Nombre d'équipes"
+      ],
+      "actions": [],
+      "svgCount": 6,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "shared-_settings",
+      "group": "after",
+      "route": "/settings",
+      "renderedRoute": "/settings",
+      "headings": [
+        "Paramètres",
+        "Sons et effets",
+        "Vibrations",
+        "Écran toujours allumé",
+        "À propos"
+      ],
+      "actions": [],
+      "svgCount": 3,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "shared-_chrono-libre",
+      "group": "after",
+      "route": "/chrono-libre",
+      "renderedRoute": "/chrono-libre",
+      "headings": [
+        "Chrono libre"
+      ],
+      "actions": [],
+      "svgCount": 7,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "shared-_chrono-libre_presets",
+      "group": "after",
+      "route": "/chrono-libre/presets",
+      "renderedRoute": "/chrono-libre/presets",
+      "headings": [
+        "Mes chronos"
+      ],
+      "actions": [],
+      "svgCount": 3,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-champion",
+      "group": "extra",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Palmarès",
+        "Nom de la compétition",
+        "Podium",
+        "Statistiques",
+        "Tableau final",
+        "Poule A",
+        "Poule B",
+        "Rencontres"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-champion-history",
+      "group": "extra",
+      "route": "/history",
+      "renderedRoute": "/history",
+      "headings": [
+        "Cup du 26/10/2026",
+        "Podium",
+        "Statistiques",
+        "Tableau final",
+        "Poule A",
+        "Poule B",
+        "Rencontres",
+        "Équipes participantes"
+      ],
+      "actions": [
+        "open-archived-summary"
+      ],
+      "svgCount": 9,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-shootout",
+      "group": "extra",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "SURVIE",
+        "Tirs au but"
+      ],
+      "actions": [],
+      "svgCount": 19,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-champion",
+      "group": "extra",
+      "route": "/live",
+      "renderedRoute": "/live",
+      "headings": [
+        "Palmarès",
+        "Nom de la compétition",
+        "Podium",
+        "Statistiques",
+        "Tableau final",
+        "Rencontres"
+      ],
+      "actions": [],
+      "svgCount": 7,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-champion-history",
+      "group": "extra",
+      "route": "/history",
+      "renderedRoute": "/history",
+      "headings": [
+        "Survie du 26/10/2026",
+        "Podium",
+        "Statistiques",
+        "Tableau final",
+        "Rencontres",
+        "Équipes participantes"
+      ],
+      "actions": [
+        "open-archived-summary"
+      ],
+      "svgCount": 8,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "classique-config",
+      "group": "landscape",
+      "route": "/config/classique",
+      "renderedRoute": "/config/classique",
+      "headings": [
+        "Match classique",
+        "Temps de jeu",
+        "Format",
+        "Temps additionnel",
+        "Score",
+        "Personnaliser les équipes",
+        "Sons / effets"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 10,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "maracana-config",
+      "group": "landscape",
+      "route": "/config/maracana",
+      "renderedRoute": "/config/maracana",
+      "headings": [
+        "Maracana",
+        "Durée des matchs",
+        "Fin du match",
+        "Lancement du prochain match",
+        "Règle de rotation",
+        "Nombre d'équipes",
+        "Personnaliser les équipes",
+        "Sons / effets"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 11,
+      "messages": [],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "cup-config",
+      "group": "landscape",
+      "route": "/config/cup",
+      "renderedRoute": "/config/cup",
+      "headings": [
+        "Cup",
+        "Nom de la compétition",
+        "Nombre d'équipes",
+        "Durée des matchs de poule",
+        "Fin du match",
+        "Lancement du prochain match",
+        "Poules",
+        "Durées spécifiques par tour",
+        "Temps additionnel en poules",
+        "Petite finale",
+        "Gestion des égalités",
+        "Personnaliser les équipes"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 21,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "survie-config",
+      "group": "landscape",
+      "route": "/config/survie",
+      "renderedRoute": "/config/survie",
+      "headings": [
+        "Survie",
+        "Nom de la compétition",
+        "Nombre d'équipes",
+        "Durée des matchs",
+        "Fin du match",
+        "Lancement du prochain match",
+        "Tirage",
+        "Durées spécifiques par tour",
+        "Match pour la 3e place",
+        "Gestion des égalités",
+        "Personnaliser les équipes",
+        "Sons / effets"
+      ],
+      "actions": [
+        "open-team-palette"
+      ],
+      "svgCount": 17,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-stopwatch-ready-analog",
+      "group": "landscape",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-countdown-ready-circular",
+      "group": "landscape",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 8,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    },
+    {
+      "name": "free-interval-running-numeric",
+      "group": "landscape",
+      "route": "/chrono-libre/run",
+      "renderedRoute": "/chrono-libre/run",
+      "headings": [
+        "CHRONO LIBRE"
+      ],
+      "actions": [],
+      "svgCount": 10,
+      "messages": [
+        {
+          "type": "warning",
+          "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+        },
+        {
+          "type": "warning",
+          "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+        }
+      ],
+      "errors": [],
+      "badAttributes": []
+    }
+  ]
+}

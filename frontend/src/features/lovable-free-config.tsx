@@ -1,3 +1,4 @@
+import { decorativeSvgAccessibility } from "@/src/components/svg-compat";
 import {
   readFreeDraft,
   rememberFreeDraft,
@@ -103,7 +104,7 @@ function FreeIcon({
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      accessible={false}
+      {...decorativeSvgAccessibility}
     >
       <Path d={paths[name]} />
     </Svg>

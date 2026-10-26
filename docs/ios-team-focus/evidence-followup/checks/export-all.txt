@@ -1,0 +1,130 @@
+Starting Metro Bundler
+
+| (node:29892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:29892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+Web Bundled 20487ms node_modules\expo-router\entry.js (1532 modules)
+
+Failed to generate Hermes bytecode for: C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\Roundr\frontend\node_modules\expo-router\entry.js
+
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:869:13: warning: the variable "Promise" was not declared in anonymous function
+    var z = Promise,
+            ^~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:4580:38: warning: the variable "setTimeout" was not declared in anonymous arrow function
+    setTimeout: (callback, delay) => setTimeout(callback, delay),
+                                     ^~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:4581:32: warning: the variable "clearTimeout" was not declared in anonymous arrow function
+    clearTimeout: timeoutId => clearTimeout(timeoutId),
+                               ^~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:4582:39: warning: the variable "setInterval" was not declared in anonymous arrow function
+    setInterval: (callback, delay) => setInterval(callback, delay),
+                                      ^~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:4583:34: warning: the variable "clearInterval" was not declared in anonymous arrow function
+    clearInterval: intervalId => clearInterval(intervalId)
+                                 ^~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:20021:9: warning: the variable "REACT_NAVIGATION_DEVTOOLS" was not declared in anonymous arrow function
+        REACT_NAVIGATION_DEVTOOLS.set(refContainer.current, {
+        ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:21257:11: warning: the variable "requestAnimationFrame" was not declared in anonymous arrow function
+          requestAnimationFrame(() => {
+          ^~~~~~~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:22042:23: warning: the variable "URLSearchParams" was not declared in anonymous function
+    searchParams: new URLSearchParams(),
+                      ^~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:22415:16: warning: the variable "URL" was not declared in function "parseUrlUsingCustomBase"
+    return new URL(href, 'file:');
+               ^~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:22922:16: warning: Direct call to eval(), but lexical scope is not supported.
+        return eval(body);
+               ^~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:24048:11: warning: the variable "cancelAnimationFrame" was not declared in anonymous arrow function
+          cancelAnimationFrame(animationFrame);
+          ^~~~~~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:27087:26: warning: the variable "fetch" was not declared in function "fetchLoader"
+    var response = await fetch(loaderPath, {
+                         ^~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:31677:26: warning: the variable "ResizeObserver" was not declared in anonymous arrow function
+      var observer = new ResizeObserver(entries => {
+                         ^~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:32727:16: warning: the variable "requestIdleCallback" was not declared in anonymous arrow function
+      var id = requestIdleCallback(() => {
+               ^~~~~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:32730:20: warning: the variable "cancelIdleCallback" was not declared in anonymous arrow function
+      return () => cancelIdleCallback(id);
+                   ^~~~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:44504:21: warning: the variable "Image" was not declared in anonymous arrow function
+      var img = new Image();
+                    ^~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:84820:57: warning: the variable "AbortSignal" was not declared in anonymous function
+        if (signal !== undefined && !(signal instanceof AbortSignal)) {
+                                                        ^~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:85074:71: warning: the variable "performance" was not declared in anonymous function
+      this._timeStamp = initTimestamp !== undefined ? initTimestamp : performance.now();
+                                                                      ^~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:99772:31: warning: the variable "nativeFabricUIManager" was not declared in anonymous function
+  var _nativeFabricUIManage = nativeFabricUIManager,
+                              ^~~~~~~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:104700:15: warning: the variable "Blob" was not declared in anonymous function
+          new Blob();
+              ^~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:104839:24: warning: the variable "FileReader" was not declared in function "readBlobAsArrayBuffer"
+      var reader = new FileReader();
+                       ^~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:104892:40: warning: the variable "FormData" was not declared in anonymous function
+        } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+                                       ^~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:105147:23: warning: the variable "XMLHttpRequest" was not declared in anonymous function
+        var xhr = new XMLHttpRequest();
+                      ^~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:109463:22: warning: the variable "DOMException" was not declared in function "timeout"
+    var reason = new DOMException('The signal timed out.', 'TimeoutError');
+                     ^~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:110200:35: warning: the variable "TransformStream" was not declared in anonymous function
+  class TextDecoderStream extends TransformStream {
+                                  ^~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:110202:25: warning: the variable "TextDecoder" was not declared in anonymous function
+      var decoder = new TextDecoder(label, options);
+                        ^~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:110239:25: warning: the variable "TextEncoder" was not declared in anonymous function
+      var encoder = new TextEncoder();
+                        ^~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:112499:50: warning: the variable "Request" was not declared in anonymous arrow function
+      return 'body' in input || input instanceof Request || input[Symbol.toStringTag] === 'Request';
+                                                 ^~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:115728:13: warning: the variable "clearImmediate" was not declared in anonymous arrow function
+            clearImmediate(flushQueueImmediate);
+            ^~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:133376:22: warning: the variable "ReadableStream" was not declared in function "wrapWithConsumption"
+    var stream = new ReadableStream({
+                     ^~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:133647:18: warning: the variable "Headers" was not declared in anonymous function
+      return new Headers(this._rawHeaders);
+                 ^~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:151105:51: warning: the variable "WeakRef" was not declared in function "createSerializable"
+      if (globalThis.WeakRef && cached instanceof WeakRef) {
+                                                  ^~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:152989:28: warning: Direct call to eval(), but lexical scope is not supported.
+              workletFun = eval('(' + initData.code + '\n)');
+                           ^~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:179246:41: warning: the variable "getComputedStyle" was not declared in function "fixElementPosition"
+    var parentBorderTopValue = parseInt(getComputedStyle(parent).borderTopWidth);
+                                        ^~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:179576:28: warning: the variable "HTMLElement" was not declared in function "cleanupEnteringAnimations"
+      if (child instanceof HTMLElement) {
+                           ^~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:183510:24: warning: the variable "MutationObserver" was not declared in function "addHTMLMutationObserver"
+    var observer = new MutationObserver(mutationsList => {
+                       ^~~~~~~~~~~~~~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:189420:5: warning: the variable "jest" was not declared in anonymous arrow function
+    jest.useFakeTimers();
+    ^~~~
+C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js:209012:12: warning: the variable "atob" was not declared in anonymous arrow function
+    return atob(content);
+           ^~~~
+Failed to write file C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.hbc: permission denied
+
+Android Bundling failed 42640ms node_modules\expo-router\entry.js (1988 modules)
+iOS Bundling failed 42641ms node_modules\expo-router\entry.js (1872 modules)
+
+Error: C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\Roundr\frontend\node_modules\hermes-compiler/hermesc/win64-bin/hermesc.exe -emit-binary -out C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.hbc C:\Users\denoe\AppData\Local\Packages\sandbox.{08fea795-b026-47e8-bc47-31f460111ec5}\AC\Temp\expo-bundler-0.17716055881458126-1792970736811\index.js -O exited with non-zero code: 6

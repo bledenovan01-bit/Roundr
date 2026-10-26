@@ -1,0 +1,8 @@
+Before application fix, on da481e7 web export:
+case classique 390
+AssertionError: classique: visual viewport must not change columns
+169 !== 350
+actual: 169; expected: 350; operator: strictEqual
+
+The extended test shrinks visualViewport.height, document.clientHeight and window.innerHeight to 260 with screen.orientation.type held at portrait-primary.
+Final test also actually resizes the browser viewport to height 260 and verifies rotation while the simulated keyboard remains open.
