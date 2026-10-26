@@ -1,0 +1,65 @@
+[
+  {
+    "case": "classique-ready.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 0,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "cup-config.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 0,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "cup-history.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 0,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "free-interval-running-numeric.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 15980,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "free-stopwatch-config.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 15980,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "free-stopwatch-ready-analog.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 15980,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "maracana-ready.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 0,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "survie-config.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 0,
+    "differentPixelsAboveDevToast": 0
+  },
+  {
+    "case": "survie-history.png",
+    "width": 390,
+    "height": 844,
+    "differentPixels": 0,
+    "differentPixelsAboveDevToast": 0
+  }
+]

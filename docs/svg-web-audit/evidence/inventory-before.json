@@ -1,0 +1,1422 @@
+[
+  {
+    "file": "src/components/analog-chrono.tsx",
+    "line": 19,
+    "element": "Line",
+    "props": [
+      "key={key}",
+      "x1={cx}",
+      "y1={cy}",
+      "x2={cx + Math.cos(a) * length}",
+      "y2={cy + Math.sin(a) * length}",
+      "stroke={color}",
+      "strokeWidth={width}",
+      "strokeLinecap=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/analog-chrono.tsx",
+    "line": 24,
+    "element": "Line",
+    "props": [
+      "key={i}",
+      "x1={cx + Math.cos(a) * inner}",
+      "y1={cy + Math.sin(a) * inner}",
+      "x2={cx + Math.cos(a) * outer}",
+      "y2={cy + Math.sin(a) * outer}",
+      "stroke={colors.border}",
+      "strokeWidth={2}"
+    ]
+  },
+  {
+    "file": "src/components/analog-chrono.tsx",
+    "line": 28,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}"
+    ]
+  },
+  {
+    "file": "src/components/analog-chrono.tsx",
+    "line": 29,
+    "element": "Circle",
+    "props": [
+      "cx={cx}",
+      "cy={cy}",
+      "r={r - 3}",
+      "stroke={colors.borderStrong}",
+      "strokeWidth={2}",
+      "fill={colors.surfaceSecondary}"
+    ]
+  },
+  {
+    "file": "src/components/analog-chrono.tsx",
+    "line": 30,
+    "element": "G",
+    "props": []
+  },
+  {
+    "file": "src/components/analog-chrono.tsx",
+    "line": 33,
+    "element": "Circle",
+    "props": [
+      "cx={cx}",
+      "cy={cy}",
+      "r={5}",
+      "fill={colors.brandPrimary}"
+    ]
+  },
+  {
+    "file": "src/components/chrono-ring.tsx",
+    "line": 35,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "style={styles.svg}"
+    ]
+  },
+  {
+    "file": "src/components/chrono-ring.tsx",
+    "line": 36,
+    "element": "Circle",
+    "props": [
+      "cx={size / 2}",
+      "cy={size / 2}",
+      "r={r}",
+      "stroke={colors.divider}",
+      "strokeWidth={stroke}",
+      "fill=\"none\""
+    ]
+  },
+  {
+    "file": "src/components/chrono-ring.tsx",
+    "line": 38,
+    "element": "Path",
+    "props": [
+      "d={ringPath}",
+      "stroke={accent ?? colors.brandPrimary}",
+      "strokeWidth={stroke * 2.6}",
+      "fill=\"none\"",
+      "strokeLinecap=\"round\"",
+      "opacity={0.13}",
+      "strokeDasharray={`${c} ${c}`}",
+      "strokeDashoffset={c * (1 - p)}"
+    ]
+  },
+  {
+    "file": "src/components/chrono-ring.tsx",
+    "line": 48,
+    "element": "Path",
+    "props": [
+      "d={ringPath}",
+      "stroke={accent ?? colors.brandPrimary}",
+      "strokeWidth={stroke}",
+      "fill=\"none\"",
+      "strokeLinecap=\"round\"",
+      "strokeDasharray={`${c} ${c}`}",
+      "strokeDashoffset={c * (1 - p)}"
+    ]
+  },
+  {
+    "file": "src/components/chrono-ring.tsx",
+    "line": 58,
+    "element": "Circle",
+    "props": [
+      "cx={dot.x}",
+      "cy={dot.y}",
+      "r={stroke * 0.55}",
+      "fill={accent ?? colors.brandPrimary}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/background.tsx",
+    "line": 7,
+    "element": "Svg",
+    "props": [
+      "style={StyleSheet.absoluteFill}",
+      "width=\"100%\"",
+      "height=\"100%\"",
+      "pointerEvents=\"none\"",
+      "aria-hidden={true}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/background.tsx",
+    "line": 8,
+    "element": "Defs",
+    "props": []
+  },
+  {
+    "file": "src/components/lovable/background.tsx",
+    "line": 8,
+    "element": "RadialGradient",
+    "props": [
+      "id={intro ? \"intro-glow\" : \"home-glow\"}",
+      "cx=\"50%\"",
+      "cy={intro ? \"0%\" : \"25%\"}",
+      "rx={intro ? \"120%\" : \"80%\"}",
+      "ry={intro ? \"55%\" : \"30%\"}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/background.tsx",
+    "line": 9,
+    "element": "Stop",
+    "props": [
+      "offset=\"0\"",
+      "stopColor={intro ? lovable.introGlow : lovable.homeGlow}",
+      "stopOpacity={intro ? 0.5 : 0.12}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/background.tsx",
+    "line": 10,
+    "element": "Stop",
+    "props": [
+      "offset={intro ? \"65%\" : \"100%\"}",
+      "stopColor={intro ? lovable.introGlow : lovable.homeGlow}",
+      "stopOpacity=\"0\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/background.tsx",
+    "line": 12,
+    "element": "Rect",
+    "props": [
+      "width=\"100%\"",
+      "height=\"100%\"",
+      "fill={`url(#${intro ? \"intro-glow\" : \"home-glow\"})`}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 18,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 24 24\"",
+      "fill=\"none\"",
+      "stroke={color}",
+      "strokeWidth={2}",
+      "strokeLinecap=\"round\"",
+      "strokeLinejoin=\"round\"",
+      "aria-hidden={true}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 19,
+    "element": "Path",
+    "props": [
+      "d=\"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z\"",
+      "fill={color}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 19,
+    "element": "Path",
+    "props": [
+      "d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 19,
+    "element": "Path",
+    "props": [
+      "d=\"M12 9v4M12 17h.01\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 19,
+    "element": "Circle",
+    "props": [
+      "cx=\"12\"",
+      "cy=\"12\"",
+      "r=\"10\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 19,
+    "element": "Path",
+    "props": [
+      "d=\"M12 16v-4M12 8h.01\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 19,
+    "element": "Line",
+    "props": [
+      "x1=\"5\"",
+      "x2=\"19\"",
+      "y1=\"12\"",
+      "y2=\"12\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 19,
+    "element": "Line",
+    "props": [
+      "x1=\"12\"",
+      "x2=\"12\"",
+      "y1=\"5\"",
+      "y2=\"19\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 119,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 52 54\"",
+      "fill=\"none\"",
+      "aria-hidden={true}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 119,
+    "element": "Path",
+    "props": [
+      "d=\"M17 4.5 11 7 2.8 15.7 8.7 23l5.2-3.4V48c0 1.2 1 2.2 2.2 2.2h19.8c1.2 0 2.2-1 2.2-2.2V19.6l5.2 3.4 5.9-7.3L41 7l-6-2.5c-2 3.1-5.1 4.7-9 4.7s-7-1.6-9-4.7Z\"",
+      "fill={color}",
+      "stroke={c.foreground}",
+      "strokeOpacity={.35}",
+      "strokeWidth={1.4}",
+      "strokeLinejoin=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 119,
+    "element": "Path",
+    "props": [
+      "d=\"M17 4.5c2 3.1 5.1 4.7 9 4.7s7-1.6 9-4.7\"",
+      "stroke={c.background}",
+      "strokeWidth={2.7}",
+      "strokeLinecap=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 119,
+    "element": "Path",
+    "props": [
+      "d=\"M2.8 15.7 8.7 23l5.2-3.4m24.2 0 5.2 3.4 5.9-7.3\"",
+      "stroke={c.foreground}",
+      "strokeOpacity={.22}",
+      "strokeWidth={1.2}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 136,
+    "element": "Svg",
+    "props": [
+      "width={15}",
+      "height={15}",
+      "viewBox=\"0 0 24 24\"",
+      "fill=\"none\"",
+      "stroke={c.foreground}",
+      "strokeWidth={2}",
+      "strokeLinecap=\"round\"",
+      "strokeLinejoin=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/configuration.tsx",
+    "line": 136,
+    "element": "Path",
+    "props": [
+      "d={delta<0?\"m5 12 7-7 7 7M12 19V5\":\"M12 5v14m7-7-7 7-7-7\"}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 99,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 140 140\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 100,
+    "element": "G",
+    "props": [
+      "rotation={-90}",
+      "origin=\"70,70\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 101,
+    "element": "Circle",
+    "props": [
+      "cx={70}",
+      "cy={70}",
+      "r={rad}",
+      "fill=\"none\"",
+      "stroke={c.mutedSurface}",
+      "strokeWidth={9}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 110,
+    "element": "Circle",
+    "props": [
+      "cx={70 + Math.cos(a) * rad}",
+      "cy={70 + Math.sin(a) * rad}",
+      "r={6}",
+      "fill={c.primary}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 117,
+    "element": "Circle",
+    "props": [
+      "cx={70}",
+      "cy={70}",
+      "r={rad}",
+      "fill=\"none\"",
+      "stroke={c.primary}",
+      "strokeWidth={9}",
+      "strokeLinecap=\"round\"",
+      "strokeDasharray={len}",
+      "strokeDashoffset={len * (1 - r.progress)}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 174,
+    "element": "Svg",
+    "props": [
+      "style={{ flexShrink: 0 }}",
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 200 200\"",
+      "accessibilityRole=\"image\"",
+      "accessibilityLabel={`Cadran : ${r.main}${r.cents}`}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 182,
+    "element": "Circle",
+    "props": [
+      "cx={100}",
+      "cy={100}",
+      "r={96}",
+      "fill={c.cardRaised}",
+      "stroke={c.border}",
+      "strokeWidth={2}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 191,
+    "element": "Circle",
+    "props": [
+      "cx={100}",
+      "cy={100}",
+      "r={R}",
+      "fill=\"none\"",
+      "stroke={c.primary}",
+      "strokeWidth={4}",
+      "strokeLinecap=\"round\"",
+      "opacity={0.55}",
+      "strokeDasharray={C}",
+      "strokeDashoffset={C * r.progress}",
+      "rotation={-90}",
+      "origin=\"100,100\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 210,
+    "element": "Line",
+    "props": [
+      "key={i}",
+      "x1={100 + Math.sin(a) * (big ? 74 : 79)}",
+      "y1={100 - Math.cos(a) * (big ? 74 : 79)}",
+      "x2={100 + Math.sin(a) * 83}",
+      "y2={100 - Math.cos(a) * 83}",
+      "stroke={big ? c.foreground : c.muted}",
+      "strokeWidth={big ? 2.4 : 1}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 224,
+    "element": "SvgText",
+    "props": [
+      "key={i}",
+      "x={100 + Math.sin(a) * 62}",
+      "y={103.5 - Math.cos(a) * 62}",
+      "textAnchor=\"middle\"",
+      "fill={c.muted}",
+      "fontFamily=\"ManropeRefined-Bold\"",
+      "fontSize={10}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 237,
+    "element": "G",
+    "props": [
+      "x={100}",
+      "y={132}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 238,
+    "element": "Circle",
+    "props": [
+      "r={15}",
+      "fill=\"none\"",
+      "stroke={c.border}",
+      "strokeWidth={1.5}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 239,
+    "element": "Line",
+    "props": [
+      "x1={0}",
+      "y1={0}",
+      "x2={Math.sin((min * Math.PI) / 15) * 11}",
+      "y2={-Math.cos((min * Math.PI) / 15) * 11}",
+      "stroke={c.foreground}",
+      "strokeWidth={2}",
+      "strokeLinecap=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 249,
+    "element": "Line",
+    "props": [
+      "x1={100}",
+      "y1={114}",
+      "x2={100}",
+      "y2={24}",
+      "stroke={c.primary}",
+      "strokeWidth={2.6}",
+      "strokeLinecap=\"round\"",
+      "rotation={sec * 6}",
+      "origin=\"100,100\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 260,
+    "element": "Circle",
+    "props": [
+      "cx={100}",
+      "cy={100}",
+      "r={5}",
+      "fill={c.primary}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 261,
+    "element": "SvgText",
+    "props": [
+      "x={100}",
+      "y={80}",
+      "textAnchor=\"middle\"",
+      "fontFamily={f.extrabold}",
+      "fontSize={15}",
+      "fill={c.foreground}",
+      "stroke={c.cardRaised}",
+      "strokeWidth={3}",
+      "strokeLinejoin=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 273,
+    "element": "TSpan",
+    "props": [
+      "fontSize={10}",
+      "fill={c.muted}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 277,
+    "element": "SvgText",
+    "props": [
+      "x={100}",
+      "y={80}",
+      "textAnchor=\"middle\"",
+      "fill={c.foreground}",
+      "fontFamily={f.extrabold}",
+      "fontSize={15}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/free-clock.tsx",
+    "line": 286,
+    "element": "TSpan",
+    "props": [
+      "fontSize={10}",
+      "fill={c.muted}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/history-summary.tsx",
+    "line": 16,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 52 54\"",
+      "fill=\"none\"",
+      "accessible={false}",
+      "aria-hidden"
+    ]
+  },
+  {
+    "file": "src/components/lovable/history-summary.tsx",
+    "line": 17,
+    "element": "Path",
+    "props": [
+      "d=\"M17 4.5 11 7 2.8 15.7 8.7 23l5.2-3.4V48c0 1.2 1 2.2 2.2 2.2h19.8c1.2 0 2.2-1 2.2-2.2V19.6l5.2 3.4 5.9-7.3L41 7l-6-2.5c-2 3.1-5.1 4.7-9 4.7s-7-1.6-9-4.7Z\"",
+      "fill={color}",
+      "stroke={c.foreground}",
+      "strokeOpacity={0.35}",
+      "strokeWidth={1.4}",
+      "strokeLinejoin=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/history-summary.tsx",
+    "line": 18,
+    "element": "Path",
+    "props": [
+      "d=\"M17 4.5c2 3.1 5.1 4.7 9 4.7s7-1.6 9-4.7\"",
+      "stroke={c.background}",
+      "strokeWidth={2.7}",
+      "strokeLinecap=\"round\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/history-summary.tsx",
+    "line": 18,
+    "element": "Path",
+    "props": [
+      "d=\"M2.8 15.7 8.7 23l5.2-3.4m24.2 0 5.2 3.4 5.9-7.3\"",
+      "stroke={c.foreground}",
+      "strokeOpacity={0.22}",
+      "strokeWidth={1.2}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 9,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 24 24\"",
+      "fill=\"none\"",
+      "stroke={color}",
+      "strokeWidth={name === \"settings\" ? 1.8 : 2}",
+      "strokeLinecap={name === \"pitch\" ? \"butt\" : \"round\"}",
+      "strokeLinejoin={name === \"pitch\" ? \"miter\" : \"round\"}",
+      "aria-hidden={true}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 10,
+    "element": "Rect",
+    "props": [
+      "x=\"2\"",
+      "y=\"4\"",
+      "width=\"20\"",
+      "height=\"16\"",
+      "rx=\"1\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 10,
+    "element": "Path",
+    "props": [
+      "d=\"M12 4v16M2 8h4v8H2m20-8h-4v8h4\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 10,
+    "element": "Circle",
+    "props": [
+      "cx=\"12\"",
+      "cy=\"12\"",
+      "r=\"3\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 11,
+    "element": "Path",
+    "props": [
+      "d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 11,
+    "element": "Path",
+    "props": [
+      "d=\"M21 3v5h-5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 11,
+    "element": "Path",
+    "props": [
+      "d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 11,
+    "element": "Path",
+    "props": [
+      "d=\"M8 16H3v5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 12,
+    "element": "Path",
+    "props": [
+      "d=\"M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 12,
+    "element": "Path",
+    "props": [
+      "d=\"M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 12,
+    "element": "Path",
+    "props": [
+      "d=\"M18 9h1.5a1 1 0 0 0 0-5H18\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 12,
+    "element": "Path",
+    "props": [
+      "d=\"M4 22h16\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 12,
+    "element": "Path",
+    "props": [
+      "d=\"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 12,
+    "element": "Path",
+    "props": [
+      "d=\"M6 9H4.5a1 1 0 0 1 0-5H6\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Polyline",
+    "props": [
+      "points=\"14.5 17.5 3 6 3 3 6 3 17.5 14.5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Line",
+    "props": [
+      "x1=\"13\"",
+      "x2=\"19\"",
+      "y1=\"19\"",
+      "y2=\"13\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Line",
+    "props": [
+      "x1=\"16\"",
+      "x2=\"20\"",
+      "y1=\"16\"",
+      "y2=\"20\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Line",
+    "props": [
+      "x1=\"19\"",
+      "x2=\"21\"",
+      "y1=\"21\"",
+      "y2=\"19\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Polyline",
+    "props": [
+      "points=\"14.5 6.5 18 3 21 3 21 6 17.5 9.5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Line",
+    "props": [
+      "x1=\"5\"",
+      "x2=\"9\"",
+      "y1=\"14\"",
+      "y2=\"18\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Line",
+    "props": [
+      "x1=\"7\"",
+      "x2=\"4\"",
+      "y1=\"17\"",
+      "y2=\"20\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 13,
+    "element": "Line",
+    "props": [
+      "x1=\"3\"",
+      "x2=\"5\"",
+      "y1=\"19\"",
+      "y2=\"21\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 14,
+    "element": "Line",
+    "props": [
+      "x1=\"10\"",
+      "x2=\"14\"",
+      "y1=\"2\"",
+      "y2=\"2\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 14,
+    "element": "Line",
+    "props": [
+      "x1=\"12\"",
+      "x2=\"15\"",
+      "y1=\"14\"",
+      "y2=\"11\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 14,
+    "element": "Circle",
+    "props": [
+      "cx=\"12\"",
+      "cy=\"14\"",
+      "r=\"8\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 15,
+    "element": "Path",
+    "props": [
+      "d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 15,
+    "element": "Path",
+    "props": [
+      "d=\"M16 3.128a4 4 0 0 1 0 7.744\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 15,
+    "element": "Path",
+    "props": [
+      "d=\"M22 21v-2a4 4 0 0 0-3-3.87\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 15,
+    "element": "Circle",
+    "props": [
+      "cx=\"9\"",
+      "cy=\"7\"",
+      "r=\"4\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 16,
+    "element": "Path",
+    "props": [
+      "d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 16,
+    "element": "Path",
+    "props": [
+      "d=\"M3 3v5h5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 16,
+    "element": "Path",
+    "props": [
+      "d=\"M12 7v5l4 2\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 17,
+    "element": "Path",
+    "props": [
+      "d=\"M14 17H5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 17,
+    "element": "Path",
+    "props": [
+      "d=\"M19 7h-9\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 17,
+    "element": "Circle",
+    "props": [
+      "cx=\"17\"",
+      "cy=\"17\"",
+      "r=\"3\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 17,
+    "element": "Circle",
+    "props": [
+      "cx=\"7\"",
+      "cy=\"7\"",
+      "r=\"3\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 18,
+    "element": "Path",
+    "props": [
+      "d=\"m9 18 6-6-6-6\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 19,
+    "element": "Path",
+    "props": [
+      "d=\"m12 19-7-7 7-7\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 19,
+    "element": "Path",
+    "props": [
+      "d=\"M5 12h14\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 20,
+    "element": "Path",
+    "props": [
+      "d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 20,
+    "element": "Path",
+    "props": [
+      "d=\"m15 5 4 4\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 21,
+    "element": "Path",
+    "props": [
+      "d=\"M10 11v6M14 11v6M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 22,
+    "element": "Path",
+    "props": [
+      "d=\"M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 23,
+    "element": "Rect",
+    "props": [
+      "width=\"20\"",
+      "height=\"5\"",
+      "x=\"2\"",
+      "y=\"3\"",
+      "rx=\"1\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 23,
+    "element": "Path",
+    "props": [
+      "d=\"M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/icon.tsx",
+    "line": 24,
+    "element": "Path",
+    "props": [
+      "d=\"M20 6 9 17l-5-5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 68,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 24 24\"",
+      "stroke={color}",
+      "strokeWidth={2}",
+      "fill=\"none\"",
+      "strokeLinecap=\"round\"",
+      "strokeLinejoin=\"round\"",
+      "aria-hidden"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 81,
+    "element": "Path",
+    "props": [
+      "d=\"m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-8H9v8H4a1 1 0 0 1-1-1z\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 83,
+    "element": "Path",
+    "props": [
+      "d=\"M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 86,
+    "element": "Path",
+    "props": [
+      "d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M19 8v6M16 11h6\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 87,
+    "element": "Circle",
+    "props": [
+      "cx={9}",
+      "cy={7}",
+      "r={4}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 90,
+    "element": "Path",
+    "props": [
+      "d=\"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z\"",
+      "fill={color}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 96,
+    "element": "Rect",
+    "props": [
+      "x={5}",
+      "y={3}",
+      "width={5}",
+      "height={18}",
+      "rx={1}",
+      "fill={color}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 97,
+    "element": "Rect",
+    "props": [
+      "x={14}",
+      "y={3}",
+      "width={5}",
+      "height={18}",
+      "rx={1}",
+      "fill={color}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 100,
+    "element": "Rect",
+    "props": [
+      "x={3}",
+      "y={3}",
+      "width={18}",
+      "height={18}",
+      "rx={2}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 103,
+    "element": "Path",
+    "props": [
+      "d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8M3 3v5h5\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 107,
+    "element": "Path",
+    "props": [
+      "d=\"M9 18V5l12-2v13M9 8l12-2\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 108,
+    "element": "Circle",
+    "props": [
+      "cx={6}",
+      "cy={18}",
+      "r={3}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 109,
+    "element": "Circle",
+    "props": [
+      "cx={18}",
+      "cy={16}",
+      "r={3}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 113,
+    "element": "Rect",
+    "props": [
+      "x={3}",
+      "y={11}",
+      "width={18}",
+      "height={11}",
+      "rx={2}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 114,
+    "element": "Path",
+    "props": [
+      "d={\r\n              name === \"lock\"\r\n                ? \"M7 11V7a5 5 0 0 1 10 0v4\"\r\n                : \"M7 11V7a5 5 0 0 1 9.9-1\"\r\n            }"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 124,
+    "element": "Path",
+    "props": [
+      "d=\"M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zM6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14M8 6v8\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 128,
+    "element": "Circle",
+    "props": [
+      "cx={12}",
+      "cy={14}",
+      "r={8}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 129,
+    "element": "Path",
+    "props": [
+      "d=\"M10 2h4M12 14l3-3\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 132,
+    "element": "Path",
+    "props": [
+      "d=\"M12 5v14M5 12h14\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 134,
+    "element": "Path",
+    "props": [
+      "d=\"M5 12h14\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 136,
+    "element": "Path",
+    "props": [
+      "d=\"m9 18 6-6-6-6\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 138,
+    "element": "Path",
+    "props": [
+      "d=\"M19 12H5m7 7-7-7 7-7\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 140,
+    "element": "Path",
+    "props": [
+      "d=\"m6 6 12 12M6 18 18 6\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 602,
+    "element": "Svg",
+    "props": [
+      "width={dialSize}",
+      "height={dialSize}",
+      "viewBox=\"0 0 140 140\"",
+      "aria-hidden"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 609,
+    "element": "G",
+    "props": [
+      "transform=\"rotate(-90 70 70)\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 610,
+    "element": "Circle",
+    "props": [
+      "cx={70}",
+      "cy={70}",
+      "r={62}",
+      "fill=\"none\"",
+      "stroke={c.mutedSurface}",
+      "strokeWidth={9}"
+    ]
+  },
+  {
+    "file": "src/components/lovable/match-ui.tsx",
+    "line": 618,
+    "element": "Circle",
+    "props": [
+      "cx={70}",
+      "cy={70}",
+      "r={62}",
+      "fill=\"none\"",
+      "stroke={c.primary}",
+      "strokeWidth={9}",
+      "strokeLinecap=\"round\"",
+      "strokeDasharray={2 * Math.PI * 62}",
+      "strokeDashoffset={\r\n                              2 * Math.PI * 62 * (1 - projection.progress)\r\n                            }"
+    ]
+  },
+  {
+    "file": "src/components/lovable/phase2b-ui.tsx",
+    "line": 14,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 24 24\"",
+      "fill=\"none\"",
+      "stroke={color}",
+      "strokeWidth={2}",
+      "strokeLinecap=\"round\"",
+      "strokeLinejoin=\"round\"",
+      "accessible={false}",
+      "aria-hidden"
+    ]
+  },
+  {
+    "file": "src/components/lovable/phase2b-ui.tsx",
+    "line": 15,
+    "element": "Path",
+    "props": [
+      "d=\"M12 5v14M5 12h14\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/phase2b-ui.tsx",
+    "line": 15,
+    "element": "Path",
+    "props": [
+      "d=\"m18 6-12 12M6 6l12 12\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/phase2b-ui.tsx",
+    "line": 15,
+    "element": "Path",
+    "props": [
+      "d=\"m18 14 4 4-4 4M18 2l4 4-4 4\""
+    ]
+  },
+  {
+    "file": "src/components/lovable/phase2b-ui.tsx",
+    "line": 15,
+    "element": "Path",
+    "props": [
+      "d=\"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22M2 6h1.972a4 4 0 0 1 3.6 2.2M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45\""
+    ]
+  },
+  {
+    "file": "src/features/lovable-free-config.tsx",
+    "line": 97,
+    "element": "Svg",
+    "props": [
+      "width={size}",
+      "height={size}",
+      "viewBox=\"0 0 24 24\"",
+      "fill=\"none\"",
+      "stroke={color}",
+      "strokeWidth={2}",
+      "strokeLinecap=\"round\"",
+      "strokeLinejoin=\"round\"",
+      "accessible={false}"
+    ]
+  },
+  {
+    "file": "src/features/lovable-free-config.tsx",
+    "line": 108,
+    "element": "Path",
+    "props": [
+      "d={paths[name]}"
+    ]
+  },
+  {
+    "file": "src/features/lovable-free-live.tsx",
+    "line": 710,
+    "element": "Svg",
+    "props": [
+      "width={20}",
+      "height={20}",
+      "viewBox=\"0 0 24 24\"",
+      "fill=\"none\"",
+      "stroke={c.foreground}",
+      "strokeWidth={2}",
+      "strokeLinecap=\"round\"",
+      "strokeLinejoin=\"round\"",
+      "accessible={false}"
+    ]
+  },
+  {
+    "file": "src/features/lovable-free-live.tsx",
+    "line": 721,
+    "element": "Path",
+    "props": [
+      "d=\"M21 4v16\""
+    ]
+  },
+  {
+    "file": "src/features/lovable-free-live.tsx",
+    "line": 722,
+    "element": "Path",
+    "props": [
+      "d=\"M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z\""
+    ]
+  }
+]

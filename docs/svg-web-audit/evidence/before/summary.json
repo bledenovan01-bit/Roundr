@@ -1,0 +1,239 @@
+{
+  "phase": "before",
+  "cases": 73,
+  "pageErrors": [],
+  "badAttributes": [],
+  "svgWarnings": [
+    {
+      "case": "free-stopwatch-config",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "free-stopwatch-ready-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-ready-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-ready-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-running-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-running-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-running-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-paused-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-paused-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-stopwatch-paused-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-config",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "free-countdown-ready-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-ready-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-ready-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-running-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-running-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-running-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-paused-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-paused-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-paused-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-finished-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-finished-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-countdown-finished-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-config",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "free-interval-ready-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-ready-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-ready-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-running-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-running-numeric",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "free-interval-running-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-running-analog",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "free-interval-running-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-running-circular",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "free-interval-paused-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-paused-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-paused-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-finished-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-finished-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-finished-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-waiting-numeric",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-waiting-analog",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "free-interval-waiting-circular",
+      "type": "error",
+      "text": "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+    },
+    {
+      "case": "shared-_team-builder",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "shared-_chrono-libre",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    },
+    {
+      "case": "shared-_chrono-libre_presets",
+      "type": "error",
+      "text": "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible"
+    }
+  ],
+  "allMessages": [
+    "props.pointerEvents is deprecated. Use style.pointerEvents",
+    "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md",
+    "Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead. false accessible accessible false accessible accessible accessible",
+    "Invalid DOM property `%s`. Did you mean `%s`? transform-origin transformOrigin"
+  ]
+}
