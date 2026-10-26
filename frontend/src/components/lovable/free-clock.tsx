@@ -1,3 +1,4 @@
+import { svgRotation } from "@/src/components/svg-compat";
 import { useEffect, useState } from "react";
 import { freeViews } from "@/src/features/free-live-state";
 import {
@@ -97,7 +98,7 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
       >
         <View style={{ width: size, height: size }}>
           <Svg width={size} height={size} viewBox="0 0 140 140">
-            <G rotation={-90} origin="70,70">
+            <G {...svgRotation(-90, 70, 70)}>
               <Circle
                 cx={70}
                 cy={70}
@@ -199,8 +200,7 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
             opacity={0.55}
             strokeDasharray={C}
             strokeDashoffset={C * r.progress}
-            rotation={-90}
-            origin="100,100"
+            {...svgRotation(-90, 100, 100)}
           />
         ) : null}
         {Array.from({ length: 60 }, (_, i) => {
@@ -254,8 +254,7 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
           stroke={c.primary}
           strokeWidth={2.6}
           strokeLinecap="round"
-          rotation={sec * 6}
-          origin="100,100"
+          {...svgRotation(sec * 6, 100, 100)}
         />
         <Circle cx={100} cy={100} r={5} fill={c.primary} />
         <SvgText

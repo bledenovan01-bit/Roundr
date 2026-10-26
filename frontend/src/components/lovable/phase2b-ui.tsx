@@ -1,3 +1,4 @@
+import { decorativeSvgAccessibility } from "@/src/components/svg-compat";
 import { isValidElement, useState, type ReactNode } from "react";
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, View, useWindowDimensions, type TextInputProps } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -11,7 +12,7 @@ import { lovable as c, lovableFont as f, withAlpha } from "@/src/visual/lovable"
 export const REDRAW_MIN_WIDTH = 160.6875;
 
 export function PhaseIcon({name,color,size=16}:{name:"shuffle"|"plus"|"x";color:string;size?:number}) {
-  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" accessible={false} aria-hidden>
+  return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...decorativeSvgAccessibility} aria-hidden>
     {name==="plus"?<Path d="M12 5v14M5 12h14"/>:name==="x"?<Path d="m18 6-12 12M6 6l12 12"/>:<><Path d="m18 14 4 4-4 4M18 2l4 4-4 4"/><Path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22M2 6h1.972a4 4 0 0 1 3.6 2.2M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></>}
   </Svg>;
 }

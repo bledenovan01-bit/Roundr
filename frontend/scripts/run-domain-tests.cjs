@@ -1,6 +1,8 @@
 const {spawnSync}=require("node:child_process");
 const path=require("node:path");
 const scriptDir=path.dirname(module.filename);
+const svg=spawnSync(process.execPath,["-r",path.join(scriptDir,"register-ts.cjs"),path.join(scriptDir,"test-svg-web.ts")],{stdio:"inherit"});
+if(svg.status!==0)process.exit(svg.status??1);
 const viewport=spawnSync(process.execPath,["-r",path.join(scriptDir,"register-ts.cjs"),path.join(scriptDir,"test-form-window-dimensions.ts")],{stdio:"inherit"});
 if(viewport.status!==0)process.exit(viewport.status??1);
 const audio=spawnSync(process.execPath,["-r",path.join(scriptDir,"register-ts.cjs"),path.join(scriptDir,"test-sound-identity.ts")],{stdio:"inherit"});
