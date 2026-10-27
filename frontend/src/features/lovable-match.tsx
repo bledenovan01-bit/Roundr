@@ -34,7 +34,7 @@ import { LovableIcon } from "@/src/components/lovable/icon";
 import { Jersey, configStyles } from "@/src/components/lovable/configuration";
 import { PhaseFrame } from "@/src/components/lovable/phase2b-ui";
 import { GiantChrono } from "@/src/components/giant-chrono";
-import { MatchAnnouncer } from "@/src/components/lovable/match-announcer";
+import { MatchAnnouncer, MatchAnnouncementSpace } from "@/src/components/lovable/match-announcer";
 import {
   MatchAction,
   MatchCarousel,
@@ -443,7 +443,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             <View style={{ flex: 1, minWidth: 0, gap: 10 }}>
               {scoreboard}
               {rankingLink}
-              {noticeLayer}
+              <MatchAnnouncementSpace />
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>{carousel}</View>
           </View>
@@ -452,7 +452,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             {scoreboard}
             {carousel}
             {rankingLink}
-            {noticeLayer}
+            <MatchAnnouncementSpace />
           </>
         )}
       </ScrollView>
@@ -466,6 +466,9 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           alignItems: "center",
         }}
       >
+        <View pointerEvents="none" testID="match-notice-host" style={{ alignSelf: "flex-start", width: two ? (width - inset.left - inset.right - 50) / 2 : "100%" }}>
+          {noticeLayer}
+        </View>
         {primary ? (
           <View
             style={{ width: "100%", maxWidth: landscape ? 420 : undefined }}

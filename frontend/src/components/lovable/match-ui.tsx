@@ -952,6 +952,8 @@ export const m = StyleSheet.create({
     lineHeight: 130 / 7,
   },
   dots: {
+    // The tournament pane has zIndex 1; keep its overflow below navigation.
+    zIndex: 2,
     flexDirection: "row",
     gap: 4,
     alignItems: "center",

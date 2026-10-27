@@ -1,0 +1,1700 @@
+[
+  {
+    "name": "classique-digital-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin de la période dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "classique-ring-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin de la période dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "classique-music-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin de la période dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-digital-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-ring-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-next-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-music-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-digital-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-ring-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-tournament-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-music-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-digital-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-ring-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-tournament-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-music-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "libre-Numérique-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du compte à rebours dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "libre-Analogique-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du compte à rebours dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "libre-Circulaire-390",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 483,
+      "right": 370,
+      "bottom": 519,
+      "width": 350,
+      "height": 36,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du compte à rebours dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "classique-digital-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin de la période dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "classique-ring-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin de la période dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "classique-music-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin de la période dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-digital-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-ring-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-next-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-music-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Panthères et Galactiques, préparez-vous !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-digital-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-ring-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-tournament-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-music-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-digital-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-ring-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-tournament-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-music-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du match dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "libre-Numérique-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du compte à rebours dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "libre-Analogique-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du compte à rebours dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "libre-Circulaire-844",
+    "kind": "alerts",
+    "minute": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Plus qu'1 minute !",
+      "clippedBy": []
+    },
+    "thirty": {
+      "x": 20,
+      "y": 296,
+      "right": 417,
+      "bottom": 328,
+      "width": 397,
+      "height": 32,
+      "opacity": 1,
+      "pointer": "none",
+      "text": "Fin du compte à rebours dans 30 secondes !",
+      "clippedBy": []
+    },
+    "viewSwitchRetainsNotice": true,
+    "noEarlyNotice": true,
+    "expires": true,
+    "selectedViewStable": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "classique-controls-and-reload",
+    "kind": "lifecycle",
+    "start": true,
+    "pause": true,
+    "pausedTimeStable": true,
+    "resume": true,
+    "score": true,
+    "reloadPreservesState": true,
+    "end": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      },
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "maracana-controls-and-reload",
+    "kind": "lifecycle",
+    "start": true,
+    "pause": true,
+    "pausedTimeStable": true,
+    "resume": true,
+    "score": true,
+    "reloadPreservesState": true,
+    "end": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      },
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "cup-controls-and-reload",
+    "kind": "lifecycle",
+    "start": true,
+    "pause": true,
+    "pausedTimeStable": true,
+    "resume": true,
+    "score": true,
+    "reloadPreservesState": true,
+    "end": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      },
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "survie-controls-and-reload",
+    "kind": "lifecycle",
+    "start": true,
+    "pause": true,
+    "pausedTimeStable": true,
+    "resume": true,
+    "score": true,
+    "reloadPreservesState": true,
+    "end": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      },
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  },
+  {
+    "name": "libre-controls-and-reload",
+    "kind": "lifecycle",
+    "start": true,
+    "pause": true,
+    "pausedTimeStable": true,
+    "resume": true,
+    "score": false,
+    "reloadPreservesState": true,
+    "end": true,
+    "errors": [],
+    "messages": [
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      },
+      {
+        "type": "warning",
+        "text": "props.pointerEvents is deprecated. Use style.pointerEvents"
+      },
+      {
+        "type": "warning",
+        "text": "Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md"
+      }
+    ]
+  }
+]

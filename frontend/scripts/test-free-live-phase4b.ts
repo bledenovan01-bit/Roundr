@@ -251,6 +251,32 @@ const fresh = () => {
   ) as typeof import("../src/store/session-store");
 };
 async function storage() {
+  const requests: { tag: string; resolve: () => void; reject: () => void }[] = [], releases: string[] = [];
+  Object.assign((globalThis as any).__roundrTestModules["expo-keep-awake"], {
+    activateKeepAwakeAsync(tag: string) {
+      return new Promise<void>((resolve, reject) => requests.push({ tag, resolve, reject: () => reject(Error("unavailable")) }));
+    },
+    async deactivateKeepAwake(tag: string) { releases.push(tag); },
+  });
+  const { acquireRuntimeKeepAwake: lease } = req("../src/hooks/use-runtime-keep-awake") as typeof import("../src/hooks/use-runtime-keep-awake");
+  const settle = async () => { for (let i = 0; i < 5; i++) await Promise.resolve(); };
+  assert.equal(lease(false, "roundr-free"), undefined);
+  assert.equal(requests.length, 0, "Disabled keep-awake must not request or release a lock");
+  const stop = lease(true, "roundr-free")!;
+  stop(); stop(); await settle();
+  assert.deepEqual(releases, [], "Cleanup must wait for its own acquisition");
+  requests[0].resolve(); await settle();
+  assert.deepEqual(releases, [requests[0].tag], "Late acquisition is released exactly once");
+  const unavailable = lease(true, "roundr-free")!;
+  requests[1].reject(); unavailable(); await settle();
+  assert.equal(releases.length, 1, "Rejected acquisition must never be released");
+  const first = lease(true, "roundr-match")!, second = lease(true, "roundr-match")!;
+  assert.notEqual(requests[2].tag, requests[3].tag, "Rapid effects must not share lock ownership");
+  first(); requests[3].resolve(); requests[2].resolve(); await settle();
+  assert.deepEqual(releases, [requests[0].tag, requests[2].tag], "Old cleanup must not release the newer lock");
+  second(); await settle();
+  assert.equal(releases[2], requests[3].tag);
+  console.log("✓ Screen locks: disabled, late acquisition, denial, single cleanup and concurrent ownership");
   let st = fresh();
   await st.loadStore();
   let ft = createFreeTimer(

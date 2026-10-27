@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { AccessibilityInfo, AppState } from "react-native";
-import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
+import { useRuntimeKeepAwake } from "@/src/hooks/use-runtime-keep-awake";
 import { usePreferences } from "@/src/store/preferences";
 import { dismissNotice, tick, useStore } from "@/src/store/session-store";
 
@@ -20,11 +20,7 @@ export function SessionRuntime() {
     return()=>{if(interval)clearInterval(interval);sub.remove();};
   },[running]);
   const awake=!!running&&p.keepAwake;
-  useEffect(()=>{
-    let cancelled=false;
-    if(awake)void activateKeepAwakeAsync("roundr-match").then(()=>{if(cancelled)void deactivateKeepAwake("roundr-match");}).catch(()=>{});
-    return()=>{cancelled=true;void deactivateKeepAwake("roundr-match");};
-  },[awake]);
+  useRuntimeKeepAwake(awake, "roundr-match");
   useEffect(()=>{
     if(!notice)return;
     AccessibilityInfo.announceForAccessibility(notice.message);

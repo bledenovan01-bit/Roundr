@@ -1,6 +1,6 @@
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { AppState } from "react-native";
-import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
+import { useRuntimeKeepAwake } from "@/src/hooks/use-runtime-keep-awake";
 import { usePreferences } from "@/src/store/preferences";
 import {
   tickFreeTimer,
@@ -108,18 +108,6 @@ export function FreeTimerRuntime() {
       subscription.remove();
     };
   }, [running]);
-  useEffect(() => {
-    let cancelled = false;
-    if (running && prefs.keepAwake)
-      void activateKeepAwakeAsync("roundr-free")
-        .then(() => {
-          if (cancelled) void deactivateKeepAwake("roundr-free");
-        })
-        .catch(() => {});
-    return () => {
-      cancelled = true;
-      void deactivateKeepAwake("roundr-free");
-    };
-  }, [running, prefs.keepAwake]);
+  useRuntimeKeepAwake(running && prefs.keepAwake, "roundr-free");
   return null;
 }

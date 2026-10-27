@@ -2,19 +2,20 @@
 // node focus-regression.cjs <export-directory> <report-directory>
 const fs = require('fs'), path = require('path'), http = require('http'), assert = require('assert/strict');
 const playwright = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
-const root = path.resolve(process.argv[2]), out = path.resolve(process.argv[3]);
+const remote = /^https?:\/\//.test(process.argv[2]) ? process.argv[2].replace(/\/$/, "") : null;
+const root = remote ? null : path.resolve(process.argv[2]), out = path.resolve(process.argv[3]);
 const engine = process.env.PLAYWRIGHT_BROWSER || 'chromium';
 fs.mkdirSync(out, { recursive: true });
 const pause = page => page.waitForTimeout(250);
 async function main() {
-  const server = http.createServer((req, res) => {
+  const server = remote ? null : http.createServer((req, res) => {
     let file = path.resolve(root, '.' + decodeURIComponent(req.url.split('?')[0]));
     if (!file.startsWith(root + path.sep)) { res.writeHead(403); res.end(); return; }
     if (!fs.existsSync(file) || !fs.statSync(file).isFile()) file = path.join(root, 'index.html');
     res.setHeader('Content-Type', ({ '.js': 'application/javascript', '.html': 'text/html', '.ttf': 'font/ttf', '.svg': 'image/svg+xml', '.png': 'image/png' })[path.extname(file)] || 'application/octet-stream');
     fs.createReadStream(file).pipe(res);
   });
-  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  if (server) await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const browser = await playwright[engine].launch({ headless: true, ...(engine === 'chromium' ? { channel: process.env.PLAYWRIGHT_CHANNEL || 'chrome' } : {}) });
   const results = [];
   try {
@@ -32,7 +33,7 @@ async function main() {
         }, viewport);
         page.on('pageerror', e => errors.push(String(e)));
         const route = mode === 'libre' ? '/chrono-libre/stopwatch' : '/config/' + mode;
-        await page.goto(`http://127.0.0.1:${server.address().port}${route}`);
+        await page.goto((remote || `http://127.0.0.1:${server.address().port}`) + route, { timeout: 180000 });
         const toggle = page.getByRole('switch', { name: mode === 'libre' ? 'Avec équipes' : 'Personnaliser les équipes', exact: true });
         await toggle.waitFor();
         if (await toggle.getAttribute('aria-checked') !== 'true') await toggle.tap();
@@ -115,6 +116,6 @@ async function main() {
       }
     }
     fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify(results, null, 2));
-  } finally { await browser.close(); server.close(); }
+  } finally { await browser.close(); server?.close(); }
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

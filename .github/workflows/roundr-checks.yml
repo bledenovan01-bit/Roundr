@@ -1,9 +1,12 @@
 name: Roundr checks
 on:
   push:
-    branches: ["codex/roundr-test-feedback-fixes", "codex/roundr-storage-reliability", "codex/roundr-native-preview", "codex/roundr-lovable-phase-1", "codex/roundr-lovable-phase-2a", "codex/roundr-lovable-phase-2b", "codex/roundr-lovable-phase-3a", "codex/roundr-lovable-phase-3b", "codex/roundr-lovable-phase-4a", "codex/roundr-lovable-phase-4b", "codex/roundr-lovable-phase-5a"]
+    branches: ["codex/**"]
   pull_request:
-    branches: ["codex/roundr-v0-freeze-fixes", "codex/roundr-native-preview", "codex/roundr-lovable-phase-1", "codex/roundr-lovable-phase-2a", "codex/roundr-lovable-phase-2b", "codex/roundr-lovable-phase-3a", "codex/roundr-lovable-phase-3b", "codex/roundr-lovable-phase-4a", "codex/roundr-lovable-phase-4b", "main"]
+    branches: ["codex/**", "main"]
+concurrency:
+  group: roundr-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -59,3 +62,45 @@ jobs:
         run: npx --yes yarn@1.22.22 install --frozen-lockfile
       - name: Lint (existing failures remain visible)
         run: npm run lint
+
+  web-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: "1"
+      EXPO_NO_TELEMETRY: "1"
+      EXPO_OFFLINE: "1"
+      PLAYWRIGHT_MODULE: /tmp/roundr-web-tools/node_modules/playwright
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install app dependencies from unchanged lockfile
+        working-directory: frontend
+        run: npx --yes yarn@1.22.22 install --frozen-lockfile
+      - name: Install isolated browser test tool (not an app dependency)
+        run: npm install --prefix /tmp/roundr-web-tools --ignore-scripts --no-package-lock playwright@1.62.1
+      - name: Check system Chrome
+        run: google-chrome --version
+      - name: Generate isolated fixtures and start development web server
+        run: |
+          node docs/svg-web-audit/reproduction/fixtures.cjs "$RUNNER_TEMP/roundr-fixtures.json"
+          cd frontend
+          node node_modules/expo/bin/cli start --web --host localhost --port 8098 > "$RUNNER_TEMP/roundr-web-server.log" 2>&1 &
+      - name: Wait for local server
+        run: node -e 'const poll=async()=>{for(let i=0;i<60;i++){try{const r=await fetch("http://localhost:8098");if(r.ok)return;}catch{}await new Promise(r=>setTimeout(r,1000));}process.exit(1)};poll()'
+      - name: React DOM and five-mode rendering regression
+        run: node docs/svg-web-audit/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-render-results" after
+      - name: Controlled-clock carousel alerts and real controls
+        run: node docs/svg-web-audit/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-functional-results" functional
+      - name: Mobile configurations, focus and real layout rotation
+        run: node docs/ios-team-focus/reproduction/focus-regression.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-focus-results"
+      - name: Preserve reports, screenshots and server logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: roundr-web-regression
+          path: |
+            ${{ runner.temp }}/roundr-*-results
+            ${{ runner.temp }}/roundr-web-server.log
