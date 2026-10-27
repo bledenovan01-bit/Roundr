@@ -637,6 +637,7 @@ export function LovableFreeLive() {
       >
         {notice ? (
           <View
+            testID="free-notice-banner"
             style={{
               maxWidth: undefined,
               width: "100%",
@@ -941,7 +942,7 @@ export function LovableFreeLive() {
           >
             <View style={{ flex: 1, gap: 10 }}>
               {teamCards}
-              {noticeLayer}
+              {ft.config.kind === "countdown" && ft.config.endSignal ? <View style={{ minHeight: land ? 40 : 46 }} /> : null}
               {info}
               {laps}
             </View>
@@ -951,13 +952,14 @@ export function LovableFreeLive() {
           <>
             {teamCards}
             {carousel}
-            {noticeLayer}
+            {ft.config.kind === "countdown" && ft.config.endSignal ? <View style={{ minHeight: land ? 40 : 46 }} /> : null}
             {info}
             {laps}
           </>
         )}
       </ScrollView>
       <View
+        testID="free-dock"
         style={{
           paddingTop: land ? 8 : 12,
           paddingBottom: Math.max(inset.bottom, land ? 10 : 16),
@@ -966,6 +968,9 @@ export function LovableFreeLive() {
           alignItems: "center",
         }}
       >
+        <View pointerEvents="none" testID="free-notice-host" style={{ alignSelf: "flex-start", width: two ? (width - inset.left - inset.right - 50) / 2 : "100%" }}>
+          {notice ? noticeLayer : null}
+        </View>
         <View
           style={{
             width: "100%",
