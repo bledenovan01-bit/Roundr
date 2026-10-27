@@ -1,0 +1,22 @@
+AssertionError [ERR_ASSERTION]: No ancestor may clip the banner
++ actual - expected
+
++ [
++   {
++     bottom: 512,
++     tag: 'DIV',
++     y: 77
++   }
++ ]
+- []
+
+    at visible (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\Roundr\docs\svg-web-audit\reproduction\browser.cjs:59:10)
+    at async functional (C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\Roundr\docs\svg-web-audit\reproduction\browser.cjs:78:43)
+    at async C:\Users\denoe\Documents\ChatGPT\Roundr - Codex\work\Roundr\docs\svg-web-audit\reproduction\browser.cjs:7:30 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "case": "classique-ready.png",
+    "identical": true
+  },
+  {
+    "case": "cup-config.png",
+    "identical": true
+  },
+  {
+    "case": "cup-history.png",
+    "identical": true
+  },
+  {
+    "case": "free-interval-running-numeric.png",
+    "identical": true
+  },
+  {
+    "case": "free-stopwatch-config.png",
+    "identical": true
+  },
+  {
+    "case": "free-stopwatch-ready-analog.png",
+    "identical": true
+  },
+  {
+    "case": "maracana-ready.png",
+    "identical": true
+  },
+  {
+    "case": "survie-config.png",
+    "identical": true
+  },
+  {
+    "case": "survie-history.png",
+    "identical": true
+  }
+]
