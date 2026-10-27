@@ -4,7 +4,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const [base,fixturesPath,out,phase='before']=process.argv.slice(2);
 fs.mkdirSync(out,{recursive:true});
 (async()=>{const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chrome'}),results=[];
-try{for(const fixture of JSON.parse(fs.readFileSync(fixturesPath,'utf8'))){
+try{if(phase==='functional'){await functional(browser);return;}for(const fixture of JSON.parse(fs.readFileSync(fixturesPath,'utf8'))){
  const context=await browser.newContext({viewport:JSON.parse(process.env.SVG_VIEWPORT||'{"width":390,"height":844}'),hasTouch:true,isMobile:true});
  await context.addInitScript(f=>{Date.now=()=>f.now;for(const [key,value]of Object.entries(f.storage))localStorage.setItem(key,value);},fixture);
  const page=await context.newPage(),messages=[],errors=[],actions=[];
@@ -37,3 +37,76 @@ fs.writeFileSync(path.join(out,'summary.json'),JSON.stringify(summary,null,2));
 if(phase==='after'){assert.deepEqual(summary.pageErrors,[]);assert.deepEqual(summary.consoleErrors,[]);assert.deepEqual(summary.badAttributes,[]);assert.equal(svgWarnings.filter(m=>/non-boolean attribute|does not recognize|Invalid DOM property|Unknown event handler|Invalid ARIA/.test(m.text)).length,0);}
 console.log(JSON.stringify({phase,cases:summary.cases,pageErrors:summary.pageErrors.length,badAttributes:summary.badAttributes.length,warningKinds:summary.allMessages}));
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
+async function functional(browser) {
+ const fixtures=JSON.parse(fs.readFileSync(fixturesPath,'utf8')), report=[];
+ const open=async(f,viewport,remaining)=>{
+  const context=await browser.newContext({viewport,isMobile:true,hasTouch:true});
+  const page=await context.newPage(),errors=[],messages=[];
+  page.on('pageerror',e=>{errors.push(String(e));fs.writeFileSync(path.join(out,'failure-console.json'),JSON.stringify({case:f.name,errors,messages},null,2));});page.on('console',m=>{if(['error','warning'].includes(m.type()))messages.push({type:m.type(),text:m.text()});if(m.type()==='error')fs.writeFileSync(path.join(out,'failure-console.json'),JSON.stringify({case:f.name,errors,messages},null,2));});page.on('dialog',d=>d.accept());
+  const storage=JSON.parse(JSON.stringify(f.storage)),free=f.route.includes('chrono-libre/run');
+  if(remaining!==undefined){const key=free?'roundr.free-timer.v1':'roundr.session.v1',state=JSON.parse(storage[key]);if(free){state.stepStartedAt=f.now-(state.config.durationMs-remaining);state.stepAccumulatedMs=0;}else{state.live.chrono.runningSince=f.now-(state.live.periodMs[state.live.periodIndex]-remaining);state.live.chrono.accumulatedMs=0;}storage[key]=JSON.stringify(state);}
+  await page.clock.install({time:new Date(f.now)});await page.clock.pauseAt(new Date(f.now+1000));
+  await page.addInitScript(storage=>{if(!sessionStorage.getItem('roundr.test.seeded')){for(const [key,value]of Object.entries(storage))localStorage.setItem(key,value);sessionStorage.setItem('roundr.test.seeded','true');}},storage);
+  await page.goto(base+f.route,{timeout:180000});await page.getByTestId(free?'free-run-screen':'match-screen').waitFor({timeout:60000});await page.evaluate(()=>document.fonts.ready);await page.clock.runFor(300);
+  return {context,page,errors,messages,free};
+ };
+ const stored=(p,free)=>p.evaluate(key=>JSON.parse(localStorage.getItem(key)),free?'roundr.free-timer.v1':'roundr.session.v1');
+ const visible=async(p,free)=>{
+  const banner=p.getByTestId(free?'free-notice-banner':'live-notice-banner');assert.equal(await banner.count(),1,'Exactly one banner');
+  const box=await banner.evaluate(e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height,opacity:Number(getComputedStyle(e).opacity),pointer:getComputedStyle(e).pointerEvents,text:e.textContent,clippedBy:(()=>{const bad=[];for(let a=e.parentElement;a;a=a.parentElement){const s=getComputedStyle(a),b=a.getBoundingClientRect();if(/auto|scroll|hidden|clip/.test(s.overflowY)&&(r.y<b.y-1||r.bottom>b.bottom+1))bad.push({tag:a.tagName,y:b.y,bottom:b.bottom});}return bad;})()};});
+  const dock=await (free?p.getByTestId('free-dock').getByRole('button').first():p.getByTestId('match-end')).boundingBox(),viewport=p.viewportSize();
+  assert(box.width>0&&box.height>0&&box.x>=-1&&box.y>=0&&box.right<=viewport.width+1&&box.bottom<=dock.y+1,'Banner must be fully visible above fixed controls: '+JSON.stringify({box,dock}));
+  assert.deepEqual(box.clippedBy,[],'No ancestor may clip the banner');assert(box.opacity>.5,'Banner must not be transparent');assert.equal(box.pointer,'none','Banner must not block gestures');return box;
+ };
+ const checkpoint=(name,data,errors,messages)=>{
+  assert.deepEqual(errors,[]);assert.deepEqual(messages.filter(m=>m.type==='error'),[]);
+  report.push({name,...data,errors,messages});fs.writeFileSync(path.join(out,'functional-results.json'),JSON.stringify(report,null,2));console.log('functional passed',name);
+ };
+ for(const viewport of [{width:390,height:600},{width:844,height:390}])for(const mode of ['classique','maracana','cup','survie','libre']){
+  const f=fixtures.find(f=>f.name===(mode==='libre'?'free-countdown-running-numeric':mode+'-running'));
+  const targets=mode==='libre'?['Numérique','Analogique','Circulaire']:mode==='classique'?['digital','ring','music']:mode==='maracana'?['digital','ring','next','music']:['digital','ring','tournament','music'];
+  for(const target of targets){
+   if(process.env.ROUNDR_CASE_FILTER&&!new RegExp(process.env.ROUNDR_CASE_FILTER).test(mode+'-'+target+'-'+viewport.width))continue;
+   const {context,page:p,errors,messages,free}=await open(f,viewport,65000);
+   const banner=p.getByTestId(free?'free-notice-banner':'live-notice-banner');
+   const select=t=>free?p.getByRole('tab',{name:t,exact:true}).click():p.getByTestId('match-view-'+t).click();
+   const selected=t=>free?p.getByRole('tab',{name:t,exact:true}).getAttribute('aria-selected'):p.getByTestId('match-view-'+t).getAttribute('aria-current');
+   await select(target);await p.clock.runFor(400);assert.equal(await selected(target),'true');
+   const state=await stored(p,free),duration=free?state.config.durationMs:state.live.periodMs[state.live.periodIndex],start=free?state.stepStartedAt:state.live.chrono.runningSince;
+   const threshold=start+duration-60000;
+   await p.clock.fastForward(threshold-await p.evaluate(()=>Date.now())-500);assert.equal(await banner.count(),0,'No early alert');
+   await p.clock.runFor(900);const minute=await visible(p,free);assert.equal(await selected(target),'true','Alert must not select another view');
+   const other=targets[(targets.indexOf(target)+1)%targets.length];await select(other);await p.clock.runFor(400);const switched=await visible(p,free);assert.equal(switched.text,minute.text,'Changing view must retain the same alert');
+   await select(target);await p.clock.runFor(400);
+   if(viewport.width===390&&target===targets[0]){await p.setViewportSize({width:600,height:390});await p.clock.runFor(400);await visible(p,free);await p.setViewportSize(viewport);await p.clock.runFor(400);await visible(p,free);assert.equal(await selected(target),'true','Rotation retains carousel selection');}
+   if(viewport.width===390)await p.screenshot({path:path.join(out,`${mode}-${target}-60s.png`)});
+   await p.clock.fastForward(4700);await p.clock.runFor(300);if(mode==='maracana'){await p.clock.fastForward(4700);await p.clock.runFor(300);}assert.equal(await banner.count(),0,'Alert expires even when no carousel change occurs');
+   await p.clock.fastForward(start+duration-30000-await p.evaluate(()=>Date.now())-500);assert.equal(await banner.count(),0);
+   await p.clock.runFor(900);const thirty=await visible(p,free);assert.match(thirty.text,/30/);assert.equal(await selected(target),'true');
+   if(viewport.width===844&&['digital','Circulaire','music'].includes(target))await p.screenshot({path:path.join(out,`${mode}-${target}-landscape-30s.png`)});
+   await p.clock.runFor(3300);await visible(p,free);await p.clock.fastForward(1800);await p.clock.runFor(300);assert.equal(await banner.count(),0,'Thirty-second alert must expire');
+   checkpoint(`${mode}-${target}-${viewport.width}`,{kind:'alerts',minute,thirty,viewSwitchRetainsNotice:true,noEarlyNotice:true,expires:true,selectedViewStable:true},errors,messages);await context.close();
+  }
+ }
+ // Exercise real controls and persistence once per mode, beyond seeded snapshots.
+ for(const mode of ['classique','maracana','cup','survie','libre']){
+  if(process.env.ROUNDR_CASE_FILTER&&!new RegExp(process.env.ROUNDR_CASE_FILTER).test(mode+'-controls-and-reload'))continue;
+  const f=fixtures.find(f=>f.name===(mode==='libre'?'free-countdown-ready-numeric':mode+'-ready'));
+  const {context,page:p,errors,messages,free}=await open(f,{width:390,height:600});
+  await p.getByRole('button',{name:'Démarrer',exact:true}).click();await p.clock.runFor(1000);
+  let state=await stored(p,free);assert(free?state.running:state.live.chrono.runningSince!==null);
+  const starting=await stored(p,free),length=free?starting.config.durationMs:starting.live.periodMs[starting.live.periodIndex];
+  await p.clock.fastForward(length-63000);await p.clock.runFor(2500);await visible(p,free);
+  const pause=()=>free?p.getByRole('button',{name:'Pause',exact:true}).click():p.getByTestId('match-pause').click();
+  await pause();await p.clock.runFor(100);state=await stored(p,free);assert(free?!state.running:state.live.chrono.runningSince===null);
+  const paused=free?state.stepAccumulatedMs:state.live.chrono.accumulatedMs;await p.clock.fastForward(5000);await p.clock.runFor(300);if(mode==='maracana'){await p.clock.fastForward(5000);await p.clock.runFor(300);}assert.equal(await p.getByTestId(free?'free-notice-banner':'live-notice-banner').count(),0,'Alert expires while paused');state=await stored(p,free);assert.equal(free?state.stepAccumulatedMs:state.live.chrono.accumulatedMs,paused);
+  if(!free){await p.getByTestId('match-goal-0').click();await p.clock.runFor(100);assert.equal((await stored(p,free)).live.score[0],1);}
+  const saved=await stored(p,free);await p.reload();await p.getByTestId(free?'free-run-screen':'match-screen').waitFor();await p.clock.runFor(300);
+  state=await stored(p,free);assert.equal(free?state.stepAccumulatedMs:state.live.chrono.accumulatedMs,paused);if(!free)assert.deepEqual(state.live.score,saved.live.score);
+  await p.getByRole('button',{name:'Reprendre',exact:true}).click();await p.clock.runFor(1000);state=await stored(p,free);assert(free?state.running:state.live.chrono.runningSince!==null);
+  if(free){await p.getByRole('button',{name:'Fin',exact:true}).click();await p.clock.runFor(300);await p.getByRole('button',{name:'Terminer la session',exact:true}).click();await p.clock.runFor(500);assert.equal(new URL(p.url()).pathname,'/');}
+  else {await p.getByTestId('match-end').click();await p.clock.runFor(300);assert.notEqual((await stored(p,free)).live.stage,'period');}
+  checkpoint(mode+'-controls-and-reload',{kind:'lifecycle',start:true,pause:true,pausedTimeStable:true,resume:true,score:!free,reloadPreservesState:true,end:true},errors,messages);await context.close();
+ }
+ return report;
+}
