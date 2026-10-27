@@ -43,6 +43,8 @@ jobs:
         run: npx --yes yarn@1.22.22 install --frozen-lockfile
       - name: Check types
         run: npm run typecheck
+      - name: Check Expo SDK and native module compatibility
+        run: npx expo-doctor
       - name: Bundle Android, iOS and web
         env:
           CI: "1"

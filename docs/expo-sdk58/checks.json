@@ -1,0 +1,22 @@
+{
+  "base": "0980518659c9a031e56b05b2e67e1233807d5aca",
+  "expo": "58.0.20",
+  "react": "19.3.0",
+  "reactNative": "0.88.0",
+  "router": "58.0.27",
+  "typecheck": "passed",
+  "projectLint": "passed, zero warnings",
+  "syntaxFiles": 116,
+  "domainSuites": 25,
+  "expoDoctor": "20/20",
+  "frozenInstall": "passed",
+  "localExports": [
+    "web",
+    "android",
+    "ios"
+  ],
+  "approvedExportedWavs": 7,
+  "previewAndroid": "standalone APK, sdk-58 image",
+  "nativePhysicalTest": false,
+  "browserValidation": "Existing matrices are rerun locally against final static export and in CI against development server; final results in PR description and CI artifacts."
+}
