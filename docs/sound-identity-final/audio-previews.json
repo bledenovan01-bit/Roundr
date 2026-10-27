@@ -1,0 +1,242 @@
+[
+  {
+    "choice": "whistle",
+    "event": "startSound",
+    "expected": "whistle.wav",
+    "sha256": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca",
+    "volume": 0.8
+  },
+  {
+    "choice": "whistle",
+    "event": "goalSound",
+    "expected": "whistle.wav",
+    "sha256": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca",
+    "volume": 0.8
+  },
+  {
+    "choice": "whistle",
+    "event": "minuteSound",
+    "expected": "whistle.wav",
+    "sha256": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca",
+    "volume": 0.8
+  },
+  {
+    "choice": "whistle",
+    "event": "periodSound",
+    "expected": "whistle.wav",
+    "sha256": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca",
+    "volume": 0.8
+  },
+  {
+    "choice": "whistle",
+    "event": "endSound",
+    "expected": "whistle.wav",
+    "sha256": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca",
+    "volume": 0.8
+  },
+  {
+    "choice": "whistle",
+    "event": "warmupSound",
+    "expected": "whistle.wav",
+    "sha256": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca",
+    "volume": 0.8
+  },
+  {
+    "choice": "final",
+    "event": "startSound",
+    "expected": "final.wav",
+    "sha256": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+    "volume": 0.8
+  },
+  {
+    "choice": "final",
+    "event": "goalSound",
+    "expected": "final.wav",
+    "sha256": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+    "volume": 0.8
+  },
+  {
+    "choice": "final",
+    "event": "minuteSound",
+    "expected": "final.wav",
+    "sha256": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+    "volume": 0.8
+  },
+  {
+    "choice": "final",
+    "event": "periodSound",
+    "expected": "final.wav",
+    "sha256": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+    "volume": 0.8
+  },
+  {
+    "choice": "final",
+    "event": "endSound",
+    "expected": "final.wav",
+    "sha256": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+    "volume": 0.8
+  },
+  {
+    "choice": "final",
+    "event": "warmupSound",
+    "expected": "final.wav",
+    "sha256": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+    "volume": 0.8
+  },
+  {
+    "choice": "alert",
+    "event": "startSound",
+    "expected": "alert.wav",
+    "sha256": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+    "volume": 0.8
+  },
+  {
+    "choice": "alert",
+    "event": "goalSound",
+    "expected": "alert.wav",
+    "sha256": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+    "volume": 0.8
+  },
+  {
+    "choice": "alert",
+    "event": "minuteSound",
+    "expected": "alert.wav",
+    "sha256": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+    "volume": 0.8
+  },
+  {
+    "choice": "alert",
+    "event": "periodSound",
+    "expected": "alert.wav",
+    "sha256": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+    "volume": 0.8
+  },
+  {
+    "choice": "alert",
+    "event": "endSound",
+    "expected": "alert.wav",
+    "sha256": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+    "volume": 0.8
+  },
+  {
+    "choice": "alert",
+    "event": "warmupSound",
+    "expected": "alert.wav",
+    "sha256": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+    "volume": 0.8
+  },
+  {
+    "choice": "prep",
+    "event": "startSound",
+    "expected": "prep.wav",
+    "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "volume": 0.8
+  },
+  {
+    "choice": "prep",
+    "event": "goalSound",
+    "expected": "prep.wav",
+    "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "volume": 0.8
+  },
+  {
+    "choice": "prep",
+    "event": "minuteSound",
+    "expected": "prep.wav",
+    "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "volume": 0.8
+  },
+  {
+    "choice": "prep",
+    "event": "periodSound",
+    "expected": "prep.wav",
+    "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "volume": 0.8
+  },
+  {
+    "choice": "prep",
+    "event": "endSound",
+    "expected": "prep.wav",
+    "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "volume": 0.8
+  },
+  {
+    "choice": "prep",
+    "event": "warmupSound",
+    "expected": "prep.wav",
+    "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "volume": 0.8
+  },
+  {
+    "choice": "gong",
+    "event": "startSound",
+    "expected": "gong.wav",
+    "sha256": "5b85713e97edf06d22cca3e59f6e48adedaefd7ca2c11520949ecb6decdfa11c",
+    "volume": 0.8
+  },
+  {
+    "choice": "gong",
+    "event": "goalSound",
+    "expected": "gong.wav",
+    "sha256": "5b85713e97edf06d22cca3e59f6e48adedaefd7ca2c11520949ecb6decdfa11c",
+    "volume": 0.8
+  },
+  {
+    "choice": "gong",
+    "event": "minuteSound",
+    "expected": "gong.wav",
+    "sha256": "5b85713e97edf06d22cca3e59f6e48adedaefd7ca2c11520949ecb6decdfa11c",
+    "volume": 0.8
+  },
+  {
+    "choice": "gong",
+    "event": "periodSound",
+    "expected": "prep.wav",
+    "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "volume": 0.8
+  },
+  {
+    "choice": "gong",
+    "event": "endSound",
+    "expected": "gong.wav",
+    "sha256": "5b85713e97edf06d22cca3e59f6e48adedaefd7ca2c11520949ecb6decdfa11c",
+    "volume": 0.8
+  },
+  {
+    "choice": "gong",
+    "event": "warmupSound",
+    "expected": "gong.wav",
+    "sha256": "5b85713e97edf06d22cca3e59f6e48adedaefd7ca2c11520949ecb6decdfa11c",
+    "volume": 0.8
+  },
+  {
+    "choice": "off",
+    "event": "startSound",
+    "disabled": true
+  },
+  {
+    "choice": "off",
+    "event": "goalSound",
+    "disabled": true
+  },
+  {
+    "choice": "off",
+    "event": "minuteSound",
+    "disabled": true
+  },
+  {
+    "choice": "off",
+    "event": "periodSound",
+    "disabled": true
+  },
+  {
+    "choice": "off",
+    "event": "endSound",
+    "disabled": true
+  },
+  {
+    "choice": "off",
+    "event": "warmupSound",
+    "disabled": true
+  }
+]

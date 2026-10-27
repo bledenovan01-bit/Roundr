@@ -1,0 +1,19 @@
+{
+  "baseCommit": "7473ddcc684c2c36553d318fedd553e8098114d0",
+  "typecheck": "passed",
+  "projectLint": "passed, no warnings",
+  "syntax": "116 files, zero errors",
+  "domainSuites": 25,
+  "expoDoctor": "20/20",
+  "localExports": [
+    "web",
+    "android",
+    "ios"
+  ],
+  "approvedWavBytes": 7,
+  "browserRenderCases": 78,
+  "controlledClockCases": 41,
+  "mobileCases": 10,
+  "settingsPreviewCases": 36,
+  "physicalNativeTest": false
+}
