@@ -24,6 +24,7 @@ import {
 } from "@/src/store/preferences";
 import { dispatchSession, useStore } from "@/src/store/session-store";
 import { playSound, SOUND_CATALOG } from "@/src/audio/sounds";
+import { soundPreviewContext } from "@/src/audio/sound-identity";
 import { freeReadout } from "@/src/features/free-live-state";
 import { matchProjection } from "@/src/features/match-presentation";
 import {
@@ -143,10 +144,11 @@ export default function LovableSettings() {
           <PhaseAction
             kind="secondary"
             label="Écouter ce son"
+            testID={`preview-${key}`}
             disabled={p[key] === "off"}
             onPress={() => {
               const sound = p[key];
-              if (sound !== "off") void playSound(sound);
+              if (sound !== "off") void playSound(sound, soundPreviewContext(key));
             }}
           />
         </ConfigCard>,

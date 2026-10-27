@@ -7,8 +7,8 @@ import { soundAsset, type SoundKey, type SoundAsset, type SoundContext } from ".
 export type { SoundKey } from "./sound-identity";
 export const SOUND_CATALOG: {key:SoundKey; title:string; role:string; duration:number}[] = [
   {key:"whistle",title:"Metal Whistle",role:"Début du match, alternative pour fin et but",duration:0.8},
-  {key:"final",title:"Metal Whistle · fin",role:"Fin du match",duration:0.8},
-  {key:"alert",title:"Millerntor Stadium · but",role:"But marqué",duration:4},
+  {key:"final",title:"Metal Whistle · fin",role:"Fin du match · deux coups courts et un long",duration:1.737936507936508},
+  {key:"alert",title:"Millerntor Stadium · but",role:"But marqué · B1 V2",duration:2.4},
   {key:"prep",title:"Hint · transition",role:"Équipes à préparer et transitions",duration:0.265},
   {key:"gong",title:"Digital Interface Alert 20",role:"Alertes temporelles ; Hint pour les transitions",duration:0.552},
 ];

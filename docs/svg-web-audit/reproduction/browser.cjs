@@ -4,7 +4,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const [base,fixturesPath,out,phase='before']=process.argv.slice(2);
 fs.mkdirSync(out,{recursive:true});
 (async()=>{const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chrome'}),results=[];
-try{if(phase==='functional'){await functional(browser);return;}for(const fixture of JSON.parse(fs.readFileSync(fixturesPath,'utf8'))){
+try{if(phase==='audio'){await audioPreviews(browser);return;}if(phase==='functional'){await functional(browser);return;}for(const fixture of JSON.parse(fs.readFileSync(fixturesPath,'utf8'))){
  const context=await browser.newContext({viewport:JSON.parse(process.env.SVG_VIEWPORT||'{"width":390,"height":844}'),hasTouch:true,isMobile:true});
  await context.addInitScript(f=>{Date.now=()=>f.now;for(const [key,value]of Object.entries(f.storage))localStorage.setItem(key,value);},fixture);
  const page=await context.newPage(),messages=[],errors=[],actions=[];
@@ -109,4 +109,51 @@ async function functional(browser) {
   checkpoint(mode+'-controls-and-reload',{kind:'lifecycle',start:true,pause:true,pausedTimeStable:true,resume:true,score:!free,reloadPreservesState:true,end:true},errors,messages);await context.close();
  }
  return report;
+}
+
+// Real Settings buttons, real player source URLs; compare fetched WAV bytes to
+// the approved manifest rather than guessing Metro asset names.
+async function audioPreviews(browser) {
+ const crypto=require('node:crypto');
+ const manifest=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../../../frontend/assets/sounds/official-manifest.json'),'utf8'));
+ const hashes=Object.fromEntries(manifest.outputs.map(o=>[o.file,o.sha256]));
+ const preferences=['startSound','goalSound','minuteSound','periodSound','endSound','warmupSound'];
+ const report=[];
+ for(const choice of ['whistle','final','alert','prep','gong','off']){
+  const context=await browser.newContext({viewport:{width:390,height:844}});
+  await context.addInitScript(({choice,preferences})=>{
+   localStorage.setItem('roundr.preferences.v1',JSON.stringify({sounds:true,volume:.8,...Object.fromEntries(preferences.map(k=>[k,choice]))}));
+   window.__audioPreviews=[];
+   const play=HTMLMediaElement.prototype.play;
+   HTMLMediaElement.prototype.play=function(){window.__audioPreviews.push({src:this.src,volume:this.volume});return play.call(this);};
+  },{choice,preferences});
+  const page=await context.newPage(),errors=[];
+  page.on('pageerror',e=>errors.push(String(e)));
+  page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  await page.goto(base+'/settings',{timeout:180000});
+  await page.getByRole('button',{name:'Réglages avancés',exact:true}).click();
+  let count=0;
+  for(const key of preferences){
+   const button=page.getByTestId('preview-'+key);
+   if(choice==='off'){
+    assert.equal(await button.getAttribute('aria-disabled'),'true');
+    report.push({choice,event:key,disabled:true});continue;
+   }
+   await button.click();
+   await page.waitForFunction(n=>window.__audioPreviews.length>n,count);
+   const call=await page.evaluate(n=>window.__audioPreviews[n],count++);
+   const expected=(key==='periodSound'&&choice==='gong'?'prep':choice)+'.wav';
+   const response=await page.request.get(call.src);assert(response.ok());
+   assert.equal(crypto.createHash('sha256').update(await response.body()).digest('hex'),hashes[expected],key+' selected '+choice);
+   assert.equal(call.volume,.8);
+   report.push({choice,event:key,expected,sha256:hashes[expected],volume:call.volume});
+  }
+  assert.deepEqual(errors,[]);
+  assert.equal((await page.evaluate(()=>window.__audioPreviews.length)),count);
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('roundr.preferences.v1')));
+  for(const key of preferences)assert.equal(saved[key],choice,'Preview must not change saved preference');
+  await context.close();
+ }
+ fs.writeFileSync(path.join(out,'audio-previews.json'),JSON.stringify(report,null,2));
+ console.log(report.length+' Settings preview cases passed: approved WAV bytes, contexts, alternatives, volume, off and unchanged preferences');
 }

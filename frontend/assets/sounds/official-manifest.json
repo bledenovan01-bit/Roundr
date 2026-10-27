@@ -48,44 +48,70 @@
     {
       "file": "whistle.wav",
       "seconds": 0.8,
-      "edit": "A2: 0.65–1.45 s, 10 ms edge fades",
-      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+      "edit": "A2 équilibré",
+      "sha256": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca",
+      "validatedPack": "Roundr_Pack_Ecoute_2026-10-27_PR17.zip",
+      "validatedMember": "Roundr_Pack_Ecoute_2026-10-27_PR17/02_Propositions_harmonisees/A_debut_A2_equilibre.wav"
     },
     {
       "file": "final.wav",
-      "seconds": 0.8,
-      "edit": "A2: same selected whistle, match end",
-      "sha256": "eea6aec3cc7f45840e63d8e67ebd0a30abe2f6177ca656b74fd794808f834192"
+      "seconds": 1.737936507936508,
+      "edit": "P2 : deux coups courts et un long naturel",
+      "sha256": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+      "validatedPack": "Roundr_Pack_Ecoute_2026-10-27_PR17.zip",
+      "validatedMember": "Roundr_Pack_Ecoute_2026-10-27_PR17/02_Propositions_harmonisees/B_fin_match_P2_deux_courts_un_long.wav"
     },
     {
       "file": "alert.wav",
-      "seconds": 4.0,
-      "edit": "B1: 0.35–4.35 s, 150 ms edge fades",
-      "sha256": "fe1650deda6a99e0f7b5de436fee80772b0b483abf0e500b0c80b6f9ed7791fb"
+      "seconds": 2.4,
+      "edit": "B1 V2 : 1,25–3,65 s du WAV intégré de référence, 2,40 s",
+      "sha256": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+      "validatedPack": "Roundr_B1_Explosion_Comparatif_2026-10-27.zip",
+      "validatedMember": "Roundr_B1_Explosion_Comparatif_2026-10-27/02_Nouvelles_variantes_B1/B1_V2_1.25-3.65s_2s40.wav"
     },
     {
       "file": "gong.wav",
       "seconds": 0.5517233560090703,
-      "edit": "C1: complete source, PCM16/44.1 kHz conversion",
-      "sha256": "a2fd42f04333682dfe09b70f74827527b8ab3a5eeb51194d5bdb415c90d94766"
+      "edit": "C1 équilibré",
+      "sha256": "5b85713e97edf06d22cca3e59f6e48adedaefd7ca2c11520949ecb6decdfa11c",
+      "validatedPack": "Roundr_Pack_Ecoute_2026-10-27_PR17.zip",
+      "validatedMember": "Roundr_Pack_Ecoute_2026-10-27_PR17/02_Propositions_harmonisees/D_alerte_C1_equilibree.wav"
     },
     {
       "file": "prep.wav",
       "seconds": 0.26519274376417235,
-      "edit": "D1-A: complete unchanged PCM source",
-      "sha256": "ac4385b1f994a5e0522f6189f2dbfb5757d70d93eda3cd60cc084d5cf1f2dbbe"
+      "edit": "D1-A équilibré",
+      "sha256": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+      "validatedPack": "Roundr_Pack_Ecoute_2026-10-27_PR17.zip",
+      "validatedMember": "Roundr_Pack_Ecoute_2026-10-27_PR17/02_Propositions_harmonisees/E_transition_D1A_legere.wav"
     },
     {
       "file": "free-final.wav",
-      "seconds": 0.6103854875283447,
-      "edit": "D2: Hint + 80 ms silence + identical Hint",
-      "sha256": "90d8787608e70134ebe685df48966c620118db95d13b9959885ba1671f77a4eb"
+      "seconds": 0.6903854875283447,
+      "edit": "D2 équilibré, Hint + 160 ms de silence + Hint",
+      "sha256": "e533d9c3cb3251fb6a6268ade3793e2329574b3393fac7edaeec0841a19380a6",
+      "validatedPack": "Roundr_Pack_Ecoute_2026-10-27_PR17.zip",
+      "validatedMember": "Roundr_Pack_Ecoute_2026-10-27_PR17/02_Propositions_harmonisees/F_fin_chrono_D2_espace_160ms.wav"
     },
     {
       "file": "confirmation.wav",
       "seconds": 0.22768707482993197,
-      "edit": "E1: complete source, PCM16 conversion; no new event wired",
-      "sha256": "1e273d7ceaa29a61ba4b7c4d55fd6b52546ca30c075954263492fa0a903287c3"
+      "edit": "E1 équilibré, aucun événement connecté",
+      "sha256": "41a603d2ae46827f4d1436522fc4fa78e341b02d6b3185032bdaa1e4ec4534e6",
+      "validatedPack": "Roundr_Pack_Ecoute_2026-10-27_PR17.zip",
+      "validatedMember": "Roundr_Pack_Ecoute_2026-10-27_PR17/02_Propositions_harmonisees/G_confirmation_E1_discrete.wav"
+    }
+  ],
+  "identity": "DA sonore définitive validée par le propriétaire — 2026-10-27",
+  "referenceCommit": "7473ddcc684c2c36553d318fedd553e8098114d0",
+  "validatedPacks": [
+    {
+      "file": "Roundr_Pack_Ecoute_2026-10-27_PR17.zip",
+      "sha256": "3115cb203ac1d2131550dcf36ff45cf0bf9fb1f251e73e2871b382067491bb92"
+    },
+    {
+      "file": "Roundr_B1_Explosion_Comparatif_2026-10-27.zip",
+      "sha256": "7b81c0adc62e323e536cf894bb0603f1327f78578b1c59a42fe28974dc6da958"
     }
   ]
 }
