@@ -1,5 +1,7 @@
 # Roundr — préparer et installer les versions de test natives
 
+> Guide historique SDK 57. Pour la branche `codex/roundr-expo-sdk58`, suivre [la préparation SDK 58 du 3 novembre 2026](native-sdk58.md) : identité Expo liée, package Android de recette et instructions actualisées. Ne pas reprendre les anciennes commandes de branche ou de liaison ci-dessous.
+
 Préparation du 18 octobre 2026. Base exacte : `62e8c13214746562a26369bda260d1e8d5adce4e`.
 Branche : `codex/roundr-native-preview`, issue de la branche de la PR #5, sans fusion dans `main`.
 
