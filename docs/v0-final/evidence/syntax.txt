@@ -1,0 +1,5 @@
+
+> frontend@1.0.0 test:syntax
+> node scripts/check-syntax.cjs
+
+117 TypeScript files parsed; 0 syntax errors

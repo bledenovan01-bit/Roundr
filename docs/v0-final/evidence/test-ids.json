@@ -1,0 +1,314 @@
+[
+  {
+    "name": "classique-config",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "classique-ready",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "classique-running",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "classique-paused",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "classique-break",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "classique-result",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "maracana-config",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "maracana-ready",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "maracana-running",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "maracana-paused",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "maracana-result",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-config",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-hub",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-ready",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-running",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-paused",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-result",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-summary",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-champion",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-champion-history",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "cup-history",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-config",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-hub",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-ready",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-running",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-paused",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-result",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-summary",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-shootout",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-champion",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-champion-history",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "survie-history",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-config",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-ready-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-ready-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-ready-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-running-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-running-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-running-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-paused-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-paused-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-stopwatch-paused-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-config",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-ready-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-ready-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-ready-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-running-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-running-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-running-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-paused-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-paused-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-paused-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-finished-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-finished-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-countdown-finished-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-config",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-ready-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-ready-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-ready-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-running-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-running-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-running-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-paused-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-paused-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-paused-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-finished-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-finished-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-finished-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-waiting-numeric",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-waiting-analog",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "free-interval-waiting-circular",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "shared-_",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "shared-_history",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "shared-_teams",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "shared-_team-builder",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "shared-_settings",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "shared-_chrono-libre",
+    "duplicateTestIds": []
+  },
+  {
+    "name": "shared-_chrono-libre_presets",
+    "duplicateTestIds": []
+  }
+]

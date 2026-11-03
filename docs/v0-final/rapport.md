@@ -32,10 +32,27 @@ Pour le n°7, un état **déjà marqué terminé** n'était pas repris à l'accu
 
 Les résultats exécutés et les liens des jobs sont publiés dans la PR. Les exports CI sont des bundles JavaScript, pas des builds EAS ni une validation physique Android/iPhone. Le paysage est testé dans le navigateur, y compris la rotation réelle de la fenêtre ; la rotation native reste à vérifier sur appareil.
 
+### Résultats locaux exécutés
+
+- `npm test` : 26 suites réussies, dont la nouvelle suite V0 et les empreintes des sept WAV.
+- `npm run typecheck`, `npm run test:syntax` : réussis ; 117 fichiers TS/TSX sans erreur de syntaxe.
+- `npm run lint` : réussi via un PATH temporaire fourni par `npx --package yarn@1.22.22`, sans changement de dépendances.
+- Recette navigateur : 21 scénarios ciblés réussis ; 78 états existants réussis, aucune erreur console/JavaScript/DOM, aucun identifiant de test dupliqué. L'avertissement Web préexistant `Animated/useNativeDriver` reste visible et n'est pas masqué.
+- Paysage compact (568 × 320) : contenu vertical défilant, commandes fixes. Le chrono doit rester accessible par défilement. À 844 × 390, la disposition existante passe à deux colonnes. Ces comportements sont conservés, sans nouvelle mise en page.
+- Observations de base, logs et synthèses : dossier [`evidence`](./evidence/). Les captures sont produites par les scripts de reproduction et la CI les conserve dans l'artefact `roundr-web-regression`.
+
+### Diagnostic Expo Doctor indépendant des corrections
+
+Le premier run de la PR #20 (`41690852449`) passe les suites métier, le lint et TypeScript, puis échoue au contrôle Expo Doctor : 19/20. Au moment de cette recette, le service attend Expo `~58.0.23` au lieu de `58.0.22`, Router `~58.0.30` au lieu de `58.0.29` et `safe-area-context ~5.11.1` au lieu de `5.10.1`. Les versions de la PR sont strictement identiques à `accbea8`.
+
+Le même `npx --no-install expo-doctor` a été exécuté sur l'exportation inchangée de `accbea8` : il reproduit exactement ce diagnostic, alors que la CI de ce commit avait auparavant réussi (`41680333068`). Le fichier local `expo/bundledNativeModules.json` de 58.0.22 référence encore Router `~58.0.29` et safe-area `~5.10.1` ; les recommandations distantes ont évolué. Voir [`evidence/baseline-doctor.txt`](./evidence/baseline-doctor.txt).
+
+Aucune mise à jour de SDK/dépendances, exclusion ou désactivation du contrôle n'est appliquée. Cet échec reste visible dans la CI. L'étape d'exports du job CI est sautée après l'échec Doctor ; des exports locaux séparés sont utilisés pour vérifier les bundles sans modifier le périmètre.
+
 ## Périmètre conservé
 
 Aucun fichier du domaine, du store, des préférences, des sons, des assets validés, du manifeste audio, de `package.json`, du lockfile, de la configuration Expo/EAS ou du SDK n'est modifié. Les sept sons et leurs déclencheurs sont conservés. Les seules modifications visuelles sont la disposition des durées et la visibilité/validation des éléments signalés.
 
 ## Incidents de validation
 
-La première fixture de test Cup utilisait trop peu d'équipes ; elle a été corrigée avant validation, ainsi que les types des fixtures. L'installation locale a utilisé le lockfile figé de la base. Le premier lancement navigateur était empêché par le sandbox Windows, puis le serveur et le navigateur étaient séparés par leurs environnements ; le lanceur commun résout cela. `expo lint` local nécessitait `yarnpkg`, absent du PATH ; un essai `npx` a échoué sur DNS. Le lint applicatif a été exécuté directement avec la configuration ESLint existante sur `src` et `app`, périmètre par défaut d'Expo. Un essai ESLint sur tout le dossier incluait des scripts historiques hors de ce périmètre et signalait 23 erreurs/22 avertissements préexistants ; aucun nettoyage hors sujet n'est inclus.
+La première fixture de test Cup utilisait trop peu d'équipes ; elle a été corrigée avant validation, ainsi que les types des fixtures. L'installation locale a utilisé le lockfile figé de la base. Le premier lancement navigateur était empêché par le sandbox Windows, puis le serveur et le navigateur étaient séparés par leurs environnements ; le lanceur commun résout cela. `expo lint` local nécessitait `yarnpkg`, absent du PATH ; un essai `npx` a échoué sur DNS. Le lint applicatif direct a réussi sur `src` et `app`, puis le script officiel `npm run lint` a également réussi avec Yarn dans un PATH temporaire. Un essai ESLint sur tout le dossier incluait des scripts historiques hors du périmètre d'Expo et signalait 23 erreurs/22 avertissements préexistants ; aucun nettoyage hors sujet n'est inclus.

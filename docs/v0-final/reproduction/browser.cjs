@@ -7,6 +7,7 @@ fs.mkdirSync(out, {recursive:true});
   const browser = await chromium.launch({headless:true, channel:process.env.PLAYWRIGHT_CHANNEL || 'chrome'});
   const results = [];
   async function scenario(name, route, run, viewport = {width:320,height:568}, fixture) {
+    if(process.env.V0_ROTATION_ONLY && !name.startsWith('rotation-')) return;
     const context = await browser.newContext({viewport});
     const page = await context.newPage(), errors = [];
     page.on('pageerror', e => errors.push(String(e)));
@@ -106,6 +107,14 @@ fs.mkdirSync(out, {recursive:true});
           await p.setViewportSize(v); await p.waitForTimeout(350);
           assert.deepEqual(await read(),before);
           assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth > innerWidth),false);
+          const dock = await p.getByTestId(mode==='free-stopwatch'?'free-dock':'match-dock').boundingBox();
+          assert(dock && dock.x >= -.5 && dock.y >= -.5 && dock.x+dock.width <= v.width+.5 && dock.y+dock.height <= v.height+.5, mode+' controls remain inside viewport');
+          if(v.width>v.height) {
+            await digits.scrollIntoViewIfNeeded();
+            const clock = await digits.boundingBox();
+            assert(clock && clock.y >= 0 && clock.y+clock.height <= dock.y+.5, mode+' clock is reachable above fixed controls');
+            await p.screenshot({path:path.join(out,'landscape-'+mode+'-'+v.width+'.png')});
+          }
         }
       },undefined,f);
     }
