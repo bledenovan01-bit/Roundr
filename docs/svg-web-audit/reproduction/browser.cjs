@@ -10,7 +10,9 @@ try{if(phase==='audio'){await audioPreviews(browser);return;}if(phase==='functio
  const page=await context.newPage(),messages=[],errors=[],actions=[];
  page.on('console',m=>{if(['warning','error'].includes(m.type()))messages.push({type:m.type(),text:m.text()});});
  page.on('pageerror',e=>errors.push(String(e)));
- await page.goto(base+fixture.route,{timeout:180000});await page.waitForSelector('svg',{timeout:60000});await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(250);
+ // Some valid screens (for example the empty team list) have no SVG. Wait for
+ // their accessible heading; SVG/error assertions below stay unchanged.
+ await page.goto(base+fixture.route,{timeout:180000});await page.getByRole('heading').first().waitFor({timeout:60000});await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(250);
  if(fixture.name.endsWith('-config')&&!fixture.name.startsWith('free-')){
   const toggle=page.getByRole('switch',{name:'Personnaliser les équipes',exact:true});
   if(await toggle.count()&&await toggle.getAttribute('aria-checked')!=='true')await toggle.click();

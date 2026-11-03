@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AccessibilityInfo, Animated, Pressable, ScrollView, Text, View, useWindowDimensions } from "react-native";
+import type { ScrollViewInstance } from "react-native";
 import type { Notice } from "@/src/domain/live-notices";
 import { ChronoRing } from "./chrono-ring";
 import { fontFamily, makeStyles } from "@/src/theme";
@@ -8,7 +9,7 @@ export type NoticeContent = { cue: Notice; time: string; matchup: string; badge:
 
 export function ChronoCarousel({ children, notice, locked=false, time, caption, status, progress }: { children: React.ReactNode; notice?: NoticeContent; locked?:boolean; time:string; caption:string; status:string; progress:number }) {
   const styles = useStyles();
-  const scroll = useRef<ScrollView>(null);
+  const scroll = useRef<ScrollViewInstance>(null);
   const [width, setWidth] = useState(0);
   const [page, setPage] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);

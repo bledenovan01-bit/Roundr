@@ -13,13 +13,13 @@
       "autoIncrement": false,
       "android": {
         "buildType": "apk",
-        "image": "sdk-57",
+        "image": "sdk-58",
         "resourceClass": "medium"
       },
       "ios": {
         "simulator": false,
         "buildConfiguration": "Release",
-        "image": "sdk-57",
+        "image": "sdk-58",
         "resourceClass": "medium"
       }
     }

@@ -1,5 +1,5 @@
 import { Alert as NativeAlert, Platform } from "react-native";
-export const Alert: typeof NativeAlert = {
+export const Alert: Pick<typeof NativeAlert, "alert" | "prompt"> = {
   alert(title, message, buttons, options) {
     if (Platform.OS !== "web") { NativeAlert.alert(title,message,buttons,options); return; }
     const text = [title,message].filter(Boolean).join("\n\n");

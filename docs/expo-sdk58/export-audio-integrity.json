@@ -1,0 +1,13 @@
+{
+  "uniqueApprovedHashes": 7,
+  "files": {
+    "alert.e8bb0c13eb2227a307e22a546736645e.wav": "ef40106105c9ddf44bbcde64c9ecfd8efc5b78aa05f65bad7766d6b67bd03729",
+    "confirmation.c9dabb62ae16169d5dec042e4fe55e33.wav": "41a603d2ae46827f4d1436522fc4fa78e341b02d6b3185032bdaa1e4ec4534e6",
+    "final.4ffcc9e834f1b0ce769828fc3240ce0a.wav": "0abfcb5a5d7b5245b2165ce14ab8d0aad3aa55377481efc30402b390868623a9",
+    "free-final.e3a37b08d079bc46e7e8a3b0b2677246.wav": "e533d9c3cb3251fb6a6268ade3793e2329574b3393fac7edaeec0841a19380a6",
+    "gong.20797afe20558be36ddcb8f6965f7b0d.wav": "5b85713e97edf06d22cca3e59f6e48adedaefd7ca2c11520949ecb6decdfa11c",
+    "prep.69b1f1e4a588ee4e55868a4121d28492.wav": "2d56df605aea51d761272d93b0048b0df3375c119149f417aaaac4c11d32cec9",
+    "whistle.674faf67858aa2baa89a175388f42c6a.wav": "a19433fc86d71e3349920b440be47d6f9f2256895715c5fe38ea46e9009abcca"
+  },
+  "allMatch": true
+}
