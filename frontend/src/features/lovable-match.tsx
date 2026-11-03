@@ -592,6 +592,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           <NextLaunch session={session} locked={locked} />
           <Text style={m.eyebrow}>MATCH {match?.order} TERMINÉ</Text>
           <MatchScoreboard
+            testIdSuffix="-result"
             compact
             teams={teams}
             score={l.score}

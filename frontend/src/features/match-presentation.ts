@@ -34,34 +34,33 @@ export function periodName(count: number, index: number) {
 }
 export function matchProjection(s: Session, now: number, showElapsed = false) {
   const l = s.live!;
+  // The engine already freezes the current phase on finish. Project that clock;
+  // total playedMs may include earlier periods and must not replace it.
+  const clockStage = l.stage === "finished" ? (l.prevStage ?? "period") : l.stage;
   const running = l.chrono.runningSince !== null && l.stage !== "finished";
   const between = l.stage === "break" || l.stage === "awaitPeriod";
   const index =
     l.stage === "awaitPeriod" ? Math.max(0, l.periodIndex - 1) : l.periodIndex;
   const duration = between
     ? l.breakMs
-    : l.stage === "extra"
+    : clockStage === "extra"
       ? l.extraMs
       : (l.periodMs[l.periodIndex] ?? 0);
   const passed =
     l.stage === "ready"
       ? 0
-      : l.stage === "finished"
-        ? (l.detail?.periods[l.periodIndex] ?? l.playedMs)
-        : l.stage === "awaitPeriod"
-          ? l.breakMs
-          : elapsedMs(l.chrono, now);
+      : l.stage === "awaitPeriod"
+        ? l.breakMs
+        : elapsedMs(l.chrono, now);
   const timed =
-    (l.end.byTime || between || l.stage === "extra") &&
+    (l.end.byTime || between || clockStage === "extra") &&
     duration > 0 &&
-    l.stage !== "additional" &&
-    l.stage !== "golden";
+    clockStage !== "additional" &&
+    clockStage !== "golden";
   const value = timed
     ? showElapsed
       ? Math.min(duration, passed)
-      : l.stage === "finished"
-        ? 0
-        : Math.max(0, duration - passed)
+      : Math.max(0, duration - passed)
     : passed;
   const ms = Math.max(0, Math.floor(value)),
     seconds = Math.floor(ms / 1000);

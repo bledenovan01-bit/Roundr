@@ -2,7 +2,7 @@
 // never advances, pauses, replaces or persists either independent native session.
 import { elapsedMs } from "@/src/chrono/engine";
 import { formatMMSS } from "@/src/chrono/format";
-import { currentStep, stepElapsed, type FreeTimerState } from "@/src/domain/free-timer";
+import { advanceFree, currentStep, stepElapsed, type FreeTimerState } from "@/src/domain/free-timer";
 import { liveTeams } from "@/src/domain/session";
 import type { Session } from "@/src/domain/types";
 
@@ -19,6 +19,8 @@ export type HomeResume = {
 };
 
 export function homeSessionPreviews(session: Session | null, free: FreeTimerState | null, now: number): HomeResume[] {
+  // Project expiry without changing the persisted session (also covers background tabs).
+  if (free) free = advanceFree(free, now);
   const result: HomeResume[] = [];
   if (session?.status === "active") {
     const live = session.live;

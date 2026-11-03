@@ -24,7 +24,7 @@ export function FreeDigits({
   size: number;
   ring?: boolean;
 }) {
-  return <TimerDigits main={r.main} cents={r.cents} size={size} ratio={ring ? 0.42 : 0.5} ring={ring} testID="free-digits" />;
+  return <TimerDigits main={r.main} cents={r.cents} size={size} ratio={ring ? 0.42 : 0.5} ring={ring} testID={ring ? "free-digits-circular" : "free-digits"} />;
 }
 
 export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {

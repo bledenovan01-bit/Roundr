@@ -265,6 +265,7 @@ export function LovableTournamentFlow({
                     {fixtureLabel(s, match).toUpperCase()} · ÉGALITÉ
                   </Text>
                   <MatchScoreboard
+                    testIdSuffix="-tiebreak"
                     compact
                     teams={S.liveTeams(s)}
                     score={live.score}
@@ -313,6 +314,7 @@ export function LovableTournamentFlow({
                   {fixtureLabel(s, match).toUpperCase()} · TERMINÉ
                 </Text>
                 <MatchScoreboard
+                  testIdSuffix="-result"
                   compact
                   teams={S.liveTeams(s)}
                   score={live.score}
@@ -416,13 +418,13 @@ export function LovableTournamentFlow({
                   disabled={locked}
                   onPress={home}
                 />
-                <MatchAction
+                {!p.complete && s.status === "active" ? <MatchAction
                   label="Interrompre le tournoi"
                   icon="flag"
                   kind="text"
                   disabled={locked}
                   onPress={() => open({ kind: "stop" })}
-                />
+                /> : null}
               </MatchSheet>
             );
           },
@@ -508,13 +510,13 @@ export function LovableTournamentFlow({
       </TournamentNote>,
     );
   cards.push(
-    <MatchAction
+    !p.complete && s.status === "active" ? <MatchAction
       key="stop"
       label="Interrompre le tournoi"
       icon="flag"
       kind="text"
       onPress={() => open({ kind: "stop" })}
-    />,
+    /> : null,
     <TournamentTabs
       key="tabs"
       value={current}

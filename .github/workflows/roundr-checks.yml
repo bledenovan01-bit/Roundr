@@ -98,6 +98,8 @@ jobs:
         run: node docs/svg-web-audit/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-functional-results" functional
       - name: Mobile configurations, focus and real layout rotation
         run: node docs/ios-team-focus/reproduction/focus-regression.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-focus-results"
+      - name: V0 final acceptance (validation, expiry, completed tournaments and landscape)
+        run: node docs/v0-final/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-v0-results"
       - name: Approved audio bytes and real Settings previews
         run: node docs/svg-web-audit/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-audio-results" audio
       - name: Preserve reports, screenshots and server logs

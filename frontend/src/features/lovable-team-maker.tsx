@@ -8,6 +8,7 @@ import { lovable as c, lovableFont as f, withAlpha } from "@/src/visual/lovable"
 import { drawPlayers, editPlayer, movePlayer, validComposition } from "@/src/domain/team-maker";
 import { getSavedComposition, loadPreferences, saveTeamComposition, useCompositionStatus, usePreferences } from "@/src/store/preferences";
 import { tournamentTeams } from "./tournament-config-state";
+import { playerCount } from "@/src/utils/player-count";
 
 export function LovableTeamMaker() {
   const router=useRouter(),prefs=usePreferences(),status=useCompositionStatus(),last=getSavedComposition();
@@ -45,7 +46,7 @@ export function LovableTeamMaker() {
     </Pressable>;
     cards.push(choiceCard("Nouvelle répartition","Créer de nouvelles équipes","shuffle",()=>setChoice(true)));
     const recoverPlayers=!last&&prefs.players.length>0;
-    cards.push(choiceCard(recoverPlayers?"Reprendre ma liste de joueurs":"Reprendre ma dernière composition",recoverPlayers?prefs.players.length+" joueurs enregistrés":prefs.teams.length+" équipes · "+prefs.groups.flat().length+" joueurs","history",()=>{
+    cards.push(choiceCard(recoverPlayers?"Reprendre ma liste de joueurs":"Reprendre ma dernière composition",recoverPlayers?playerCount(prefs.players.length)+" enregistré"+(prefs.players.length>1?"s":""):prefs.teams.length+" équipes · "+playerCount(prefs.groups.flat().length),"history",()=>{
       if(last){setPlayers(last.groups.flat());setCount(last.groups.flat().length);setTeamCount(last.teams.length);setResult(last.groups);setMeta(last.teams);}
       else if(recoverPlayers){setPlayers([...prefs.players]);setSource("names");}
       else return;
@@ -55,7 +56,7 @@ export function LovableTeamMaker() {
     return <PhaseFrame title="Faire les équipes" onBack={onBack}>{cards}</PhaseFrame>;
   }
   if(!result) {
-    cards.push(<ConfigCard key="players" title="Joueurs" hint={actualPlayers.length+" joueur"+(actualPlayers.length>1?"s":"")}>
+    cards.push(<ConfigCard key="players" title="Joueurs" hint={playerCount(actualPlayers.length)}>
       <Options value={source} options={[{value:"names",label:"Par noms"},{value:"count",label:"Par nombre"}]} onChange={setSource}/>
       {source==="names"?<>
         <View style={{flexDirection:"row",gap:8,marginTop:10}}>
@@ -72,7 +73,7 @@ export function LovableTeamMaker() {
       </>:<Sub label="Nombre de joueurs"><Stepper value={count} min={2} max={60} unit="joueurs" label="le nombre de joueurs" onChange={setCount}/></Sub>}
     </ConfigCard>);
     cards.push(<ConfigCard key="count" title="Nombre d'équipes"><View style={{flexDirection:"row",gap:8}}>{[2,3,4,5,6,7,8].map(n=><View key={n} style={{flex:1}}><ChipNumber value={n} active={teamCount===n} onPress={()=>{setTeamCount(n);setMeta(tournamentTeams(n));}}/></View>)}</View></ConfigCard>);
-    cards.push(<PhaseSummary key="summary">{actualPlayers.length} joueurs · {teamCount} équipes · {Math.floor(actualPlayers.length/teamCount)}{actualPlayers.length%teamCount?" à "+Math.ceil(actualPlayers.length/teamCount):""} par équipe.</PhaseSummary>);
+    cards.push(<PhaseSummary key="summary">{playerCount(actualPlayers.length)} · {teamCount} équipes · {Math.floor(actualPlayers.length/teamCount)}{actualPlayers.length%teamCount?" à "+Math.ceil(actualPlayers.length/teamCount):""} par équipe.</PhaseSummary>);
     if(tooFew)cards.push(<TeamError key="few">Ajoutez au moins {teamCount} joueurs pour créer {teamCount} équipes.</TeamError>);
     if(invalidPlayers)cards.push(<TeamError key="invalid-players">Chaque joueur doit avoir un nom différent et non vide. Modifiez ou retirez les doublons avant le tirage.</TeamError>);
   } else {

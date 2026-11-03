@@ -24,11 +24,13 @@ try{if(phase==='audio'){await audioPreviews(browser);return;}if(phase==='functio
   if(await open.count()){await open.click();actions.push('open-archived-summary');}
  }
  await page.waitForTimeout(150);
+ const duplicateTestIds=await page.evaluate(()=>{const ids=[...document.querySelectorAll('[data-testid]')].map(e=>e.getAttribute('data-testid'));return [...new Set(ids.filter((id,i)=>ids.indexOf(id)!==i))];});
+ if(phase==='after')assert.deepEqual(duplicateTestIds,[],fixture.name+' duplicate test IDs');
  const snapshot=await page.evaluate(()=>({url:location.pathname,headings:[...document.querySelectorAll('[role="heading"],h1,h2')].map(e=>e.textContent),svgs:[...document.querySelectorAll('svg')].map(e=>({attributes:[...e.attributes].filter(a=>a.name!=='class').map(a=>[a.name,a.value]),markup:e.innerHTML,rect:{width:e.getBoundingClientRect().width,height:e.getBoundingClientRect().height}})),badAttributes:[...document.querySelectorAll('svg,svg *')].flatMap(e=>e.getAttributeNames().filter(n=>/^(accessible|accessibility|importantforaccessibility)/i.test(n)).map(n=>({tag:e.tagName,name:n,value:e.getAttribute(n)})))}));
  // Representative screenshots, including all four remaining defective components.
  const screenshot=/^(classique-ready|maracana-ready|cup-config|survie-config|cup-history|survie-history|free-stopwatch-config|free-stopwatch-ready-analog|free-interval-running-numeric)$/.test(fixture.name);
  if(screenshot)await page.screenshot({path:path.join(out,fixture.name+'.png'),animations:'disabled'});
- const result={name:fixture.name,route:fixture.route,actions,errors,messages,snapshot};results.push(result);
+ const result={name:fixture.name,route:fixture.route,actions,errors,messages,duplicateTestIds,snapshot};results.push(result);
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(results,null,2));
  console.log(fixture.name,'svg',snapshot.svgs.length,'errors',errors.length,'messages',messages.length);
  await context.close();

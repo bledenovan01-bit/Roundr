@@ -418,6 +418,7 @@ export function LovableFreeConfig({
   const [editing, setEditingState] = useState(readFreeEditing),
     [saveOpen, setSaveOpen] = useState(false),
     [nameFocused, setNameFocused] = useState(false),
+    [nameTouched, setNameTouched] = useState(false),
     [name, setName] = useState(""),
     [note, setNote] = useState<string | null>(null),
     [deleting, setDeleting] = useState<FreeTimerPreset | null>(null),
@@ -517,7 +518,7 @@ export function LovableFreeConfig({
         {
           [
             notice,
-            active ? (
+            active && !active.finished ? (
               <Action
                 key="resume"
                 label="Reprendre le chrono en cours"
@@ -856,7 +857,7 @@ export function LovableFreeConfig({
           ) : null}
         </ConfigCard>,
         <ConfigCard key="rest" title="Repos et répétitions">
-          <Sub label="Repos entre périodes">
+          {d.periods.length > 1 ? <Sub label="Repos entre périodes">
             <Seconds
               label="le repos"
               value={d.rest}
@@ -865,7 +866,7 @@ export function LovableFreeConfig({
               zero="Aucun"
               onChange={(n) => set({ rest: n })}
             />
-          </Sub>
+          </Sub> : null}
           <Sub label="Répétitions">
             <Stepper
               label="les répétitions"
@@ -1006,6 +1007,7 @@ export function LovableFreeConfig({
       disabled={invalid || loading || busy}
       onPress={() => {
         setName(editing?.name ?? "");
+        setNameTouched(false);
         setNameFocused(true);
         setSaveOpen(true);
       }}
@@ -1039,10 +1041,10 @@ export function LovableFreeConfig({
       <TextInput
         accessibilityLabel="Nom du chrono"
         onFocus={() => setNameFocused(true)}
-        onBlur={() => setNameFocused(false)}
+        onBlur={() => { setNameFocused(false); setNameTouched(true); }}
         autoFocus
         value={name}
-        onChangeText={setName}
+        onChangeText={(value) => { setName(value); setNameTouched(true); }}
         maxLength={40}
         placeholder="Ex. Football à 5 — 10 minutes"
         placeholderTextColor={c.muted}
@@ -1061,8 +1063,8 @@ export function LovableFreeConfig({
           },
         ]}
       />
-      {!name.trim() ? (
-        <Text style={s.error}>Donnez un nom à ce chrono.</Text>
+      {nameTouched && !name.trim() ? (
+        <Text accessibilityRole="alert" style={s.error}>Donnez un nom à ce chrono.</Text>
       ) : null}
       <View style={{ gap: 8 }}>
         <Action
@@ -1205,21 +1207,15 @@ function DurationChips({
   cd: FreeDraft["cd"];
   set: (m: number) => void;
 }) {
-  const { width, height, fontScale } = useWindowDimensions(),
-    inset = useSafeAreaInsets(),
-    available = width - inset.left - inset.right,
-    two = width > height && available >= 600 && fontScale <= 1.5,
-    inner = (two ? (available - 52) / 2 : available - 40) - 30,
-    wide = inner > 360,
-    col = Math.floor(((inner - (wide ? 24 : 16)) / (wide ? 4.6 : 3)) * 64) / 64;
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
       {[1, 5, 10, 15, 30].map((m) => (
         <View
           key={m}
           style={{
-            width:
-              !wide && m === 30 ? "100%" : wide && m === 15 ? col * 1.6 : col,
+            flexBasis: 64,
+            flexGrow: 1,
+            minWidth: 64,
           }}
         >
           <Chip

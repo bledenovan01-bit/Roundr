@@ -1,0 +1,90 @@
+[
+  {
+    "anomaly": 3,
+    "observed": "00:00.00",
+    "storedElapsedMs": 12345,
+    "scope": "match projection; engine already preserves elapsed"
+  },
+  {
+    "anomaly": 7,
+    "observed": "expired countdown still resumable before runtime tick",
+    "scope": "pure home projection; stable reload already advances during store load"
+  },
+  {
+    "anomaly": 1,
+    "observed": "error before input"
+  },
+  {
+    "anomaly": 2,
+    "mode": "cup",
+    "observed": "interrupt after final"
+  },
+  {
+    "anomaly": 2,
+    "mode": "survie",
+    "observed": "interrupt after final"
+  },
+  {
+    "anomaly": 4,
+    "observed": "three rows at 320px",
+    "rects": [
+      {
+        "minutes": 1,
+        "x": 35,
+        "y": 153.5,
+        "width": 78,
+        "height": 44
+      },
+      {
+        "minutes": 5,
+        "x": 121,
+        "y": 153.5,
+        "width": 78,
+        "height": 44
+      },
+      {
+        "minutes": 10,
+        "x": 207,
+        "y": 153.5,
+        "width": 78,
+        "height": 44
+      },
+      {
+        "minutes": 15,
+        "x": 35,
+        "y": 205.5,
+        "width": 78,
+        "height": 44
+      },
+      {
+        "minutes": 30,
+        "x": 35,
+        "y": 257.5,
+        "width": 250,
+        "height": 44
+      }
+    ]
+  },
+  {
+    "anomaly": 5,
+    "observed": "rest with one period"
+  },
+  {
+    "anomaly": 6,
+    "observed": "1 joueur in card and 1 joueurs in summary"
+  },
+  {
+    "anomaly": 8,
+    "observed": [
+      "match-digits",
+      "match-centiseconds",
+      "match-status",
+      "match-scoreboard",
+      "match-score"
+    ]
+  },
+  {
+    "anomaly": 7,
+    "observed": "finished countdown resume in catalogue"
+  }
+]
