@@ -160,7 +160,8 @@ export function freeConfigSummary(c: FreeTimerConfig): string {
     main = `Compte à rebours · ${freeDuration(c.durationMs / 1000)}`;
   if (c.kind === "interval") {
     const p = c.periodsMs ?? Array.from({ length: c.reps }, () => c.workMs);
-    main = `Intervalles · ${p.every((x) => x === p[0]) ? `${p.length} × ${freeDuration(p[0] / 1000)}` : p.map((x) => freeDuration(x / 1000)).join(" / ")}${c.restMs ? ` · repos ${freeDuration(c.restMs / 1000)}` : ""}${c.sets > 1 ? ` · ${c.sets} séries` : ""}`;
+    const rest = p.length > 1 ? c.restMs : c.sets > 1 ? c.restBetweenSetsMs : 0;
+    main = `Intervalles · ${p.every((x) => x === p[0]) ? `${p.length} × ${freeDuration(p[0] / 1000)}` : p.map((x) => freeDuration(x / 1000)).join(" / ")}${rest ? ` · repos ${freeDuration(rest / 1000)}` : ""}${c.sets > 1 ? ` · ${c.sets} ${p.length === 1 ? "répétitions" : "séries"}` : ""}`;
   }
   return c.withTeams ? `${main} · ${c.teams?.length ?? 2} équipes` : main;
 }

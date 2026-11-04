@@ -790,7 +790,7 @@ export function LovableFreeConfig({
                       periods: p.periods,
                       rest: p.rest,
                       reps: p.reps,
-                      repRest: 0,
+                      repRest: p.periods.length === 1 ? p.rest : 0,
                     })
                   }
                 />
@@ -878,13 +878,13 @@ export function LovableFreeConfig({
             />
           </Sub>
           {d.reps > 1 ? (
-            <Sub label="Repos entre séries">
+            <Sub label={d.periods.length === 1 ? "Repos entre répétitions" : "Repos entre séries"}>
               <Seconds
-                label="le repos entre séries"
+                label={d.periods.length === 1 ? "le repos entre répétitions" : "le repos entre séries"}
                 value={d.repRest}
                 min={0}
                 max={900}
-                step={15}
+                step={d.periods.length === 1 ? 5 : 15}
                 zero="Aucun"
                 onChange={(n) => set({ repRest: n })}
               />

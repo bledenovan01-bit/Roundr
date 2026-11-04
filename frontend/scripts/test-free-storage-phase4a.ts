@@ -169,6 +169,23 @@ async function run() {
     undefined,
   );
   // Incompatible new data stays raw and cannot silently replace a saved state.
+  for (const [work, recovery] of [[20, 10], [30, 30]]) {
+    memory.clear(); st = fresh(); await st.loadStore();
+    const config = configFromDraft({...initialFreeDraft(), kind: "interval", periods: [work], rest: recovery, reps: 8, repRest: recovery});
+    const corrected = {...p, id: `program-${work}`, config};
+    assert(await st.saveFreePreset(corrected)); await st.flushStorage();
+    const durable = memory.get(presetKey);
+    st = fresh(); await st.loadStore();
+    assert.deepEqual(st.getStoreState().freePresets.find(x => x.id === corrected.id)?.config, config);
+    assert.equal(memory.get(presetKey), durable);
+    // A historical custom configuration with no recovery must not be guessed
+    // from its name and rewritten on loading.
+    const historical = {...corrected, name: "Tabata", config: {...config, kind: "interval" as const, restBetweenSetsMs: 0}};
+    const historicalRaw = JSON.stringify([historical]);
+    memory.set(presetKey, historicalRaw); st = fresh(); await st.loadStore(); await st.flushStorage();
+    assert.equal(memory.get(presetKey), historicalRaw);
+  }
+  console.log("✓ Tabata/30-30 presets persist and restore exact recovery; existing named configurations remain byte-for-byte unchanged");
   memory.clear();
   const invalid = JSON.stringify({ ...state, score: [0, 0] });
   memory.set(ftKey, invalid);
