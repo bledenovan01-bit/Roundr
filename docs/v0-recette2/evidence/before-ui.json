@@ -1,0 +1,116 @@
+[
+  {
+    "name": "narrow-classique",
+    "phase": "before",
+    "heading": {
+      "text": "MATCH CLASSIQUE",
+      "width": 176,
+      "scrollWidth": 221,
+      "height": 33,
+      "scrollHeight": 33,
+      "font": "22px"
+    },
+    "names": [
+      {
+        "text": "Olympique Lyonnais",
+        "width": 75,
+        "scrollWidth": 127,
+        "height": 20,
+        "scrollHeight": 20,
+        "font": "13px"
+      },
+      {
+        "text": "Paris Saint-Germain",
+        "width": 75,
+        "scrollWidth": 128,
+        "height": 20,
+        "scrollHeight": 20,
+        "font": "13px"
+      }
+    ]
+  },
+  {
+    "name": "narrow-cup",
+    "phase": "before",
+    "heading": {
+      "text": "CUP",
+      "width": 176,
+      "scrollWidth": 176,
+      "height": 33,
+      "scrollHeight": 33,
+      "font": "22px"
+    },
+    "names": [
+      {
+        "text": "Olympique Lyonnais",
+        "width": 158,
+        "scrollWidth": 158,
+        "height": 24,
+        "scrollHeight": 24,
+        "font": "16px"
+      },
+      {
+        "text": "Paris Saint-Germain",
+        "width": 75,
+        "scrollWidth": 128,
+        "height": 20,
+        "scrollHeight": 20,
+        "font": "13px"
+      }
+    ]
+  },
+  {
+    "name": "duration-320",
+    "phase": "before",
+    "widths": [
+      78,
+      78,
+      78,
+      121,
+      121
+    ]
+  },
+  {
+    "name": "duration-360",
+    "phase": "before",
+    "widths": [
+      66.5,
+      66.5,
+      66.5,
+      66.5,
+      290
+    ]
+  },
+  {
+    "name": "duration-390",
+    "phase": "before",
+    "widths": [
+      74,
+      74,
+      74,
+      74,
+      320
+    ]
+  },
+  {
+    "name": "duration-430",
+    "phase": "before",
+    "widths": [
+      65.59375,
+      65.609375,
+      65.59375,
+      65.609375,
+      65.59375
+    ]
+  },
+  {
+    "name": "save-field-id",
+    "phase": "before",
+    "count": 0
+  },
+  {
+    "name": "singular-survie",
+    "phase": "before",
+    "text": "Survie\n2 équipes · 0/1 matchs\nTableau de 2 · 1 rencontres au total.\nPREMIER MATCH\nLes Renards\nvs\nFC Amigos\nFinale · 8 min\nInterrompre le tournoi\nTableau\nMatchs\nTableau final\nFINALE\nLes Renards\nFC Amigos\nPréparer le premier match"
+  }
+]

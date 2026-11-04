@@ -310,7 +310,8 @@ export function MatchScoreboard({
                 size={compact ? compactSize : 44}
               />
               <Text
-                numberOfLines={1}
+                numberOfLines={!landscape && width <= 360 ? 2 : 1}
+                accessibilityLabel={team?.name}
                 style={[m.teamName, winner === i && { color: c.primary }]}
               >
                 {team?.name}

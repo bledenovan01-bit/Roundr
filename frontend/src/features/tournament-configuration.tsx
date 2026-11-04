@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { matchCount } from "@/src/utils/match-count";
 import { Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { CupConfig, Team } from "@/src/domain/types";
@@ -58,7 +59,7 @@ export function TournamentConfiguration({config,onChange,teams,onTeams,onBack,on
       <Options value={config.doubleRound?"double":"single"} options={[{value:"single",label:"Aller simple"},{value:"double",label:"Aller-retour"}]} onChange={v=>setCup({doubleRound:v==="double"})}/>
       {plan.needBest?<Sub label={"Repêcher "+(plan.bracket-plan.direct)+" meilleur"+(plan.bracket-plan.direct>1?"s":"")+" suivant"+(plan.bracket-plan.direct>1?"s":"")+" pour un tableau de "+plan.bracket}><Toggle label="Meilleurs suivants" on={!!config.bestNext} set={bestNext=>setCup({bestNext})}/></Sub>:null}
     </ConfigCard>);
-    cards.push(<PhaseSummary key="structure">{plan.groups} poule{plan.groups>1?"s":""} de {plan.size}{config.teamCount%plan.groups?"-"+(plan.size+1):""} équipes · {plan.groupMatches} matchs de poule · {plan.direct+plan.bestCount} qualifiés{plan.needBest&&!config.bestNext?" (tableau réduit à "+plan.bracket/2+")":""}.</PhaseSummary>);
+    cards.push(<PhaseSummary key="structure">{plan.groups} poule{plan.groups>1?"s":""} de {plan.size}{config.teamCount%plan.groups?"-"+(plan.size+1):""} équipes · {matchCount(plan.groupMatches)} de poule · {plan.direct+plan.bestCount} qualifié{plan.direct+plan.bestCount>1?"s":""}{plan.needBest&&!config.bestNext?" (tableau réduit à "+plan.bracket/2+")":""}.</PhaseSummary>);
   } else {
     cards.push(<ConfigCard key="draw" title="Tirage"><Options value={config.draw} options={[{value:"random",label:"Aléatoire"},{value:"manual",label:"Manuel"}]} onChange={draw=>set({draw})}/></ConfigCard>);
   }

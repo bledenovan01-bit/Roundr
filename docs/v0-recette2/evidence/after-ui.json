@@ -1,0 +1,256 @@
+[
+  {
+    "name": "narrow-classique",
+    "phase": "after",
+    "heading": {
+      "text": "MATCH CLASSIQUE",
+      "width": 176,
+      "scrollWidth": 176,
+      "height": 26,
+      "scrollHeight": 26,
+      "font": "17px"
+    },
+    "names": [
+      {
+        "text": "Olympique Lyonnais",
+        "width": 75,
+        "scrollWidth": 75,
+        "height": 39,
+        "scrollHeight": 39,
+        "font": "13px"
+      },
+      {
+        "text": "Paris Saint-Germain",
+        "width": 75,
+        "scrollWidth": 75,
+        "height": 39,
+        "scrollHeight": 39,
+        "font": "13px"
+      }
+    ]
+  },
+  {
+    "name": "narrow-cup",
+    "phase": "after",
+    "heading": {
+      "text": "CUP",
+      "width": 176,
+      "scrollWidth": 176,
+      "height": 26,
+      "scrollHeight": 26,
+      "font": "17px"
+    },
+    "names": [
+      {
+        "text": "Olympique Lyonnais",
+        "width": 158,
+        "scrollWidth": 158,
+        "height": 24,
+        "scrollHeight": 24,
+        "font": "16px"
+      },
+      {
+        "text": "Paris Saint-Germain",
+        "width": 75,
+        "scrollWidth": 75,
+        "height": 39,
+        "scrollHeight": 39,
+        "font": "13px"
+      }
+    ]
+  },
+  {
+    "name": "duration-320",
+    "phase": "after",
+    "widths": [
+      78,
+      78,
+      78,
+      78,
+      78
+    ]
+  },
+  {
+    "name": "duration-360",
+    "phase": "after",
+    "widths": [
+      91.328125,
+      91.328125,
+      91.328125,
+      91.328125,
+      91.328125
+    ]
+  },
+  {
+    "name": "duration-390",
+    "phase": "after",
+    "widths": [
+      96,
+      96,
+      96,
+      96,
+      96
+    ]
+  },
+  {
+    "name": "duration-430",
+    "phase": "after",
+    "widths": [
+      65.59375,
+      65.59375,
+      65.59375,
+      65.59375,
+      65.59375
+    ]
+  },
+  {
+    "name": "save-field-id",
+    "phase": "after",
+    "count": 1
+  },
+  {
+    "name": "singular-survie",
+    "phase": "after",
+    "text": "Survie\n2 équipes · 0/1 match\nTableau de 2 · 1 rencontre au total.\nPREMIER MATCH\nLes Renards\nvs\nFC Amigos\nFinale · 8 min\nInterrompre le tournoi\nTableau\nMatchs\nTableau final\nFINALE\nLes Renards\nFC Amigos\nPréparer le premier match"
+  },
+  {
+    "name": "singular-cup",
+    "phase": "after",
+    "text": "Cup\n4 équipes · 0/3 matchs\n2 poules · 2 matchs de poule · 1 qualifié par poule · tableau de 2 · 3 rencontres au total.\nPREMIER MATCH\nLes Renards\nvs\nFC Amigos\nPoule A · 10 min\nInterrompre le tournoi\nMatchs\nPoules\nTableau\nRencontres\n0/3\nPOULE A\nLes Renards vs FC Amigos\n10 min\nPOULE B\nPanthères vs Galactiques\n10 min\nFINALE\nÀ déterminer vs À déterminer\nEn attente\nPréparer le premier match"
+  },
+  {
+    "name": "single-match-summary",
+    "phase": "after",
+    "oneMatch": true,
+    "oneGoal": true
+  },
+  {
+    "name": "compact-landscape-scroll",
+    "phase": "after",
+    "clock": {
+      "x": 43,
+      "y": 137.109375,
+      "width": 482,
+      "height": 45.90625
+    },
+    "dock": {
+      "x": 0,
+      "y": 254,
+      "width": 568,
+      "height": 66
+    }
+  },
+  {
+    "name": "wide-free-stopwatch",
+    "phase": "after",
+    "clock": {
+      "x": 162,
+      "y": 71,
+      "width": 520,
+      "height": 226.578125
+    },
+    "dock": {
+      "x": 0,
+      "y": 324,
+      "width": 844,
+      "height": 66
+    }
+  },
+  {
+    "name": "wide-free-countdown",
+    "phase": "after",
+    "clock": {
+      "x": 162,
+      "y": 71,
+      "width": 520,
+      "height": 226.578125
+    },
+    "dock": {
+      "x": 0,
+      "y": 324,
+      "width": 844,
+      "height": 66
+    }
+  },
+  {
+    "name": "program-Tabata",
+    "phase": "after",
+    "config": {
+      "kind": "interval",
+      "withTeams": false,
+      "teams": [
+        {
+          "id": "t1",
+          "name": "Les Renards",
+          "color": "#ff8900"
+        },
+        {
+          "id": "t2",
+          "name": "FC Amigos",
+          "color": "#5ad578"
+        }
+      ],
+      "scoreOn": true,
+      "display": "numeric",
+      "sounds": true,
+      "periodsMs": [
+        20000
+      ],
+      "workMs": 20000,
+      "restMs": 10000,
+      "reps": 1,
+      "sets": 8,
+      "restBetweenSetsMs": 10000,
+      "autoChain": true,
+      "endSignal": true
+    },
+    "totalSeconds": 230,
+    "workSteps": 8,
+    "recoverySteps": 7,
+    "pauseRestored": true,
+    "lastCycleFinished": true
+  },
+  {
+    "name": "program-30-30",
+    "phase": "after",
+    "config": {
+      "kind": "interval",
+      "withTeams": false,
+      "teams": [
+        {
+          "id": "t1",
+          "name": "Les Renards",
+          "color": "#ff8900"
+        },
+        {
+          "id": "t2",
+          "name": "FC Amigos",
+          "color": "#5ad578"
+        }
+      ],
+      "scoreOn": true,
+      "display": "numeric",
+      "sounds": true,
+      "periodsMs": [
+        30000
+      ],
+      "workMs": 30000,
+      "restMs": 30000,
+      "reps": 1,
+      "sets": 8,
+      "restBetweenSetsMs": 30000,
+      "autoChain": true,
+      "endSignal": true
+    },
+    "totalSeconds": 450,
+    "workSteps": 8,
+    "recoverySteps": 7,
+    "pauseRestored": true,
+    "lastCycleFinished": true
+  },
+  {
+    "name": "cup-one-qualifier",
+    "phase": "after",
+    "oneQualifier": true
+  }
+]

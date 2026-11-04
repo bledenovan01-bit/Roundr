@@ -1039,6 +1039,7 @@ export function LovableFreeConfig({
       busy={busy}
     >
       <TextInput
+        testID="free-save-name"
         accessibilityLabel="Nom du chrono"
         onFocus={() => setNameFocused(true)}
         onBlur={() => { setNameFocused(false); setNameTouched(true); }}
@@ -1207,15 +1208,16 @@ function DurationChips({
   cd: FreeDraft["cd"];
   set: (m: number) => void;
 }) {
+  const [available, setAvailable] = useState(0);
+  const columns = available >= 352 ? 5 : 3;
+  const cell = available ? Math.min(96, Math.floor((available - (columns - 1) * 8) / columns * 64) / 64) : 64;
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+    <View onLayout={e => setAvailable(e.nativeEvent.layout.width)} style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
       {[1, 5, 10, 15, 30].map((m) => (
         <View
           key={m}
           style={{
-            flexBasis: 64,
-            flexGrow: 1,
-            minWidth: 64,
+            width: cell,
           }}
         >
           <Chip

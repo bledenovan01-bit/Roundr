@@ -8,9 +8,13 @@ import { validateConfig } from "../src/domain/validate";
 import { validSession } from "../src/store/storage-validation";
 import { snapshotCompetition } from "../src/store/competition-history";
 import { cupPlan, normalizeTournament, tournamentDefaults, tournamentTeams } from "../src/features/tournament-config-state";
+import { matchCount, encounterCount } from "../src/utils/match-count";
 import type { CupConfig, SurvieConfig, Session } from "../src/domain/types";
 const builtin=(process as unknown as {getBuiltinModule:(id:string)=>any}).getBuiltinModule;
 const assert=builtin("assert/strict");
+assert.deepEqual([0,1,2].map(matchCount),["0 match","1 match","2 matchs"]);
+assert.deepEqual([0,1,2].map(encounterCount),["0 rencontre","1 rencontre","2 rencontres"]);
+assert.equal(`${matchCount(1)} de poule`,"1 match de poule");
 const req=builtin("module").createRequire(process.argv[1]) as { (id:string):unknown;cache:Record<string,unknown>;resolve:(id:string)=>string };
 
 const cup=tournamentDefaults("cup") as CupConfig, survie=tournamentDefaults("survie") as SurvieConfig;

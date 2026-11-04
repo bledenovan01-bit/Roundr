@@ -1,0 +1,50 @@
+[
+  {
+    "name": "compact-landscape-scroll",
+    "phase": "before",
+    "clock": {
+      "x": 43,
+      "y": 137.109375,
+      "width": 482,
+      "height": 45.90625
+    },
+    "dock": {
+      "x": 0,
+      "y": 254,
+      "width": 568,
+      "height": 66
+    }
+  },
+  {
+    "name": "wide-free-stopwatch",
+    "phase": "before",
+    "clock": {
+      "x": 427,
+      "y": 71,
+      "width": 397,
+      "height": 226.578125
+    },
+    "dock": {
+      "x": 0,
+      "y": 324,
+      "width": 844,
+      "height": 66
+    }
+  },
+  {
+    "name": "wide-free-countdown",
+    "phase": "before",
+    "clock": {
+      "x": 427,
+      "y": 71,
+      "width": 397,
+      "height": 226.578125
+    },
+    "dock": {
+      "x": 0,
+      "y": 324,
+      "width": 844,
+      "height": 66
+    }
+  }
+]
