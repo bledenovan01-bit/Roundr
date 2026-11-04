@@ -18,6 +18,7 @@ import {
   validFreeTimer,
   restoreFreeTimer,
 } from "../src/store/free-timer-validation";
+import { freeCommand, freeStage } from "../src/features/free-live-state";
 const builtin = (
   process as unknown as { getBuiltinModule: (id: string) => any }
 ).getBuiltinModule;
@@ -69,19 +70,49 @@ for (const periods of [
           })),
           ref,
         );
-        assert.equal(
-          freeConfigSummary(c),
-          R.summary({
-            kind: "intervals",
-            iv: { periods, reps, rest, repRest },
-            teamsOn: false,
-          }),
-        );
+        // The old reference describes unused rest with one period. The sequence
+        // remains the reference; effective-rest wording is checked below.
         let f = startFree(createFreeTimer(c), now);
         f = advanceFree(f, now + native.reduce((n, s) => n + s.durationMs!, 0));
         assert(f.finished);
         assert(validFreeTimer(f));
       }
+for (const [work, recovery, total, summary] of [
+  [20, 10, 230, "Intervalles · 1 × 20 s · repos 10 s · 8 répétitions"],
+  [30, 30, 450, "Intervalles · 1 × 30 s · repos 30 s · 8 répétitions"],
+] as const) for (const auto of [true, false]) {
+  const c = configFromDraft({...initialFreeDraft(), kind: "interval", periods: [work], rest: recovery, reps: 8, repRest: recovery, auto});
+  const sequence = buildSteps(c);
+  assert.deepEqual(sequence.map(s => [s.type, s.durationMs]), Array.from({length: 15}, (_, i) => [i % 2 ? "restSet" : "work", (i % 2 ? recovery : work) * 1000]));
+  assert.equal(sequence.reduce((sum, s) => sum + s.durationMs!, 0), total * 1000);
+  assert.equal(freeConfigSummary(c), summary);
+  assert.deepEqual(configFromDraft(draftFromConfig(c)), c);
+  let timer = freeCommand(createFreeTimer(c), "toggle", now), wall = now;
+  for (let i = 0; i < sequence.length; i++) {
+    const duration = sequence[i].durationMs!;
+    timer = freeCommand(timer, "toggle", wall + duration / 2);
+    assert.equal(timer.running, false);
+    assert.equal(timer.stepIndex, i);
+    assert.equal(timer.stepAccumulatedMs, duration / 2);
+    const raw = JSON.stringify(timer);
+    assert(validFreeTimer(timer, wall + duration / 2));
+    timer = restoreFreeTimer(JSON.parse(raw)).value!;
+    assert.equal(JSON.stringify(advanceFree(timer, wall + 120000)), raw);
+    timer = freeCommand(timer, "toggle", wall + duration / 2 + 120000);
+    wall += duration + 120000;
+    assert.equal(advanceFree(timer, wall - 1).stepIndex, i);
+    timer = advanceFree(timer, wall);
+    if (i === sequence.length - 1) assert(timer.finished);
+    else if (!auto) { assert.equal(freeStage(timer), "waiting"); timer = freeCommand(timer, "next", wall); }
+    if (i < sequence.length - 1) assert.equal(timer.stepIndex, i + 1);
+  }
+  assert.equal(timer.stepIndex, 14);
+  assert.equal(timer.running, false);
+  assert.equal(wall - now, total * 1000 + 15 * 120000);
+}
+assert.equal(freeConfigSummary(configFromDraft({...initialFreeDraft(), kind: "interval", periods: [20], rest: 99, reps: 8, repRest: 10})), "Intervalles · 1 × 20 s · repos 10 s · 8 répétitions");
+assert.equal(freeConfigSummary(configFromDraft({...initialFreeDraft(), kind: "interval", periods: [20], rest: 99, reps: 1, repRest: 10})), "Intervalles · 1 × 20 s");
+console.log("✓ Tabata/30-30: eight efforts, seven recoveries, no trailing rest, all auto/manual transitions, pause/restore/resume at every step and effective-rest summaries");
 const manual = configFromDraft({
   ...initialFreeDraft(),
   kind: "interval",

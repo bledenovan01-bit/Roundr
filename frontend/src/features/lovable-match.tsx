@@ -360,10 +360,10 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           <LovableIcon name="back" size={20} color={c.foreground} />
         </Pressable>
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text style={m.title} accessibilityRole="header" numberOfLines={1}>
+          <Text style={[m.title, !landscape && width <= 360 && {fontSize: 17, lineHeight: 25.5, letterSpacing: 0.3}]} accessibilityRole="header" numberOfLines={1}>
             {title}
           </Text>
-          <Text style={[m.subtitle,tournament?{color:session.mode==="cup"?c.cup:c.survie}:null]} numberOfLines={1}>
+          <Text style={[m.subtitle,tournament?{color:session.mode==="cup"?c.cup:c.survie}:null,!landscape && width <= 360 && {fontSize: 11, lineHeight: 15}]} numberOfLines={!landscape && width <= 360 ? 2 : 1}>
             {subtitle}
           </Text>
         </View>
@@ -592,6 +592,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           <NextLaunch session={session} locked={locked} />
           <Text style={m.eyebrow}>MATCH {match?.order} TERMINÉ</Text>
           <MatchScoreboard
+            testIdSuffix="-result"
             compact
             teams={teams}
             score={l.score}

@@ -230,6 +230,7 @@ export function MatchScoreboard({
   gridSecondRow,
   compactSize = 36,
   winner = null,
+  testIdSuffix = "",
 }: {
   teams: [Team | null, Team | null];
   score: [number, number];
@@ -243,6 +244,7 @@ export function MatchScoreboard({
   gridSecondRow?: number;
   compactSize?: number;
   winner?: 0 | 1 | null;
+  testIdSuffix?: string;
 }) {
   const [scoreWidth, setScoreWidth] = useState(94),
     [scale] = useState(() => new Animated.Value(1));
@@ -284,7 +286,7 @@ export function MatchScoreboard({
         : Math.max(natural, (208 - 10 - gridSecondRow + natural) / 2);
   return (
     <View
-      testID="match-scoreboard"
+      testID={`match-scoreboard${testIdSuffix}`}
       accessibilityLabel="Score"
       style={[
         m.scoreboard,
@@ -308,7 +310,8 @@ export function MatchScoreboard({
                 size={compact ? compactSize : 44}
               />
               <Text
-                numberOfLines={1}
+                numberOfLines={!landscape && width <= 360 ? 2 : 1}
+                accessibilityLabel={team?.name}
                 style={[m.teamName, winner === i && { color: c.primary }]}
               >
                 {team?.name}
@@ -334,7 +337,7 @@ export function MatchScoreboard({
                   >
                     <Animated.View style={{ transform: [{ scale }] }}>
                       <Text
-                        testID="match-score"
+                        testID={`match-score${testIdSuffix}`}
                         accessibilityLiveRegion="polite"
                         onLayout={(e) =>
                           setScoreWidth(e.nativeEvent.layout.width)
@@ -503,7 +506,7 @@ export function MatchCarousel({
       if (Math.abs(g.dx) > 50) go(page + (g.dx < 0 ? 1 : -1));
     },
   });
-  const status = (
+  const status = (kind: string) => (
     <View style={m.status}>
       <View
         style={{
@@ -521,7 +524,7 @@ export function MatchCarousel({
         }}
       />
       <Text
-        testID="match-status"
+        testID={kind === "ring" ? "match-status-ring" : "match-status"}
         style={[
           m.statusText,
           {
@@ -689,7 +692,7 @@ export function MatchCarousel({
                       </View>
                     </>
                   )}
-                  {status}
+                  {status(kind)}
                 </Pressable>
               ) : kind === "next" || kind === "tournament" ? (
                 next
@@ -776,7 +779,7 @@ export function MatchDigits({
   size: number;
   ring?: boolean;
 }) {
-  return <TimerDigits main={projection.main} cents={projection.cents} size={size} ring={ring} testID="match-digits" centsTestID="match-centiseconds" />;
+  return <TimerDigits main={projection.main} cents={projection.cents} size={size} ring={ring} testID={ring ? "match-digits-ring" : "match-digits"} centsTestID={ring ? "match-centiseconds-ring" : "match-centiseconds"} />;
 }
 
 export function MatchSheet({

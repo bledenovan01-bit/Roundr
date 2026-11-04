@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { matchCount, encounterCount } from "@/src/utils/match-count";
 import { Pressable, Text, View, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { Alert } from "@/src/alert";
@@ -265,6 +266,7 @@ export function LovableTournamentFlow({
                     {fixtureLabel(s, match).toUpperCase()} · ÉGALITÉ
                   </Text>
                   <MatchScoreboard
+                    testIdSuffix="-tiebreak"
                     compact
                     teams={S.liveTeams(s)}
                     score={live.score}
@@ -313,6 +315,7 @@ export function LovableTournamentFlow({
                   {fixtureLabel(s, match).toUpperCase()} · TERMINÉ
                 </Text>
                 <MatchScoreboard
+                  testIdSuffix="-result"
                   compact
                   teams={S.liveTeams(s)}
                   score={live.score}
@@ -416,13 +419,13 @@ export function LovableTournamentFlow({
                   disabled={locked}
                   onPress={home}
                 />
-                <MatchAction
+                {!p.complete && s.status === "active" ? <MatchAction
                   label="Interrompre le tournoi"
                   icon="flag"
                   kind="text"
                   disabled={locked}
                   onPress={() => open({ kind: "stop" })}
-                />
+                /> : null}
               </MatchSheet>
             );
           },
@@ -477,8 +480,8 @@ export function LovableTournamentFlow({
     />,
     <TournamentNote key="summary">
       {s.mode === "cup" && s.config.mode === "cup"
-        ? `${s.cup?.groups.length} poule${(s.cup?.groups.length ?? 0) > 1 ? "s" : ""} · ${s.matches.filter((m) => m.stage === "group").length} matchs de poule · ${s.config.qualifiersPerGroup} qualifié${s.config.qualifiersPerGroup > 1 ? "s" : ""} par poule${tournamentBest(s) ? ` + ${tournamentBest(s)} repêché${tournamentBest(s) > 1 ? "s" : ""}` : ""}${tournamentSize(s) >= 2 ? ` · tableau de ${tournamentSize(s)}` : ""} · ${p.total} rencontres au total.`
-        : `Tableau de ${tournamentSize(s)}${byes ? ` · ${byes} exemption${byes > 1 ? "s" : ""} (qualification directe, pas de match)` : ""} · ${p.total} rencontres au total.`}
+        ? `${s.cup?.groups.length} poule${(s.cup?.groups.length ?? 0) > 1 ? "s" : ""} · ${matchCount(s.matches.filter((m) => m.stage === "group").length)} de poule · ${s.config.qualifiersPerGroup} qualifié${s.config.qualifiersPerGroup > 1 ? "s" : ""} par poule${tournamentBest(s) ? ` + ${tournamentBest(s)} repêché${tournamentBest(s) > 1 ? "s" : ""}` : ""}${tournamentSize(s) >= 2 ? ` · tableau de ${tournamentSize(s)}` : ""} · ${encounterCount(p.total)} au total.`
+        : `Tableau de ${tournamentSize(s)}${byes ? ` · ${byes} exemption${byes > 1 ? "s" : ""} (qualification directe, pas de match)` : ""} · ${encounterCount(p.total)} au total.`}
     </TournamentNote>,
   ];
   if (s.pendingLaunch && !s.pendingLaunch.cancelled)
@@ -508,13 +511,13 @@ export function LovableTournamentFlow({
       </TournamentNote>,
     );
   cards.push(
-    <MatchAction
+    !p.complete && s.status === "active" ? <MatchAction
       key="stop"
       label="Interrompre le tournoi"
       icon="flag"
       kind="text"
       onPress={() => open({ kind: "stop" })}
-    />,
+    /> : null,
     <TournamentTabs
       key="tabs"
       value={current}
@@ -547,7 +550,7 @@ export function LovableTournamentFlow({
       <HistoryScreenFrame
         wideFooter
         title={s.mode === "cup" ? "Cup" : "Survie"}
-        subtitle={`${s.teams.length} équipes · ${p.done.length}/${p.total} matchs`}
+        subtitle={`${s.teams.length} équipes · ${p.done.length}/${matchCount(p.total)}`}
         accent={accent}
         onBack={home}
         right={

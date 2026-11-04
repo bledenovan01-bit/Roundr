@@ -1,0 +1,86 @@
+[
+  {
+    "name": "save-name-validation",
+    "passed": true
+  },
+  {
+    "name": "interval-one-and-two-periods",
+    "passed": true
+  },
+  {
+    "name": "player-singular-and-draw",
+    "passed": true
+  },
+  {
+    "name": "expired-countdown-home",
+    "passed": true
+  },
+  {
+    "name": "paused-countdown-home",
+    "passed": true
+  },
+  {
+    "name": "finished-countdown-catalogue",
+    "passed": true
+  },
+  {
+    "name": "cup-finished-hub",
+    "passed": true
+  },
+  {
+    "name": "cup-finished-match",
+    "passed": true
+  },
+  {
+    "name": "survie-finished-hub",
+    "passed": true
+  },
+  {
+    "name": "survie-finished-match",
+    "passed": true
+  },
+  {
+    "name": "countdown-layout-320",
+    "passed": true
+  },
+  {
+    "name": "countdown-layout-360",
+    "passed": true
+  },
+  {
+    "name": "countdown-layout-390",
+    "passed": true
+  },
+  {
+    "name": "countdown-layout-430",
+    "passed": true
+  },
+  {
+    "name": "countdown-layout-568",
+    "passed": true
+  },
+  {
+    "name": "countdown-layout-844",
+    "passed": true
+  },
+  {
+    "name": "rotation-classique",
+    "passed": true
+  },
+  {
+    "name": "rotation-maracana",
+    "passed": true
+  },
+  {
+    "name": "rotation-cup",
+    "passed": true
+  },
+  {
+    "name": "rotation-survie",
+    "passed": true
+  },
+  {
+    "name": "rotation-free-stopwatch",
+    "passed": true
+  }
+]

@@ -1,0 +1,340 @@
+[
+  {
+    "revision": "accbea8",
+    "program": "Tabata",
+    "periods": [
+      20
+    ],
+    "repetitions": 8,
+    "restBetweenPeriodsSeconds": 10,
+    "restBetweenRepetitionsSeconds": 0,
+    "workSteps": 8,
+    "recoverySteps": 0,
+    "totalSeconds": 160,
+    "sequence": [
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      }
+    ]
+  },
+  {
+    "revision": "accbea8",
+    "program": "30/30",
+    "periods": [
+      30
+    ],
+    "repetitions": 8,
+    "restBetweenPeriodsSeconds": 30,
+    "restBetweenRepetitionsSeconds": 0,
+    "workSteps": 8,
+    "recoverySteps": 0,
+    "totalSeconds": 240,
+    "sequence": [
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      }
+    ]
+  },
+  {
+    "revision": "03d9c65",
+    "program": "Tabata",
+    "periods": [
+      20
+    ],
+    "repetitions": 8,
+    "restBetweenPeriodsSeconds": 10,
+    "restBetweenRepetitionsSeconds": 0,
+    "workSteps": 8,
+    "recoverySteps": 0,
+    "totalSeconds": 160,
+    "sequence": [
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      }
+    ]
+  },
+  {
+    "revision": "03d9c65",
+    "program": "30/30",
+    "periods": [
+      30
+    ],
+    "repetitions": 8,
+    "restBetweenPeriodsSeconds": 30,
+    "restBetweenRepetitionsSeconds": 0,
+    "workSteps": 8,
+    "recoverySteps": 0,
+    "totalSeconds": 240,
+    "sequence": [
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      }
+    ]
+  },
+  {
+    "revision": "worktree",
+    "program": "Tabata",
+    "periods": [
+      20
+    ],
+    "repetitions": 8,
+    "restBetweenPeriodsSeconds": 10,
+    "restBetweenRepetitionsSeconds": 10,
+    "workSteps": 8,
+    "recoverySteps": 7,
+    "totalSeconds": 230,
+    "sequence": [
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "restSet",
+        "seconds": 10
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "restSet",
+        "seconds": 10
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "restSet",
+        "seconds": 10
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "restSet",
+        "seconds": 10
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "restSet",
+        "seconds": 10
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "restSet",
+        "seconds": 10
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      },
+      {
+        "type": "restSet",
+        "seconds": 10
+      },
+      {
+        "type": "work",
+        "seconds": 20
+      }
+    ]
+  },
+  {
+    "revision": "worktree",
+    "program": "30/30",
+    "periods": [
+      30
+    ],
+    "repetitions": 8,
+    "restBetweenPeriodsSeconds": 30,
+    "restBetweenRepetitionsSeconds": 30,
+    "workSteps": 8,
+    "recoverySteps": 7,
+    "totalSeconds": 450,
+    "sequence": [
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "restSet",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "restSet",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "restSet",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "restSet",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "restSet",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "restSet",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      },
+      {
+        "type": "restSet",
+        "seconds": 30
+      },
+      {
+        "type": "work",
+        "seconds": 30
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "rotation-classique",
+    "passed": true
+  },
+  {
+    "name": "rotation-maracana",
+    "passed": true
+  },
+  {
+    "name": "rotation-cup",
+    "passed": true
+  },
+  {
+    "name": "rotation-survie",
+    "passed": true
+  },
+  {
+    "name": "rotation-free-stopwatch",
+    "passed": true
+  }
+]

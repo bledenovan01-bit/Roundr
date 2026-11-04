@@ -878,7 +878,7 @@ export function LovableFreeLive() {
           <LovableIcon name="back" color={c.foreground} size={20} />
         </Pressable>
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text accessibilityRole="header" style={m.title} numberOfLines={1}>
+          <Text accessibilityRole="header" style={[m.title, !land && width <= 360 && {fontSize: 17, lineHeight: 25.5, letterSpacing: 0.3}]} numberOfLines={!land && width <= 360 ? 2 : 1}>
             {title.toUpperCase()}
           </Text>
           <Text style={m.subtitle} numberOfLines={1}>
@@ -936,7 +936,7 @@ export function LovableFreeLive() {
             {actionError}
           </Text>
         ) : null}
-        {two ? (
+        {two && (teamCards || info || laps) ? (
           <View
             style={{ flexDirection: "row", gap: 10, alignItems: "flex-start" }}
           >
@@ -948,6 +948,8 @@ export function LovableFreeLive() {
             </View>
             <View style={{ flex: 1 }}>{carousel}</View>
           </View>
+        ) : two ? (
+          <View testID="free-centered-content" style={{width: "100%", maxWidth: 520, alignSelf: "center"}}>{carousel}</View>
         ) : (
           <>
             {teamCards}
