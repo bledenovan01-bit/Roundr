@@ -19,7 +19,7 @@ Base exacte : `accbea8adb3d8112062d1751176851e1b445ab3c`, tête de la PR #19 vé
 
 `endManual` fige déjà `chrono.accumulatedMs`, annule `runningSince` et comptabilise la phase dans `playedMs`. `finishMatch` conserve la phase précédente. Le total joué peut contenir plusieurs périodes : l'utiliser comme durée de la dernière période serait incorrect. La correction de `matchProjection` lit uniquement le chrono figé, sans modifier l'objet ni ses données persistées. Elle conserve le décompte d'une prolongation et le temps croissant d'un golden goal/temps additionnel.
 
-Une fin naturelle conserve `00:00`. Une fin manuelle de première mi-temps continue de suivre la transition métier existante, sans terminer artificiellement tout le match. La barre reste à 100 % pour un match terminé. Le chronomètre libre en pause conserve déjà son temps : ce cas n'est pas défectueux. Son action « Fin » conserve le flux de confirmation et de suppression existant.
+Une fin naturelle ou après tirs au but conserve `00:00` en affichage restant. Un test couvre aussi une prolongation plus courte que le temps réglementaire, suivie de tirs au but, afin de ne pas confondre leurs durées. Une fin manuelle de première mi-temps continue de suivre la transition métier existante, sans terminer artificiellement tout le match. La barre reste à 100 % pour un match terminé. Le chronomètre libre en pause conserve déjà son temps : ce cas n'est pas défectueux. Son action « Fin » conserve le flux de confirmation et de suppression existant.
 
 Pour le n°7, un état **déjà marqué terminé** n'était pas repris à l'accueil ; le chargement du store avance également un compte à rebours expiré. Une reprise persistante de cet état après rechargement n'est donc pas reproduite. Le défaut confirmé à l'accueil concerne la projection d'un état encore `running` dont l'échéance est dépassée, avant le prochain tick. Le défaut du catalogue est indépendant et reproductible avec `finished: true`.
 
@@ -37,6 +37,7 @@ Les résultats exécutés et les liens des jobs sont publiés dans la PR. Les ex
 - `npm test` : 26 suites réussies, dont la nouvelle suite V0 et les empreintes des sept WAV.
 - `npm run typecheck`, `npm run test:syntax` : réussis ; 117 fichiers TS/TSX sans erreur de syntaxe.
 - `npm run lint` : réussi via un PATH temporaire fourni par `npx --package yarn@1.22.22`, sans changement de dépendances.
+- Exports JavaScript locaux web/Android/iOS réussis sur la correction finale (`expo export --platform all --max-workers 2`). Ils ne constituent pas des builds natifs. Log : [`evidence/export.txt`](./evidence/export.txt).
 - Recette navigateur : 21 scénarios ciblés réussis ; 78 états existants réussis, aucune erreur console/JavaScript/DOM, aucun identifiant de test dupliqué. L'avertissement Web préexistant `Animated/useNativeDriver` reste visible et n'est pas masqué.
 - Paysage compact (568 × 320) : contenu vertical défilant, commandes fixes. Le chrono doit rester accessible par défilement. À 844 × 390, la disposition existante passe à deux colonnes. Ces comportements sont conservés, sans nouvelle mise en page.
 - Observations de base, logs et synthèses : dossier [`evidence`](./evidence/). Les captures sont produites par les scripts de reproduction et la CI les conserve dans l'artefact `roundr-web-regression`.
@@ -48,6 +49,8 @@ Le premier run de la PR #20 (`41690852449`) passe les suites métier, le lint et
 Le même `npx --no-install expo-doctor` a été exécuté sur l'exportation inchangée de `accbea8` : il reproduit exactement ce diagnostic, alors que la CI de ce commit avait auparavant réussi (`41680333068`). Le fichier local `expo/bundledNativeModules.json` de 58.0.22 référence encore Router `~58.0.29` et safe-area `~5.10.1` ; les recommandations distantes ont évolué. Voir [`evidence/baseline-doctor.txt`](./evidence/baseline-doctor.txt).
 
 Aucune mise à jour de SDK/dépendances, exclusion ou désactivation du contrôle n'est appliquée. Cet échec reste visible dans la CI. L'étape d'exports du job CI est sautée après l'échec Doctor ; des exports locaux séparés sont utilisés pour vérifier les bundles sans modifier le périmètre.
+
+Les résultats du dernier commit sont consultables dans les [checks de la PR #20](https://github.com/bledenovan01-bit/Roundr/pull/20/checks). Les premiers exports bloqués dans le sandbox ont été interrompus ; seuls les exports achevés hors sandbox sont déclarés réussis.
 
 ## Périmètre conservé
 

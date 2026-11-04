@@ -57,7 +57,9 @@ export function matchProjection(s: Session, now: number, showElapsed = false) {
     duration > 0 &&
     clockStage !== "additional" &&
     clockStage !== "golden";
-  const value = timed
+  const value = l.stage === "finished" && clockStage === "shootout" && !showElapsed
+    ? 0
+    : timed
     ? showElapsed
       ? Math.min(duration, passed)
       : Math.max(0, duration - passed)

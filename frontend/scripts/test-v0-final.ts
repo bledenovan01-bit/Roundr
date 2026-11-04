@@ -90,6 +90,15 @@ assert.equal(S.currentMatch(golden)!.finishReason, "goldenGoal");
 assert.equal(matchProjection(golden, at + 999999).time, "00:02.00");
 console.log("✓ V0 winner stays, first to two goals, manual/automatic next match and golden goal");
 
+let penalties = createTournamentSession({...tournamentDefaults("survie"), mode: "survie", teamCount: 2, matchMin: 3, extraMin: 1, drawRule: "extraThenShootout"}, tournamentTeams(2), at);
+penalties = S.endManual(S.startReady(S.launchNext(penalties, at), at), at + 1000);
+penalties = S.startTournamentTiebreak(S.prepareTournamentTiebreak(penalties, at + 1000), at + 1000);
+penalties = S.advance(penalties, at + 61000);
+assert.equal(penalties.live!.stage, "shootout");
+penalties = S.submitShootout(penalties, 4, 3, at + 62000);
+assert.equal(matchProjection(penalties, at + 999999).time, "00:00.00", "A shootout finish must not subtract extra time from regulation duration");
+assert.equal(matchProjection(penalties, at + 999999, true).time, "01:00.00");
+
 for (const count of [2, 3, 8, 17]) for (const teams of [2, Math.min(count, 8)]) {
   const players = Array.from({length: count}, (_, i) => `Joueur ${i + 1}`);
   const groups = drawPlayers(players, teams, at);
