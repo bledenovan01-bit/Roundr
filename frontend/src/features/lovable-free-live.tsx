@@ -8,7 +8,6 @@ import { dispatchFreeCommand } from "./free-live-actions";
 import { useEffect, useRef, useState } from "react";
 import {
   BackHandler,
-  PanResponder,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -29,6 +28,8 @@ import {
   m,
 } from "@/src/components/lovable/match-ui";
 import { FreeClockTrack } from "@/src/components/lovable/free-clock";
+import { KeepAwakeControl } from "@/src/components/lovable/keep-awake-control";
+import { recentSwipe } from "./carousel-swipe";
 import { useFreeNotice } from "@/src/components/free-timer-runtime";
 import { useDisplayClock } from "@/src/chrono/use-display-clock";
 import {
@@ -42,7 +43,6 @@ import {
   freeStationaryTap,
   freeReadout,
   freeStage,
-  freeSwipe,
   freeViews,
   type FreeCommand,
 } from "./free-live-state";
@@ -164,6 +164,7 @@ export function LovableFreeLive() {
     [locked, setLocked] = useState(false);
   const held = useRef(false);
   const clockOrigin = useRef<{ x: number; y: number } | null>(null);
+  const swipedAt = useRef(0);
   const two =
       width > height &&
       width - inset.left - inset.right >= 600 &&
@@ -175,17 +176,6 @@ export function LovableFreeLive() {
       setFreeTimer({ ...current, ui: { ...current.ui, view } });
   };
   const selected = ft?.ui?.view ?? ft?.config.display ?? "numeric";
-  const gesture = PanResponder.create({
-    onMoveShouldSetPanResponder: (_, g) =>
-      !locked && Math.abs(g.dx) > 12 && Math.abs(g.dx) > Math.abs(g.dy) * 1.4,
-    onPanResponderRelease: (_, g) => {
-      const n = freeSwipe(g.dx, g.dy);
-      if (n)
-        select(
-          freeViews[Math.max(0, Math.min(2, freeViews.indexOf(selected) + n))],
-        );
-    },
-  });
   useEffect(() => {
     navigation.setOptions({ gestureEnabled: !locked });
     return () => navigation.setOptions({ gestureEnabled: true });
@@ -257,7 +247,7 @@ export function LovableFreeLive() {
         : c.muted;
   const clockHeight = land ? 128 : height <= 720 ? 196 : 220;
   const carousel = (
-    <View testID="free-carousel" style={s.carousel} {...gesture.panHandlers}>
+    <View testID="free-carousel" style={s.carousel}>
       <View
         accessibilityRole="tablist"
         accessibilityLabel="Affichage du chrono"
@@ -318,6 +308,7 @@ export function LovableFreeLive() {
           };
         }}
         onPress={(event) => {
+          if (recentSwipe(swipedAt.current, Date.now())) return;
           if (
             !freeStationaryTap(clockOrigin.current, {
               x: event.nativeEvent.pageX,
@@ -334,7 +325,15 @@ export function LovableFreeLive() {
         }}
         style={{ height: clockHeight }}
       >
-        <FreeClockTrack r={r} selected={selected} />
+        <FreeClockTrack
+          r={r}
+          selected={selected}
+          swipeEnabled={!locked}
+          onSwipe={select}
+          onSwipeActivity={() => {
+            swipedAt.current = Date.now();
+          }}
+        />
       </Pressable>
       <View style={s.dots}>
         {["Vue numérique", "Vue analogique", "Vue circulaire"].map(
@@ -686,6 +685,11 @@ export function LovableFreeLive() {
         maxWidth: land ? 640 : undefined,
       }}
     >
+      <KeepAwakeControl
+        landscape={land}
+        height={land ? 48 : 60}
+        disabled={locked}
+      />
       {items.map((item, i) => (
         <Pressable
           key={item.label}

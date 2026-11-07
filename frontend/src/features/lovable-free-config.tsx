@@ -34,6 +34,8 @@ import {
   configStyles as s,
 } from "@/src/components/lovable/configuration";
 import { PhaseFrame } from "@/src/components/lovable/phase2b-ui";
+import { DurationWheel } from "@/src/components/lovable/duration-wheel";
+import { countdownWheelColumns } from "./countdown-wheel";
 import {
   LovableIcon,
   type LovableIconName,
@@ -721,24 +723,18 @@ export function LovableFreeConfig({
         }
       >
         <DurationChips cd={d.cd} set={(m) => set({ cd: { h: 0, m, s: 0 } })} />
-        {(
-          [
-            ["Heures", "h", 23, "les heures"],
-            ["Minutes", "m", 59, "les minutes"],
-            ["Secondes", "s", 59, "les secondes"],
-          ] as const
-        ).map(([label, key, max, aria]) => (
-          <Sub key={key} label={label}>
-            <Stepper
-              label={aria}
-              value={d.cd[key]}
-              min={0}
-              max={max}
-              unit={key === "h" ? "h" : key === "m" ? "min" : "s"}
-              onChange={(n) => set({ cd: { ...d.cd, [key]: n } })}
-            />
-          </Sub>
-        ))}
+        <DurationWheel
+          testID="countdown-wheel"
+          columns={countdownWheelColumns.map(([key, unit, spoken, max]) => ({
+            key,
+            unit,
+            spoken,
+            min: 0,
+            max,
+            value: d.cd[key],
+            onChange: (n: number) => set({ cd: { ...d.cd, [key]: n } }),
+          }))}
+        />
         {cd <= 0 ? (
           <Text style={s.error}>La durée doit être supérieure à zéro.</Text>
         ) : null}

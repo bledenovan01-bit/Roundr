@@ -1,14 +1,15 @@
 import { svgRotation } from "@/src/components/svg-compat";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { freeViews } from "@/src/features/free-live-state";
 import {
-  AccessibilityInfo,
   Animated,
   Text,
   View,
   useWindowDimensions,
 } from "react-native";
 import Svg, { Circle, G, Line, Text as SvgText, TSpan } from "react-native-svg";
+import { GestureDetector } from "react-native-gesture-handler";
+import { useSwipeCarousel } from "@/src/hooks/use-swipe-carousel";
 import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
 import type { FreeTimerDisplay } from "@/src/domain/free-timer";
 import type { freeReadout } from "@/src/features/free-live-state";
@@ -298,41 +299,35 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
 export function FreeClockTrack({
   r,
   selected,
+  swipeEnabled = false,
+  onSwipe,
+  onSwipeActivity,
 }: {
   r: Readout;
   selected: FreeTimerDisplay;
+  swipeEnabled?: boolean;
+  onSwipe?: (view: FreeTimerDisplay) => void;
+  onSwipeActivity?: () => void;
 }) {
-  const [width, setWidth] = useState(0),
-    [offset] = useState(() => new Animated.Value(0)),
-    [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    let active = true;
-    void AccessibilityInfo.isReduceMotionEnabled().then((v) => {
-      if (active) setReduced(v);
-    });
-    const subscription = AccessibilityInfo.addEventListener(
-      "reduceMotionChanged",
-      setReduced,
-    );
-    return () => {
-      active = false;
-      subscription.remove();
-    };
-  }, []);
-  useEffect(() => {
-    const animation = Animated.timing(offset, {
-      toValue: -width * freeViews.indexOf(selected),
-      duration: reduced ? 0 : 350,
-      useNativeDriver: true,
-    });
-    animation.start();
-    return () => animation.stop();
-  }, [offset, width, selected, reduced]);
+  const [width, setWidth] = useState(0);
+  const { offset, gesture } = useSwipeCarousel({
+    page: freeViews.indexOf(selected),
+    count: freeViews.length,
+    width,
+    enabled: swipeEnabled && !!onSwipe,
+    onSelect: (index) => onSwipe?.(freeViews[index]),
+    onSwipeActivity,
+  });
+  // The size is measured outside the gesture detector, which takes over the
+  // ref of its direct child.
   return (
     <View
+      testID="free-clock-track"
       onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
       style={{ flex: 1 }}
     >
+    <GestureDetector gesture={gesture}>
+    <View style={{ flex: 1 }}>
       <Animated.View
         style={{
           height: "100%",
@@ -355,6 +350,8 @@ export function FreeClockTrack({
           </View>
         ))}
       </Animated.View>
+    </View>
+    </GestureDetector>
     </View>
   );
 }
