@@ -3,7 +3,6 @@ import {
   AccessibilityInfo,
   Animated,
   Modal,
-  PanResponder,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,7 +11,9 @@ import {
   useWindowDimensions,
 } from "react-native";
 import Svg, { Circle, G, Path, Rect } from "react-native-svg";
+import { GestureDetector } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSwipeCarousel } from "@/src/hooks/use-swipe-carousel";
 import type { Session, Team } from "@/src/domain/types";
 import { Jersey } from "./configuration";
 import { LovableIcon } from "./icon";
@@ -50,7 +51,9 @@ export type MatchIconName =
   | "trophy"
   | "home"
   | "flag"
-  | "userPlus";
+  | "userPlus"
+  | "sun"
+  | "moon";
 // Lucide 0.575.0 geometry, ISC license in docs/lucide-license.txt.
 export function MatchIcon({
   name,
@@ -79,6 +82,13 @@ export function MatchIcon({
     >
       {name === "home" ? (
         <Path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-8H9v8H4a1 1 0 0 1-1-1z" />
+      ) : name === "sun" ? (
+        <>
+          <Circle cx={12} cy={12} r={4} />
+          <Path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </>
+      ) : name === "moon" ? (
+        <Path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
       ) : name === "flag" ? (
         <Path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528" />
       ) : name === "userPlus" ? (
@@ -471,40 +481,21 @@ export function MatchCarousel({
 }) {
   const pages = matchPages(session),
     [width, setWidth] = useState(0),
-    [offset] = useState(() => new Animated.Value(0));
-  const [reduceMotion, setReduceMotion] = useState(false),
     held = useRef(false);
   const page = visibleMatchPage(selected, pages);
   const { width: sw, height: sh } = useWindowDimensions(),
     landscape = sw > sh;
   const slideHeight = landscape ? 170 : sh < 620 ? 164 : sh < 720 ? 196 : 232,
     dialSize = landscape ? 126 : sh < 620 ? 122 : sh < 720 ? 146 : 174;
-  useEffect(() => {
-    void AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
-    const sub = AccessibilityInfo.addEventListener(
-      "reduceMotionChanged",
-      setReduceMotion,
-    );
-    return () => sub.remove();
-  }, []);
-  useEffect(() => {
-    const a = Animated.timing(offset, {
-      toValue: -width * page,
-      duration: reduceMotion ? 0 : 350,
-      useNativeDriver: true,
-    });
-    a.start();
-    return () => a.stop();
-  }, [offset, width, page, reduceMotion]);
   const go = (n: number) => {
     if (!locked) onSelect(visibleMatchPage(n, pages));
   };
-  const pan = PanResponder.create({
-    onMoveShouldSetPanResponder: (_, g) =>
-      !locked && Math.abs(g.dx) > 20 && Math.abs(g.dx) > Math.abs(g.dy) * 1.3,
-    onPanResponderRelease: (_, g) => {
-      if (Math.abs(g.dx) > 50) go(page + (g.dx < 0 ? 1 : -1));
-    },
+  const { offset, gesture, justSwiped } = useSwipeCarousel({
+    page,
+    count: pages.length,
+    width,
+    enabled: !locked,
+    onSelect: go,
   });
   const status = (kind: string) => (
     <View style={m.status}>
@@ -541,14 +532,17 @@ export function MatchCarousel({
       </Text>
     </View>
   );
+  // The size is measured outside the gesture detector, which takes over the
+  // ref of its direct child.
   return (
     <View
       testID="match-carousel"
       accessibilityLabel="Vues du match"
       onLayout={(e) => setWidth(e.nativeEvent.layout.width - 2)}
       style={m.carousel}
-      {...pan.panHandlers}
     >
+    <GestureDetector gesture={gesture}>
+    <View>
       <View style={{ height: slideHeight, overflow: pages[page] === "tournament" ? "visible" : "hidden", zIndex: pages[page] === "tournament" ? 1 : undefined }}>
         <Animated.View
           style={{
@@ -586,10 +580,11 @@ export function MatchCarousel({
                   }}
                   onLongPress={() => {
                     held.current = true;
-                    onGiant();
+                    if (!justSwiped()) onGiant();
                   }}
                   onPress={() => {
-                    if (!held.current && projection.canToggle) onToggle();
+                    if (!held.current && projection.canToggle && !justSwiped())
+                      onToggle();
                     held.current = false;
                   }}
                   style={[
@@ -767,6 +762,8 @@ export function MatchCarousel({
           </Pressable>
         ))}
       </View>
+    </View>
+    </GestureDetector>
     </View>
   );
 }

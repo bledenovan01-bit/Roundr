@@ -35,6 +35,7 @@ import { Jersey, configStyles } from "@/src/components/lovable/configuration";
 import { PhaseFrame } from "@/src/components/lovable/phase2b-ui";
 import { GiantChrono } from "@/src/components/giant-chrono";
 import { MatchAnnouncer, MatchAnnouncementSpace } from "@/src/components/lovable/match-announcer";
+import { KeepAwakeControl } from "@/src/components/lovable/keep-awake-control";
 import {
   MatchAction,
   MatchCarousel,
@@ -497,6 +498,11 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
               gap: 8,
             }}
           >
+            <KeepAwakeControl
+              landscape={landscape}
+              height={landscape ? 48 : 60}
+              disabled={locked}
+            />
             {(
               [
                 {
