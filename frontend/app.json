@@ -10,7 +10,10 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.emergent.demoprevue.vnvemd"
+      "bundleIdentifier": "com.emergent.demoprevue.vnvemd",
+      "infoPlist": {
+        "NSAppleMusicUsageDescription": "Roundr utilise l’accès à Musique pour afficher et commander le morceau en cours pendant vos matchs."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -51,7 +54,8 @@
   }
 ],
       "expo-sharing",
-      "expo-asset"
+      "expo-asset",
+      "./modules/roundr-spotify-remote/app.plugin.js"
     ],
     "experiments": {
       "typedRoutes": true

@@ -1,0 +1,70 @@
+name: Roundr iOS native compile
+# Compiles the local Swift modules for the iOS simulator. No signing, no Apple
+# account, no EAS and no artifact: it only proves that the native code builds.
+on:
+  pull_request:
+    branches: ["codex/**", "main"]
+    paths:
+      - "frontend/modules/**"
+      - "frontend/app.json"
+      - "frontend/package.json"
+      - "frontend/yarn.lock"
+      - ".github/workflows/roundr-ios-compile.yml"
+  workflow_dispatch:
+concurrency:
+  group: roundr-ios-compile-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  compile:
+    name: compile (Spotify experiment ${{ matrix.spotify }})
+    runs-on: macos-26
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        spotify: ["0", "1"]
+    env:
+      CI: "1"
+      EXPO_NO_TELEMETRY: "1"
+      ROUNDR_SPOTIFY_EXPERIMENT: ${{ matrix.spotify }}
+      # Compile-only placeholder: the Client ID is not a secret and this one is not real.
+      ROUNDR_SPOTIFY_CLIENT_ID: compile-only-placeholder
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install app dependencies
+        run: npx --yes yarn@1.22.22 install --frozen-lockfile
+      - name: Generate the iOS project
+        run: npx expo prebuild --platform ios --no-install
+      - name: Check that the Spotify SDK is linked only in the experiment
+        run: |
+          if [ "$ROUNDR_SPOTIFY_EXPERIMENT" = "1" ]; then
+            test -d modules/roundr-spotify-remote/ios/vendor/SpotifyiOS.xcframework
+            /usr/libexec/PlistBuddy -c "Print :RoundrSpotifyClientID" ios/Roundr/Info.plist
+          else
+            test ! -e modules/roundr-spotify-remote/ios/vendor
+            ! /usr/libexec/PlistBuddy -c "Print :RoundrSpotifyClientID" ios/Roundr/Info.plist
+          fi
+      - name: Install pods
+        working-directory: frontend/ios
+        run: pod install
+      - name: Compile for the iOS simulator
+        working-directory: frontend/ios
+        run: >
+          xcodebuild build
+          -workspace Roundr.xcworkspace
+          -scheme Roundr
+          -configuration Debug
+          -sdk iphonesimulator
+          -destination "generic/platform=iOS Simulator"
+          ARCHS=arm64
+          ONLY_ACTIVE_ARCH=YES
+          CODE_SIGNING_ALLOWED=NO
+          -quiet

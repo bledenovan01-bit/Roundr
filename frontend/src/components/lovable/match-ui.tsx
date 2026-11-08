@@ -14,6 +14,7 @@ import Svg, { Circle, G, Path, Rect } from "react-native-svg";
 import { GestureDetector } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSwipeCarousel } from "@/src/hooks/use-swipe-carousel";
+import { MusicCard } from "./music-card";
 import type { Session, Team } from "@/src/domain/types";
 import { Jersey } from "./configuration";
 import { LovableIcon } from "./icon";
@@ -692,41 +693,11 @@ export function MatchCarousel({
               ) : kind === "next" || kind === "tournament" ? (
                 next
               ) : (
-                <View
-                  style={{ flex: 1, padding: landscape ? 10 : 14, gap: 14 }}
-                >
-                  <Text style={m.eyebrow}>MUSIQUE</Text>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 6,
-                    }}
-                  >
-                    <View
-                      style={{
-                        height: 56,
-                        width: 56,
-                        backgroundColor: c.secondary,
-                        borderWidth: 1,
-                        borderColor: c.border,
-                        borderRadius: 14,
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <MatchIcon name="music" size={26} color={c.muted} />
-                    </View>
-                    <Text style={[m.teamName, { fontSize: 14 }]}>
-                      Contrôle musical indisponible
-                    </Text>
-                    <Text style={[m.hint, { fontSize: 12, lineHeight: 18 }]}>
-                      La connexion à la musique du téléphone n’est pas encore
-                      disponible.
-                    </Text>
-                  </View>
-                </View>
+                <MusicCard
+                  compact={landscape || sh < 720}
+                  locked={locked}
+                  active={pages[page] === "music"}
+                />
               )}
             </View>
           ))}

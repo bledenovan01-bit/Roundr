@@ -38,3 +38,6 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# Spotify SDK, fetched only for experimental builds
+modules/roundr-spotify-remote/ios/vendor/
