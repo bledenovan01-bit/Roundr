@@ -11,6 +11,11 @@ import {
 } from "@/src/domain/free-timer";
 
 export const freeViews = ["numeric", "analog", "circular"] as const;
+/** Clock faces plus the shared music card, which appears once the chrono has started. */
+export type FreeCarouselView = (typeof freeViews)[number] | "music";
+export function freeCarouselViews(stage: string): readonly FreeCarouselView[] {
+  return stage === "ready" ? freeViews : [...freeViews, "music"];
+}
 export function freeStationaryTap(
   start: { x: number; y: number } | null,
   end: { x: number; y: number },

@@ -21,7 +21,8 @@ Contrôleur commun (src/music/music-controller.ts, music-card-model.ts)
 - **Aucune simulation.** Après chaque commande, l'état est relu dans le lecteur. Un bouton n'est actif que si la source déclare la commande. Spotify fournit `canSkipNext` et `canSkipPrevious`.
 - **Choix de la source.** Celle qui joue ; si les deux jouent, la dernière écoutée. Une pause garde la carte sur sa source. Si une autre application joue, la carte n'affiche pas un ancien morceau en pause.
 - **Autorisations.** Demandées uniquement au toucher de « Connecter ». Avant cela, le lecteur système n'est pas interrogé.
-- **Sobriété.** Le suivi ne tourne que lorsque la vue Musique est à l'écran.
+- **Tous les modes.** La même carte apparaît dans le carrousel du match et, comme quatrième vue après le démarrage, dans le Chrono libre. Cette vue n'est pas enregistrée dans la séance : au retour, le Chrono libre revient sur son cadran.
+- **Sobriété.** Le suivi ne tourne que lorsqu'une vue Musique est à l'écran. Un contrôleur unique attache les sources et s'abonne une seule fois, quel que soit le nombre de cartes, et se libère avec la dernière.
 - **Bruitages.** Les modules ne touchent jamais à la session audio.
 
 ## États de la carte
@@ -59,6 +60,25 @@ Désactivé par défaut. Sans les variables ci-dessous, le SDK n'est pas lié, a
   - reprendre après une longue pause peut demander une nouvelle bascule.
 - **Restrictions d'App Remote non établies.** L'application de la limite de 5 utilisateurs, la distribution publique et les commandes des comptes Free attendent la réponse officielle de Spotify.
 
+### Conserver la connexion Spotify : étude du 8 novembre 2026
+
+Non implémenté. **Conserver l'autorisation est envisageable ; ne jamais repasser par l'app Spotify ne semble pas l'être.** Sources : documentation iOS, en-têtes du SDK 5.0.1, blog du 18 juin 2026.
+
+| Point | Ce que disent les sources |
+| --- | --- |
+| Jeton d'accès | Durée de vie d'une heure. |
+| Connexion App Remote actuelle | Aucun jeton de renouvellement n'est documenté sur ce parcours. Réutiliser au lancement suivant un jeton sauvegardé, ou ce qui se passe s'il a expiré : non précisé. |
+| `SPTSessionManager` | Échange le code contre un jeton d'accès et un jeton de renouvellement, en PKCE sans serveur (`auth.md`). La session peut alimenter App Remote. |
+| Renouvellement | `renewSession` existe. Son fonctionnement silencieux et sans serveur en PKCE n'est pas précisé. Côté Web API, le renouvellement PKCE n'exige pas de secret. |
+| Durée maximale | Depuis le 20 juillet 2026, un jeton de renouvellement impose une nouvelle connexion après 6 mois, sans prolongation. L'application au SDK iOS n'est pas précisée. |
+| Stockage | Aucune consigne Keychain. Les conditions exigent une protection conforme aux standards du secteur. Le Keychain d'iOS y répond. |
+| Déconnexion | La politique impose un moyen simple de déconnecter le compte Spotify, et l'effacement des données associées. À ajouter si la connexion est conservée. |
+| Réveil de Spotify | « it must perform an app switch ». Une connexion suppose aussi que la musique joue. Un jeton valide évite donc de redonner l'accord, pas forcément la bascule si Spotify est suspendu. |
+
+Pistes, à tester sur un vrai build :
+1. Conserver le jeton d'une heure dans le Keychain : petit changement, gain limité à une heure.
+2. Passer à `SPTSessionManager` en PKCE avec le jeton de renouvellement dans le Keychain, plus un bouton de déconnexion : seule piste qui évite une reconnexion systématique, à renouveler au moins tous les 6 mois si la règle s'applique.
+
 ## Tests automatisés
 
 - `scripts/test-music-control.ts`, ajouté à `npm test`, couvre :
@@ -73,7 +93,7 @@ Désactivé par défaut. Sans les variables ci-dessous, le SDK n'est pas lié, a
   - absence de session audio et d'API privée ;
   - Spotify inactif sans drapeau ;
   - identifiants inchangés.
-- Workflow `roundr-ios-compile.yml` : compile les modules Swift pour le simulateur iOS, avec et sans Spotify, sans signature ni compte Apple ni EAS.
+- Workflow `roundr-ios-compile.yml` : compile les modules Swift pour le simulateur iOS, avec et sans Spotify, sans signature ni compte Apple ni EAS. Réussi sur les deux variantes au commit `78496a0`. Une compilation ne remplace pas un test sur appareil.
 - Contrôle visuel web avec un lecteur simulé temporaire, non committé : portrait 390 × 844 et paysage 844 × 390, comparés aux captures Lovable. Pochette, commande indisponible grisée, passage en pause.
 - Sans module natif, comme dans Expo Go : message d'indisponibilité, aucun plantage, aucun bouton.
 
@@ -97,3 +117,5 @@ Rien n'a pu être exécuté sur un iPhone : un module natif exige un build sign�
 1. Passage d'une source à l'autre, troisième application en lecture.
 2. Bruitages Roundr par-dessus la musique, appel entrant, Bluetooth, verrouillage.
 3. Sortie puis retour dans Roundr pendant un match ; chrono et sauvegardes inchangés.
+4. Vue Musique du Chrono libre, portrait et paysage : glissement, boutons, chrono, tours et intervalles qui continuent pendant son affichage.
+5. Passage entre le match et le Chrono libre : aucune connexion en double.

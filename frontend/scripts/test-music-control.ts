@@ -9,6 +9,7 @@ import {
   type MusicState,
 } from "../src/music/music-card-model";
 import { MusicController, type MusicAdapter } from "../src/music/music-controller";
+import { freeCarouselViews } from "../src/features/free-live-state";
 
 const builtin = (
   process as unknown as { getBuiltinModule: (id: string) => any }
@@ -229,6 +230,59 @@ async function main() {
   const unsupported = new MusicController([], async () => false);
   await unsupported.start();
   assert.equal(unsupported.getState().ready, false);
+
+  // Several cards share one controller: one attachment, one subscription.
+  let watchers = 0,
+    unwatched = 0;
+  const shared = new FakeAdapter("apple", snap("apple"));
+  let subscriptions = 0;
+  const subscribe = shared.subscribe;
+  shared.subscribe = (listener) => {
+    subscriptions++;
+    return subscribe(listener);
+  };
+  const common = new MusicController([shared], async () => false, () => {
+    watchers++;
+    return () => {
+      unwatched++;
+    };
+  });
+  const firstCard = common.hold();
+  const secondCard = common.hold();
+  await tick();
+  await tick();
+  assert.deepEqual([shared.activations, subscriptions, watchers], [1, 1, 1], "attached once for two cards");
+  firstCard();
+  firstCard();
+  await tick();
+  assert.deepEqual([shared.deactivations, unwatched], [0, 0], "kept while a card remains");
+  assert.notEqual(shared.listener, null);
+  secondCard();
+  await tick();
+  assert.deepEqual([shared.deactivations, unwatched], [1, 1], "released with the last card");
+  assert.equal(shared.listener, null);
+  const thirdCard = common.hold();
+  await tick();
+  await tick();
+  assert.deepEqual([shared.activations, watchers], [2, 2], "reattached when a card comes back");
+  thirdCard();
+
+  // Chrono libre: a fourth view, once started, using the same card.
+  assert.deepEqual([...freeCarouselViews("ready")], ["numeric", "analog", "circular"], "same rule as the match: not before the start");
+  for (const stage of ["running", "paused", "waiting", "ended"]) {
+    assert.deepEqual([...freeCarouselViews(stage)], ["numeric", "analog", "circular", "music"]);
+  }
+  const clock = source("src/components/lovable/free-clock.tsx");
+  const freeLive = source("src/features/lovable-free-live.tsx");
+  assert.match(clock, /<MusicCard/, "same component in the Chrono libre");
+  assert.match(clock, /count: views\.length/, "the validated swipe covers the music view");
+  assert.match(freeLive, /disabled=\{blocked \|\| isStopwatch \|\| showMusic\}/, "a tap on the music view cannot toggle the clock");
+  assert.match(freeLive, /accessible=\{!showMusic\}/, "VoiceOver reaches the music buttons");
+  assert.match(freeLive, /if \(locked\) return;\s+setMusicOpen/, "locked commands also lock the view");
+  assert.doesNotMatch(source("src/store/free-timer-validation.ts"), /music/, "the music view is not part of the saved session");
+  assert.doesNotMatch(source("src/domain/free-timer.ts"), /"music"/, "the timer engine does not know the music view");
+  assert.equal((source("src/music/use-music-card.ts").match(/new MusicController/g) ?? []).length, 1, "one controller");
+  assert.match(source("src/music/use-music-card.ts"), /music\.hold\(\)/);
 
   // Scope guards.
   const swift = source("modules/roundr-music/ios/RoundrMusicModule.swift");

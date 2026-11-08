@@ -34,10 +34,14 @@ export class MusicController {
   private unsubscribe: (() => void)[] = [];
   private generation = 0;
   private started = false;
+  private holders = 0;
+  private teardown: (() => void) | undefined;
 
   constructor(
     private adapters: MusicAdapter[],
     private probe: OtherAudioProbe,
+    /** Runs once while at least one card is visible; returns its cleanup. */
+    private whileHeld?: (controller: MusicController) => () => void,
   ) {
     this.state = initialMusicState(adapters.map((a) => a.id));
   }
@@ -54,6 +58,27 @@ export class MusicController {
   private set(patch: Partial<MusicState>) {
     this.state = { ...this.state, ...patch };
     this.listeners.forEach((listener) => listener());
+  }
+
+  /**
+   * Called by each visible card. However many cards there are, the sources
+   * are attached and observed only once, and released with the last card.
+   */
+  hold() {
+    let held = true;
+    if (++this.holders === 1) {
+      void this.start();
+      this.teardown = this.whileHeld?.(this);
+    }
+    return () => {
+      if (!held) return;
+      held = false;
+      if (--this.holders === 0) {
+        this.teardown?.();
+        this.teardown = undefined;
+        void this.stop();
+      }
+    };
   }
 
   async start() {

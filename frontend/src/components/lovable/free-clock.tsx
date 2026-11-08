@@ -1,6 +1,7 @@
 import { svgRotation } from "@/src/components/svg-compat";
 import { useState } from "react";
-import { freeViews } from "@/src/features/free-live-state";
+import { freeViews, type FreeCarouselView, type freeReadout } from "@/src/features/free-live-state";
+import { MusicCard } from "./music-card";
 import {
   Animated,
   Text,
@@ -12,7 +13,6 @@ import { GestureDetector } from "react-native-gesture-handler";
 import { useSwipeCarousel } from "@/src/hooks/use-swipe-carousel";
 import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
 import type { FreeTimerDisplay } from "@/src/domain/free-timer";
-import type { freeReadout } from "@/src/features/free-live-state";
 import { TimerDigits } from "./timer-digits";
 
 type Readout = ReturnType<typeof freeReadout>;
@@ -295,27 +295,35 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
   );
 }
 
-// Three mounted pages, translated only after an explicit selection/gesture.
+// Mounted pages, translated only after an explicit selection/gesture.
 export function FreeClockTrack({
   r,
+  views = freeViews,
   selected,
+  compact = false,
+  dense = false,
+  locked = false,
   swipeEnabled = false,
   onSwipe,
   onSwipeActivity,
 }: {
   r: Readout;
-  selected: FreeTimerDisplay;
+  views?: readonly FreeCarouselView[];
+  selected: FreeCarouselView;
+  compact?: boolean;
+  dense?: boolean;
+  locked?: boolean;
   swipeEnabled?: boolean;
-  onSwipe?: (view: FreeTimerDisplay) => void;
+  onSwipe?: (view: FreeCarouselView) => void;
   onSwipeActivity?: () => void;
 }) {
   const [width, setWidth] = useState(0);
   const { offset, gesture } = useSwipeCarousel({
-    page: freeViews.indexOf(selected),
-    count: freeViews.length,
+    page: Math.max(0, views.indexOf(selected)),
+    count: views.length,
     width,
     enabled: swipeEnabled && !!onSwipe,
-    onSelect: (index) => onSwipe?.(freeViews[index]),
+    onSelect: (index) => onSwipe?.(views[index]),
     onSwipeActivity,
   });
   // The size is measured outside the gesture detector, which takes over the
@@ -331,12 +339,12 @@ export function FreeClockTrack({
       <Animated.View
         style={{
           height: "100%",
-          width: width * 3,
+          width: width * views.length,
           flexDirection: "row",
           transform: [{ translateX: offset }],
         }}
       >
-        {freeViews.map((view) => (
+        {views.map((view) => (
           <View
             key={view}
             aria-hidden={view !== selected}
@@ -346,7 +354,16 @@ export function FreeClockTrack({
             }
             style={{ width, height: "100%" }}
           >
-            <FreeClock r={r} view={view} />
+            {view === "music" ? (
+              <MusicCard
+                compact={compact}
+                dense={dense}
+                locked={locked}
+                active={selected === "music"}
+              />
+            ) : (
+              <FreeClock r={r} view={view} />
+            )}
           </View>
         ))}
       </Animated.View>

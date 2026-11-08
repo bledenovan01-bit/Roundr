@@ -109,20 +109,23 @@ const eyebrow = {
  */
 export function MusicCard({
   compact,
+  dense = false,
   locked,
   active,
 }: {
   compact: boolean;
+  /** Shortest slot: the landscape Chrono libre carousel. */
+  dense?: boolean;
   locked: boolean;
   active: boolean;
 }) {
   const { model, busy, command, run } = useMusicCard(active);
   if (model.kind === "message") {
     return (
-      <View style={{ flex: 1, padding: compact ? 10 : 14, gap: compact ? 6 : 14 }}>
+      <View style={{ flex: 1, padding: dense ? 6 : compact ? 10 : 14, gap: dense ? 2 : compact ? 6 : 14 }}>
         <Text style={[eyebrow, { textAlign: "center" }]}>MUSIQUE</Text>
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: 6 }}>
-          {compact && model.actions.length ? null : (
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: dense ? 2 : 6 }}>
+          {dense || (compact && model.actions.length) ? null : (
             <View
               style={{
                 height: 56,
@@ -142,7 +145,7 @@ export function MusicCard({
             {model.title}
           </Text>
           <Text
-            numberOfLines={compact ? 2 : 3}
+            numberOfLines={dense && model.actions.length ? 1 : compact ? 2 : 3}
             style={{ fontFamily: f.semibold, fontSize: 12, lineHeight: 18, color: c.muted, textAlign: "center" }}
           >
             {model.notice ?? model.hint}
@@ -180,11 +183,11 @@ export function MusicCard({
       </View>
     );
   }
-  const art = compact ? 44 : 56;
-  const side = compact ? 42 : 52;
-  const main = compact ? 50 : 64;
+  const art = dense ? 36 : compact ? 44 : 56;
+  const side = dense ? 38 : compact ? 42 : 52;
+  const main = dense ? 44 : compact ? 50 : 64;
   return (
-    <View testID="music-player" style={{ flex: 1, padding: compact ? 10 : 16, gap: compact ? 8 : 12 }}>
+    <View testID="music-player" style={{ flex: 1, padding: dense ? 6 : compact ? 10 : 16, gap: dense ? 3 : compact ? 8 : 12 }}>
       <Text style={eyebrow}>MUSIQUE</Text>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
         <View style={{ width: art, height: art, borderRadius: 14, overflow: "hidden" }}>

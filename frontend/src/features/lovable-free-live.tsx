@@ -43,7 +43,9 @@ import {
   freeStationaryTap,
   freeReadout,
   freeStage,
+  freeCarouselViews,
   freeViews,
+  type FreeCarouselView,
   type FreeCommand,
 } from "./free-live-state";
 import {
@@ -161,7 +163,9 @@ export function LovableFreeLive() {
     } | null>(null),
     [busy, setBusy] = useState(false),
     [actionError, setActionError] = useState<string | null>(null),
-    [locked, setLocked] = useState(false);
+    [locked, setLocked] = useState(false),
+    // Not saved: a restored session always comes back on its clock face.
+    [musicOpen, setMusicOpen] = useState(false);
   const held = useRef(false);
   const clockOrigin = useRef<{ x: number; y: number } | null>(null);
   const swipedAt = useRef(0);
@@ -246,6 +250,14 @@ export function LovableFreeLive() {
         ? c.amber
         : c.muted;
   const clockHeight = land ? 128 : height <= 720 ? 196 : 220;
+  const views = freeCarouselViews(stage);
+  const showMusic = musicOpen && views.includes("music");
+  const shown: FreeCarouselView = showMusic ? "music" : selected;
+  const show = (view: FreeCarouselView) => {
+    if (locked) return;
+    setMusicOpen(view === "music");
+    if (view !== "music") select(view);
+  };
   const carousel = (
     <View testID="free-carousel" style={s.carousel}>
       <View
@@ -257,21 +269,21 @@ export function LovableFreeLive() {
           <Pressable
             key={label}
             accessibilityRole="tab"
-            aria-selected={selected === freeViews[i]}
+            aria-selected={shown === freeViews[i]}
             accessibilityLabel={label}
             accessibilityState={{
-              selected: selected === freeViews[i],
+              selected: shown === freeViews[i],
               disabled: blocked,
             }}
             disabled={blocked}
             hitSlop={{ top: 6, bottom: 6 }}
-            onPress={() => select(freeViews[i])}
+            onPress={() => show(freeViews[i])}
             style={[
               s.tab,
               {
                 height: land ? 26 : 30,
                 backgroundColor:
-                  selected === freeViews[i] ? c.card : "transparent",
+                  shown === freeViews[i] ? c.card : "transparent",
               },
             ]}
           >
@@ -281,7 +293,7 @@ export function LovableFreeLive() {
                 fontFamily: "ManropeRefined-Bold",
                 fontSize: 12,
                 lineHeight: 18,
-                color: selected === freeViews[i] ? c.foreground : c.muted,
+                color: shown === freeViews[i] ? c.foreground : c.muted,
               }}
             >
               {label}
@@ -291,16 +303,20 @@ export function LovableFreeLive() {
       </View>
       <Pressable
         testID="free-clock"
-        accessibilityRole={isStopwatch ? "text" : "button"}
+        // On the music view this wrapper must not hide the card's own buttons.
+        accessible={!showMusic}
+        accessibilityRole={showMusic ? undefined : isStopwatch ? "text" : "button"}
         accessibilityLabel={
-          isStopwatch
-            ? r.main + r.cents
-            : ft.ui?.elapsed
-              ? "Afficher le temps restant"
-              : "Afficher le temps écoulé"
+          showMusic
+            ? undefined
+            : isStopwatch
+              ? r.main + r.cents
+              : ft.ui?.elapsed
+                ? "Afficher le temps restant"
+                : "Afficher le temps écoulé"
         }
-        disabled={blocked || isStopwatch}
-        accessibilityValue={{ text: r.main + r.cents }}
+        disabled={blocked || isStopwatch || showMusic}
+        accessibilityValue={showMusic ? undefined : { text: r.main + r.cents }}
         onPressIn={(event) => {
           clockOrigin.current = {
             x: event.nativeEvent.pageX,
@@ -327,34 +343,38 @@ export function LovableFreeLive() {
       >
         <FreeClockTrack
           r={r}
-          selected={selected}
+          views={views}
+          selected={shown}
+          compact={land || height <= 720}
+          dense={land}
+          locked={locked}
           swipeEnabled={!locked}
-          onSwipe={select}
+          onSwipe={show}
           onSwipeActivity={() => {
             swipedAt.current = Date.now();
           }}
         />
       </Pressable>
       <View style={s.dots}>
-        {["Vue numérique", "Vue analogique", "Vue circulaire"].map(
+        {["Vue numérique", "Vue analogique", "Vue circulaire", "Musique"].slice(0, views.length).map(
           (label, i) => (
             <Pressable
               key={label}
               accessibilityRole="button"
               accessibilityLabel={label}
-              accessibilityState={{ selected: selected === freeViews[i] }}
+              accessibilityState={{ selected: shown === views[i] }}
               disabled={blocked}
               hitSlop={{ top: 5, bottom: 5 }}
-              onPress={() => select(freeViews[i])}
+              onPress={() => show(views[i])}
               style={s.dotControl}
             >
               <View
                 style={{
-                  width: selected === freeViews[i] ? 22 : 7,
+                  width: shown === views[i] ? 22 : 7,
                   height: 7,
                   borderRadius: 99,
                   backgroundColor:
-                    selected === freeViews[i] ? c.primary : c.mutedSurface,
+                    shown === views[i] ? c.primary : c.mutedSurface,
                 }}
               />
             </Pressable>
