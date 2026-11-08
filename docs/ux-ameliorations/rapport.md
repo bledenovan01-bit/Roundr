@@ -52,7 +52,23 @@ Aucune nouvelle dépendance. Tout reste compatible avec Expo Go SDK 58.
 - **Exécuté localement :** `npm test` (toutes les suites), `tsc --noEmit`, `eslint app src --max-warnings 0`, `test:syntax`, `expo-doctor` (20/20), `expo export --platform all`.
 - **Contrôle visuel web (375 × 812).** Roulettes (puce, toucher, défilement), bouton Écran synchronisé, glissement dans le match et le Chrono libre, aucun basculement parasite.
 
-## À vérifier sur iPhone (Expo Go ou build)
+## Recette native sur iPhone
+
+Résultats communiqués par le propriétaire le 8 novembre 2026. Commit testé : `8e9c595`, iPhone physique, Expo Go SDK 58, serveur Expo en mode production via tunnel.
+
+**Résultat : 5/5 validés, aucune anomalie identifiée sur ces fonctionnalités.**
+
+| Contrôle | Résultat |
+| --- | --- |
+| Bouton « Écran » | OK |
+| Glissement du carrousel Match | OK |
+| Glissement du carrousel Chrono libre | OK |
+| Roulettes de durée | OK |
+| Barre inférieure | OK |
+
+Ces résultats valident fonctionnellement les trois améliorations dans Expo Go. Ils ne couvrent pas une application autonome compilée et signée : le comportement de ces fonctions reste à confirmer sur un vrai build iOS.
+
+## Liste de contrôle iPhone d'origine
 
 1. **Glissement :** passer d'une vue à l'autre sur le match et le Chrono libre, sans déclencher le tap ni le chrono géant. Défilement vertical de la page toujours possible en commençant sur le carrousel.
 2. **Glissement et iOS :** le geste « retour » depuis le bord gauche reste utilisable ; il est désactivé quand les commandes sont verrouillées, comme avant.
