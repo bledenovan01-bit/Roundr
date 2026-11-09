@@ -6,11 +6,14 @@
 "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
-    "scheme": "frontend",
+    "scheme": "roundr",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.emergent.demoprevue.vnvemd",
+      "supportsTablet": false,
+      "bundleIdentifier": "com.bledenovan.roundr",
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "infoPlist": {
         "NSAppleMusicUsageDescription": "Roundr utilise l’accès à Musique pour afficher et commander le morceau en cours pendant vos matchs."
       }
@@ -18,7 +21,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000000"
+        "backgroundColor": "#020909"
       },
       "package": "com.bledenovan.roundr.recette"
     },
@@ -33,9 +36,9 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-image.png",
-          "imageWidth": 200,
+          "imageWidth": 260,
           "resizeMode": "contain",
-          "backgroundColor": "#000000"
+          "backgroundColor": "#020909"
         }
       ],
       "expo-font",

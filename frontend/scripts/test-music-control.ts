@@ -302,7 +302,7 @@ async function main() {
   assert.doesNotMatch(card, /spotify|apple/i, "the card does not depend on the source");
   assert.match(source("src/components/lovable/match-ui.tsx"), /<MusicCard/);
   const config = JSON.parse(source("app.json")).expo;
-  assert.equal(config.ios.bundleIdentifier, "com.emergent.demoprevue.vnvemd", "iOS identifier unchanged");
+  assert.equal(config.ios.bundleIdentifier, "com.bledenovan.roundr", "iOS identifier chosen by the owner");
   assert.equal(config.android.package, "com.bledenovan.roundr.recette", "Android identifier unchanged");
   assert.ok(config.ios.infoPlist.NSAppleMusicUsageDescription.length > 20);
 

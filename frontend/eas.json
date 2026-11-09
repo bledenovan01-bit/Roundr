@@ -2,7 +2,7 @@
   "cli": {
     "version": "25.2.0",
     "requireCommit": true,
-    "appVersionSource": "local",
+    "appVersionSource": "remote",
     "promptToConfigurePushNotifications": false
   },
   "build": {
@@ -21,7 +21,42 @@
         "buildConfiguration": "Release",
         "image": "sdk-58",
         "resourceClass": "medium"
+      },
+      "env": {
+        "ROUNDR_SPOTIFY_EXPERIMENT": "0"
       }
+    },
+    "testflight-spotify": {
+      "distribution": "store",
+      "environment": "preview",
+      "autoIncrement": true,
+      "env": {
+        "ROUNDR_SPOTIFY_EXPERIMENT": "1"
+      },
+      "ios": {
+        "image": "sdk-58",
+        "resourceClass": "medium"
+      }
+    },
+    "production": {
+      "distribution": "store",
+      "environment": "production",
+      "autoIncrement": true,
+      "env": {
+        "ROUNDR_SPOTIFY_EXPERIMENT": "0"
+      },
+      "ios": {
+        "image": "sdk-58",
+        "resourceClass": "medium"
+      }
+    }
+  },
+  "submit": {
+    "testflight-spotify": {
+      "ios": {}
+    },
+    "production": {
+      "ios": {}
     }
   }
 }

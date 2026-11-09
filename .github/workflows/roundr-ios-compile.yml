@@ -52,6 +52,29 @@ jobs:
             test ! -e modules/roundr-spotify-remote/ios/vendor
             ! /usr/libexec/PlistBuddy -c "Print :RoundrSpotifyClientID" ios/Roundr/Info.plist
           fi
+      - name: Show the compiler used here
+        run: xcodebuild -version
+      - name: Check the generated iOS project
+        run: |
+          P=ios/Roundr/Info.plist
+          X=ios/Roundr.xcodeproj/project.pbxproj
+          grep -q 'PRODUCT_BUNDLE_IDENTIFIER = com.bledenovan.roundr;' "$X"
+          grep -Eq 'TARGETED_DEVICE_FAMILY = "?1"?;' "$X"
+          # Required for apps built with Xcode 27 to launch on iOS 27.
+          test -f ios/Roundr/SceneDelegate.swift
+          grep -q UIApplicationSceneManifest "$P"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :ITSAppUsesNonExemptEncryption' "$P")" = "false"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes' "$P" | grep -q roundr
+          /usr/libexec/PlistBuddy -c 'Print :NSAppleMusicUsageDescription' "$P"
+          if grep -q 'NSMicrophoneUsageDescription' "$P"; then exit 1; fi
+          if grep -ril emergent ios --exclude-dir=Pods --exclude-dir=build; then exit 1; fi
+          for icon in ios/Roundr/Images.xcassets/AppIcon.appiconset/*.png; do
+            sips -g hasAlpha "$icon" | grep -q 'hasAlpha: no'
+          done
+          if [ "$ROUNDR_SPOTIFY_EXPERIMENT" = "1" ]; then
+            test "$(/usr/libexec/PlistBuddy -c 'Print :RoundrSpotifyRedirectURL' "$P")" = "roundr://spotify-login-callback"
+            /usr/libexec/PlistBuddy -c 'Print :LSApplicationQueriesSchemes' "$P" | grep -q spotify
+          fi
       - name: Install pods
         working-directory: frontend/ios
         run: pod install
