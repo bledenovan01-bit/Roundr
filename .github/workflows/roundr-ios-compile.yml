@@ -58,23 +58,52 @@ jobs:
         run: |
           P=ios/Roundr/Info.plist
           X=ios/Roundr.xcodeproj/project.pbxproj
-          grep -q 'PRODUCT_BUNDLE_IDENTIFIER = com.bledenovan.roundr;' "$X"
-          grep -Eq 'TARGETED_DEVICE_FAMILY = "?1"?;' "$X"
+          ICONS=ios/Roundr/Images.xcassets/AppIcon.appiconset
+          failed=0
+          # Every check runs and reports by name, so one failure cannot hide another.
+          check() {
+            label="$1"; shift
+            if "$@"; then echo "OK    $label"; else echo "::error::ECHEC $label"; failed=1; fi
+          }
+          plist() { /usr/libexec/PlistBuddy -c "Print :$1" "$P"; }
+          plist_is() { [ "$(plist "$1")" = "$2" ]; }
+          plist_has() { plist "$1" | grep -q "$2"; }
+          absent() { ! "$@"; }
+          # Expo writes the identifier between quotes; every configuration must carry it.
+          bundle_is_roundr() {
+            values="$(grep -E 'PRODUCT_BUNDLE_IDENTIFIER =' "$X")"
+            [ -n "$values" ] && ! echo "$values" | grep -Ev 'PRODUCT_BUNDLE_IDENTIFIER = "?com\.bledenovan\.roundr"?;' | grep -q .
+          }
+          icons_are_opaque() {
+            found=0
+            for icon in "$ICONS"/*.png; do
+              [ -f "$icon" ] || return 1
+              found=1
+              sips -g hasAlpha "$icon" | grep -q 'hasAlpha: no' || return 1
+            done
+            [ "$found" = "1" ]
+          }
+          check "Identifiant iOS com.bledenovan.roundr" bundle_is_roundr
+          check "iPhone uniquement" grep -Eq 'TARGETED_DEVICE_FAMILY = "?1"?;' "$X"
+          check "Pas de cible iPad" absent grep -Eq 'TARGETED_DEVICE_FAMILY = "?1,2"?;' "$X"
           # Required for apps built with Xcode 27 to launch on iOS 27.
-          test -f ios/Roundr/SceneDelegate.swift
-          grep -q UIApplicationSceneManifest "$P"
-          test "$(/usr/libexec/PlistBuddy -c 'Print :ITSAppUsesNonExemptEncryption' "$P")" = "false"
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleURLTypes' "$P" | grep -q roundr
-          /usr/libexec/PlistBuddy -c 'Print :NSAppleMusicUsageDescription' "$P"
-          if grep -q 'NSMicrophoneUsageDescription' "$P"; then exit 1; fi
-          if grep -ril emergent ios --exclude-dir=Pods --exclude-dir=build; then exit 1; fi
-          for icon in ios/Roundr/Images.xcassets/AppIcon.appiconset/*.png; do
-            sips -g hasAlpha "$icon" | grep -q 'hasAlpha: no'
-          done
+          check "SceneDelegate present" test -f ios/Roundr/SceneDelegate.swift
+          check "Manifeste de scenes present" grep -q UIApplicationSceneManifest "$P"
+          check "Chiffrement declare a false" plist_is ITSAppUsesNonExemptEncryption false
+          check "Schema d URL roundr" plist_has CFBundleURLTypes roundr
+          check "Texte d autorisation Musique" plist NSAppleMusicUsageDescription
+          check "Pas de demande de micro" absent grep -q NSMicrophoneUsageDescription "$P"
+          check "Aucune reference Emergent" absent grep -ril emergent ios --exclude-dir=Pods --exclude-dir=build
+          check "Icones sans transparence" icons_are_opaque
           if [ "$ROUNDR_SPOTIFY_EXPERIMENT" = "1" ]; then
-            test "$(/usr/libexec/PlistBuddy -c 'Print :RoundrSpotifyRedirectURL' "$P")" = "roundr://spotify-login-callback"
-            /usr/libexec/PlistBuddy -c 'Print :LSApplicationQueriesSchemes' "$P" | grep -q spotify
+            check "Retour Spotify roundr://spotify-login-callback" plist_is RoundrSpotifyRedirectURL roundr://spotify-login-callback
+            check "Requete de l app Spotify autorisee" plist_has LSApplicationQueriesSchemes spotify
+          else
+            check "Aucune configuration Spotify" absent plist RoundrSpotifyClientID
           fi
+          echo "--- Valeurs observees"
+          grep -nE 'PRODUCT_BUNDLE_IDENTIFIER =|TARGETED_DEVICE_FAMILY =' "$X" || true
+          exit "$failed"
       - name: Install pods
         working-directory: frontend/ios
         run: pod install

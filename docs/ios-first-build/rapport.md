@@ -54,11 +54,34 @@ L'identifiant Android `com.bledenovan.roundr.recette` ne change pas.
 - Sous le cycle de vie par scènes, le lien arrive via `ExpoAppSceneDelegate`, puis `RCTLinkingManager`, puis `Linking` : lu dans le code d'Expo et de React Native, non exécuté sur un appareil.
 - Aucune installation antérieure n'utilise ce schéma sur iPhone, et les données d'Expo Go ne sont pas concernées.
 
+### Compatibilité du retour `roundr://spotify-login-callback`
+
+| Exigence | État |
+| --- | --- |
+| Format | Même forme que l'exemple officiel `spotify-ios-quick-start://spotify-login-callback`. Aucune règle d'hôte, de chemin ou de casse n'est publiée |
+| Déclaration iOS | `roundr` dans `CFBundleURLTypes`, `spotify` dans `LSApplicationQueriesSchemes` (profil Spotify uniquement), contrôlés en CI |
+| Réception avec `UIScene` | Spotify demande `scene(_:openURLContexts:)` : Expo l'implémente et transmet à `Linking`, puis au module via `handleAuthUrl`, qui confie l'URL entière à `authorizationParameters(from:)` |
+| Liens Roundr | `redirectSystemPath` reçoit l'URL complète : aucune navigation, le match en cours reste affiché |
+| Correspondance exacte | L'adresse du tableau de bord doit être identique, au caractère près |
+
+**Point ouvert :** la page Web API de Spotify impose HTTPS hors adresses locales sans mentionner les schémas personnalisés, alors que la documentation iOS du SDK les emploie. L'acceptation se constatera à la création de l'app dans le tableau de bord. Si Spotify la refuse, il faudrait un lien universel `https://`, avec un domaine et une capacité Apple.
+
+**Limite :** si iOS ferme Roundr pendant l'autorisation dans Spotify, le retour ouvre l'accueil et l'autorisation est à refaire.
+
 ## Contrôles
 
 - `scripts/test-ios-first-build.ts`, ajouté à `npm test` : identité, profils, retour Spotify, images, permissions.
 - La CI de compilation vérifie aussi le projet iOS généré : identifiant, iPhone seul, schéma, chiffrement, absence de micro et d'Emergent, icônes sans transparence, version de Xcode affichée.
-- La CI compile sur un runner macOS dont la version de Xcode peut différer de l'image EAS.
+- La CI compile avec **Xcode 26.6**, l'image EAS `sdk-58` avec **Xcode 27.1 RC** : la réussite de la CI ne prouve pas celle du build EAS.
+
+### Échec de la CI au commit `9bcbfb7`
+
+L'étape « Check the generated iOS project » s'arrêtait à la première vérification en échec, sans dire laquelle.
+
+- **Cause :** la vérification de l'identifiant cherchait `PRODUCT_BUNDLE_IDENTIFIER = com.bledenovan.roundr;` sans guillemets, alors qu'Expo l'écrit avec guillemets (`BundleIdentifier.js`). Cette ligne, la première du script, ne pouvait pas réussir : le défaut était dans le contrôle, pas dans la configuration. Cause établie en lisant le code d'Expo, car l'ancien journal ne nommait pas la vérification en échec.
+- **Correction :** la valeur est acceptée avec ou sans guillemets, et elle est désormais exigée sur **toutes** les configurations, ce qui rend le contrôle plus strict.
+- **Diagnostic :** chaque vérification s'exécute et s'affiche par son nom ; aucun échec n'en masque un autre ; les valeurs observées sont imprimées.
+- Le script a été rejoué sur des projets simulés, y compris avec un mauvais identifiant, une cible iPad, une icône transparente, une demande de micro et un mauvais retour Spotify : chaque anomalie est détectée.
 
 ## Reste à valider
 
