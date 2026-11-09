@@ -43,8 +43,6 @@
       ],
       "expo-font",
       "expo-image",
-      "expo-secure-store",
-      "expo-web-browser",
       "expo-status-bar",
       "@react-native-vector-icons/material-design-icons",
       [
@@ -56,7 +54,6 @@
     "enableBackgroundPlayback": false
   }
 ],
-      "expo-sharing",
       "expo-asset",
       "./modules/roundr-spotify-remote/app.plugin.js"
     ],

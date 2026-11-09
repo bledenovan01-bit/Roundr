@@ -1,7 +1,7 @@
 // Design tokens for Roundr. Dark-first utility theme.
-// Sourced from /app/design_guidelines.json (personality: "7 Dark-First Utility").
+// Personality: "7 Dark-First Utility".
 //
-// The keys match the "color" block of design_guidelines.json. Consumers use
+// The keys match the "color" block of the original design tokens. Consumers use
 // `useTheme()` or `makeStyles((colors) => ...)`. Never write hex literals in
 // components; add new tokens here if a color is missing.
 

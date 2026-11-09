@@ -72,7 +72,8 @@ assert.equal(splash.image, "./assets/images/splash-image.png");
 assert.equal(splash.resizeMode, "contain");
 assert.equal(splash.enableFullScreenImage_legacy, undefined, "modern splash only");
 
-// Permissions.
+// Permissions: Face ID came from expo-secure-store, removed as unused.
+assert.equal(app.plugins.includes("expo-secure-store"), false);
 const plist = app.ios.infoPlist;
 assert.deepEqual(Object.keys(plist), ["NSAppleMusicUsageDescription"]);
 const audio = app.plugins.find((p: unknown) => Array.isArray(p) && p[0] === "expo-audio")[1];

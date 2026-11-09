@@ -789,7 +789,7 @@
   dependencies:
     node-forge "^1.4.0"
 
-"@expo/config-plugins@^58.0.12", "@expo/config-plugins@~58.0.12":
+"@expo/config-plugins@~58.0.12":
   version "58.0.12"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-58.0.12.tgz#5cd82c481d23b0512f100a4639943a5dcbfa9414"
   integrity sha512-nqnoPBARpKdKLY8+c+N2mizJgiWjlQGWeDhEOqMOZnQcpMmU79H1Svc9QOzcE1yX7obzw0Hf2YVlfW67g58Ucg==
@@ -1609,18 +1609,6 @@
   version "0.27.12"
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.12.tgz#0cacd3cff047a32936b1ace47ea7c86eaab60a7f"
   integrity sha512-hhyNJ+nbR6ZR7pToHvllEFun9TL0sbL+tk/ON75lo+Xas054uez98qRbsuNt7MBCyZKK4+8Yli/OAGZhmfBZ/g==
-
-"@tanstack/query-core@5.102.8":
-  version "5.102.8"
-  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.102.8.tgz#c55c31b4f99124054805ce8ec8137c84108f3252"
-  integrity sha512-ZNjkJ33CqvPNec/6lZBnHqLc3EVGPZ9ySLhYahU9TcuRFdmwXewuj0c4hwSWcGHqEUwcSrKeZ+oGcvPBqXcQcg==
-
-"@tanstack/react-query@5.102.8":
-  version "5.102.8"
-  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.102.8.tgz#bdc5c24485258e6ae2e7ecac0a4cf58c59937839"
-  integrity sha512-TYBea4OuXWD7MhaSHq069TWbFe7rcwWN6kzT7JF0OKi1K6c1gTv2IzD6A6ExJsCMozdkqBWeuIUZmu4KQg0O5A==
-  dependencies:
-    "@tanstack/query-core" "5.102.8"
 
 "@tybys/wasm-util@^0.10.3":
   version "0.10.4"
@@ -2611,16 +2599,6 @@ data-view-byte-offset@^1.0.1:
     es-errors "^1.3.0"
     is-data-view "^1.0.1"
 
-date-fns@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/date-fns/-/date-fns-4.1.0.tgz#64b3d83fff5aa80438f5b1a633c2e83b8a1c2d14"
-  integrity sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==
-
-dayjs@1.11.13:
-  version "1.11.13"
-  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.13.tgz#92430b0139055c3ebb60150aa13e860a4b5a366c"
-  integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==
-
 debug@2.6.9:
   version "2.6.9"
   resolved "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -2733,11 +2711,6 @@ domutils@^3.0.1:
     dom-serializer "^2.0.0"
     domelementtype "^2.3.0"
     domhandler "^5.0.3"
-
-dotenv@^16.4.5:
-  version "16.6.1"
-  resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.6.1.tgz#773f0e69527a8315c7285d5ee73c4459d20a8020"
-  integrity sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==
 
 dunder-proto@^1.0.0, dunder-proto@^1.0.1:
   version "1.0.1"
@@ -3169,11 +3142,6 @@ expo-audio@~58.0.11:
   resolved "https://registry.yarnpkg.com/expo-audio/-/expo-audio-58.0.11.tgz#50cfc3da618310639f43350db38990f1f2038f5e"
   integrity sha512-r/3QzCZ+rHUrjAFoZpczUaC1N3uuHhjKr9YfsOlT3tnXFF+AC6EVofOc8S4OYPdgveIljLpouFcNps6ynf0U2A==
 
-expo-blur@~58.0.5:
-  version "58.0.5"
-  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-58.0.5.tgz#55f32f4817e91f06a996c40cc65913eb515d3f69"
-  integrity sha512-l8MEObIh0opwIUf+SD9MfqD0JnOirGuetAW/V3phXQRJaTPKLtb0IukgyLmnOsfWMAWTdJrcl5l/2ezcDHrkHQ==
-
 expo-constants@~58.0.14, expo-constants@~58.0.15:
   version "58.0.15"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-58.0.15.tgz#cc0f1c9b98f23525c44929b04f97a821a7c3ee45"
@@ -3300,24 +3268,10 @@ expo-router@~58.0.30:
     sf-symbols-typescript "^2.1.0"
     standard-navigation "^0.0.5"
 
-expo-secure-store@~58.0.2:
-  version "58.0.2"
-  resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-58.0.2.tgz#cb2d8bd9db5b8bf947c09f11c8330ae612099da5"
-  integrity sha512-VupWWEuQF6IiQ06McSymtn7/tehs8ifThhFwAU4UK8poomZcaa2S0UVt/y7G2XozBdkI3xpiPSx+r0pS2zsuYQ==
-
 expo-server@^58.0.6:
   version "58.0.6"
   resolved "https://registry.yarnpkg.com/expo-server/-/expo-server-58.0.6.tgz#1bc9cdaa3843b7a33608e653dc8b1b8f88feaee8"
   integrity sha512-6DBlSZwxk3J0y1j2s4XebAWNiwGaMp32NcWX7b2kJC2+EFf1g+pCcVmx8ylawt2tyLmbDHswm4MHOfrd4bqfvA==
-
-expo-sharing@~58.0.21:
-  version "58.0.22"
-  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-58.0.22.tgz#1980bb4bb5082b8a5111e7acd30be655483e751b"
-  integrity sha512-s9/hFsGIZR+M8xRicKKKdV5/+TVSvEHze58yu3x9962lLvxkGY1aJ4vojg1RszSTesPJaNiCg7DRA2H8f47/9w==
-  dependencies:
-    "@expo/config-plugins" "^58.0.12"
-    "@expo/config-types" "^58.0.3"
-    "@expo/plist" "^0.10.1"
 
 expo-splash-screen@~58.0.12:
   version "58.0.13"
@@ -3348,11 +3302,6 @@ expo-system-ui@~58.0.7:
   dependencies:
     "@react-native/normalize-colors" "0.88.1"
     debug "^4.3.2"
-
-expo-web-browser@~58.0.7:
-  version "58.0.7"
-  resolved "https://registry.yarnpkg.com/expo-web-browser/-/expo-web-browser-58.0.7.tgz#48727ccdbdb7567902d4cb01a060553a46c8c8f2"
-  integrity sha512-dQ2/lkw+GR0+5xG6L2cixH+Zk7tY0IeWGhS2PRw+JIPDbqU+8eAb3F0twB7vMFBls4B/DdaLYoEj/hhq7msLHQ==
 
 expo@~58.0.23:
   version "58.0.23"
@@ -5336,13 +5285,6 @@ react-is@^19.1.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-19.3.1.tgz#81f7f7e431fc9b5bd9781b0a9f19997f08dee51b"
   integrity sha512-RRieF6IyxQBkcK6pP8xOHprLTPW6QjRkbGdImtqNme+/hYVwCZkLQLdlZGOhUqXwkS9IEynaGvPJtv6XB/cz0Q==
 
-react-native-dotenv@3.4.11:
-  version "3.4.11"
-  resolved "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-3.4.11.tgz#2e6c4eabd55d5f1bf109b3dd9141dadf9c55cdd4"
-  integrity sha512-6vnIE+WHABSeHCaYP6l3O1BOEhWxKH6nHAdV7n/wKn/sciZ64zPPp2NUdEUf1m7g4uuzlLbjgr+6uDt89q2DOg==
-  dependencies:
-    dotenv "^16.4.5"
-
 react-native-drawer-layout@^4.2.12:
   version "4.2.12"
   resolved "https://registry.npmjs.org/react-native-drawer-layout/-/react-native-drawer-layout-4.2.12.tgz#dd863622d5b3dc09b8becfb6c5ce527f1dbaaad8"
@@ -5392,11 +5334,6 @@ react-native-svg@15.16.0:
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
-
-react-native-view-shot@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-6.1.1.tgz#c4f2b1a1d4847c5f465363c60f68c80478275dc1"
-  integrity sha512-eMoNXNgADlcMT5mbquHqueE55bUuJA6vpUj650ZiresuorgdRrhDCfaxI2QGL6TN1UT+76EgQMjDO6Vx/H0ZLA==
 
 react-native-web@~0.21.4:
   version "0.21.4"

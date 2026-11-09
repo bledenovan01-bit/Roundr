@@ -1,4 +1,3 @@
-import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -14,7 +13,6 @@ import { FreeTimerRuntime } from "@/src/components/free-timer-runtime";
 import { loadStore } from "@/src/store/session-store";
 
 import { ErrorBoundary } from "@/src/components/error-boundary";
-import { queryClient } from "@/src/query-client";
 
 // Disable logbox so end users see the app in Expo Go, agents still work.
 LogBox.ignoreAllLogs(true);
@@ -55,18 +53,16 @@ export default function RootLayout() {
     <ErrorBoundary>
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#010a0b" }}>
         <SafeAreaProvider>
-          <QueryClientProvider client={queryClient}>
-            <SessionRuntime />
-            <FreeTimerRuntime />
-            <StatusBar style="light" />
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: "#010a0b" },
-                animation: "slide_from_right",
-              }}
-            />
-          </QueryClientProvider>
+          <SessionRuntime />
+          <FreeTimerRuntime />
+          <StatusBar style="light" />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "#010a0b" },
+              animation: "slide_from_right",
+            }}
+          />
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </ErrorBoundary>
