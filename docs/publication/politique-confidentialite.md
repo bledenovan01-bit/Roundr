@@ -1,6 +1,8 @@
 # Politique de confidentialité de Roundr
 
-> Projet à héberger sur une page publique avant toute soumission. Les mentions
+> **BROUILLON — ne pas publier en l'état.** À héberger sur une page publique
+> avant toute soumission, une fois les coordonnées de l'éditeur et l'hébergement
+> arrêtés. Les mentions
 > entre crochets sont à compléter par l'éditeur. Ce texte décrit le
 > fonctionnement réel de l'application ; il ne remplace pas un avis juridique.
 
@@ -46,11 +48,17 @@ téléphone uniquement ; elles ne sont ni enregistrées ni transmises. Tu peux
 refuser ou retirer cette autorisation à tout moment dans les Réglages de
 l'iPhone : le reste de l'application fonctionne normalement.
 
-## Lien « Signaler un problème »
+## Contacter l'assistance
 
-Ce lien ouvre une page web dans ton navigateur, en dehors de Roundr. Ce que tu
-y écris est soumis aux règles du site concerné. Roundr n'y joint aucune
-information automatiquement.
+Le bouton « Contacter l'assistance » ouvre ton application de messagerie avec
+un e-mail prérempli (destinataire et objet). Rien n'est envoyé sans toi, et
+Roundr n'y joint aucune information automatiquement. Si tu nous écris, ton
+adresse e-mail et ton message ne servent qu'à te répondre.
+
+## Lien vers cette politique
+
+Le lien « Politique de confidentialité » des Paramètres ouvre cette page dans
+ton navigateur, en dehors de Roundr.
 
 ## Supprimer tes données
 

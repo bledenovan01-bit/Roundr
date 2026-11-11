@@ -15,6 +15,7 @@ import { GestureDetector } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSwipeCarousel } from "@/src/hooks/use-swipe-carousel";
 import { MusicCard } from "./music-card";
+import { MUSIC_CARD_AVAILABLE } from "@/src/music/availability";
 import type { Session, Team } from "@/src/domain/types";
 import { Jersey } from "./configuration";
 import { LovableIcon } from "./icon";
@@ -535,7 +536,7 @@ export function MatchCarousel({
   /** Height offered to the whole card when it may grow (portrait only). */
   fill?: number;
 }) {
-  const pages = matchPages(session),
+  const pages = matchPages(session, MUSIC_CARD_AVAILABLE),
     [width, setWidth] = useState(0),
     held = useRef(false);
   const page = visibleMatchPage(selected, pages);

@@ -58,7 +58,24 @@ chronos, réglages, historique) sont stockées sur le téléphone. Le seul lien
 sortant est « Signaler un problème », qui ouvre une page GitHub dans le
 navigateur.
 
-## Ce qui reste hors de cette PR
+## Arbitrages appliqués (12 novembre 2026)
+
+Les quatre points ci-dessous ont été tranchés par l'éditeur et appliqués dans
+la branche `claude/roundr-publication-app` :
+
+| Point | Décision | Réalisation |
+| --- | --- | --- |
+| Lien de confidentialité | L'ajouter dans Paramètres | Bouton « Politique de confidentialité » dans À propos |
+| Carte Musique sur Android | La masquer | Absente des deux carrousels sur Android ; inchangée sur iPhone |
+| Libellé de version | « Roundr · Version 1.0.0 » | À propos et Assistance |
+| Assistance | E-mail à une adresse dédiée | Bouton « Contacter l'assistance », à la place des deux liens GitHub |
+
+L'adresse d'assistance et l'adresse de la politique ne sont pas encore connues.
+Elles se renseignent dans `frontend/src/publication.ts`. Tant qu'elles sont
+vides, les deux boutons ne s'affichent pas, et un build `production` est refusé
+automatiquement.
+
+## Constat initial (avant arbitrages)
 
 Décisions de l'éditeur, car elles touchent à l'application elle-même :
 

@@ -10,7 +10,9 @@
     "lint": "expo lint",
     "test": "node scripts/run-domain-tests.cjs",
     "test:syntax": "node scripts/check-syntax.cjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:publication": "node scripts/check-publication.cjs",
+    "eas-build-pre-install": "node scripts/check-publication.cjs"
   },
   "dependencies": {
     "@expo/metro-runtime": "~58.0.16",

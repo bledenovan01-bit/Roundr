@@ -37,6 +37,7 @@ import {
 import { FreeClockTrack } from "@/src/components/lovable/free-clock";
 import { KeepAwakeControl } from "@/src/components/lovable/keep-awake-control";
 import { recentSwipe } from "./carousel-swipe";
+import { MUSIC_CARD_AVAILABLE } from "@/src/music/availability";
 import { useFreeNotice } from "@/src/components/free-timer-runtime";
 import { useDisplayClock } from "@/src/chrono/use-display-clock";
 import {
@@ -266,7 +267,7 @@ export function LovableFreeLive() {
   });
   const clockHeight = clock.clockHeight;
   const clockBase = clock.baseClock + FREE_CAROUSEL_CHROME;
-  const views = freeCarouselViews(stage);
+  const views = freeCarouselViews(stage, MUSIC_CARD_AVAILABLE);
   const showMusic = musicOpen && views.includes("music");
   const shown: FreeCarouselView = showMusic ? "music" : selected;
   const show = (view: FreeCarouselView) => {

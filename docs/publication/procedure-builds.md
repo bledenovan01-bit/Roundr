@@ -12,6 +12,17 @@ se lancent depuis `frontend/`, sur la branche `main` à jour.
    sont plus modifiables après la première publication.
 4. `eas.json` exige EAS CLI 25.2.0 ; `requireCommit` impose un dépôt sans
    modification en attente.
+5. Coordonnées de publication renseignées dans `frontend/src/publication.ts` :
+   `PRIVACY_POLICY_URL` (adresse https de la politique) et `SUPPORT_EMAIL`
+   (adresse d'assistance). Tant qu'elles sont vides, les deux liens ne
+   s'affichent pas dans Paramètres et **un build `production` s'arrête dès le
+   départ**, avant toute compilation. Les profils de test ne sont pas bloqués.
+
+Vérifier avant de lancer un build de production :
+
+```bash
+npm run check:publication -- --strict
+```
 
 Connexion au compte Expo :
 
@@ -86,9 +97,9 @@ n'atteint le public sans action manuelle.
 - Bouton retour du système pendant un match et dans les réglages.
 - Sons et vibrations, écran allumé.
 - Affichage bord à bord : barre d'état et barre de navigation.
-- Carte Musique : elle affiche « Contrôle musical indisponible » (fonction
-  réservée à l'iPhone). Le texte mentionne l'iPhone : à trancher avant
-  publication.
+- Carte Musique : elle n'apparaît pas sur Android (fonction réservée à
+  l'iPhone). Vérifier que les carrousels du match et du Chrono libre n'ont pas
+  de vue ni de point en trop.
 
 ## Points de vigilance
 

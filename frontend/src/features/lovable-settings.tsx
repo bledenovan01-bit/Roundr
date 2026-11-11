@@ -34,6 +34,12 @@ import {
   settingsFreeLabel,
 } from "./settings-state";
 import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
+import {
+  APP_VERSION_LABEL,
+  PRIVACY_POLICY_URL,
+  SUPPORT_EMAIL,
+  supportMailUrl,
+} from "@/src/publication";
 
 const events = [
   ["startSound", "Début du match"],
@@ -61,16 +67,24 @@ export default function LovableSettings() {
   const [linkError, setLinkError] = useState<string | null>(null);
   const target = settingsReturn(from, session, free);
   const back = () => (router.canGoBack() ? router.back() : router.replace("/"));
-  const openIssue = async (title: string) => {
+  const openLink = async (url: string, failure: string) => {
     try {
-      await Linking.openURL(
-        `https://github.com/bledenovan01-bit/Roundr/issues/new?title=${encodeURIComponent(title)}`,
-      );
+      await Linking.openURL(url);
       setLinkError(null);
     } catch {
-      setLinkError("Impossible d’ouvrir l’assistance. Réessaie.");
+      setLinkError(failure);
     }
   };
+  const contactSupport = () =>
+    openLink(
+      supportMailUrl(),
+      `Impossible d’ouvrir ta messagerie. Écris-nous à ${SUPPORT_EMAIL}.`,
+    );
+  const openPrivacyPolicy = () =>
+    openLink(
+      PRIVACY_POLICY_URL,
+      "Impossible d’ouvrir la politique de confidentialité. Réessaie.",
+    );
   useFocusEffect(
     useCallback(() => {
       if (!advanced && !intro) return;
@@ -155,21 +169,16 @@ export default function LovableSettings() {
       );
     cards.push(
       <ConfigCard key="help" title="Assistance">
-        <PhaseAction
-          kind="secondary"
-          label="Signaler un problème"
-          onPress={() => {
-            void openIssue("Problème Roundr");
-          }}
-        />
-        <PhaseAction
-          kind="secondary"
-          label="Envoyer un retour"
-          onPress={() => {
-            void openIssue("Retour Roundr");
-          }}
-        />
-        <Text style={configStyles.hint}>Roundr · Version 1.0.0</Text>
+        {SUPPORT_EMAIL ? (
+          <PhaseAction
+            kind="secondary"
+            label="Contacter l'assistance"
+            onPress={() => {
+              void contactSupport();
+            }}
+          />
+        ) : null}
+        <Text style={configStyles.hint}>{APP_VERSION_LABEL}</Text>
         <Text style={configStyles.hint}>
           Moins d’organisation, plus de jeu.
         </Text>
@@ -314,13 +323,22 @@ export default function LovableSettings() {
       <ConfigCard
         key="about"
         title="À propos"
-        hint="Roundr V0 · Moins d'organisation, plus de jeu."
+        hint={APP_VERSION_LABEL}
       >
         <PhaseAction
           kind="secondary"
           label="Revoir l'introduction"
           onPress={() => setIntro(true)}
         />
+        {PRIVACY_POLICY_URL ? (
+          <PhaseAction
+            kind="secondary"
+            label="Politique de confidentialité"
+            onPress={() => {
+              void openPrivacyPolicy();
+            }}
+          />
+        ) : null}
       </ConfigCard>,
     );
   }

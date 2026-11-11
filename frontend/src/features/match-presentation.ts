@@ -10,13 +10,14 @@ export const pageNames: Record<MatchPage, string> = {
   tournament: "Tournoi",
   music: "Musique",
 };
-export function matchPages(s: Session): MatchPage[] {
+/** `music` is false where the music card does not exist (Android). */
+export function matchPages(s: Session, music = true): MatchPage[] {
   return [
     "digital",
     "ring",
     ...(s.mode === "maracana" ? ["next" as const] : []),
     ...(s.mode === "cup" || s.mode === "survie" ? ["tournament" as const] : []),
-    ...(s.live?.stage !== "ready" && s.live?.tiebreakStep !== "ready" ? ["music" as const] : []),
+    ...(music && s.live?.stage !== "ready" && s.live?.tiebreakStep !== "ready" ? ["music" as const] : []),
   ];
 }
 // A projection only: ticks, banners and rotation never select a carousel page.
