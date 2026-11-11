@@ -53,7 +53,16 @@ export function useSwipeCarousel({
       subscription.remove();
     };
   }, []);
+  // A restored session opens directly on its saved view: the first placement,
+  // once the width is known, is not animated.
+  const placed = useRef(false);
   useEffect(() => {
+    if (!placed.current) {
+      if (width <= 0) return;
+      placed.current = true;
+      offset.setValue(-width * page);
+      return;
+    }
     const animation = Animated.timing(offset, {
       toValue: -width * page,
       duration: reduceMotion ? 0 : 350,
