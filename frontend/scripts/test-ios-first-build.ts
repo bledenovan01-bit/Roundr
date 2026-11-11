@@ -16,7 +16,7 @@ assert.equal(app.ios.bundleIdentifier, "com.bledenovan.roundr");
 assert.equal(app.ios.supportsTablet, false, "iPhone only for the V0");
 assert.equal(app.scheme, "roundr");
 assert.equal(app.ios.config.usesNonExemptEncryption, false);
-assert.equal(app.android.package, "com.bledenovan.roundr.recette", "Android identifier untouched");
+assert.equal(app.android.package, "com.bledenovan.roundr", "final Android identifier");
 assert.equal(app.slug, "roundr");
 assert.equal(app.extra.eas.projectId, "fb2a6c2e-7e12-41ef-bdb6-9c3ebca1a23a", "same EAS project");
 assert.doesNotMatch(JSON.stringify(app), /emergent/i, "no Emergent reference in the app configuration");
@@ -81,3 +81,18 @@ assert.equal(audio.microphonePermission, false, "no microphone request");
 assert.equal(audio.enableBackgroundPlayback, false);
 
 console.log("✓ iOS first build: identity, EAS profiles, Spotify return, assets and permissions");
+
+// Store publication: final Android identity, no unused permissions, safe submit defaults.
+assert.deepEqual(
+  [...app.android.blockedPermissions].sort(),
+  [
+    "android.permission.READ_EXTERNAL_STORAGE",
+    "android.permission.SYSTEM_ALERT_WINDOW",
+    "android.permission.WRITE_EXTERNAL_STORAGE",
+  ],
+  "template permissions Roundr never uses stay out of the store build",
+);
+assert.equal(build.production.android.buildType, "app-bundle", "Google Play requires an app bundle");
+assert.equal(build.production.android.image, "sdk-58");
+assert.equal(eas.submit.production.android.track, "internal", "a submit never reaches the public track by itself");
+assert.equal(eas.submit.production.android.releaseStatus, "draft");

@@ -1,0 +1,107 @@
+# Préparation de la publication — audit et corrections de configuration
+
+Base : `main` à `a5f5a79` (tag `v0-consolidation`). Branche :
+`claude/roundr-publication-config`. Aucun build, aucune inscription, aucune
+soumission. Aucun changement de fonctionnalité, de design, de règle métier, de
+son ni de sauvegarde.
+
+## Ce que cette PR change
+
+| Élément | Avant | Après |
+| --- | --- | --- |
+| Identifiant Android | `com.bledenovan.roundr.recette` | `com.bledenovan.roundr` |
+| Permissions Android | Lecture et écriture du stockage, superposition d'écran | Retirées (`blockedPermissions`) |
+| Profil EAS `production` | iOS uniquement | Ajout d'Android : app bundle, image `sdk-58` |
+| `submit.production` | iOS uniquement | Ajout d'Android : piste interne, brouillon |
+| Texte de la permission Musique (iOS) | « pendant vos matchs » | « pendant tes matchs » |
+| Tests | Attendaient l'ancien identifiant | Mis à jour, avec des contrôles sur les nouvelles valeurs |
+
+**Identifiant Android** : une application de recette déjà installée avec
+l'ancien identifiant ne sera pas remplacée ; la nouvelle s'installe à côté, avec
+ses propres données. Aucune n'a été installée d'après les rapports précédents.
+L'identifiant devient définitif à la première publication sur Google Play.
+
+**Permissions retirées** : héritées du modèle Expo, jamais utilisées par Roundr.
+La superposition d'écran ne sert qu'aux outils de développement.
+
+## Audit
+
+### Configuration
+
+- Expo 58.0.23, React Native 0.88.1, `expo-doctor` 20/20, bundle iOS de
+  production généré.
+- Projet EAS relié, numéros de build gérés par EAS.
+- État du compte EAS non vérifié : EAS CLI n'est pas installée sur le poste.
+
+### Ressources
+
+| Ressource | État |
+| --- | --- |
+| Icône iOS | 1024 × 1024, sans transparence |
+| Icône adaptative Android | 1024 × 1024, fond `#020909` |
+| Écran de démarrage | Logo transparent sur `#020909` |
+| Sons | 7 fichiers, sources sous licence CC0 documentées dans `frontend/assets/sounds/SOURCES.md` |
+
+Le rendu de l'icône et de l'écran de démarrage n'a jamais été vu sur un
+appareil.
+
+### Permissions après correction
+
+- **iOS** : accès à Musique uniquement.
+- **Android** : Internet (socle technique), vibration, réglages audio.
+
+### Données
+
+Le code ne contient aucun appel réseau, aucun outil de mesure d'audience, aucun
+compte et aucune publicité. Toutes les données (sessions, équipes, joueurs,
+chronos, réglages, historique) sont stockées sur le téléphone. Le seul lien
+sortant est « Signaler un problème », qui ouvre une page GitHub dans le
+navigateur.
+
+## Ce qui reste hors de cette PR
+
+Décisions de l'éditeur, car elles touchent à l'application elle-même :
+
+1. **Lien de confidentialité dans l'app** : Apple en demande un. Il faut
+   l'ajouter dans Paramètres.
+2. **Carte Musique sur Android** : elle affiche « Le contrôle est prévu dans
+   l'application Roundr installée sur iPhone ».
+3. **Libellé « Roundr V0 »** dans À propos, alors que la version publiée est
+   1.0.0.
+4. **« Signaler un problème »** : renvoie vers GitHub et exige un compte.
+
+À fournir par l'éditeur : comptes développeur, adresse d'assistance,
+hébergement des pages, statut de commerçant UE, captures d'écran.
+
+## Documents
+
+- `politique-confidentialite.md` : projet de politique, à héberger.
+- `fiches-stores.md` : textes des fiches et réponses aux formulaires.
+- `procedure-builds.md` : commandes de build et de soumission, recettes.
+
+## Vérifications
+
+| Contrôle | Résultat |
+| --- | --- |
+| Configuration native générée | Identifiant `com.bledenovan.roundr`, trois permissions marquées « à retirer » |
+| `npm test` (30 suites) | Tout passe |
+| `npm run typecheck` | Aucune erreur |
+| `expo-doctor` | 19/20 : 13 paquets Expo ont reçu un correctif mineur depuis la consolidation (voir ci-dessous) |
+| Build Android ou iOS réel | Non exécuté |
+
+Le retrait effectif des permissions et la valeur de `NSAllowsArbitraryLoads` ne
+pourront être constatés que dans un build réel.
+
+## Correctifs Expo disponibles
+
+`expo-doctor` passait à 20/20 lors de la consolidation. Expo a publié depuis des
+correctifs pour 13 paquets du SDK 58 (`expo-router`, `expo-audio`,
+`expo-splash-screen`, `expo-keep-awake`…), et le contrôle signale désormais
+qu’ils ne sont pas à jour. Ce n’est pas lié à cette PR : `main` est dans le même
+cas, et l’étape `expo-doctor` de la CI échouera sur toute PR tant que ce n’est
+pas traité.
+
+Ces mises à jour ne sont pas faites ici : elles modifient les dépendances
+natives validées et demandent une nouvelle recette. À décider avant le premier
+build de production : soit les appliquer dans une PR dédiée, soit figer les
+versions actuelles.

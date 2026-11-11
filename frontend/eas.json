@@ -48,6 +48,11 @@
       "ios": {
         "image": "sdk-58",
         "resourceClass": "medium"
+      },
+      "android": {
+        "buildType": "app-bundle",
+        "image": "sdk-58",
+        "resourceClass": "medium"
       }
     }
   },
@@ -56,7 +61,11 @@
       "ios": {}
     },
     "production": {
-      "ios": {}
+      "ios": {},
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft"
+      }
     }
   }
 }

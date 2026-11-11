@@ -15,7 +15,7 @@
         "usesNonExemptEncryption": false
       },
       "infoPlist": {
-        "NSAppleMusicUsageDescription": "Roundr utilise l’accès à Musique pour afficher et commander le morceau en cours pendant vos matchs."
+        "NSAppleMusicUsageDescription": "Roundr utilise l’accès à Musique pour afficher et commander le morceau en cours pendant tes matchs."
       }
     },
     "android": {
@@ -23,7 +23,12 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#020909"
       },
-      "package": "com.bledenovan.roundr.recette"
+      "package": "com.bledenovan.roundr",
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.SYSTEM_ALERT_WINDOW"
+      ]
     },
     "web": {
       "bundler": "metro",
