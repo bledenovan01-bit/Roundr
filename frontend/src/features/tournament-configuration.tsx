@@ -75,8 +75,8 @@ export function TournamentConfiguration({config,onChange,teams,onTeams,onBack,on
   </ConfigCard>);
   cards.push(<ToggleCard key="teams" title="Personnaliser les équipes" hint={config.draw==="manual"?"Noms, couleurs et ordre":"Noms et couleurs"} on={config.customTeams} set={customTeams=>set({customTeams})}>
     {saved.length?<View style={{gap:8}}><PhaseAction kind="secondary" height={44} icon="users" label={"Importer mes "+saved.length+" équipes"} disabled={!fits} onPress={()=>{onTeams(saved.map(t=>({...t})));set({teamCount:saved.length});setImported(true);}}/>
-      {!fits?<Text style={s.importHint}>Ce mode accepte de {min} à 32 équipes : votre dernière composition en compte {saved.length}.</Text>:null}
-      {fits&&imported?<Text style={s.importHint}>{saved.length!==config.teamCount?"Le nombre d'équipes a été ajusté à "+saved.length+".":"Composition importée : vous pouvez encore la modifier ci-dessous."}</Text>:null}
+      {!fits?<Text style={s.importHint}>Ce mode accepte de {min} à 32 équipes : ta dernière composition en compte {saved.length}.</Text>:null}
+      {fits&&imported?<Text style={s.importHint}>{saved.length!==config.teamCount?"Le nombre d'équipes a été ajusté à "+saved.length+".":"Composition importée : tu peux encore la modifier ci-dessous."}</Text>:null}
     </View>:null}
     <ConfigTeams teams={teams} onChange={onTeams} reorder={config.draw==="manual"} compact={teams.length>8}/>
   </ToggleCard>);
@@ -84,6 +84,6 @@ export function TournamentConfiguration({config,onChange,teams,onTeams,onBack,on
   const otherErrors=errors.filter(e=>e!=="Chaque équipe doit avoir un nom."&&e!=="Deux équipes portent le même nom.");
   if(otherErrors.length)cards.push(<View key="errors" style={{gap:8}}>{otherErrors.map(e=><Text key={e} accessibilityRole="alert" style={s.error}>{e}</Text>)}</View>);
   const color=config.mode==="cup"?c.cup:c.survie;
-  const intro=<View style={s.intro}><View style={[s.modeIcon,{backgroundColor:withAlpha(color,.16),borderColor:withAlpha(color,.35)}]}><LovableIcon name={config.mode==="cup"?"trophy":"swords"} color={color} size={22}/></View><Text style={s.introText}>{config.mode==="cup"?"Des poules pour tout le monde, puis les meilleurs se qualifient pour les phases finales.":"Élimination directe : le gagnant avance, le perdant sort. Jusqu'au dernier debout."}</Text></View>;
+  const intro=<View style={s.intro}><View style={[s.modeIcon,{backgroundColor:withAlpha(color,.16),borderColor:withAlpha(color,.35)}]}><LovableIcon name={config.mode==="cup"?"trophy":"swords"} color={color} size={22}/></View><Text style={s.introText}>{config.mode==="cup"?"Des poules pour tout le monde, puis les meilleurs filent en phases finales. Jusqu'au titre.":"Élimination directe : le gagnant avance, le perdant sort. Jusqu'au dernier debout."}</Text></View>;
   return <PhaseFrame title={title} subtitle="Paramètres" onBack={onBack} intro={intro} footer={<PhaseAction testID="config-launch" label={config.mode==="cup"?"Lancer la Cup":"Lancer la Survie"} onPress={onLaunch} disabled={disabled} icon="play"/>}>{cards}</PhaseFrame>;
 }

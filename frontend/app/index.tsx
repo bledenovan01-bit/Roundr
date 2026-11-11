@@ -12,13 +12,13 @@ import { homeSessionPreviews } from "@/src/features/home-session-preview";
 import { useStore } from "@/src/store/session-store";
 import { lovable, lovableFont } from "@/src/visual/lovable";
 
-// Frozen Lovable MODES. Keep the shorter native configuration catalogue intact.
+// Lovable MODES layout; descriptions rewritten for the V0 editorial pass.
 const modes = [
-  { id: "classique", title: "Match classique", description: "Un match, une ou deux mi-temps.", icon: "pitch", accent: lovable.classic },
-  { id: "maracana", title: "Maracana", description: "3 à 8 équipes qui tournent sur le terrain.", icon: "refresh", accent: lovable.maracana },
-  { id: "cup", title: "Cup", description: "Poules puis phases finales.", icon: "trophy", accent: lovable.cup },
-  { id: "survie", title: "Survie", description: "Élimination directe jusqu'au vainqueur.", icon: "swords", accent: lovable.survie },
-  { id: "custom", title: "Chrono libre", description: "Chronomètre, compte à rebours et intervalles personnalisés.", icon: "timer", accent: lovable.custom },
+  { id: "classique", title: "Match classique", description: "Deux équipes, un chrono, et ça joue.", icon: "pitch", accent: lovable.classic },
+  { id: "maracana", title: "Maracana", description: "3 à 8 équipes, et ça tourne.", icon: "refresh", accent: lovable.maracana },
+  { id: "cup", title: "Cup", description: "Les poules d'abord, le titre au bout.", icon: "trophy", accent: lovable.cup },
+  { id: "survie", title: "Survie", description: "Tu gagnes, tu restes. Sinon, dehors.", icon: "swords", accent: lovable.survie },
+  { id: "custom", title: "Chrono libre", description: "Chronomètre, compte à rebours ou intervalles : à toi de régler.", icon: "timer", accent: lovable.custom },
 ] as const;
 
 export default function HomeScreen() {
@@ -65,9 +65,9 @@ export default function HomeScreen() {
         {resume.time ? <Text style={[homeCopyStyles.detail, { fontVariant: ["tabular-nums"] }]}>{resume.time}</Text> : null}
         <Text style={[homeCopyStyles.detail, homeCopyStyles.action]}>{resume.action}</Text>
       </ModeCard>)}
-      <View testID="home-hero" style={styles.hero}><Text testID="home-title" accessibilityRole="header" style={styles.title}>Quel format aujourd&apos;hui ?</Text></View>
+      <View testID="home-hero" style={styles.hero}><Text testID="home-title" accessibilityRole="header" style={styles.title}>On joue comment ?</Text></View>
       {modes.map(mode => <ModeCard key={mode.id} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} icon={mode.icon} accent={mode.accent} style={cardStyle(mode.id)} onLayout={e => measureCard(mode.id, e.nativeEvent.layout.height)} onPress={() => router.push((mode.id === "custom" ? "/chrono-libre" : `/config/${mode.id}`) as never)} />)}
-      <ModeCard testID="mode-card-team-builder" title="Faire les équipes" description="Tirage au sort à partir des joueurs présents" icon="users" accent={lovable.custom} quiet style={cardStyle("team-builder")} onLayout={e => measureCard("team-builder", e.nativeEvent.layout.height)} onPress={() => router.push("/team-builder")} />
+      <ModeCard testID="mode-card-team-builder" title="Faire les équipes" description="Ajoute les joueurs, on tire au sort." icon="users" accent={lovable.custom} quiet style={cardStyle("team-builder")} onLayout={e => measureCard("team-builder", e.nativeEvent.layout.height)} onPress={() => router.push("/team-builder")} />
       <HomeLink title="Historique des compétitions" icon="trophy" testID="home-history-link" width={cardWidth} onPress={() => router.push("/history")} />
       <HomeLink title="Paramètres" icon="settings" testID="home-settings-link" width={cardWidth} onPress={() => router.push("/settings")} />
     </ScrollView>

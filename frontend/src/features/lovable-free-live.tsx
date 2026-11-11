@@ -22,11 +22,18 @@ import { LovableBackground } from "@/src/components/lovable/background";
 import { Jersey } from "@/src/components/lovable/configuration";
 import { LovableIcon } from "@/src/components/lovable/icon";
 import {
+  CarouselDot,
   MatchAction,
   MatchIcon,
   MatchSheet,
   m,
+  pressedControl,
 } from "@/src/components/lovable/match-ui";
+import {
+  CLOCK_FILL_MAX_FONT_SCALE,
+  FREE_CAROUSEL_CHROME,
+  freeClockLayout,
+} from "./chrono-layout";
 import { FreeClockTrack } from "@/src/components/lovable/free-clock";
 import { KeepAwakeControl } from "@/src/components/lovable/keep-awake-control";
 import { recentSwipe } from "./carousel-swipe";
@@ -166,6 +173,8 @@ export function LovableFreeLive() {
     [locked, setLocked] = useState(false),
     // Not saved: a restored session always comes back on its clock face.
     [musicOpen, setMusicOpen] = useState(false);
+  // Portrait only: the clock card takes the height the screen leaves unused.
+  const [clockFill, setClockFill] = useState<number | undefined>(undefined);
   const held = useRef(false);
   const clockOrigin = useRef<{ x: number; y: number } | null>(null);
   const swipedAt = useRef(0);
@@ -224,7 +233,7 @@ export function LovableFreeLive() {
       if (action === "end") router.replace("/");
     } else {
       setActionError(
-        "Le changement n’a pas été enregistré. La séance précédente est conservée. Réessayez cette action.",
+        "Le changement n’a pas été enregistré. La séance précédente est conservée. Réessaie.",
       );
     }
   };
@@ -249,7 +258,14 @@ export function LovableFreeLive() {
       : stage === "paused" || stage === "waiting"
         ? c.amber
         : c.muted;
-  const clockHeight = land ? 128 : height <= 720 ? 196 : 220;
+  const fillClock = !two && !land && fontScale <= CLOCK_FILL_MAX_FONT_SCALE;
+  const clock = freeClockLayout({
+    landscape: land,
+    screenHeight: height,
+    fill: fillClock ? clockFill : undefined,
+  });
+  const clockHeight = clock.clockHeight;
+  const clockBase = clock.baseClock + FREE_CAROUSEL_CHROME;
   const views = freeCarouselViews(stage);
   const showMusic = musicOpen && views.includes("music");
   const shown: FreeCarouselView = showMusic ? "music" : selected;
@@ -349,6 +365,8 @@ export function LovableFreeLive() {
           dense={land}
           locked={locked}
           swipeEnabled={!locked}
+          grow={clock.grow}
+          baseHeight={clock.baseClock}
           onSwipe={show}
           onSwipeActivity={() => {
             swipedAt.current = Date.now();
@@ -368,15 +386,7 @@ export function LovableFreeLive() {
               onPress={() => show(views[i])}
               style={s.dotControl}
             >
-              <View
-                style={{
-                  width: shown === views[i] ? 22 : 7,
-                  height: 7,
-                  borderRadius: 99,
-                  backgroundColor:
-                    shown === views[i] ? c.primary : c.mutedSurface,
-                }}
-              />
+              <CarouselDot active={shown === views[i]} />
             </Pressable>
           ),
         )}
@@ -717,7 +727,7 @@ export function LovableFreeLive() {
           accessibilityLabel={item.label}
           disabled={blocked}
           onPress={item.action}
-          style={[
+          style={({ pressed }) => [
             s.control,
             {
               height: land ? 48 : 60,
@@ -730,6 +740,7 @@ export function LovableFreeLive() {
               borderColor: i === items.length - 1 ? c.primary : c.border,
               opacity: blocked ? 0.35 : 1,
             },
+            pressed && pressedControl,
           ]}
         >
           {item.icon === "skip" ? (
@@ -896,7 +907,7 @@ export function LovableFreeLive() {
           accessibilityRole="button"
           accessibilityLabel="Retour à l'accueil"
           disabled={blocked}
-          style={m.headerButton}
+          style={({ pressed }) => [m.headerButton, pressed && pressedControl]}
           onPress={() => router.replace("/")}
         >
           <LovableIcon name="back" color={c.foreground} size={20} />
@@ -915,7 +926,7 @@ export function LovableFreeLive() {
             locked ? "Déverrouiller les commandes" : "Paramètres du chrono"
           }
           accessibilityHint="Appui long pour verrouiller les commandes"
-          style={m.headerButton}
+          style={({ pressed }) => [m.headerButton, pressed && pressedControl]}
           onPressIn={() => {
             held.current = false;
           }}
@@ -944,6 +955,7 @@ export function LovableFreeLive() {
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          flexGrow: 1,
           paddingTop: land ? 4 : 8,
           paddingBottom: 4,
           paddingLeft: 20 + inset.left,
@@ -977,7 +989,17 @@ export function LovableFreeLive() {
         ) : (
           <>
             {teamCards}
-            {carousel}
+            {fillClock ? (
+              <View
+                testID="free-clock-fill"
+                onLayout={(e) => setClockFill(e.nativeEvent.layout.height)}
+                style={{ flexGrow: 1, flexBasis: clockBase, minHeight: clockBase, justifyContent: "center" }}
+              >
+                {carousel}
+              </View>
+            ) : (
+              carousel
+            )}
             {ft.config.kind === "countdown" && ft.config.endSignal ? <View style={{ minHeight: land ? 40 : 46 }} /> : null}
             {info}
             {laps}
@@ -1026,7 +1048,7 @@ export function LovableFreeLive() {
               ? `Le temps${ft.laps.length ? " et les tours" : ""} reviennent à zéro. Les réglages${scoreOn && teams.length ? " et les scores" : ""} sont conservés.`
               : sheet.kind === "restart"
                 ? "Le temps, les tours et tous les scores reviennent à zéro. Les équipes, les réglages et Mes chronos sont conservés."
-                : "Le chrono et les tours seront effacés. Vos chronos enregistrés ne changent pas."}
+                : "Le chrono et les tours seront effacés. Tes chronos enregistrés ne changent pas."}
           </Text>
           <View style={{ gap: 8 }}>
             {sheet.kind === "reset" ? (

@@ -512,7 +512,7 @@ export function LovableFreeConfig({
               <FreeIcon name="timer" color={c.custom} size={22} />
             </View>
             <Text style={s.introText}>
-              Choisissez votre chrono. Les équipes sont facultatives.
+              Choisis ton chrono. Avec ou sans équipes.
             </Text>
           </View>
         }
@@ -532,17 +532,17 @@ export function LovableFreeConfig({
               [
                 [
                   "stopwatch",
-                  "Départ à 00:00, tours, sans durée limite.",
+                  "Part de zéro, sans limite, avec tours.",
                   "timer",
                 ],
                 [
                   "countdown",
-                  "Durée personnalisée, fin automatique à zéro.",
+                  "Tu fixes la durée, il s'arrête tout seul à zéro.",
                   "hourglass",
                 ],
                 [
                   "interval",
-                  "Périodes, repos et répétitions enchaînés.",
+                  "Jeu, repos, séries : tout s'enchaîne.",
                   "repeat",
                 ],
               ] as const
@@ -600,7 +600,7 @@ export function LovableFreeConfig({
                     textAlign: "center",
                   }}
                 >
-                  Réglez un chrono puis touchez « Enregistrer dans Mes chronos
+                  Règle un chrono puis touche « Enregistrer dans Mes chronos
                   ». Par exemple : Football à 5 — 10 minutes, Fractionné 30/30.
                 </Text>
               </View>
@@ -708,7 +708,7 @@ export function LovableFreeConfig({
       <ConfigCard
         key="sw"
         title="Chronomètre"
-        hint="Démarre à 00:00 et continue jusqu'à votre arrêt. Tours illimités, aucune durée à régler."
+        hint="Démarre à 00:00 et continue jusqu'à ce que tu l'arrêtes. Tours illimités, aucune durée à régler."
       />,
     );
   if (d.kind === "countdown")
@@ -719,7 +719,7 @@ export function LovableFreeConfig({
         hint={
           cd > 0
             ? `Total : ${freeDuration(cd)}`
-            : "Choisissez une durée supérieure à zéro."
+            : "Choisis une durée supérieure à zéro."
         }
       >
         <DurationChips cd={d.cd} set={(m) => set({ cd: { h: 0, m, s: 0 } })} />
@@ -963,21 +963,21 @@ export function LovableFreeConfig({
                   });
                   setImported(
                     prefs.teams.length === d.teamCount
-                      ? "Composition importée : vous pouvez encore la modifier ci-dessous."
+                      ? "Composition importée : tu peux encore la modifier ci-dessous."
                       : `Le nombre d'équipes a été ajusté à ${prefs.teams.length}.`,
                   );
                 }}
               />
               {!fits ? (
                 <Text style={hint}>
-                  Ce mode accepte de 2 à 8 équipes : votre dernière composition
+                  Ce mode accepte de 2 à 8 équipes : ta dernière composition
                   en compte {prefs.teams.length}.
                 </Text>
               ) : imported ? (
                 <Text style={hint}>
                   {prefs.teams.length !== d.teamCount
                     ? `Le nombre d'équipes a été ajusté à ${prefs.teams.length}.`
-                    : "Composition importée : vous pouvez encore la modifier ci-dessous."}
+                    : "Composition importée : tu peux encore la modifier ci-dessous."}
                 </Text>
               ) : null}
             </View>
@@ -1030,7 +1030,7 @@ export function LovableFreeConfig({
     <FreeSheet
       key="save-sheet"
       title={editing ? "Mettre à jour le chrono" : "Enregistrer le chrono"}
-      description="Seuls les réglages sont enregistrés. Les temps et tours de vos sessions ne les modifient pas."
+      description="Seuls les réglages sont enregistrés. Les temps et tours de tes sessions ne les modifient pas."
       onClose={() => setSaveOpen(false)}
       busy={busy}
     >
@@ -1061,7 +1061,7 @@ export function LovableFreeConfig({
         ]}
       />
       {nameTouched && !name.trim() ? (
-        <Text accessibilityRole="alert" style={s.error}>Donnez un nom à ce chrono.</Text>
+        <Text accessibilityRole="alert" style={s.error}>Donne un nom à ce chrono.</Text>
       ) : null}
       <View style={{ gap: 8 }}>
         <Action

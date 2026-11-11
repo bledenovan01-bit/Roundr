@@ -19,7 +19,7 @@ export function LovableIntro({ onStart }: { onStart: () => void }) {
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingLeft: 26 + insets.left, paddingRight: 26 + insets.right, paddingTop: insets.top }]}>
       <Wordmark size={logoSize} testID="intro-wordmark" />
       <Text testID="intro-title" accessibilityRole="header" style={[styles.title, { fontSize: titleSize, lineHeight: titleSize * 1.12, letterSpacing: -titleSize * 0.02 }]}>Plus de jeu.{"\n"}Moins d&apos;organisation.</Text>
-      {!landscape && height > 640 ? <Text testID="intro-description" style={styles.description}>Chrono, rotations, tournois et classements : Roundr gère le match pour que vous profitiez du terrain.</Text> : null}
+      {!landscape && height > 640 ? <Text testID="intro-description" style={styles.description}>Chrono, rotations, tournois et classements : Roundr gère le match, toi tu profites du terrain.</Text> : null}
     </ScrollView>
     <View testID="intro-dock" style={[styles.dock, { paddingTop: landscape ? 8 : 12, paddingLeft: 20 + insets.left, paddingRight: 20 + insets.right, paddingBottom: Math.max(landscape ? 10 : 16, insets.bottom) }]}>
       <LovableButton label="Commencer" testID="welcome-start" onPress={onStart} landscape={landscape} />

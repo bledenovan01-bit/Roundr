@@ -74,10 +74,10 @@ export function LovableTeamMaker() {
     </ConfigCard>);
     cards.push(<ConfigCard key="count" title="Nombre d'équipes"><View style={{flexDirection:"row",gap:8}}>{[2,3,4,5,6,7,8].map(n=><View key={n} style={{flex:1}}><ChipNumber value={n} active={teamCount===n} onPress={()=>{setTeamCount(n);setMeta(tournamentTeams(n));}}/></View>)}</View></ConfigCard>);
     cards.push(<PhaseSummary key="summary">{playerCount(actualPlayers.length)} · {teamCount} équipes · {Math.floor(actualPlayers.length/teamCount)}{actualPlayers.length%teamCount?" à "+Math.ceil(actualPlayers.length/teamCount):""} par équipe.</PhaseSummary>);
-    if(tooFew)cards.push(<TeamError key="few">Ajoutez au moins {teamCount} joueurs pour créer {teamCount} équipes.</TeamError>);
-    if(invalidPlayers)cards.push(<TeamError key="invalid-players">Chaque joueur doit avoir un nom différent et non vide. Modifiez ou retirez les doublons avant le tirage.</TeamError>);
+    if(tooFew)cards.push(<TeamError key="few">Ajoute au moins {teamCount} joueurs pour créer {teamCount} équipes.</TeamError>);
+    if(invalidPlayers)cards.push(<TeamError key="invalid-players">Chaque joueur doit avoir un nom différent et non vide. Modifie ou retire les doublons avant le tirage.</TeamError>);
   } else {
-    cards.push(<PhaseSummary key="summary">{pickedName?"Choisissez l'équipe où déplacer "+pickedName+".":"Touchez un joueur pour le déplacer dans une autre équipe."}</PhaseSummary>);
+    cards.push(<PhaseSummary key="summary">{pickedName?"Choisis l'équipe où déplacer "+pickedName+".":"Touche un joueur pour le déplacer dans une autre équipe."}</PhaseSummary>);
     result.forEach((group,t)=>cards.push(<View key={"group"+t} testID={"maker-team-"+t} style={[s.card,{borderColor:picked&&picked.t!==t?c.primary:c.border}]}>
       <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between",gap:12}}><View style={{flexDirection:"row",alignItems:"center",gap:10,flexShrink:1}}><Jersey size={26} color={meta[t].color}/><Text accessibilityRole="header" style={s.cardTitle}>{meta[t].name||"Équipe "+(t+1)}</Text></View><Text style={{fontFamily:f.extrabold,fontSize:12,lineHeight:18,color:c.muted}}>{group.length}</Text></View>
       <View style={{flexDirection:"row",flexWrap:"wrap",gap:6}}>{group.map((p,i)=><Pressable key={p+i} accessibilityRole="button" accessibilityLabel={p} accessibilityState={{selected:picked?.t===t&&picked.p===i}} aria-pressed={picked?.t===t&&picked.p===i} onPress={()=>setPicked(picked?.t===t&&picked.p===i?null:{t,p:i})} hitSlop={4}
@@ -97,7 +97,7 @@ export function LovableTeamMaker() {
       <PhaseAction height={56} label={status.saving?"Enregistrement…":"Remplacer et valider"} onPress={()=>{void save();}} disabled={status.saving}/><PhaseAction kind="ghost" label="Annuler" disabled={status.saving} onPress={()=>setOverwrite(false)}/>
       {status.error?<Text accessibilityRole="alert" style={s.error}>{status.error}</Text>:null}
     </CompositionSheet>:null}
-    {done?<CompositionSheet success title="Composition enregistrée" description={"Dans la configuration d'un mode, activez « Personnaliser les équipes » puis touchez « Importer mes équipes ». Vous pourrez encore modifier les équipes avant de jouer."} onClose={()=>setDone(false)}>
+    {done?<CompositionSheet success title="Composition enregistrée" description={"Dans la configuration d'un mode, active « Personnaliser les équipes » puis touche « Importer mes équipes ». Tu pourras encore modifier les équipes avant de jouer."} onClose={()=>setDone(false)}>
       <PhaseAction height={56} label="Retour à l'accueil" onPress={()=>{setDone(false);router.replace("/");}}/><PhaseAction kind="ghost" label="Rester ici" onPress={()=>setDone(false)}/>
     </CompositionSheet>:null}
   </>;

@@ -36,7 +36,7 @@ export function LovableConfigFrame({ mode, onBack, onLaunch, disabled, children 
     </View>
     {/* RN Web's on-drag blurs inputs on every scroll, including focus/keyboard scrolling. */}
     <ScrollView testID="config-scroll" style={{ flex: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode={Platform.OS === "web" ? "none" : "on-drag"} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: 6, paddingLeft: 20 + inset.left, paddingRight: 20 + inset.right, paddingBottom: Math.max(16, inset.bottom), gap: 12, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
-      <View testID="config-intro" style={[s.intro, { width: "100%" }]}><View style={[s.modeIcon, { backgroundColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .16), borderColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .35) }]}><LovableIcon name={mode === "classique" ? "pitch" : "refresh"} color={mode === "classique" ? c.classic : c.maracana} size={22} /></View><Text style={s.introText}>{mode === "classique" ? "Un match simple entre deux équipes, avec ou sans mi-temps." : "Les équipes tournent à chaque match. Les deux équipes en attente entrent, celles qui sortent repassent en fin de file."}</Text></View>
+      <View testID="config-intro" style={[s.intro, { width: "100%" }]}><View style={[s.modeIcon, { backgroundColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .16), borderColor: withAlpha(mode === "classique" ? c.classic : c.maracana, .35) }]}><LovableIcon name={mode === "classique" ? "pitch" : "refresh"} color={mode === "classique" ? c.classic : c.maracana} size={22} /></View><Text style={s.introText}>{mode === "classique" ? "Deux équipes, un terrain, un chrono. Règle la durée et les mi-temps, puis coup d'envoi." : "Les équipes tournent à chaque match. Roundr gère la rotation, la file d'attente et le classement."}</Text></View>
       {(children as ReactNode[]).filter(Boolean).map((child, i) => <View key={isValidElement(child) ? child.key ?? i : i} style={{ width: cardWidth }}>{child}</View>)}
     </ScrollView>
     <View style={{ paddingTop: landscape ? 8 : 12, paddingBottom: Math.max(inset.bottom, landscape ? 10 : 16), paddingLeft: 20 + inset.left, paddingRight: 20 + inset.right, alignItems: "center" }}><View style={{ width: "100%", maxWidth: landscape ? 420 : undefined }}><ConfigAction testID="config-launch" primary label={mode === "classique" ? "Lancer le match" : "Lancer le Maracana"} onPress={onLaunch} disabled={disabled} /></View></View>
@@ -85,8 +85,8 @@ function CompositionPicker({ config, onUse }: { config: Config; onUse: (teams: T
   if (!saved.length) return null;
   const fits = saved.length >= min && saved.length <= max;
   return <View style={{ gap: 8 }}><ConfigAction importTeams label={`Importer mes ${saved.length} équipes`} disabled={!fits} onPress={() => { onUse(saved.map(team => ({ ...team }))); setUsed(true); }} />
-    {!fits ? <Text style={s.importHint}>Ce mode accepte de {min} à {max} équipes : votre dernière composition en compte {saved.length}.</Text> : null}
-    {used && fits ? <Text style={s.importHint}>{saved.length !== count ? `Le nombre d'équipes a été ajusté à ${saved.length}.` : "Composition importée : vous pouvez encore la modifier ci-dessous."}</Text> : null}
+    {!fits ? <Text style={s.importHint}>Ce mode accepte de {min} à {max} équipes : ta dernière composition en compte {saved.length}.</Text> : null}
+    {used && fits ? <Text style={s.importHint}>{saved.length !== count ? `Le nombre d'équipes a été ajusté à ${saved.length}.` : "Composition importée : tu peux encore la modifier ci-dessous."}</Text> : null}
   </View>;
 }
 export function useLovableConfigCards({ config, onChange, teams, onTeams, extra }: { config: Config; onChange: (config: Config) => void; teams: Team[]; onTeams: (teams: Team[]) => void; extra?: ReactNode }): ReactNode[] {

@@ -62,7 +62,10 @@ export default function RootLayout() {
               contentStyle: { backgroundColor: "#010a0b" },
               animation: "slide_from_right",
             }}
-          />
+          >
+            {/* Coming back home after a session reads as a return, not a new page. */}
+            <Stack.Screen name="index" options={{ animationTypeForReplace: "pop" }} />
+          </Stack>
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </ErrorBoundary>

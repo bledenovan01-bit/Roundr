@@ -68,7 +68,7 @@ export default function LovableSettings() {
       );
       setLinkError(null);
     } catch {
-      setLinkError("Impossible d’ouvrir l’assistance. Réessayez.");
+      setLinkError("Impossible d’ouvrir l’assistance. Réessaie.");
     }
   };
   useFocusEffect(
@@ -314,7 +314,7 @@ export default function LovableSettings() {
       <ConfigCard
         key="about"
         title="À propos"
-        hint="Roundr · maquette interactive V0"
+        hint="Roundr V0 · Moins d'organisation, plus de jeu."
       >
         <PhaseAction
           kind="secondary"

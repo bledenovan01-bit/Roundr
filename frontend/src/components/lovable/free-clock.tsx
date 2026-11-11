@@ -14,6 +14,7 @@ import { useSwipeCarousel } from "@/src/hooks/use-swipe-carousel";
 import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
 import type { FreeTimerDisplay } from "@/src/domain/free-timer";
 import { TimerDigits } from "./timer-digits";
+import { freeFaceLayout } from "@/src/features/chrono-layout";
 
 type Readout = ReturnType<typeof freeReadout>;
 export function FreeDigits({
@@ -28,10 +29,27 @@ export function FreeDigits({
   return <TimerDigits main={r.main} cents={r.cents} size={size} ratio={ring ? 0.42 : 0.5} ring={ring} testID={ring ? "free-digits-circular" : "free-digits"} />;
 }
 
-export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
+export function FreeClock({
+  r,
+  view,
+  grow = 0,
+  pageWidth = 0,
+}: {
+  r: Readout;
+  view: FreeTimerDisplay;
+  /** Extra height given to the clock card (portrait only). */
+  grow?: number;
+  pageWidth?: number;
+}) {
   const { width, height } = useWindowDimensions(),
     land = width > height,
-    short = !land && height <= 720;
+    face = freeFaceLayout({
+      landscape: land,
+      screenWidth: width,
+      screenHeight: height,
+      grow,
+      pageWidth,
+    });
   const eye = {
     fontFamily: f.extrabold,
     fontSize: 11,
@@ -47,13 +65,13 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          gap: 16,
+          gap: face.gap,
           paddingTop: 16,
           paddingHorizontal: 22,
         }}
       >
         <Text style={eye}>{r.label}</Text>
-        <FreeDigits r={r} size={land ? 40 : width <= 340 ? 42 : 48} />
+        <FreeDigits r={r} size={face.digitsSize} />
         {r.progress !== null ? (
           <View
             accessibilityRole="progressbar"
@@ -83,7 +101,7 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
       </View>
     );
   if (view === "circular") {
-    const size = land ? 104 : height < 620 ? 122 : short ? 146 : 174,
+    const size = face.circularSize,
       rad = 62,
       len = 2 * Math.PI * rad,
       a = (((r.ms / 1000) % 60) * Math.PI) / 30;
@@ -143,21 +161,21 @@ export function FreeClock({ r, view }: { r: Readout; view: FreeTimerDisplay }) {
               style={[
                 eye,
                 {
-                  fontSize: land ? 7 : 9,
-                  lineHeight: land ? 10.5 : 13.5,
+                  fontSize: (land ? 7 : 9) * face.circularLabelScale,
+                  lineHeight: (land ? 10.5 : 13.5) * face.circularLabelScale,
                   letterSpacing: land ? 0 : 1.08,
                 },
               ]}
             >
               {r.progress === null ? "SANS LIMITE" : r.label}
             </Text>
-            <FreeDigits r={r} size={land ? 24 : 36} ring />
+            <FreeDigits r={r} size={face.circularDigitsSize} ring />
           </View>
         </View>
       </View>
     );
   }
-  const size = land ? 120 : short ? 160 : width <= 340 ? 164 : 186,
+  const size = face.analogSize,
     sec = (r.ms / 1000) % 60,
     min = (r.ms / 60000) % 30,
     R = 88,
@@ -306,6 +324,8 @@ export function FreeClockTrack({
   swipeEnabled = false,
   onSwipe,
   onSwipeActivity,
+  grow = 0,
+  baseHeight,
 }: {
   r: Readout;
   views?: readonly FreeCarouselView[];
@@ -316,6 +336,10 @@ export function FreeClockTrack({
   swipeEnabled?: boolean;
   onSwipe?: (view: FreeCarouselView) => void;
   onSwipeActivity?: () => void;
+  /** Extra height given to the clock card (portrait only). */
+  grow?: number;
+  /** Reference height, kept by the music view when the card is taller. */
+  baseHeight?: number;
 }) {
   const [width, setWidth] = useState(0);
   const { offset, gesture } = useSwipeCarousel({
@@ -355,14 +379,18 @@ export function FreeClockTrack({
             style={{ width, height: "100%" }}
           >
             {view === "music" ? (
-              <MusicCard
-                compact={compact}
-                dense={dense}
-                locked={locked}
-                active={selected === "music"}
-              />
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <View style={baseHeight && grow > 0 ? { height: baseHeight } : { flex: 1 }}>
+                  <MusicCard
+                    compact={compact}
+                    dense={dense}
+                    locked={locked}
+                    active={selected === "music"}
+                  />
+                </View>
+              </View>
             ) : (
-              <FreeClock r={r} view={view} />
+              <FreeClock r={r} view={view} grow={grow} pageWidth={width} />
             )}
           </View>
         ))}

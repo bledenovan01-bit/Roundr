@@ -31,6 +31,57 @@ import {
 } from "@/src/features/match-presentation";
 
 import { TimerDigits } from "./timer-digits";
+import { matchClockLayout } from "@/src/features/chrono-layout";
+
+/** Shared press feedback for live controls: quick, visual only. */
+export const pressedControl = { transform: [{ scale: 0.97 }], opacity: 0.85 } as const;
+
+/** Carousel position dot. The active dot stretches instead of jumping. */
+export function CarouselDot({ active }: { active: boolean }) {
+  const [progress] = useState(() => new Animated.Value(active ? 1 : 0));
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    let cancelled = false;
+    let animation: Animated.CompositeAnimation | undefined;
+    void AccessibilityInfo.isReduceMotionEnabled()
+      .then((reduced) => {
+        if (cancelled) return;
+        if (reduced) {
+          progress.setValue(active ? 1 : 0);
+          return;
+        }
+        // Width and colour cannot use the native driver; the dot is tiny.
+        animation = Animated.timing(progress, {
+          toValue: active ? 1 : 0,
+          duration: 180,
+          useNativeDriver: false,
+        });
+        animation.start();
+      })
+      .catch(() => progress.setValue(active ? 1 : 0));
+    return () => {
+      cancelled = true;
+      animation?.stop();
+    };
+  }, [active, progress]);
+  return (
+    <Animated.View
+      style={{
+        width: progress.interpolate({ inputRange: [0, 1], outputRange: [7, 22] }),
+        height: 7,
+        borderRadius: 99,
+        backgroundColor: progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [c.mutedSurface, c.primary],
+        }),
+      }}
+    />
+  );
+}
 
 export type MatchIconName =
   | "check"
@@ -208,8 +259,9 @@ export function MatchAction({
                 ? c.cardRaised
                 : "transparent",
           borderWidth: kind === "secondary" ? 1 : 0,
-          opacity: disabled ? 0.35 : pressed ? 0.9 : 1,
+          opacity: disabled ? 0.35 : pressed ? 0.85 : 1,
         },
+        pressed && !disabled && { transform: [{ scale: 0.98 }] },
       ]}
     >
       {icon ? <MatchIcon name={icon} size={16} color={color} /> : null}
@@ -470,6 +522,7 @@ export function MatchCarousel({
   onGiant,
   selected,
   onSelect,
+  fill,
 }: {
   session: Session;
   projection: Projection;
@@ -479,6 +532,8 @@ export function MatchCarousel({
   onGiant: () => void;
   selected: number;
   onSelect: (index: number) => void;
+  /** Height offered to the whole card when it may grow (portrait only). */
+  fill?: number;
 }) {
   const pages = matchPages(session),
     [width, setWidth] = useState(0),
@@ -486,8 +541,9 @@ export function MatchCarousel({
   const page = visibleMatchPage(selected, pages);
   const { width: sw, height: sh } = useWindowDimensions(),
     landscape = sw > sh;
-  const slideHeight = landscape ? 170 : sh < 620 ? 164 : sh < 720 ? 196 : 232,
-    dialSize = landscape ? 126 : sh < 620 ? 122 : sh < 720 ? 146 : 174;
+  const layout = matchClockLayout({ landscape, screenHeight: sh, fill, pageWidth: width }),
+    slideHeight = layout.slideHeight,
+    dialSize = layout.dialSize;
   const go = (n: number) => {
     if (!locked) onSelect(visibleMatchPage(n, pages));
   };
@@ -591,7 +647,7 @@ export function MatchCarousel({
                   style={[
                     m.timer,
                     {
-                      gap: landscape || sh < 620 ? 8 : 14,
+                      gap: layout.gap,
                       paddingTop: landscape || sh < 620 ? 10 : 16,
                     },
                   ]}
@@ -643,8 +699,8 @@ export function MatchCarousel({
                           style={[
                             m.eyebrow,
                             {
-                              fontSize: landscape ? 7 : 9,
-                              lineHeight: landscape ? 10 : 90 / 7,
+                              fontSize: (landscape ? 7 : 9) * layout.ringLabelScale,
+                              lineHeight: (landscape ? 10 : 90 / 7) * layout.ringLabelScale,
                               letterSpacing: landscape ? 0 : 1.08,
                             },
                           ]}
@@ -653,9 +709,7 @@ export function MatchCarousel({
                         </Text>
                         <MatchDigits
                           projection={projection}
-                          size={
-                            landscape ? 26 : sh < 620 ? 25 : sh < 720 ? 30 : 36
-                          }
+                          size={layout.ringDigitsSize}
                           ring
                         />
                       </View>
@@ -665,7 +719,7 @@ export function MatchCarousel({
                       <Text style={m.eyebrow}>{projection.label}</Text>
                       <MatchDigits
                         projection={projection}
-                        size={landscape ? 34 : sh < 720 ? 38 : 44}
+                        size={layout.digitsSize}
                       />
                       <View
                         testID="match-progress"
@@ -690,14 +744,21 @@ export function MatchCarousel({
                   )}
                   {status(kind)}
                 </Pressable>
-              ) : kind === "next" || kind === "tournament" ? (
-                next
               ) : (
-                <MusicCard
-                  compact={landscape || sh < 720}
-                  locked={locked}
-                  active={pages[page] === "music"}
-                />
+                // Other views keep their reference height, centred in a taller card.
+                <View style={{ flex: 1, justifyContent: "center" }}>
+                  <View style={{ height: layout.baseSlide }}>
+                    {kind === "next" || kind === "tournament" ? (
+                      next
+                    ) : (
+                      <MusicCard
+                        compact={landscape || sh < 720}
+                        locked={locked}
+                        active={pages[page] === "music"}
+                      />
+                    )}
+                  </View>
+                </View>
               )}
             </View>
           ))}
@@ -722,14 +783,7 @@ export function MatchCarousel({
               justifyContent: "center",
             }}
           >
-            <View
-              style={{
-                width: i === page ? 22 : 7,
-                height: 7,
-                borderRadius: 99,
-                backgroundColor: i === page ? c.primary : c.mutedSurface,
-              }}
-            />
+            <CarouselDot active={i === page} />
           </Pressable>
         ))}
       </View>

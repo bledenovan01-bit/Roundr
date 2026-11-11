@@ -43,8 +43,14 @@ import {
   MatchScoreboard,
   MatchSheet,
   m,
+  pressedControl,
   type MatchIconName,
 } from "@/src/components/lovable/match-ui";
+import {
+  CLOCK_FILL_MAX_FONT_SCALE,
+  MATCH_CAROUSEL_CHROME,
+  matchClockLayout,
+} from "./chrono-layout";
 import {
   beginMatch,
   maracanaUpcoming,
@@ -89,6 +95,11 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     [teamName, setTeamName] = useState("");
   const lockHeld = useRef(false);
   const [selectedPage, setSelectedPage] = useState(0);
+  // Portrait only: the clock card takes the height the screen leaves unused.
+  const [clockFill, setClockFill] = useState<number | undefined>(undefined);
+  const fillClock = !two && !landscape && fontScale <= CLOCK_FILL_MAX_FONT_SCALE;
+  const clockBase =
+    matchClockLayout({ landscape, screenHeight: height }).baseSlide + MATCH_CAROUSEL_CHROME;
   const l = session?.live,
     running = !!l && l.chrono.runningSince !== null && l.stage !== "finished",
     now = useDisplayClock(running);
@@ -276,7 +287,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
         accessibilityLabel={tournament?.rankingLabel ?? "Voir le classement"}
         disabled={locked}
         onPress={() => tournament ? tournament.onRanking() : setRanking(true)}
-        style={{
+        style={({ pressed }) => [{
           height: landscape ? 44 : 52,
           borderWidth: 1,
           borderColor: c.border,
@@ -286,7 +297,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           flexDirection: "row",
           alignItems: "center",
           gap: 10,
-        }}
+        }, pressed && pressedControl]}
       >
         <LovableIcon name="trophy" size={18} color={c.primary} />
         <Text
@@ -327,6 +338,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
       onSelect={setSelectedPage}
       onToggle={() => setShowElapsed((v) => !v)}
       onGiant={() => setGiant(true)}
+      fill={fillClock ? clockFill : undefined}
     />
   );
   const noticeLayer = (
@@ -356,7 +368,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           accessibilityLabel="Retour à l’accueil"
           disabled={locked}
           onPress={home}
-          style={m.headerButton}
+          style={({ pressed }) => [m.headerButton, pressed && pressedControl]}
         >
           <LovableIcon name="back" size={20} color={c.foreground} />
         </Pressable>
@@ -402,7 +414,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             setLocked((v) => !v);
           }}
           delayLongPress={550}
-          style={m.headerButton}
+          style={({ pressed }) => [m.headerButton, pressed && pressedControl]}
         >
           {locked ? (
             <MatchIcon name="lock" color={c.amber} />
@@ -416,6 +428,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          flexGrow: 1,
           paddingTop: landscape ? 4 : 8,
           paddingBottom: 4,
           paddingLeft: 20 + inset.left,
@@ -451,7 +464,17 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
         ) : (
           <>
             {scoreboard}
-            {carousel}
+            {fillClock ? (
+              <View
+                testID="match-clock-fill"
+                onLayout={(e) => setClockFill(e.nativeEvent.layout.height)}
+                style={{ flexGrow: 1, flexBasis: clockBase, minHeight: clockBase, justifyContent: "center" }}
+              >
+                {carousel}
+              </View>
+            ) : (
+              carousel
+            )}
             {rankingLink}
             <MatchAnnouncementSpace />
           </>
@@ -550,7 +573,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
                 disabled={locked || b.disabled}
                 accessibilityState={{ disabled: locked || b.disabled }}
                 onPress={b.action}
-                style={{
+                style={({ pressed }) => [{
                   flex: i === 2 ? 1.6 : 1,
                   minHeight: landscape ? 48 : 60,
                   minWidth: 44,
@@ -563,7 +586,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
                   justifyContent: "center",
                   flexDirection: landscape ? "row" : "column",
                   gap: landscape ? 6 : 4,
-                }}
+                }, pressed && pressedControl]}
               >
                 <MatchIcon
                   name={b.icon}

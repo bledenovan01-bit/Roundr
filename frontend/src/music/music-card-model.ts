@@ -160,8 +160,8 @@ export function musicCardModel(state: MusicState): MusicCardModel {
     return message(
       `Connexion à ${names[lost.source]} perdue`,
       lost.source === "spotify"
-        ? "Reconnectez pour reprendre le contrôle. L’application Spotify s’ouvrira un instant."
-        : "Reconnectez pour reprendre le contrôle.",
+        ? "Reconnecte pour reprendre le contrôle. L’application Spotify s’ouvrira un instant."
+        : "Reconnecte pour reprendre le contrôle.",
       [{ type: "connect", source: lost.source, label: "Reconnecter" }],
     );
   }
@@ -171,14 +171,14 @@ export function musicCardModel(state: MusicState): MusicCardModel {
   if (state.otherAudio) {
     return message(
       "Musique lue dans une autre application",
-      connectHint(connect, "iOS ne permet pas de la commander depuis Roundr. Utilisez le Centre de contrôle."),
+      connectHint(connect, "iOS ne permet pas de la commander depuis Roundr. Utilise le Centre de contrôle."),
       connect,
     );
   }
   if (connect.length) {
     return message(
-      "Connectez votre musique",
-      connectHint(connect, "Autorisez Roundr à afficher et commander le morceau en cours."),
+      "Connecte ta musique",
+      connectHint(connect, "Autorise Roundr à afficher et commander le morceau en cours."),
       connect,
     );
   }
@@ -188,7 +188,7 @@ export function musicCardModel(state: MusicState): MusicCardModel {
   if (disconnected) {
     return message(
       `${names[disconnected.source]} n’est pas connecté`,
-      "Lancez la lecture dans l’application, puis reconnectez.",
+      "Lance la lecture dans l’application, puis reconnecte.",
       [{ type: "connect", source: disconnected.source, label: "Reconnecter" }],
     );
   }
@@ -196,14 +196,14 @@ export function musicCardModel(state: MusicState): MusicCardModel {
   if (apple?.authorization === "denied") {
     return message(
       "Accès à Musique refusé",
-      "Autorisez l’accès à Musique pour Roundr dans les Réglages de l’iPhone.",
+      "Autorise l’accès à Musique pour Roundr dans les Réglages de l’iPhone.",
       [{ type: "settings", label: "Ouvrir les Réglages" }],
     );
   }
   if (apple?.authorization === "restricted") {
     return message("Accès à Musique restreint", "Cet accès est bloqué par les restrictions de l’iPhone.");
   }
-  return message("Aucune musique en cours", "Lancez un morceau, il apparaîtra ici.");
+  return message("Aucune musique en cours", "Lance un morceau, il apparaîtra ici.");
 }
 
 const text = (value: unknown) => (typeof value === "string" && value.length ? value : null);

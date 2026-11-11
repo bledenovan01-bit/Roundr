@@ -53,7 +53,7 @@ export function loadPreferences():Promise<void>{
     }
     readable=true;setCompositionStatus({readable:true});
     if(compositionReadError){compositionReadError=false;setCompositionStatus({error:null});}
-  }catch{readable=false;compositionReadError=true;state={...state,error:"Lecture des préférences impossible. Les données enregistrées sont conservées."};setCompositionStatus({readable:false,error:"Impossible de lire la composition enregistrée. Réessayez avant de la remplacer."});}
+  }catch{readable=false;compositionReadError=true;state={...state,error:"Lecture des préférences impossible. Les données enregistrées sont conservées."};setCompositionStatus({readable:false,error:"Impossible de lire la composition enregistrée. Réessaie avant de la remplacer."});}
   loaded=true;
   emit();
   }).finally(()=>{reading=null;setCompositionStatus({loading:false});});
@@ -87,7 +87,7 @@ export function saveTeamComposition(value:TeamComposition):Promise<boolean>{
     try{
       await AsyncStorage.setItem("roundr.preferences.v1",JSON.stringify({...state,...patch,error:null,screenSleepVersion:2}));
       state={...state,...patch,error:null};compositionReadError=false;setCompositionStatus({error:null});success=true;emit();
-    }catch{setCompositionStatus({error:"Enregistrement impossible. La composition précédente est conservée. Réessayez."});}
+    }catch{setCompositionStatus({error:"Enregistrement impossible. La composition précédente est conservée. Réessaie."});}
   }).finally(()=>{writes--;setCompositionStatus({saving:false});});
   return pending.then(()=>success);
 }

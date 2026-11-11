@@ -68,7 +68,7 @@ assert.equal(selectMusicSource(state({ snapshots: { spotify: snap("spotify", { c
 const noAccess = (id: MusicSourceId, authorization: MusicSnapshot["authorization"]) =>
   snap(id, { authorization, connection: "disconnected", playback: "unknown", track: null, canToggle: false, canPrevious: false, canNext: false });
 const asking = musicCardModel(state({ snapshots: { apple: noAccess("apple", "notDetermined"), spotify: noAccess("spotify", "notDetermined") } }));
-assert.equal(asking.kind === "message" && asking.title, "Connectez votre musique");
+assert.equal(asking.kind === "message" && asking.title, "Connecte ta musique");
 assert.deepEqual(asking.kind === "message" && asking.actions.map((a) => a.label), ["Connecter Apple Music", "Connecter Spotify"]);
 assert.match(asking.kind === "message" ? asking.hint : "", /Spotify s’ouvrira/, "the app switch is announced");
 const denied = musicCardModel(state({ snapshots: { apple: noAccess("apple", "denied") } }));

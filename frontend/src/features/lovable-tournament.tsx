@@ -503,7 +503,7 @@ export function LovableTournamentFlow({
     cards.push(
       <TournamentNote key="decision" warn>
         Égalité parfaite ({qualificationTitle(p.decision.context).toLowerCase()}
-        ) : désignez{" "}
+        ) : désigne{" "}
         {p.decision.slots > 1
           ? `les ${p.decision.slots} qualifiés`
           : "le qualifié"}{" "}
@@ -589,7 +589,7 @@ function TournamentShootout({
     <MatchSheet label="Tirs au but">
       <TournamentSheetHeader title="Tirs au but" />
       <Text style={[h.text, { color: c.muted, textAlign: "center" }]}>
-        Score conservé : {live.score[0]} – {live.score[1]}. Saisissez la séance
+        Score conservé : {live.score[0]} – {live.score[1]}. Saisis la séance
         de tirs au but.
       </Text>
       <TournamentScoreDuo
@@ -668,7 +668,7 @@ function TournamentCorrection({
       </Text>
       {!canCorrectTournament(s) ? (
         <Text accessibilityRole="alert" style={h.error}>
-          Terminez la rencontre en cours avant de corriger un résultat
+          Termine la rencontre en cours avant de corriger un résultat
           antérieur.
         </Text>
       ) : null}
@@ -705,7 +705,7 @@ function TournamentDecision({
       <TournamentSheetHeader title="Égalité parfaite" onClose={onClose} />
       <Text style={[h.text, { color: c.muted, textAlign: "center" }]}>
         {qualificationTitle(decision.context)}. Ces équipes sont strictement à
-        égalité sur tous les critères. Sélectionnez{" "}
+        égalité sur tous les critères. Sélectionne{" "}
         {decision.slots === 1
           ? "l'équipe qualifiée"
           : `les ${decision.slots} équipes qualifiées`}
