@@ -179,11 +179,23 @@ texte « Connectez votre musique ».
   défiler. Le changement de taille n'est pas animé.
 - Les maquettes Lovable ne couvrent pas ces tailles agrandies : c'est un écart
   volontaire par rapport à la référence, limité au portrait.
-- Observation hors périmètre, déjà présente avant ce chantier : dans le
-  navigateur, après un rechargement complet de la page sur un chrono libre réglé
-  sur « Circulaire » ou « Analogique », l'onglet est bien sélectionné mais le
-  cadran numérique reste affiché jusqu'au prochain changement de vue. Non vérifié
-  sur appareil.
+- Rechargement d'un chrono libre en vue « Circulaire » ou « Analogique » : le
+  défaut noté dans un premier temps (cadran numérique affiché) venait de l'outil
+  de test, dont le panneau masqué ne dessinait plus aucune image. Panneau
+  visible, la vue enregistrée est bien restaurée. Seul un glissement depuis la
+  vue numérique était visible à la réouverture : il est supprimé
+  (`use-swipe-carousel.ts`).
+
+Vérifications complémentaires du 11 novembre :
+
+- Exactitude : pendant quatre redimensionnements successifs (portrait, paysage,
+  petit et grand écran), l'écart entre le chrono affiché et l'horloge est resté
+  de 2 ms.
+- Débordements : aucun texte ne dépasse à 320 px de large (accueil, choix du
+  chrono, réglages Maracana et Cup, historique).
+- `expo-doctor` 20/20 et export du bundle iOS de production réussis en local.
+
+Procédure et checklist de recette : `recette-iphone.md`.
 
 ## 6. À valider sur iPhone
 
