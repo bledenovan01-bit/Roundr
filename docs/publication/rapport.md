@@ -75,6 +75,27 @@ Elles se renseignent dans `frontend/src/publication.ts`. Tant qu'elles sont
 vides, les deux boutons ne s'affichent pas, et un build `production` est refusé
 automatiquement.
 
+## Coordonnées et pages publiques (12 novembre 2026)
+
+| Élément | Valeur |
+| --- | --- |
+| Adresse d'assistance | roundrsupport@gmail.com |
+| Politique de confidentialité | <https://bledenovan01-bit.github.io/Roundr/confidentialite/> |
+| Page d'assistance | <https://bledenovan01-bit.github.io/Roundr/assistance/> |
+| Éditeur | Entrepreneur individuel (micro-entreprise). **Nom légal à ajouter** |
+
+Les pages sont statiques, sans script ni outil de mesure. Leur source est dans
+`docs/publication/site/` ; elles sont servies par GitHub Pages depuis la branche
+`gh-pages`, qui ne contient que ces fichiers. Mettre à jour une page : modifier
+`site/`, puis republier ces fichiers sur `gh-pages`.
+
+**Permanence de l'adresse** : elle dépend du nom du compte GitHub et du nom du
+dépôt. Renommer l'un des deux, supprimer le dépôt ou le rendre privé (sans
+offre payante) casserait le lien inscrit dans l'application publiée.
+
+Les boutons « Politique de confidentialité » et « Contacter l'assistance »
+sont désormais affichés dans Paramètres.
+
 ## Constat initial (avant arbitrages)
 
 Décisions de l'éditeur, car elles touchent à l'application elle-même :

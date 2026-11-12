@@ -55,7 +55,15 @@ assert.equal(check.problems({ url: "http://roundr.example", email: "aide@example
 assert.equal(check.problems({ url: "https://roundr.example", email: "aide" }).length, 1);
 assert.equal(check.problems({}).length, 1, "missing constants are reported");
 const current = check.read();
-assert.ok(current.url !== undefined && current.email !== undefined, "the guard reads the real file");
+assert.deepEqual(check.problems(current), [], "publisher details are complete");
+assert.equal(current.email, "roundrsupport@gmail.com");
+assert.equal(current.url, "https://bledenovan01-bit.github.io/Roundr/confidentialite/");
+// The published page and the app must name the same contact.
+const page = source("../docs/publication/site/confidentialite/index.html");
+assert.match(page, /mailto:roundrsupport@gmail.com/);
+assert.doesNotMatch(page, /<script|googletagmanager|analytics/i, "the policy page itself tracks nothing");
+for (const file of ["index.html", "assistance/index.html", "confidentialite/index.html", "style.css", ".nojekyll"])
+  assert.ok(fs.existsSync(path.join(root, "../docs/publication/site", file)), file);
 const scripts = JSON.parse(source("package.json")).scripts;
 assert.equal(scripts["eas-build-pre-install"], "node scripts/check-publication.cjs");
 assert.match(source("scripts/check-publication.cjs"), /EAS_BUILD_PROFILE === "production"/);

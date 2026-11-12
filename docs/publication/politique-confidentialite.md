@@ -1,14 +1,18 @@
 # Politique de confidentialité de Roundr
 
-> **BROUILLON — ne pas publier en l'état.** À héberger sur une page publique
-> avant toute soumission, une fois les coordonnées de l'éditeur et l'hébergement
-> arrêtés. Les mentions
-> entre crochets sont à compléter par l'éditeur. Ce texte décrit le
-> fonctionnement réel de l'application ; il ne remplace pas un avis juridique.
+Publiée le 12 novembre 2026 à l'adresse
+<https://bledenovan01-bit.github.io/Roundr/confidentialite/>.
 
-Dernière mise à jour : [date de publication]
+La page en ligne est générée à partir de `site/confidentialite/index.html`, qui
+fait foi. Ce fichier en reprend le texte pour relecture. Toute modification se
+fait dans `site/`, puis se publie sur la branche `gh-pages`.
 
-Éditeur : [nom de l'éditeur] — Contact : [adresse e-mail d'assistance]
+**Reste à compléter : le nom légal de l'éditeur.** La page indique pour
+l'instant « entrepreneur individuel (EI) » avec l'adresse d'assistance. Le nom
+est à ajouter avant toute soumission aux stores. Ce texte décrit le
+fonctionnement réel de l'application ; il ne remplace pas un avis juridique.
+
+Éditeur : entrepreneur individuel (EI) — Contact : roundrsupport@gmail.com
 
 ## En bref
 
@@ -58,7 +62,9 @@ adresse e-mail et ton message ne servent qu'à te répondre.
 ## Lien vers cette politique
 
 Le lien « Politique de confidentialité » des Paramètres ouvre cette page dans
-ton navigateur, en dehors de Roundr.
+ton navigateur, en dehors de Roundr. Elle est hébergée par GitHub Pages ; comme
+tout site web, l'hébergeur peut enregistrer des informations techniques de
+connexion (adresse IP notamment) lors de la consultation.
 
 ## Supprimer tes données
 
@@ -79,4 +85,4 @@ mise à jour avant la publication de cette version.
 
 ## Contact
 
-[adresse e-mail d'assistance]
+roundrsupport@gmail.com

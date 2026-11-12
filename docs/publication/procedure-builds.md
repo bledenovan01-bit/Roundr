@@ -12,11 +12,12 @@ se lancent depuis `frontend/`, sur la branche `main` à jour.
    sont plus modifiables après la première publication.
 4. `eas.json` exige EAS CLI 25.2.0 ; `requireCommit` impose un dépôt sans
    modification en attente.
-5. Coordonnées de publication renseignées dans `frontend/src/publication.ts` :
-   `PRIVACY_POLICY_URL` (adresse https de la politique) et `SUPPORT_EMAIL`
-   (adresse d'assistance). Tant qu'elles sont vides, les deux liens ne
-   s'affichent pas dans Paramètres et **un build `production` s'arrête dès le
-   départ**, avant toute compilation. Les profils de test ne sont pas bloqués.
+5. Coordonnées de publication dans `frontend/src/publication.ts` : elles sont
+   renseignées (politique sur GitHub Pages, assistance à
+   roundrsupport@gmail.com). Si l'une était vidée, son lien disparaîtrait de
+   Paramètres et **un build `production` s'arrêterait dès le départ**. Les
+   profils de test ne sont pas bloqués.
+6. Nom légal de l'éditeur ajouté à la politique de confidentialité en ligne.
 
 Vérifier avant de lancer un build de production :
 

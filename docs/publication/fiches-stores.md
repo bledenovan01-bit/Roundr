@@ -111,8 +111,11 @@ Google Play : à confirmer dans la Play Console.
 ## Informations à fournir par l'éditeur
 
 - Nom légal affiché comme vendeur.
-- Adresse e-mail d'assistance.
-- URL de la politique de confidentialité et URL d'assistance.
+- Adresse e-mail d'assistance : **roundrsupport@gmail.com**.
+- URL de la politique de confidentialité :
+  <https://bledenovan01-bit.github.io/Roundr/confidentialite/>.
+- URL d'assistance : <https://bledenovan01-bit.github.io/Roundr/assistance/>.
+- URL marketing (facultative) : <https://bledenovan01-bit.github.io/Roundr/>.
 - Coordonnées pour la revue Apple (nom, téléphone, e-mail).
 - Statut de commerçant UE : s'il est déclaré, adresse, téléphone et e-mail sont
   affichés publiquement sur la fiche dans l'UE.
