@@ -61,6 +61,10 @@ assert.equal(current.url, "https://bledenovan01-bit.github.io/Roundr/confidentia
 // The published page and the app must name the same contact.
 const page = source("../docs/publication/site/confidentialite/index.html");
 assert.match(page, /mailto:roundrsupport@gmail.com/);
+assert.match(page, /Dénovan Blé EI/, "the publisher is named");
+assert.match(page, /CNIL/, "the complaint route is stated");
+assert.match(page, /GitHub, Inc./, "the host of the page is named");
+assert.doesNotMatch(page, /[[^]]*(compléter|éditeur|adresse)[^]]*]/i, "no placeholder left on the public page");
 assert.doesNotMatch(page, /<script|googletagmanager|analytics/i, "the policy page itself tracks nothing");
 for (const file of ["index.html", "assistance/index.html", "confidentialite/index.html", "style.css", ".nojekyll"])
   assert.ok(fs.existsSync(path.join(root, "../docs/publication/site", file)), file);

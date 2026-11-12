@@ -82,7 +82,7 @@ automatiquement.
 | Adresse d'assistance | roundrsupport@gmail.com |
 | Politique de confidentialité | <https://bledenovan01-bit.github.io/Roundr/confidentialite/> |
 | Page d'assistance | <https://bledenovan01-bit.github.io/Roundr/assistance/> |
-| Éditeur | Entrepreneur individuel (micro-entreprise). **Nom légal à ajouter** |
+| Éditeur | Dénovan Blé EI, entrepreneur individuel (micro-entreprise) |
 
 Les pages sont statiques, sans script ni outil de mesure. Leur source est dans
 `docs/publication/site/` ; elles sont servies par GitHub Pages depuis la branche
@@ -95,6 +95,34 @@ offre payante) casserait le lien inscrit dans l'application publiée.
 
 Les boutons « Politique de confidentialité » et « Contacter l'assistance »
 sont désormais affichés dans Paramètres.
+
+## Mentions légales
+
+La politique en ligne identifie l'éditeur (Dénovan Blé EI), donne un contact,
+décrit les droits des personnes et la voie de réclamation (CNIL), et nomme
+l'hébergeur de la page.
+
+Par choix de l'éditeur, seuls le nom et l'e-mail sont publiés. **Point à faire
+confirmer** : pour un site édité à titre professionnel, la loi française (LCEN,
+article 6) prévoit en principe aussi une adresse, un numéro de téléphone et le
+numéro d'immatriculation (SIREN). Ces mentions ne figurent pas sur les pages.
+Les stores, eux, n'exigent que l'adresse de la politique et un contact. À
+vérifier auprès d'un professionnel ou de la documentation officielle avant le
+lancement ; les ajouter ne demande qu'une mise à jour des pages.
+
+Affirmation à valider par l'éditeur : « ton message est conservé le temps de
+traiter ta demande » engage sur la gestion de la boîte d'assistance.
+
+## Visibilité du dépôt
+
+Le dépôt GitHub est **public**. Les pages en dépendent : sur un compte GitHub
+gratuit, GitHub Pages n'est disponible que pour les dépôts publics. Rendre le
+dépôt privé dépublierait donc les pages, et le lien « Politique de
+confidentialité » de l'application publiée ne mènerait plus nulle part. Avec une
+offre payante (GitHub Pro), les pages d'un dépôt privé restent en ligne et
+publiques. Autre solution : héberger les pages dans un petit dépôt public
+distinct, ce qui change leur adresse et doit donc être décidé avant la première
+publication de l'application.
 
 ## Constat initial (avant arbitrages)
 

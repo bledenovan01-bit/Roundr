@@ -7,12 +7,12 @@ La page en ligne est générée à partir de `site/confidentialite/index.html`, 
 fait foi. Ce fichier en reprend le texte pour relecture. Toute modification se
 fait dans `site/`, puis se publie sur la branche `gh-pages`.
 
-**Reste à compléter : le nom légal de l'éditeur.** La page indique pour
-l'instant « entrepreneur individuel (EI) » avec l'adresse d'assistance. Le nom
-est à ajouter avant toute soumission aux stores. Ce texte décrit le
-fonctionnement réel de l'application ; il ne remplace pas un avis juridique.
+Ce texte décrit le fonctionnement réel de l'application ; il ne remplace pas un
+avis juridique. Mentions volontairement limitées au nom et à l'e-mail (choix de
+l'éditeur) : voir « Mentions légales » dans `rapport.md`.
 
-Éditeur : entrepreneur individuel (EI) — Contact : roundrsupport@gmail.com
+Éditeur : Dénovan Blé EI, entrepreneur individuel, responsable de cette
+politique — Contact : roundrsupport@gmail.com
 
 ## En bref
 
@@ -83,6 +83,22 @@ l'utilise.
 Si une future version venait à traiter des données autrement, cette page serait
 mise à jour avant la publication de cette version.
 
+## Tes droits
+
+Roundr ne détient aucune donnée te concernant : tout ce que l'application
+enregistre reste sur ton téléphone, où tu peux le consulter, le modifier ou le
+supprimer toi-même.
+
+Si tu as écrit à l'assistance, ton message est conservé le temps de traiter ta
+demande. Tu peux demander à y accéder, à le faire rectifier ou à le faire
+supprimer en écrivant à roundrsupport@gmail.com. Tu peux aussi adresser une
+réclamation à la CNIL (www.cnil.fr).
+
+## Hébergement de cette page
+
+Cette page est hébergée par GitHub Pages, un service de GitHub, Inc., 88 Colin
+P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.
+
 ## Contact
 
-roundrsupport@gmail.com
+Dénovan Blé EI — roundrsupport@gmail.com

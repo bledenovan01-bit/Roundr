@@ -17,7 +17,8 @@ se lancent depuis `frontend/`, sur la branche `main` à jour.
    roundrsupport@gmail.com). Si l'une était vidée, son lien disparaîtrait de
    Paramètres et **un build `production` s'arrêterait dès le départ**. Les
    profils de test ne sont pas bloqués.
-6. Nom légal de l'éditeur ajouté à la politique de confidentialité en ligne.
+6. Nom légal de l'éditeur présent dans la politique en ligne (fait :
+   Dénovan Blé EI).
 
 Vérifier avant de lancer un build de production :
 

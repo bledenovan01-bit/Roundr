@@ -110,7 +110,8 @@ Google Play : à confirmer dans la Play Console.
 
 ## Informations à fournir par l'éditeur
 
-- Nom légal affiché comme vendeur.
+- Nom légal de l'éditeur : **Dénovan Blé EI**. Le nom affiché comme vendeur sur
+  les stores est celui du compte développeur : à faire correspondre.
 - Adresse e-mail d'assistance : **roundrsupport@gmail.com**.
 - URL de la politique de confidentialité :
   <https://bledenovan01-bit.github.io/Roundr/confidentialite/>.
