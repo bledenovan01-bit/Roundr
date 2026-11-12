@@ -72,6 +72,14 @@ assert.match(legal, /Dénovan Blé EI/);
 assert.match(legal, /Directeur de la publication/);
 assert.match(legal, /GitHub, Inc./);
 assert.doesNotMatch(legal, /<script/i);
+// Missing company details stay inside an HTML comment: nothing unfinished is shown.
+const commentStart = legal.indexOf("<!--"),
+  commentEnd = legal.indexOf("-->");
+assert.ok(commentStart > 0 && commentEnd > commentStart, "one hidden block holds the missing details");
+const hiddenLegal = legal.slice(commentStart, commentEnd);
+const visibleLegal = legal.slice(0, commentStart) + legal.slice(commentEnd + 3);
+assert.ok(!visibleLegal.includes("[") && !visibleLegal.includes("<!--"), "no placeholder is visible on the legal notice");
+assert.ok(hiddenLegal.includes("SIREN") && hiddenLegal.includes("Adresse"), "the slots for the company details are prepared");
 assert.ok(page.includes('href="../mentions-legales/"'), "the policy links to the legal notice");
 for (const file of ["index.html", "assistance/index.html", "confidentialite/index.html", "mentions-legales/index.html", "style.css", ".nojekyll"])
   assert.ok(fs.existsSync(path.join(root, "../docs/publication/site", file)), file);

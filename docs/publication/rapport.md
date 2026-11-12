@@ -85,14 +85,8 @@ automatiquement.
 | Mentions légales | <https://bledenovan01-bit.github.io/Roundr/mentions-legales/> |
 | Éditeur | Dénovan Blé EI, entrepreneur individuel (micro-entreprise) |
 
-Les pages sont statiques, sans script ni outil de mesure. Leur source est dans
-`docs/publication/site/` ; elles sont servies par GitHub Pages depuis la branche
-`gh-pages`, qui ne contient que ces fichiers. Mettre à jour une page : modifier
-`site/`, puis republier ces fichiers sur `gh-pages`.
-
-**Permanence de l'adresse** : elle dépend du nom du compte GitHub et du nom du
-dépôt. Renommer l'un des deux, supprimer le dépôt ou le rendre privé (sans
-offre payante) casserait le lien inscrit dans l'application publiée.
+Les pages sont statiques, sans script ni outil de mesure. Leur hébergement est
+décrit dans « Hébergement des pages publiques ».
 
 Les boutons « Politique de confidentialité » et « Contacter l'assistance »
 sont désormais affichés dans Paramètres.
@@ -123,16 +117,59 @@ le dernier échange. Cette durée d'un an est une proposition : elle engage sur 
 gestion de la boîte roundrsupport@gmail.com (suppression effective des anciens
 messages) et peut être modifiée.
 
-## Visibilité du dépôt
+## Hébergement des pages publiques (migré le 12 novembre 2026)
 
-Le dépôt GitHub est **public**. Les pages en dépendent : sur un compte GitHub
-gratuit, GitHub Pages n'est disponible que pour les dépôts publics. Rendre le
-dépôt privé dépublierait donc les pages, et le lien « Politique de
-confidentialité » de l'application publiée ne mènerait plus nulle part. Avec une
-offre payante (GitHub Pro), les pages d'un dépôt privé restent en ligne et
-publiques. Autre solution : héberger les pages dans un petit dépôt public
-distinct, ce qui change leur adresse et doit donc être décidé avant la première
-publication de l'application.
+Les pages sont servies par un dépôt public distinct,
+`bledenovan01-bit/bledenovan01-bit.github.io`, dans son dossier `Roundr/`. Les
+adresses sont inchangées (`https://bledenovan01-bit.github.io/Roundr/…`).
+
+Le dépôt de l'application ne sert plus aucune page : GitHub Pages y est
+désactivé. **Il peut donc devenir privé sans casser les liens** inscrits dans
+l'application et dans les fiches. Il est toujours public à ce jour.
+
+| Vérification après bascule | Résultat |
+| --- | --- |
+| Contenu des 4 pages et de la feuille de style | Identique octet pour octet à l'état précédent |
+| Liens internes (16) et externes (2) | Tous répondent |
+| HTTPS | Forcé, redirection depuis http |
+| Interruption observée pendant la bascule | Aucune |
+
+**Mettre à jour une page**
+
+1. Modifier le fichier dans `docs/publication/site/` (copie de référence, couverte par les tests).
+2. Recopier le contenu de `site/` dans le dossier `Roundr/` du dépôt des pages, puis pousser sur sa branche `main`.
+3. Vérifier la page en ligne.
+
+**À ne pas faire** : renommer le dossier `Roundr/` (la casse compte), renommer
+le dépôt des pages ou le compte GitHub, rendre le dépôt des pages privé.
+
+**Retour arrière** : l'ancienne publication est conservée dans la branche
+`pages-archive` du dépôt de l'application (état du 12 novembre, avant
+migration). Recréer une branche `gh-pages` à partir d'elle réactive l'ancien
+hébergement. Elle ne contient pas les modifications faites après la migration.
+
+**Remarque** : rendre le dépôt de l'application privé a un autre effet. La CI
+GitHub n'est gratuite sans limite que pour les dépôts publics ; en privé, elle
+consomme un quota de minutes, et la compilation iOS sur macOS en consomme
+beaucoup.
+
+## Application de la règle de conservation des messages d'assistance
+
+Règle publiée : suppression au plus tard un an après le dernier échange. Elle
+ne s'applique pas toute seule : la boîte roundrsupport@gmail.com ne supprime
+rien automatiquement.
+
+- Une fois par trimestre, rechercher dans Gmail `older_than:1y` et supprimer
+  les conversations d'assistance trouvées, puis vider la corbeille.
+- Ne pas recopier le contenu des messages ailleurs (tableur, notes), sauf sous
+  forme anonyme.
+- Répondre à une demande d'accès ou de suppression dans le mois.
+
+## Coordonnées légales à fournir
+
+La page Mentions légales contient un bloc prêt à compléter, masqué tant qu'il
+est incomplet : adresse, téléphone, SIREN, SIRET (facultatif) et mention de TVA
+applicable. À renseigner avant la soumission aux stores.
 
 ## Constat initial (avant arbitrages)
 

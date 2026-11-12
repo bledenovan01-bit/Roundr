@@ -2,7 +2,8 @@
 //
 // If a value is emptied its link is not shown, and a production EAS build
 // refuses to start (scripts/check-publication.cjs).
-// The policy page is published from docs/publication/site (gh-pages branch).
+// The policy page is published from docs/publication/site, in the separate
+// public repository bledenovan01-bit.github.io (folder Roundr/).
 
 /** Public page of the privacy policy (GitHub Pages). */
 export const PRIVACY_POLICY_URL = "https://bledenovan01-bit.github.io/Roundr/confidentialite/";

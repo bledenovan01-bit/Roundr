@@ -3,9 +3,10 @@
 Publiée le 12 novembre 2026 à l'adresse
 <https://bledenovan01-bit.github.io/Roundr/confidentialite/>.
 
-La page en ligne est générée à partir de `site/confidentialite/index.html`, qui
-fait foi. Ce fichier en reprend le texte pour relecture. Toute modification se
-fait dans `site/`, puis se publie sur la branche `gh-pages`.
+La page en ligne correspond à `site/confidentialite/index.html`, qui fait foi.
+Ce fichier en reprend le texte pour relecture. Toute modification se fait dans
+`site/`, puis se publie dans le dépôt public des pages (voir `rapport.md`,
+« Hébergement des pages publiques »).
 
 Ce texte décrit le fonctionnement réel de l'application ; il ne remplace pas un
 avis juridique. Mentions volontairement limitées au nom et à l'e-mail (choix de
