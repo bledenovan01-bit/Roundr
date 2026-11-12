@@ -66,7 +66,14 @@ assert.match(page, /CNIL/, "the complaint route is stated");
 assert.match(page, /GitHub, Inc./, "the host of the page is named");
 assert.doesNotMatch(page, /[[^]]*(compléter|éditeur|adresse)[^]]*]/i, "no placeholder left on the public page");
 assert.doesNotMatch(page, /<script|googletagmanager|analytics/i, "the policy page itself tracks nothing");
-for (const file of ["index.html", "assistance/index.html", "confidentialite/index.html", "style.css", ".nojekyll"])
+assert.match(page, /supprimés au plus tard un an après le dernier échange/, "support messages have a stated retention limit");
+const legal = source("../docs/publication/site/mentions-legales/index.html");
+assert.match(legal, /Dénovan Blé EI/);
+assert.match(legal, /Directeur de la publication/);
+assert.match(legal, /GitHub, Inc./);
+assert.doesNotMatch(legal, /<script/i);
+assert.ok(page.includes('href="../mentions-legales/"'), "the policy links to the legal notice");
+for (const file of ["index.html", "assistance/index.html", "confidentialite/index.html", "mentions-legales/index.html", "style.css", ".nojekyll"])
   assert.ok(fs.existsSync(path.join(root, "../docs/publication/site", file)), file);
 const scripts = JSON.parse(source("package.json")).scripts;
 assert.equal(scripts["eas-build-pre-install"], "node scripts/check-publication.cjs");

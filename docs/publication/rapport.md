@@ -82,6 +82,7 @@ automatiquement.
 | Adresse d'assistance | roundrsupport@gmail.com |
 | Politique de confidentialité | <https://bledenovan01-bit.github.io/Roundr/confidentialite/> |
 | Page d'assistance | <https://bledenovan01-bit.github.io/Roundr/assistance/> |
+| Mentions légales | <https://bledenovan01-bit.github.io/Roundr/mentions-legales/> |
 | Éditeur | Dénovan Blé EI, entrepreneur individuel (micro-entreprise) |
 
 Les pages sont statiques, sans script ni outil de mesure. Leur source est dans
@@ -110,8 +111,17 @@ Les stores, eux, n'exigent que l'adresse de la politique et un contact. À
 vérifier auprès d'un professionnel ou de la documentation officielle avant le
 lancement ; les ajouter ne demande qu'une mise à jour des pages.
 
-Affirmation à valider par l'éditeur : « ton message est conservé le temps de
-traiter ta demande » engage sur la gestion de la boîte d'assistance.
+Une page **Mentions légales** distincte de la politique est en ligne. Elle
+reprend les informations déjà publiées (éditeur, directeur de la publication,
+contact, hébergeur). **À compléter avant la soumission aux stores** avec les
+coordonnées légales de l'entreprise individuelle : adresse, téléphone et numéro
+d'immatriculation.
+
+**Conservation des messages d'assistance** : utilisés uniquement pour traiter la
+demande, conservés jusqu'à sa clôture, puis supprimés au plus tard un an après
+le dernier échange. Cette durée d'un an est une proposition : elle engage sur la
+gestion de la boîte roundrsupport@gmail.com (suppression effective des anciens
+messages) et peut être modifiée.
 
 ## Visibilité du dépôt
 

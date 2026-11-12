@@ -57,7 +57,10 @@ l'iPhone : le reste de l'application fonctionne normalement.
 Le bouton « Contacter l'assistance » ouvre ton application de messagerie avec
 un e-mail prérempli (destinataire et objet). Rien n'est envoyé sans toi, et
 Roundr n'y joint aucune information automatiquement. Si tu nous écris, ton
-adresse e-mail et ton message ne servent qu'à te répondre.
+adresse e-mail et ton message sont utilisés uniquement pour traiter ta demande.
+Ils sont conservés jusqu'à la clôture de ta demande, puis supprimés au plus tard
+un an après le dernier échange. Ils ne sont ni réutilisés à d'autres fins, ni
+transmis à des tiers.
 
 ## Lien vers cette politique
 
@@ -89,8 +92,8 @@ Roundr ne détient aucune donnée te concernant : tout ce que l'application
 enregistre reste sur ton téléphone, où tu peux le consulter, le modifier ou le
 supprimer toi-même.
 
-Si tu as écrit à l'assistance, ton message est conservé le temps de traiter ta
-demande. Tu peux demander à y accéder, à le faire rectifier ou à le faire
+Si tu as écrit à l'assistance, tes messages sont conservés dans les conditions
+décrites plus haut. Tu peux demander à y accéder, à le faire rectifier ou à le faire
 supprimer en écrivant à roundrsupport@gmail.com. Tu peux aussi adresser une
 réclamation à la CNIL (www.cnil.fr).
 

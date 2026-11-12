@@ -117,6 +117,7 @@ Google Play : à confirmer dans la Play Console.
   <https://bledenovan01-bit.github.io/Roundr/confidentialite/>.
 - URL d'assistance : <https://bledenovan01-bit.github.io/Roundr/assistance/>.
 - URL marketing (facultative) : <https://bledenovan01-bit.github.io/Roundr/>.
+- Mentions légales : <https://bledenovan01-bit.github.io/Roundr/mentions-legales/>.
 - Coordonnées pour la revue Apple (nom, téléphone, e-mail).
 - Statut de commerçant UE : s'il est déclaré, adresse, téléphone et e-mail sont
   affichés publiquement sur la fiche dans l'UE.
