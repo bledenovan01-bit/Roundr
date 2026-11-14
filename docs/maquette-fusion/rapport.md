@@ -84,10 +84,20 @@ différé sont inchangés.
 
 | Contrôle | Résultat |
 | --- | --- |
-| `npm run typecheck` | Voir la PR |
-| `npm test` (32 suites, dont `test-theme.ts`) | Voir la PR |
-| ESLint | Voir la PR |
-| Tests navigateur de la CI, rejoués en local | Voir la PR |
+| `npm run typecheck` | Aucune erreur |
+| `npm test` (32 suites, dont `test-theme.ts`) | Tout passe |
+| ESLint (`app`, `src`) | Aucune erreur |
+| `expo-doctor` | 20/20 |
+| Export des bundles web, Android et iOS | Réussi |
+| Tests navigateur de la CI, rejoués en local (5 suites) | Passent, avec une réserve ci-dessous |
+
+**Réserve sur deux suites navigateur.** Les scénarios qui cliquent les durées du
+compte à rebours (« 1 min », « 15 min »…) lisent l’état du bouton juste après le
+clic. Sur ce poste, cette lecture arrive parfois avant la mise à jour de
+l’écran et le scénario échoue, de façon intermittente. Le même défaut se
+reproduit à l’identique sur `main` : ce n’est pas une régression de cette
+branche. Avec un délai de 0,4 s après le clic, les deux suites passent en
+entier (21 et 16 scénarios). La CI de la PR, plus rapide, fera foi.
 
 `test-theme.ts` vérifie : deux palettes complètes, contraste des textes et des
 commandes dans chaque thème, thème sombre par défaut, choix enregistré et
