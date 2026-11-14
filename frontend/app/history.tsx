@@ -49,7 +49,7 @@ function HistorySheet({ sheet, onClose, onDeleted }: { sheet: Sheet; onClose: ()
     if (ok) { if (rename) onClose(); else onDeleted(); }
   };
   return <Modal transparent visible animationType="slide" onRequestClose={close} supportedOrientations={["portrait", "landscape"]}>
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, backgroundColor: "rgba(0,3,3,0.78)", justifyContent: landscape && !landscapeDelete ? "center" : "flex-end", alignItems: "center", paddingLeft: landscapeDelete ? inset.left : 0, paddingRight: landscapeDelete ? inset.right : 0 }}>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, backgroundColor: c.scrim, justifyContent: landscape && !landscapeDelete ? "center" : "flex-end", alignItems: "center", paddingLeft: landscapeDelete ? inset.left : 0, paddingRight: landscapeDelete ? inset.right : 0 }}>
       <Pressable accessibilityLabel="Fermer la fenêtre" accessibilityRole="button" disabled={busy} onPress={close} style={{ position: "absolute", inset: 0 }} />
       <View accessibilityViewIsModal accessibilityLabel={rename ? "Renommer la compétition" : "Supprimer la compétition"} style={{ width: "100%", maxWidth: landscape ? 520 : undefined, maxHeight: landscapeDelete ? Math.min(height * 0.96, height - inset.top) : landscape ? "96%" : "92%", backgroundColor: c.card, borderTopWidth: 1, borderColor: c.border, borderTopLeftRadius: 26, borderTopRightRadius: 26, overflow: "hidden" }}>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, paddingTop: landscape ? 14 : 20, paddingBottom: Math.max(18, inset.bottom), gap: landscape ? 8 : 14 }}>

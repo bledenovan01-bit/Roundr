@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Svg, { Circle, Path, Rect } from "react-native-svg";
 import { decorativeSvgAccessibility } from "@/src/components/svg-compat";
 import { useMusicCard } from "@/src/music/use-music-card";
-import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
+import { lovable as c, lovableFont as f, themed } from "@/src/visual/lovable";
 
 type Glyph = "previous" | "next" | "play" | "pause" | "note" | "music";
 
@@ -94,13 +94,13 @@ function RoundButton({
   );
 }
 
-const eyebrow = {
+const eyebrow = themed(() => ({
   fontFamily: f.extrabold,
   fontSize: 11,
   lineHeight: 110 / 7,
   letterSpacing: 1.32,
   color: c.muted,
-} as const;
+} as const));
 
 /**
  * The single music card, identical whatever source is behind it. Commands are

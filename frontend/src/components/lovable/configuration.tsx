@@ -4,7 +4,7 @@ import { useFormWindowDimensions } from "@/src/hooks/use-form-window-dimensions"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Circle, Line, Path } from "react-native-svg";
 import type { ClassicConfig, MaracanaConfig, Team } from "@/src/domain/types";
-import { lovable as c, lovableFont as f, withAlpha } from "@/src/visual/lovable";
+import { lovable as c, lovableFont as f, withAlpha, themed } from "@/src/visual/lovable";
 import { getPreferences } from "@/src/store/preferences";
 import { referenceTeamPalette } from "@/src/features/lovable-config-state";
 import { LovableBackground } from "./background";
@@ -136,7 +136,7 @@ export function ConfigTeams({ teams, onChange, reorder = false, compact = false 
   return <View style={{ gap: compact ? 4 : 8, borderTopWidth: 1, borderColor: c.border, paddingTop: 10 }}>{teams.map((t, i) => <View key={t.id} style={{ gap: 8 }}><View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}><Text style={{ width: 18, color: c.muted, fontFamily: f.extrabold, fontSize: 12, textAlign: "center" }}>{i + 1}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Changer la couleur de ${t.name || `l'équipe ${i + 1}`}`} accessibilityState={{ expanded: open === i }} onPress={() => setOpen(open === i ? null : i)} style={{ width: 40, height: compact ? 38 : 44, alignItems: "center", justifyContent: "center" }}><Jersey color={t.color} size={compact ? 26 : 32} /></Pressable><TextInput accessibilityLabel={`Nom de l'équipe ${i + 1}`} maxLength={18} onFocus={() => setFocused(i)} onBlur={() => setFocused(null)} value={t.name} placeholder={`Équipe ${i + 1}`} placeholderTextColor={c.muted} onChangeText={name => change(i, { name })} style={[s.input, { flex: 1, height: compact ? 38 : 44, fontSize: compact ? 14 : 15, outlineStyle: "solid", outlineWidth: focused === i ? 2 : 0, outlineOffset: -1, outlineColor: c.primary, borderColor: !t.name.trim() || teams.some((other, j) => j !== i && other.name.trim().toLowerCase() === t.name.trim().toLowerCase()) ? c.error : c.border }]} />{reorder ? <View style={{flexDirection:"row",gap:4}}>{[-1,1].map(delta=><Pressable key={delta} accessibilityRole="button" accessibilityLabel={(delta<0?"Monter ":"Descendre ")+t.name} disabled={i+delta<0||i+delta>=teams.length} accessibilityState={{disabled:i+delta<0||i+delta>=teams.length}} hitSlop={5} onPress={()=>{const next=[...teams],j=i+delta;[next[i],next[j]]=[next[j],next[i]];onChange(next);}} style={{width:34,height:34,borderRadius:10,borderWidth:1,borderColor:c.border,backgroundColor:c.cardRaised,alignItems:"center",justifyContent:"center",opacity:i+delta<0||i+delta>=teams.length?.3:1}}><Svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke={c.foreground} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><Path d={delta<0?"m5 12 7-7 7 7M12 19V5":"M12 5v14m7-7-7 7-7-7"} /></Svg></Pressable>)}</View> : null}</View>{open === i ? <View onLayout={event => setPaletteWidth(event.nativeEvent.layout.width)} accessibilityRole="radiogroup" accessibilityLabel={`Couleur de ${t.name}`} style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, padding: 8, backgroundColor: c.secondary, borderRadius: 12 }}>{allColors.map((color, j) => <Pressable key={color} accessibilityRole="radio" accessibilityLabel={colorNames[j]} accessibilityState={{ checked: t.color === color }} onPress={() => { change(i, { color }); setOpen(null); }} style={{ width: swatchWidth, height: 30, alignItems: "center", justifyContent: "center" }} hitSlop={{top:7,bottom:7,left:4,right:4}}><View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: color, boxShadow: t.color === color ? [{offsetX:0,offsetY:0,blurRadius:0,spreadDistance:2,color:c.background},{offsetX:0,offsetY:0,blurRadius:0,spreadDistance:4,color}] : undefined, borderWidth: 2, borderColor: withAlpha(c.foreground, .18), alignItems: "center", justifyContent: "center" }}>{t.color === color ? <LovableIcon name="check" color={[11,17,18,19,24,26,27].includes(j) ? "#f5f5f5" : c.background} size={13} /> : null}</View></Pressable>)}</View> : null}</View>)}{duplicate ? <TeamError>Deux équipes ne peuvent pas porter le même nom.</TeamError> : null}{empty ? <TeamError>Chaque équipe doit avoir un nom.</TeamError> : null}</View>;
 }
 
-const s = StyleSheet.create({
+const s = themed(() => (StyleSheet.create({
   screen: { flex: 1, backgroundColor: c.background },
   header: { flexDirection: "row", gap: 8, alignItems: "center" },
   back: { width: 44, height: 44, borderRadius: 14, borderWidth: 1, borderColor: c.border, backgroundColor: c.cardRaised, alignItems: "center", justifyContent: "center" },
@@ -168,6 +168,6 @@ const s = StyleSheet.create({
   actionText: { ...rectText, fontSize: 16, lineHeight: 24, textAlign: "center", flexShrink: 1 },
   error: { color: c.error, fontFamily: bold, fontSize: 12, lineHeight: 18 },
   pressed: { transform: [{ scale: .97 }] },
-});
+})));
 
 export { s as configStyles };

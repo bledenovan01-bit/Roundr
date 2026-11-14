@@ -60,7 +60,7 @@ export function PhaseInput(props:TextInputProps) {
 export function CompositionSheet({title,description,onClose,children,success=false}:{title:string;description:string;onClose:()=>void;children:ReactNode;success?:boolean}) {
   const {height,width}=useWindowDimensions(),inset=useSafeAreaInsets(),landscape=width>height;
   return <Modal transparent visible animationType="fade" onRequestClose={onClose} accessibilityViewIsModal>
-    <View style={{flex:1,backgroundColor:"rgba(0,3,3,.78)",justifyContent:"flex-end",alignItems:"center",paddingLeft:landscape?inset.left:0,paddingRight:landscape?inset.right:0,paddingTop:inset.top}}>
+    <View style={{flex:1,backgroundColor:c.scrim,justifyContent:"flex-end",alignItems:"center",paddingLeft:landscape?inset.left:0,paddingRight:landscape?inset.right:0,paddingTop:inset.top}}>
       <ScrollView testID="composition-sheet" role="dialog" accessibilityLabel={title} style={{maxHeight:(height-inset.top)*(landscape?.96:.92),width:"100%",maxWidth:landscape?520:undefined,flexGrow:0,backgroundColor:c.card,borderTopLeftRadius:26,borderTopRightRadius:26,borderTopWidth:1,borderColor:c.border}} contentContainerStyle={{paddingTop:landscape?14:20,paddingHorizontal:20,paddingBottom:Math.max(18,inset.bottom),gap:landscape?8:14}}>
         {success?<View style={{width:46,height:46,borderRadius:14,borderWidth:1,borderColor:withAlpha(c.classic,.35),alignSelf:"center",alignItems:"center",justifyContent:"center",backgroundColor:withAlpha(c.classic,.16)}}><LovableIcon name="users" color={c.classic} size={22}/></View>:null}
         <Text accessibilityRole="header" style={{fontFamily:f.extrabold,fontSize:18,lineHeight:27,color:c.foreground,textAlign:"center"}}>{title}</Text>

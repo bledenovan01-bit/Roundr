@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } fr
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LovableIcon, type LovableIconName } from "./icon";
 import { LovableBackground } from "./background";
-import { lovable as c, lovableFont as f } from "@/src/visual/lovable";
+import { lovable as c, lovableFont as f, themed } from "@/src/visual/lovable";
 
 // Opt-in frozen Screen/CTA geometry. Other native screens keep their components.
 export function HistoryScreenFrame({ title, subtitle, accent, onBack, children, footer, right, hideBack=false, wideFooter=false }: { title: string; subtitle: string; accent?: string; onBack: () => void; children: ReactNode; footer?: ReactNode; right?:ReactNode;hideBack?:boolean;wideFooter?:boolean }) {
@@ -23,12 +23,12 @@ export function HistoryScreenFrame({ title, subtitle, accent, onBack, children, 
   </View>;
 }
 export function HistoryAction({ label, icon, onPress, variant = "primary", disabled, testID, fitContent = false }: { label: string; icon?: LovableIconName; onPress: () => void; variant?: "primary" | "secondary" | "ghost" | "danger"; disabled?: boolean; testID?: string; fitContent?: boolean }) {
-  const color = variant === "primary" ? c.onPrimary : variant === "danger" ? c.foreground : variant === "ghost" ? c.muted : c.foreground;
+  const color = variant === "primary" ? c.onPrimary : variant === "danger" ? c.onError : variant === "ghost" ? c.muted : c.foreground;
   return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => [h.action, { width: fitContent ? undefined : "100%", minHeight: variant === "ghost" ? 44 : variant === "secondary" ? 50 : 56, backgroundColor: variant === "primary" ? c.primary : variant === "danger" ? c.error : variant === "secondary" ? c.cardRaised : "transparent", opacity: disabled ? 0.55 : 1, borderWidth: variant === "secondary" ? 1 : 0, borderColor: c.border }, pressed && { transform: [{ scale: 0.97 }] }]}>
     {icon ? <LovableIcon name={icon} color={color} /> : null}<Text style={{ fontFamily: variant === "primary" || variant === "danger" ? f.extrabold : "ManropeRefined-Bold", fontSize: variant === "primary" || variant === "danger" ? 16 : 14, lineHeight: 20, color, textAlign: "center", flexShrink: 1 }}>{label}</Text>
   </Pressable>;
 }
-export const h = StyleSheet.create({
+export const h = themed(() => (StyleSheet.create({
   header: { flexDirection: "row", alignItems: "center", gap: 8 },
   back: { width: 44, minHeight: 44, borderRadius: 14, backgroundColor: c.cardRaised, borderWidth: 1, borderColor: c.border, alignItems: "center", justifyContent: "center" },
   title: { fontFamily: f.extrabold, fontSize: 20, lineHeight: 30, textAlign: "center", color: c.foreground, includeFontPadding: false },
@@ -41,4 +41,4 @@ export const h = StyleSheet.create({
   text: { fontFamily: f.semibold, fontSize: 14, lineHeight: 21, color: c.foreground, includeFontPadding: false },
   action: { width: "100%", borderRadius: 16, paddingHorizontal: 16, paddingVertical: 8, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 8 },
   row: { flexDirection: "row", gap: 10, alignItems: "center" },
-});
+})));

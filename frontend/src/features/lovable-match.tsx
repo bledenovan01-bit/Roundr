@@ -897,7 +897,7 @@ function Rotation({ session }: { session: Session }) {
                   <MatchIcon
                     name={kind === "out" ? "out" : "in"}
                     size={12}
-                    color={kind === "out" ? c.error : "#20c8d5"}
+                    color={kind === "out" ? c.error : c.incoming}
                   />
                 )}
                 <Text
@@ -912,7 +912,7 @@ function Rotation({ session }: { session: Session }) {
                         ? c.primary
                         : kind === "out"
                           ? c.error
-                          : "#20c8d5",
+                          : c.incoming,
                     flexShrink: 0,
                   }}
                 >

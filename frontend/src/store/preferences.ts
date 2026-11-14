@@ -3,18 +3,22 @@ import { useSyncExternalStore } from "react";
 import type { Team } from "@/src/domain/types";
 import type { SoundKey } from "@/src/audio/sounds";
 import { copyComposition, validComposition, type TeamComposition } from "@/src/domain/team-maker";
+import { applyTheme, isThemeName, type ThemeName } from "@/src/visual/lovable";
 export type EventSound = SoundKey | "off";
 export type Preferences = {
   sounds:boolean; vibrations:boolean; preparation:boolean; additional:boolean; keepAwake:boolean;
   volume:number; startSound:EventSound; endSound:EventSound; goalSound:EventSound;
   minuteSound:EventSound; periodSound:EventSound; warmupSound:EventSound;
   teams:Team[]; players:string[]; groups:string[][]; error:string|null; compositionSavedAt?:number;
+  /** Appearance. Dark is the default; an unknown saved value falls back to it. */
+  theme:ThemeName;
 };
 let state:Preferences={sounds:true,vibrations:true,preparation:true,additional:true,keepAwake:false,
   volume:0.8,startSound:"whistle",endSound:"final",goalSound:"alert",minuteSound:"gong",periodSound:"gong",warmupSound:"prep",
-  teams:[],players:[],groups:[],error:null};
+  teams:[],players:[],groups:[],error:null,theme:"dark"};
 const listeners=new Set<()=>void>();
-const emit=()=>listeners.forEach(fn=>fn());
+// The colours follow the preference before any screen is told about the change.
+const emit=()=>{applyTheme(state.theme);listeners.forEach(fn=>fn());};
 const sounds = new Set(["off","alert","whistle","final","prep","gong"]);
 const team = (t:any):t is Team => !!t && typeof t.id==="string" && typeof t.name==="string" && typeof t.color==="string";
 let pending=Promise.resolve(), writes=0, loaded=false, readable=false, reading:Promise<void>|null=null;
@@ -45,6 +49,7 @@ export function loadPreferences():Promise<void>{
         if(sounds.has(value[key])) clean[key]=value[key];
       }
       if(Number.isFinite(value.volume)) clean.volume=Math.min(1,Math.max(0,value.volume));
+      if(isThemeName(value.theme)) clean.theme=value.theme;
       if(Array.isArray(value.teams)&&value.teams.every(team)&&new Set(value.teams.map((t:Team)=>t.id)).size===value.teams.length) clean.teams=value.teams;
       if(Array.isArray(value.players)&&value.players.every((x:any)=>typeof x==="string")) clean.players=[...new Set<string>(value.players)];
       if(Array.isArray(value.groups)&&value.groups.every((g:any)=>Array.isArray(g)&&g.every((x:any)=>typeof x==="string"))) clean.groups=value.groups;

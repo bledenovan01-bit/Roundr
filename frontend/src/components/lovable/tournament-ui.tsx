@@ -538,11 +538,11 @@ export function TournamentDanger({
         opacity: disabled ? 0.35 : 1,
       }}
     >
-      <MatchIcon name="flag" size={18} color={c.foreground} />
+      <MatchIcon name="flag" size={18} color={c.onError} />
       <Text
         style={[
           h.text,
-          { fontFamily: f.extrabold, fontSize: 16, color: c.foreground },
+          { fontFamily: f.extrabold, fontSize: 16, color: c.onError },
         ]}
       >
         Interrompre définitivement

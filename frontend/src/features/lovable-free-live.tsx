@@ -65,8 +65,7 @@ import {
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha,
-} from "@/src/visual/lovable";
+  withAlpha, themed } from "@/src/visual/lovable";
 import { freeDuration } from "@/src/domain/free-configuration";
 
 function ScoreControl({
@@ -1085,7 +1084,7 @@ export function LovableFreeLive() {
               >
                 <MatchIcon
                   name={sheet.kind === "restart" ? "restart" : "close"}
-                  color={c.foreground}
+                  color={c.onError}
                   size={18}
                 />
                 <Text
@@ -1093,7 +1092,7 @@ export function LovableFreeLive() {
                     fontFamily: f.extrabold,
                     fontSize: 16,
                     lineHeight: 24,
-                    color: c.foreground,
+                    color: c.onError,
                   }}
                 >
                   {sheet.kind === "restart"
@@ -1131,7 +1130,7 @@ export function LovableFreeLive() {
     </View>
   );
 }
-const s = StyleSheet.create({
+const s = themed(() => (StyleSheet.create({
   carousel: {
     backgroundColor: c.card,
     borderWidth: 1,
@@ -1217,4 +1216,4 @@ const s = StyleSheet.create({
     color: c.muted,
     textAlign: "center",
   },
-});
+})));

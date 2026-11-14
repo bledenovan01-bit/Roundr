@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Pressable, StyleSheet, Text, View, type LayoutChangeEvent, type StyleProp, type ViewStyle } from "react-native";
 import * as Haptics from "@/src/haptics";
-import { lovable, lovableFont, withAlpha } from "@/src/visual/lovable";
+import { lovable, lovableFont, withAlpha, themed } from "@/src/visual/lovable";
 import { LovableIcon, type LovableIconName } from "./lovable/icon";
 
 type Props = {
@@ -34,13 +34,13 @@ export function ModeCard({ title, description, icon, accent, onPress, testID, qu
   </Pressable>;
 }
 
-export const homeCopyStyles = StyleSheet.create({
+export const homeCopyStyles = themed(() => (StyleSheet.create({
   detail: { fontFamily: lovableFont.semibold, fontSize: 12, lineHeight: 120 / 7, color: lovable.muted, includeFontPadding: false },
   state: { color: lovable.amber },
   action: { fontFamily: lovableFont.extrabold, color: lovable.primary, marginTop: 5 },
-});
+})));
 
-const styles = StyleSheet.create({
+const styles = themed(() => (StyleSheet.create({
   card: { minHeight: 76, flexDirection: "row", alignItems: "center", gap: 14, padding: 14, borderRadius: 18, backgroundColor: lovable.card, borderColor: lovable.border, borderWidth: 1 },
   quiet: { backgroundColor: "transparent" },
   resume: { backgroundColor: lovable.resume, borderColor: withAlpha(lovable.primary, 0.45) },
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   copy: { flex: 1, minWidth: 0, gap: 3 },
   title: { fontFamily: lovableFont.extrabold, fontSize: 15, lineHeight: 150 / 7, color: lovable.foreground, includeFontPadding: false },
   description: homeCopyStyles.detail,
-});
+})));

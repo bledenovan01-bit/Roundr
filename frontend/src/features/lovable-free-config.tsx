@@ -43,8 +43,7 @@ import {
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha,
-} from "@/src/visual/lovable";
+  withAlpha, themed } from "@/src/visual/lovable";
 import { FreeStorageNotice } from "@/src/components/free-storage-notice";
 import {
   buildSteps,
@@ -188,12 +187,12 @@ function Action({
     </Pressable>
   );
 }
-const hint = {
+const hint = themed(() => ({
   fontFamily: f.regular,
   fontSize: 12,
   lineHeight: 18,
   color: c.muted,
-} as const;
+} as const));
 function Seconds({
   value,
   min,

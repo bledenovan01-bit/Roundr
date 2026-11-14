@@ -287,6 +287,22 @@ export default function LovableSettings() {
         );
     }
     cards.push(
+      <ConfigCard key="appearance" title="Apparence" hint="Thème de l'app">
+        <View testID="settings-theme" accessibilityRole="radiogroup" accessibilityLabel="Thème de l'app">
+          <Options
+            value={p.theme}
+            options={[
+              { value: "dark", label: "Sombre" },
+              { value: "light", label: "Clair" },
+            ]}
+            onChange={(theme) => {
+              void setPreferences({ theme });
+            }}
+          />
+        </View>
+      </ConfigCard>,
+    );
+    cards.push(
       <ToggleCard
         key="sounds"
         title="Sons et effets"

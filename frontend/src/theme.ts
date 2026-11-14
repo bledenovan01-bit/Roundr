@@ -5,8 +5,9 @@
 // `useTheme()` or `makeStyles((colors) => ...)`. Never write hex literals in
 // components; add new tokens here if a color is missing.
 
-import { useMemo } from "react";
-import { Appearance, StyleSheet, useColorScheme } from "react-native";
+import { useMemo, useSyncExternalStore } from "react";
+import { Appearance, StyleSheet } from "react-native";
+import { subscribeTheme, themeName } from "@/src/visual/lovable";
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
 export type ColorScheme = "light" | "dark";
@@ -66,9 +67,47 @@ const dark = {
 
 export type ThemeColors = typeof dark;
 
+// Light counterpart for the screens still built on these tokens (shared team
+// editor, summaries, error screen). Same roles as src/visual/lovable.ts.
+const light: ThemeColors = {
+  surface: "#f3f6f1",
+  onSurface: "#0c1b18",
+  surfaceSecondary: "#ffffff",
+  onSurfaceSecondary: "#0c1b18",
+  surfaceTertiary: "#eef2ec",
+  onSurfaceTertiary: "#3f4d48",
+  surfaceInverse: "#0c1b18",
+  onSurfaceInverse: "#ffffff",
+  muted: "#55655f",
+  brand: "#17694a",
+  onBrand: "#ffffff",
+  brandPrimary: "#17694a",
+  onBrandPrimary: "#ffffff",
+  brandSecondary: "#1f8a4c",
+  onBrandSecondary: "#ffffff",
+  brandTertiary: "#e3f2e7",
+  onBrandTertiary: "#17694a",
+  modeClassique: "#17794a",
+  modeMaracana: "#1f5fd6",
+  modeCup: "#6a3fd0",
+  modeSurvie: "#b85a06",
+  modeCustom: "#56637a",
+  success: "#0f8a5f",
+  onSuccess: "#FFFFFF",
+  warning: "#9a5600",
+  onWarning: "#FFFFFF",
+  error: "#c62828",
+  onError: "#FFFFFF",
+  info: "#1f5fd6",
+  onInfo: "#FFFFFF",
+  border: "#d6ded5",
+  borderStrong: "#c4cec3",
+  divider: "#d6ded5",
+};
+
 export const defaultScheme = "dark" satisfies ColorScheme;
 
-export const themes: { light?: ThemeColors; dark: ThemeColors } = { dark };
+export const themes: { light: ThemeColors; dark: ThemeColors } = { dark, light };
 
 // Design tokens shared across screens.
 export const spacing = {
@@ -121,11 +160,10 @@ export function setColorScheme(scheme: ColorScheme) {
 // Force dark scheme app-wide for consistency with the pitch-side utility brief.
 setColorScheme?.("dark");
 
+// The appearance is the user's choice in Settings, not the phone's setting.
 export function useTheme(): { scheme: ColorScheme; colors: ThemeColors } {
-  const system = useColorScheme();
-  const scheme: ColorScheme =
-    system === "light" && themes.light ? "light" : "dark";
-  return { scheme, colors: themes[scheme] ?? themes.dark };
+  const scheme = useSyncExternalStore(subscribeTheme, themeName, themeName);
+  return { scheme, colors: themes[scheme] };
 }
 
 type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };

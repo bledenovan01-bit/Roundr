@@ -22,8 +22,7 @@ import { LovableIcon } from "./icon";
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha,
-} from "@/src/visual/lovable";
+  withAlpha, themed } from "@/src/visual/lovable";
 import {
   matchPages,
   pageNames,
@@ -838,7 +837,7 @@ export function MatchSheet({
       <View
         style={{
           flex: 1,
-          backgroundColor: "rgba(0,3,3,.78)",
+          backgroundColor: c.scrim,
           justifyContent: "flex-end",
           alignItems: "center",
           paddingLeft: inset.left,
@@ -878,7 +877,7 @@ export function MatchSheet({
     </Modal>
   );
 }
-export const m = StyleSheet.create({
+export const m = themed(() => (StyleSheet.create({
   root: { flex: 1, backgroundColor: c.background },
   header: {
     flexDirection: "row",
@@ -1052,4 +1051,4 @@ export const m = StyleSheet.create({
     lineHeight: 19.5,
     color: c.error,
   },
-});
+})));

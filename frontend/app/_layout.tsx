@@ -5,9 +5,10 @@ import { StatusBar } from "expo-status-bar";
 import { LogBox, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState, type ReactNode } from "react";
 
-import { loadPreferences } from "@/src/store/preferences";
+import { loadPreferences, usePreferences } from "@/src/store/preferences";
+import { lovable } from "@/src/visual/lovable";
 import { SessionRuntime } from "@/src/components/session-runtime";
 import { FreeTimerRuntime } from "@/src/components/free-timer-runtime";
 import { loadStore } from "@/src/store/session-store";
@@ -20,7 +21,15 @@ LogBox.ignoreAllLogs(true);
 // Keep the splash while fonts load so the giant chrono type never flashes system.
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
+// Each screen is rebuilt when the appearance changes, so every colour follows.
+// The navigation stack, the session and the timers live outside and are kept.
+function ThemeBoundary({ children }: { children: ReactNode }) {
+  const theme = usePreferences().theme;
+  return <Fragment key={theme}>{children}</Fragment>;
+}
+
 export default function RootLayout() {
+  const theme = usePreferences().theme;
   const [fontsLoaded, fontError] = useFonts({
     "BarlowCondensed-Bold": require("../assets/fonts/BarlowCondensed-Bold.ttf"),
     "Manrope-Medium": require("../assets/fonts/Manrope-Medium.ttf"),
@@ -45,21 +54,22 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError, storeReady]);
 
   if ((!fontsLoaded && !fontError) || !storeReady) {
-    // Return an empty black view while splash is still up.
-    return <View style={{ flex: 1, backgroundColor: "#010a0b" }} />;
+    // Return an empty view while splash is still up.
+    return <View style={{ flex: 1, backgroundColor: lovable.background }} />;
   }
 
   return (
     <ErrorBoundary>
-      <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#010a0b" }}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: lovable.background }}>
         <SafeAreaProvider>
           <SessionRuntime />
           <FreeTimerRuntime />
-          <StatusBar style="light" />
+          <StatusBar style={theme === "light" ? "dark" : "light"} />
           <Stack
+            screenLayout={({ children }) => <ThemeBoundary>{children}</ThemeBoundary>}
             screenOptions={{
               headerShown: false,
-              contentStyle: { backgroundColor: "#010a0b" },
+              contentStyle: { backgroundColor: lovable.background },
               animation: "slide_from_right",
             }}
           >
