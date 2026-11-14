@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { decorativeSvgAccessibility } from "@/src/components/svg-compat";
 import Svg, { Path } from "react-native-svg";
 import {
@@ -155,6 +156,7 @@ function ScoreControl({
   );
 }
 export function LovableFreeLive() {
+  useAppearance();
   const router = useRouter(),
     navigation = useNavigation(),
     inset = useSafeAreaInsets(),

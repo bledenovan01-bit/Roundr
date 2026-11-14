@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { DesignScreen, DesignRow, DesignSection } from "@/src/components/design-screen";
@@ -8,6 +9,7 @@ import { fontFamily, useTheme } from "@/src/theme";
 import type { Match, Session } from "@/src/domain/types";
 import { LovableTournamentFlow } from "@/src/features/lovable-tournament";
 export default function Standings(){
+  useAppearance();
  const active=useStore(s=>s.session);
  return active?.mode==="cup"||active?.mode==="survie"?<LovableTournamentFlow key={active.id} initialHub/>:<LegacyStandings/>;
 }

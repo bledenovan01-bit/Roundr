@@ -35,7 +35,7 @@ import { PitchPhoto } from "@/src/components/lovable/pitch-photo";
 import { sessionShareText } from "./share-summary";
 import { shareText } from "./share";
 import { LovableIcon } from "@/src/components/lovable/icon";
-import { Jersey, configStyles } from "@/src/components/lovable/configuration";
+import { configStyles } from "@/src/components/lovable/configuration";
 import { PhaseFrame } from "@/src/components/lovable/phase2b-ui";
 import { GiantChrono } from "@/src/components/giant-chrono";
 import { MatchAnnouncer, MatchAnnouncementSpace } from "@/src/components/lovable/match-announcer";
@@ -98,6 +98,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     [adding, setAdding] = useState(false),
     [teamName, setTeamName] = useState("");
   const lockHeld = useRef(false);
+  const leaving = useRef(false);
   const [selectedPage, setSelectedPage] = useState(0);
   // Portrait only: the clock card takes the height the screen leaves unused.
   const [clockFill, setClockFill] = useState<number | undefined>(undefined);
@@ -124,7 +125,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     return () => sub.remove();
   }, [locked, giant]);
   useEffect(() => {
-    if (!session) router.replace("/");
+    if (!session && !leaving.current) router.replace("/");
   }, [session, router]);
   if (displayMatch !== matchKey) {
     setDisplayMatch(matchKey);
@@ -141,9 +142,12 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
   const home = () => {
     if (!locked) router.replace("/");
   };
-  const archiveAndHome = () => {
+  const archiveAndHome = (summary = false) => {
     archiveSession(S.endSession(session, Date.now()));
-    if (!getStoreState().session) router.replace("/");
+    if (!getStoreState().session) {
+      leaving.current = true;
+      router.replace(summary ? "/summary" : "/");
+    }
   };
   const replay = () => {
     const go = () => {
@@ -201,7 +205,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
       <ClassicMatchResult
         session={session}
         error={saveError}
-        onHome={archiveAndHome}
+        onHome={() => archiveAndHome()}
         onReplay={replay}
         onCorrect={correct}
         correcting={correcting}
@@ -624,30 +628,25 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
               onPress={() => setLocked(false)}
             />
           ) : null}
-          <NextLaunch session={session} locked={locked} />
-          <Text style={m.eyebrow}>MATCH {match?.order} TERMINÉ</Text>
-          <MatchScoreboard
-            testIdSuffix="-result"
-            compact
-            teams={teams}
-            score={l.score}
-            scoreOn={l.scoreOn}
-            canScore={false}
-            locked={locked}
-            onGoal={changeScore}
-            onCorrect={correct}
-          />
+          <View testID="rotation-result" style={{ borderRadius: 18, borderWidth: 1, borderColor: c.border, backgroundColor: c.secondary, padding: 18, gap: 8, alignItems: "center" }}>
+          <Text style={m.eyebrow}>RÉSULTAT DU MATCH {match?.order}</Text>
+          <Pressable accessibilityRole="button" accessibilityLabel={`Score ${l.score[0]} à ${l.score[1]} ; corriger le score`} disabled={locked} onPress={correct} style={{ minHeight: 60, paddingHorizontal: 16 }}>
+            <Text testID="match-score-result" style={[m.big, { fontSize: 52, lineHeight: 64 }]}>{l.score.join(" – ")}</Text>
+          </Pressable>
           <Text style={m.resultLine}>
             {l.score[0] === l.score[1]
               ? "Match nul"
-              : "Victoire de " + teams[l.score[0] > l.score[1] ? 0 : 1]?.name}
+              : "Victoire : " + teams[l.score[0] > l.score[1] ? 0 : 1]?.name}
             {match?.finishReason === "extension"
               ? " · but décisif en prolongation"
               : match?.finishReason === "goalTarget"
                 ? " · premier à " + l.end.goalTarget
                 : ""}
           </Text>
+          <Text style={[m.muted, { textAlign: "center" }]}>{teams[0]?.name} · {teams[1]?.name}</Text>
+          </View>
           <Rotation session={session} />
+          <NextLaunch session={session} locked={locked} />
           <View style={{ gap: 8 }}>
             {!session.pendingLaunch || session.pendingLaunch.cancelled ? (
               <MatchAction
@@ -660,6 +659,9 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
                   dispatchSession(S.launchNext);
                 }}
               />
+            ) : null}
+            {!session.pendingLaunch || session.pendingLaunch.cancelled ? (
+              <Text style={[m.muted, { textAlign: "center", fontSize: 12, lineHeight: 18 }]}>Le match sera prêt. Appuie sur lecture au coup d’envoi.</Text>
             ) : null}
             <MatchAction
               label="Voir le classement"
@@ -692,7 +694,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
                   "Les résultats joués sont conservés.",
                   [
                     { text: "Annuler", style: "cancel" },
-                    { text: "Terminer", onPress: archiveAndHome },
+                    { text: "Terminer", onPress: () => archiveAndHome(true) },
                   ],
                 )
               }
@@ -858,6 +860,7 @@ function Rotation({ session }: { session: Session }) {
   return (
     <View
       accessibilityLabel="Rotation pour le prochain match"
+      testID="rotation-teams"
       style={{ gap: 8 }}
     >
       <View
@@ -867,6 +870,7 @@ function Rotation({ session }: { session: Session }) {
         {cards.map(({ team, kind, note }) => (
           <View
             key={team.id}
+            testID={`rotation-${kind}-${team.id}`}
             style={{
               width:
                 cols === 1
@@ -878,21 +882,19 @@ function Rotation({ session }: { session: Session }) {
                       ? "49%"
                       : "32%",
               minWidth: 0,
-              padding: kind === "stay" ? 12 : 8,
+              padding: 10,
               paddingHorizontal: 12,
               borderRadius: 14,
               borderWidth: 1,
-              borderColor: kind === "stay" ? c.primary : c.border,
-              backgroundColor:
-                kind === "stay" ? withAlpha(c.primary, 0.14) : c.secondary,
-              opacity: kind === "out" ? 0.85 : 1,
+              borderColor: c.border,
+              backgroundColor: c.card,
               zIndex: cols > 1 && kind === "stay" ? 1 : undefined,
               flexDirection: "row",
               alignItems: "center",
               gap: 10,
             }}
           >
-            <Jersey color={team.color} size={kind === "stay" ? 34 : 28} />
+            <View style={{ height: 10, width: 10, borderRadius: 5, backgroundColor: team.color, borderWidth: 1, borderColor: withAlpha(c.foreground, 0.2) }} />
             <View style={{ flex: 1, minWidth: 0, gap: 1 }}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
@@ -910,16 +912,11 @@ function Rotation({ session }: { session: Session }) {
                   numberOfLines={cols === 1 ? 1 : undefined}
                   style={{
                     fontFamily: f.extrabold,
-                    fontSize: cols === 1 ? 10 : 9,
-                    lineHeight: cols === 1 ? 15 : 13.5,
-                    letterSpacing: cols === 1 ? 0.6 : 0.54,
-                    color:
-                      kind === "stay"
-                        ? c.primary
-                        : kind === "out"
-                          ? c.error
-                          : c.incoming,
-                    flexShrink: 0,
+                    fontSize: 10,
+                    lineHeight: 15,
+                    letterSpacing: 0.2,
+                    color: c.muted,
+                    flexShrink: 1,
                   }}
                 >
                   {kind === "stay"
@@ -933,8 +930,8 @@ function Rotation({ session }: { session: Session }) {
                 numberOfLines={1}
                 style={{
                   fontFamily: f.extrabold,
-                  fontSize: kind === "stay" ? 17 : 15,
-                  lineHeight: kind === "stay" ? 25.5 : 22.5,
+                  fontSize: 15,
+                  lineHeight: 22.5,
                   color: c.foreground,
                 }}
               >
@@ -958,17 +955,15 @@ function Rotation({ session }: { session: Session }) {
       </View>
       {up ? (
         <View
+          testID="rotation-next"
           style={{
             borderRadius: 14,
-            borderWidth: 1,
-            borderStyle: "dashed",
-            borderColor: c.border,
-            paddingVertical: 10,
-            paddingHorizontal: 12,
-            alignItems: "center",
+            backgroundColor: c.secondary,
+            padding: 16,
+            gap: 8,
           }}
         >
-          <Text style={m.eyebrow}>PROCHAINE AFFICHE</Text>
+          <Text style={[m.eyebrow, { textAlign: "left", color: c.primary }]}>PROCHAIN MATCH</Text>
           <Matchup a={up.a} b={up.b} aLabel={up.aLabel} bLabel={up.bLabel} />
         </View>
       ) : null}

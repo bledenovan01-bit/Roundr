@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { Alert } from "@/src/alert";
@@ -12,9 +13,12 @@ import { buildSummary } from "@/src/domain/summary";
 import { archiveSession, getStoreState, startSession, useStore } from "@/src/store/session-store";
 import { fontFamily, useTheme } from "@/src/theme";
 import { TournamentSummary } from "@/src/features/lovable-tournament";
+import { MaracanaSummary } from "@/src/features/lovable-maracana-summary";
 
 export default function SummaryScreen(){
+  useAppearance();
   const session=useStore(s=>s.lastSummary);
+  if (session?.mode === "maracana") return <MaracanaSummary session={session} />;
   return session&&(session.mode==="cup"||session.mode==="survie")?<TournamentSummary key={session.id} session={session}/>:<LegacySummaryScreen/>;
 }
 function LegacySummaryScreen(){

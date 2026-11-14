@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { useUnsavedChanges } from "@/src/hooks/use-unsaved-changes";
 import { getPreferences } from "@/src/store/preferences";
 import { useCallback, useMemo, useState } from "react";
@@ -26,6 +27,7 @@ import { TypographyPreview } from "@/src/typography-preview";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 
 export default function ConfigScreen() {
+  useAppearance();
   const styles = useStyles();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();

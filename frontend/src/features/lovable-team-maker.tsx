@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { useState, type ReactNode } from "react";
 import { Keyboard, Pressable, Text, View, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
@@ -11,6 +12,7 @@ import { tournamentTeams } from "./tournament-config-state";
 import { playerCount } from "@/src/utils/player-count";
 
 export function LovableTeamMaker() {
+  useAppearance();
   const router=useRouter(),prefs=usePreferences(),status=useCompositionStatus(),last=getSavedComposition();
   const {width,height}=useWindowDimensions();
   const [naturalHeight,setNaturalHeight]=useState(0),[viewportHeight,setViewportHeight]=useState(0);

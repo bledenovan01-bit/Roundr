@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,6 +23,7 @@ const modes = [
 ] as const;
 
 export default function HomeScreen() {
+  useAppearance();
   const insets = useSafeAreaInsets();
   const { width, height, fontScale } = useWindowDimensions();
   const router = useRouter();

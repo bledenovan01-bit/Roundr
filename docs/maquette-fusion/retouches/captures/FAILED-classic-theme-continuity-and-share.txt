@@ -1,0 +1,19 @@
+MATCH CLASSIQUE
+Prêt à démarrer
+TEMPS RESTANT
+10:00
+.00
+Prêt à démarrer
+TEMPS RESTANT
+10:00
+.00
+Prêt à démarrer
+Les Renards
+0
+−1
++1
+FC Amigos
+0
+−1
++1
+Démarrer

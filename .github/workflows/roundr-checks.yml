@@ -104,6 +104,8 @@ jobs:
         run: node docs/v0-recette2/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-recette2-results"
       - name: Approved audio bytes and real Settings previews
         run: node docs/svg-web-audit/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-audio-results" audio
+      - name: Theme continuity, score cards, Maracana launch policies and sharing
+        run: node docs/maquette-fusion/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fusion-results"
       - name: Preserve reports, screenshots and server logs
         if: always()
         uses: actions/upload-artifact@v4

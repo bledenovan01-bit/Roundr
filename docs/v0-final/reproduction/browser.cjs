@@ -88,7 +88,7 @@ fs.mkdirSync(out, {recursive:true});
           assert(r && r.x >= 0 && r.x+r.width <= width+.5 && r.width>=44 && r.height>=40);
           rects.push(r);
           await chip.click();
-          assert.equal(await chip.getAttribute('aria-pressed'),'true');
+          await p.waitForFunction(el => el.getAttribute('aria-pressed') === 'true', await chip.elementHandle());
         }
         assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth > innerWidth),false);
         const launch = p.getByRole('button',{name:'Préparer le chrono',exact:true});

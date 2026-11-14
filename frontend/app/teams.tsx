@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { useState } from "react";
 import { Alert } from "@/src/alert";
 import { Pressable, Text, TextInput, View } from "react-native";
@@ -11,6 +12,7 @@ import { dispatchSession, useStore } from "@/src/store/session-store";
 import { setPreferences, usePreferences } from "@/src/store/preferences";
 import { useTheme } from "@/src/theme";
 export default function Teams(){
+  useAppearance();
  const p=usePreferences();const session=useStore(s=>s.session);const [edit,setEdit]=useState<Team|null>(null);const [fresh,setFresh]=useState(false);const router=useRouter();const input=DesignInputStyles();const {colors}=useTheme();
  const teams=session?.status==="active"?session.teams:p.teams;
  const paletteNames=["Orange","Vert clair","Bleu","Ambre","Rouge","Violet","Turquoise","Blanc","Noir","Bleu marine","Bleu foncé","Bordeaux","Bleu canard","Violet foncé","Gris","Rose","Vert foncé","Vert citron","Vert d’eau","Bleu ciel","Bleu roi","Rouge vif","Rose corail","Orange foncé","Orange clair","Jaune doré","Jaune clair","Lavande"];

@@ -22,7 +22,7 @@ import { LovableIcon } from "./icon";
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha, themed, themeName } from "@/src/visual/lovable";
+  withAlpha, themed } from "@/src/visual/lovable";
 import {
   matchPages,
   pageNames,
@@ -350,6 +350,34 @@ export function MatchScoreboard({
       gridSecondRow === undefined
         ? undefined
         : Math.max(natural, (208 - 10 - gridSecondRow + natural) / 2);
+  if (!compact) return (
+    <View testID={`match-scoreboard${testIdSuffix}`} accessibilityLabel="Score" style={{ gap: 6 }}>
+      <View style={{ flexDirection: "row", gap: 10 }}>
+        {teams.map((team, i) => (
+          <View key={team?.id ?? i} testID={`match-team-card-${i}`} style={{
+            flex: 1, minWidth: 0, padding: width <= 360 ? 10 : 12, gap: 6,
+            borderRadius: 18, borderWidth: 1, borderColor: c.border, backgroundColor: c.card,
+          }}>
+            <View style={{ flexDirection: "row", gap: 6, alignItems: "center", minHeight: 36 }}>
+              <View style={{ width: 9, height: 9, borderRadius: 5, backgroundColor: team?.color ?? c.muted, borderWidth: 1, borderColor: withAlpha(c.foreground, 0.2) }} />
+              <Text numberOfLines={2} style={[m.teamName, { flex: 1, textAlign: "left", fontFamily: f.semibold }]}>{team?.name}</Text>
+            </View>
+            <Pressable disabled={locked || !scoreOn} accessibilityRole="button"
+              accessibilityLabel={scoreOn ? `${team?.name} : ${score[i]} ; corriger le score` : "Score désactivé"}
+              accessibilityState={{ disabled: locked || !scoreOn }} onPress={onCorrect}
+              style={{ minHeight: 44, justifyContent: "center", alignItems: "center" }}>
+              <Animated.Text testID={`match-team-score-${i}`} accessibilityLiveRegion="polite"
+                style={[m.big, { fontSize: landscape ? 34 : 38, lineHeight: 46, transform: [{ scale }] }]}>
+                {scoreOn ? score[i] : "—"}
+              </Animated.Text>
+            </Pressable>
+            {scoreOn ? <GoalControls team={team} side={i as 0 | 1} score={score[i]} enabled={canScore && !locked} onGoal={onGoal} /> : null}
+          </View>
+        ))}
+      </View>
+      {goalTarget ? <Text style={m.hint}>{"Premier à " + goalTarget}</Text> : null}
+    </View>
+  );
   return (
     <View
       testID={`match-scoreboard${testIdSuffix}`}
@@ -478,7 +506,7 @@ function GoalControls({
 }) {
   const canRemove = enabled && score > 0;
   return (
-    <View style={{ flex: 1, minWidth: 0, flexDirection: "row", gap: 6 }}>
+    <View style={{ minWidth: 0, flexDirection: "row", gap: 6 }}>
       <Pressable
         testID={`match-minus-${side}`}
         accessibilityRole="button"
@@ -490,8 +518,9 @@ function GoalControls({
         style={({ pressed }) => [
           {
             height: 46,
-            width: 44,
-            borderRadius: 14,
+            flex: 1,
+            minWidth: 44,
+            borderRadius: 10,
             borderWidth: 1,
             borderColor: c.border,
             backgroundColor: c.cardRaised,
@@ -520,7 +549,6 @@ function GoalButton({
   onGoal: (s: 0 | 1, d: 1 | -1) => void;
 }) {
   const held = useRef(false);
-  const color = team?.color ?? c.muted;
   return (
     <Pressable
       testID={`match-goal-${side}`}
@@ -545,11 +573,11 @@ function GoalButton({
         {
           height: 46,
           flex: 1,
-          minWidth: 0,
-          borderRadius: 14,
+          minWidth: 44,
+          borderRadius: 10,
           borderWidth: 1,
-          borderColor: color,
-          backgroundColor: withAlpha(color, 0.16),
+          borderColor: c.border,
+          backgroundColor: c.cardRaised,
           alignItems: "center",
           justifyContent: "center",
           opacity: enabled ? 1 : 0.35,
@@ -558,7 +586,7 @@ function GoalButton({
       ]}
     >
       <Text
-        style={{ fontFamily: f.extrabold, fontSize: 18, lineHeight: 27, color: themeName() === "light" ? c.foreground : color }}
+        style={{ fontFamily: f.extrabold, fontSize: 15, lineHeight: 22, color: c.primary }}
       >
         +1
       </Text>
@@ -596,7 +624,9 @@ export function MatchCarousel({
     landscape = sw > sh;
   const layout = matchClockLayout({ landscape, screenHeight: sh, fill, pageWidth: width }),
     slideHeight = layout.slideHeight,
-    dialSize = layout.dialSize;
+    // Put the status inside the portrait dial, as in the board. Its diameter
+    // uses the available card height and leaves safe horizontal margins.
+    dialSize = landscape ? layout.dialSize : Math.min((width || sw - 42) - 28, slideHeight - 20);
   const go = (n: number) => {
     if (!locked) onSelect(visibleMatchPage(n, pages));
   };
@@ -705,8 +735,8 @@ export function MatchCarousel({
                     },
                   ]}
                 >
-                  {kind === "ring" ? (
-                    <View style={{ width: dialSize, height: dialSize }}>
+          {kind === "ring" ? (
+                    <View testID="match-ring" style={{ width: dialSize, height: dialSize }}>
                       <Svg
                         width={dialSize}
                         height={dialSize}
@@ -752,9 +782,10 @@ export function MatchCarousel({
                           style={[
                             m.eyebrow,
                             {
-                              fontSize: (landscape ? 7 : 9) * layout.ringLabelScale,
-                              lineHeight: (landscape ? 10 : 90 / 7) * layout.ringLabelScale,
-                              letterSpacing: landscape ? 0 : 1.08,
+                              fontSize: landscape ? 8 : Math.min(12, dialSize * 0.055),
+                              lineHeight: landscape ? 12 : Math.min(18, dialSize * 0.075),
+                              letterSpacing: 0.3,
+                              maxWidth: "78%",
                             },
                           ]}
                         >
@@ -762,9 +793,10 @@ export function MatchCarousel({
                         </Text>
                         <MatchDigits
                           projection={projection}
-                          size={layout.ringDigitsSize}
+                          size={landscape ? layout.ringDigitsSize : dialSize * 0.215}
                           ring
                         />
+                        {!landscape ? status(kind) : null}
                       </View>
                     </View>
                   ) : (
@@ -795,7 +827,7 @@ export function MatchCarousel({
                       </View>
                     </>
                   )}
-                  {status(kind)}
+                  {kind !== "ring" || landscape ? status(kind) : null}
                 </Pressable>
               ) : (
                 // Other views keep their reference height, centred in a taller card.
@@ -830,7 +862,7 @@ export function MatchCarousel({
             onPress={() => go(i)}
             hitSlop={{ top: 10, bottom: 10, left: 2, right: 2 }}
             style={{
-              width: 24,
+              width: 44,
               height: 24,
               alignItems: "center",
               justifyContent: "center",

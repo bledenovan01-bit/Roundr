@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 // E03–E07 — Live commun, pause, pause entre périodes, départage, transition.
 import { useEffect, useRef, useState } from "react";
 import { usePreferences } from "@/src/store/preferences";
@@ -31,6 +32,7 @@ import { LovableTournamentFlow } from "@/src/features/lovable-tournament";
 const TEAM_COL = 68;
 
 export default function LiveScreen() {
+  useAppearance();
   const mode=useStore(s=>s.session?.mode);
   const id=useStore(s=>s.session?.id);
   if(mode==="cup"||mode==="survie")return <LovableTournamentFlow key={id}/>;

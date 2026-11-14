@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { useCallback, useState } from "react";
 import {
   BackHandler,
@@ -55,6 +56,7 @@ const options: { value: EventSound; label: string }[] = [
 ];
 
 export default function LovableSettings() {
+  useAppearance();
   const router = useRouter(),
     { from } = useLocalSearchParams<{ from?: string }>();
   const p = usePreferences(),

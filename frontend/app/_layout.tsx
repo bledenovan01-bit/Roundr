@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { LogBox, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Fragment, useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 import { loadPreferences, usePreferences } from "@/src/store/preferences";
 import { lovable } from "@/src/visual/lovable";
@@ -20,13 +20,6 @@ LogBox.ignoreAllLogs(true);
 
 // Keep the splash while fonts load so the giant chrono type never flashes system.
 SplashScreen.preventAutoHideAsync().catch(() => {});
-
-// Each screen is rebuilt when the appearance changes, so every colour follows.
-// The navigation stack, the session and the timers live outside and are kept.
-function ThemeBoundary({ children }: { children: ReactNode }) {
-  const theme = usePreferences().theme;
-  return <Fragment key={theme}>{children}</Fragment>;
-}
 
 export default function RootLayout() {
   const theme = usePreferences().theme;
@@ -66,7 +59,6 @@ export default function RootLayout() {
           <FreeTimerRuntime />
           <StatusBar style={theme === "light" ? "dark" : "light"} />
           <Stack
-            screenLayout={({ children }) => <ThemeBoundary>{children}</ThemeBoundary>}
             screenOptions={{
               headerShown: false,
               contentStyle: { backgroundColor: lovable.background },

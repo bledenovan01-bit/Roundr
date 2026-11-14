@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { unfinishedRevision } from "@/src/domain/tournament-presentation";
 import { useState } from "react";
 import { useRouter } from "expo-router";
@@ -13,6 +14,7 @@ import { lovable as c, withAlpha } from "@/src/visual/lovable";
 const date = (at: number) => new Date(at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 type Sheet = { kind: "rename" | "delete"; entry: Competition };
 export default function History() {
+  useAppearance();
   const { width, height } = useWindowDimensions(), landscape = width > height;
   const router = useRouter(), entries = useStore(s => s.competitions), available = useStore(s => s.historyAvailable), error = useStore(s => s.saveError);
   const [open, setOpen] = useState<string | null>(null), [sheet, setSheet] = useState<Sheet | null>(null);

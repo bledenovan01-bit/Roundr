@@ -138,7 +138,8 @@ const loadPrefs = () => {
   // The theme module and the screen wrapper never reach the session or the timers.
   assert.doesNotMatch(source("src/visual/lovable.ts"), /from "@\/src\/(chrono|domain|store)/);
   const layout = source("app/_layout.tsx");
-  assert.match(layout, /screenLayout=\{\(\{ children \}\) => <ThemeBoundary>\{children\}<\/ThemeBoundary>\}/);
+  // Mounted-screen continuity is exercised through Settings in the browser suite.
+  assert.doesNotMatch(layout, /key=\{theme\}/);
   assert.match(layout, /<SessionRuntime \/>\s*<FreeTimerRuntime \/>\s*<StatusBar/, "the timers run outside the rebuilt screens");
   assert.match(source("src/features/lovable-settings.tsx"), /setPreferences\(\{ theme \}\)/);
 

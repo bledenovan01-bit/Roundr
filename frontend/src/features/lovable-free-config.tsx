@@ -1,3 +1,4 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { decorativeSvgAccessibility } from "@/src/components/svg-compat";
 import {
   readFreeDraft,
@@ -408,6 +409,7 @@ export function LovableFreeConfig({
   initialKind?: FreeTimerKind;
   initialSaved?: boolean;
 }) {
+  useAppearance();
   const router = useRouter();
   const { width, height } = useWindowDimensions();
   const [d, setDraft] = useState<FreeDraft>(() =>
