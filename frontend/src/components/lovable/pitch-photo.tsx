@@ -28,7 +28,7 @@ export function PitchPhoto({
       ) : shade === "top" ? (
         <LinearGradient colors={[ink(1), ink(0.9), ink(0.35), ink(0.1), ink(0.75)]} locations={[0, 0.3, 0.55, 0.8, 1]} style={StyleSheet.absoluteFill} />
       ) : (
-        <LinearGradient colors={[ink(0.55), ink(0.72), ink(0.86)]} style={StyleSheet.absoluteFill} />
+        <LinearGradient colors={[ink(0.5), ink(0.38), ink(0.62)]} style={StyleSheet.absoluteFill} />
       )}
     </View>
   );

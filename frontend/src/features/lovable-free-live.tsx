@@ -65,7 +65,7 @@ import {
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha, themed } from "@/src/visual/lovable";
+  withAlpha, themed, themeName } from "@/src/visual/lovable";
 import { freeDuration } from "@/src/domain/free-configuration";
 
 function ScoreControl({
@@ -146,7 +146,7 @@ function ScoreControl({
         style={{
           fontFamily: f.extrabold,
           fontSize: compact === "compact" ? 14 : 16,
-          color,
+          color: themeName() === "light" ? c.foreground : color,
         }}
       >
         +1

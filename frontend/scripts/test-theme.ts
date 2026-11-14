@@ -120,7 +120,7 @@ const loadPrefs = () => {
   Prefs = loadPrefs();
   await Prefs.loadPreferences();
   const t0 = 1_800_000_000_000;
-  const config = { ...defaultConfig("classique") };
+  const config = { ...defaultConfig("classique") } as import("../src/domain/types").ClassicConfig;
   assert.ok(Store.startSession(S.createSession(config, defaultTeams("classique", 2), t0)));
   Store.dispatchSession((s) => S.startReady(s, t0));
   Store.dispatchSession((s) => S.goal(s, 0, 1, t0 + 60_000));

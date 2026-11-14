@@ -445,9 +445,11 @@ export function MatchScoreboard({
             enabled={canScore && !locked}
             onGoal={onGoal}
           />
-          <Text style={[m.hint, { width: scoreWidth }]}>
-            {goalTarget ? "Premier à " + goalTarget : ""}
-          </Text>
+          {goalTarget ? (
+            <Text style={[m.hint, { width: scoreWidth }]}>
+              {"Premier à " + goalTarget}
+            </Text>
+          ) : null}
           <GoalControls
             team={teams[1]}
             side={1}
