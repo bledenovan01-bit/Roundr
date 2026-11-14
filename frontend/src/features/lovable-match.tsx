@@ -419,7 +419,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           {locked ? (
             <MatchIcon name="lock" color={c.amber} />
           ) : (
-            <LovableIcon name="settings" size={20} color={c.foreground} />
+            <LovableIcon name="gear" size={20} color={c.foreground} />
           )}
         </Pressable>
       </View>
@@ -454,16 +454,17 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           <View
             style={{ flexDirection: "row", gap: 10, alignItems: "flex-start" }}
           >
+            {/* Landscape: clock on the left, scores on the right, commands below. */}
+            <View style={{ flex: 1, minWidth: 0 }}>{carousel}</View>
             <View style={{ flex: 1, minWidth: 0, gap: 10 }}>
               {scoreboard}
               {rankingLink}
               <MatchAnnouncementSpace />
             </View>
-            <View style={{ flex: 1, minWidth: 0 }}>{carousel}</View>
           </View>
         ) : (
           <>
-            {scoreboard}
+            {/* Portrait: the clock comes first, above the score. */}
             {fillClock ? (
               <View
                 testID="match-clock-fill"
@@ -475,6 +476,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             ) : (
               carousel
             )}
+            {scoreboard}
             {rankingLink}
             <MatchAnnouncementSpace />
           </>
@@ -490,7 +492,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           alignItems: "center",
         }}
       >
-        <View pointerEvents="none" testID="match-notice-host" style={{ alignSelf: "flex-start", width: two ? (width - inset.left - inset.right - 50) / 2 : "100%" }}>
+        <View pointerEvents="none" testID="match-notice-host" style={{ alignSelf: two ? "flex-end" : "flex-start", width: two ? (width - inset.left - inset.right - 50) / 2 : "100%" }}>
           {noticeLayer}
         </View>
         {primary ? (

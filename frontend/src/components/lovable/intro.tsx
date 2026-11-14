@@ -1,44 +1,35 @@
 import { ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { lovable, lovableFont, withAlpha } from "@/src/visual/lovable";
-import { LovableBackground } from "./background";
+import { brand, lovableFont } from "@/src/visual/lovable";
 import { LovableButton } from "./button";
+import { PitchPhoto } from "./pitch-photo";
 import { Wordmark } from "./wordmark";
 
+// Welcome screen: the night pitch behind the logo, the promise and one action.
+// Always dark, in both themes: the text sits on the photo.
 export function LovableIntro({ onStart }: { onStart: () => void }) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const landscape = width > height;
-  const logoSize = height <= 640 ? 40 : Math.min(60, Math.max(44, width * 0.13));
-  const titleSize = Math.min(36, Math.max(28, width * 0.085));
+  const logoSize = landscape ? 40 : height <= 640 ? 44 : Math.min(64, Math.max(48, width * 0.15));
+  const titleSize = landscape ? 22 : Math.min(30, Math.max(22, width * 0.068));
   return <View testID="welcome-screen" style={styles.screen}>
-    <LovableBackground intro />
-    <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.pitch}>
-      <View style={styles.box} /><View style={styles.half} /><View style={[styles.circle, landscape && styles.landscapeCircle]} />
-    </View>
-    <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingLeft: 26 + insets.left, paddingRight: 26 + insets.right, paddingTop: insets.top }]}>
-      <Wordmark size={logoSize} testID="intro-wordmark" />
-      <Text testID="intro-title" accessibilityRole="header" style={[styles.title, { fontSize: titleSize, lineHeight: titleSize * 1.12, letterSpacing: -titleSize * 0.02 }]}>Plus de jeu.{"\n"}Moins d&apos;organisation.</Text>
-      {!landscape && height > 640 ? <Text testID="intro-description" style={styles.description}>Chrono, rotations, tournois et classements : Roundr gère le match, toi tu profites du terrain.</Text> : null}
+    {/* The photo fills the lower part; the veil keeps the upper text area dark. */}
+    <PitchPhoto shade="top" position="bottom" style={landscape ? undefined : { top: "34%" }} />
+    <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingLeft: 26 + insets.left, paddingRight: 26 + insets.right, paddingTop: insets.top + (landscape ? 16 : height * 0.2) }]}>
+      <Wordmark size={logoSize} testID="intro-wordmark" onPhoto />
+      <Text testID="intro-title" accessibilityRole="header" style={[styles.title, { fontSize: titleSize, lineHeight: titleSize * 1.25 }]}>Plus de jeu.{"\n"}Moins d&apos;organisation.</Text>
     </ScrollView>
     <View testID="intro-dock" style={[styles.dock, { paddingTop: landscape ? 8 : 12, paddingLeft: 20 + insets.left, paddingRight: 20 + insets.right, paddingBottom: Math.max(landscape ? 10 : 16, insets.bottom) }]}>
-      <LovableButton label="Commencer" testID="welcome-start" onPress={onStart} landscape={landscape} />
+      <LovableButton label="Commencer" testID="welcome-start" onPress={onStart} landscape={landscape} onPhoto />
     </View>
   </View>;
 }
 
-const line = { borderColor: withAlpha(lovable.primary, 0.16), borderWidth: 1 };
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: lovable.background },
-  pitch: { position: "absolute", left: "8%", right: "8%", top: "7%", height: "52%", borderRadius: 18, ...line },
-  box: { position: "absolute", left: "33%", top: -1, width: "34%", height: "16%", ...line, borderTopWidth: 0 },
-  half: { position: "absolute", left: -1, right: -1, top: "55%", borderTopWidth: 1, borderColor: line.borderColor },
-  circle: { position: "absolute", left: "35%", top: "55%", width: "30%", aspectRatio: 1, transform: [{ translateY: "-50%" }], borderRadius: 999, ...line },
-  // The reference's more-specific landscape selector wins over its later 30% rule.
-  landscapeCircle: { left: "44%", width: "12%" },
+  screen: { flex: 1, backgroundColor: brand.ink },
   scroll: { flex: 1 },
-  content: { flexGrow: 1, justifyContent: "flex-end", gap: 10, paddingBottom: 22 },
-  title: { fontFamily: lovableFont.extrabold, color: lovable.foreground, includeFontPadding: false },
-  description: { fontFamily: lovableFont.regular, color: lovable.muted, fontSize: 14, lineHeight: 21.7, maxWidth: 307.44, marginTop: 2, includeFontPadding: false },
+  content: { flexGrow: 1, gap: 14, paddingBottom: 22 },
+  title: { fontFamily: lovableFont.semibold, color: brand.paper, includeFontPadding: false },
   dock: { alignItems: "center" },
 });

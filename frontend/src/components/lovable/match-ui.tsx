@@ -22,7 +22,7 @@ import { LovableIcon } from "./icon";
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha, themed } from "@/src/visual/lovable";
+  withAlpha, themed, themeName } from "@/src/visual/lovable";
 import {
   matchPages,
   pageNames,
@@ -435,23 +435,71 @@ export function MatchScoreboard({
             marginTop: 10,
           }}
         >
-          <GoalButton
+          <GoalControls
             team={teams[0]}
             side={0}
+            score={score[0]}
             enabled={canScore && !locked}
             onGoal={onGoal}
           />
           <Text style={[m.hint, { width: scoreWidth }]}>
-            {goalTarget ? "Premier à " + goalTarget : "Appui long : −1"}
+            {goalTarget ? "Premier à " + goalTarget : ""}
           </Text>
-          <GoalButton
+          <GoalControls
             team={teams[1]}
             side={1}
+            score={score[1]}
             enabled={canScore && !locked}
             onGoal={onGoal}
           />
         </View>
       ) : null}
+    </View>
+  );
+}
+// A goal is corrected in one tap: −1 sits next to +1 for each team.
+function GoalControls({
+  team,
+  side,
+  score,
+  enabled,
+  onGoal,
+}: {
+  team: Team | null;
+  side: 0 | 1;
+  score: number;
+  enabled: boolean;
+  onGoal: (s: 0 | 1, d: 1 | -1) => void;
+}) {
+  const canRemove = enabled && score > 0;
+  return (
+    <View style={{ flex: 1, minWidth: 0, flexDirection: "row", gap: 6 }}>
+      <Pressable
+        testID={`match-minus-${side}`}
+        accessibilityRole="button"
+        accessibilityLabel={`Retirer un but à ${team?.name}`}
+        accessibilityState={{ disabled: !canRemove }}
+        disabled={!canRemove}
+        onPress={() => onGoal(side, -1)}
+        hitSlop={{ top: 4, bottom: 4 }}
+        style={({ pressed }) => [
+          {
+            height: 46,
+            width: 44,
+            borderRadius: 14,
+            borderWidth: 1,
+            borderColor: c.border,
+            backgroundColor: c.cardRaised,
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: canRemove ? 1 : 0.35,
+          },
+          pressed && { transform: [{ scale: 0.97 }] },
+        ]}
+      >
+        <Text style={{ fontFamily: f.extrabold, fontSize: 15, lineHeight: 22, color: c.foreground }}>−1</Text>
+      </Pressable>
+      <GoalButton team={team} side={side} enabled={enabled} onGoal={onGoal} />
     </View>
   );
 }
@@ -505,7 +553,7 @@ function GoalButton({
       ]}
     >
       <Text
-        style={{ fontFamily: f.extrabold, fontSize: 18, lineHeight: 27, color }}
+        style={{ fontFamily: f.extrabold, fontSize: 18, lineHeight: 27, color: themeName() === "light" ? c.foreground : color }}
       >
         +1
       </Text>

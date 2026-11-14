@@ -560,7 +560,7 @@ export function LovableTournamentFlow({
             onPress={() => router.push({ pathname: "/settings", params: { from: "match" } })}
             style={h.back}
           >
-            <LovableIcon name="settings" size={20} color={c.foreground} />
+            <LovableIcon name="gear" size={20} color={c.foreground} />
           </Pressable>
         }
         footer={cta}

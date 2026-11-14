@@ -3,7 +3,7 @@ import Svg, { Circle, Line, Path, Polyline, Rect } from "react-native-svg";
 // Exact geometry from the frozen reference: its custom pitch + Lucide 0.575.0.
 // Lucide (ISC): Copyright (c) Cole Bemis 2013-2026 (Feather portions, MIT)
 // and Lucide Contributors 2026. See docs/lucide-license.txt.
-export type LovableIconName = "pitch" | "refresh" | "trophy" | "swords" | "timer" | "users" | "history" | "settings" | "chevron" | "back" | "pencil" | "trash" | "flag" | "archive" | "check";
+export type LovableIconName = "pitch" | "refresh" | "trophy" | "swords" | "timer" | "users" | "history" | "settings" | "gear" | "chevron" | "back" | "pencil" | "trash" | "flag" | "archive" | "check";
 
 export function LovableIcon({ name, color, size = 16 }: { name: LovableIconName; color: string; size?: number }) {
   return <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={name === "settings" ? 1.8 : 2} strokeLinecap={name === "pitch" ? "butt" : "round"} strokeLinejoin={name === "pitch" ? "miter" : "round"} aria-hidden={true}>
@@ -14,6 +14,7 @@ export function LovableIcon({ name, color, size = 16 }: { name: LovableIconName;
     {name === "timer" ? <><Line x1="10" x2="14" y1="2" y2="2" /><Line x1="12" x2="15" y1="14" y2="11" /><Circle cx="12" cy="14" r="8" /></> : null}
     {name === "users" ? <><Path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><Path d="M16 3.128a4 4 0 0 1 0 7.744" /><Path d="M22 21v-2a4 4 0 0 0-3-3.87" /><Circle cx="9" cy="7" r="4" /></> : null}
     {name === "history" ? <><Path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><Path d="M3 3v5h5" /><Path d="M12 7v5l4 2" /></> : null}
+    {name === "gear" ? <><Path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><Circle cx="12" cy="12" r="3" /></> : null}
     {name === "settings" ? <><Path d="M14 17H5" /><Path d="M19 7h-9" /><Circle cx="17" cy="17" r="3" /><Circle cx="7" cy="7" r="3" /></> : null}
     {name === "chevron" ? <Path d="m9 18 6-6-6-6" /> : null}
     {name === "back" ? <><Path d="m12 19-7-7 7-7" /><Path d="M5 12h14" /></> : null}

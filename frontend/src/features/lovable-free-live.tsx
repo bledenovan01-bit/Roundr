@@ -947,7 +947,7 @@ export function LovableFreeLive() {
           {locked ? (
             <MatchIcon name="lock" color={c.amber} />
           ) : (
-            <LovableIcon name="settings" color={c.foreground} size={20} />
+            <LovableIcon name="gear" color={c.foreground} size={20} />
           )}
         </Pressable>
       </View>
@@ -976,19 +976,20 @@ export function LovableFreeLive() {
           <View
             style={{ flexDirection: "row", gap: 10, alignItems: "flex-start" }}
           >
+            {/* Landscape: clock on the left, scores and details on the right. */}
+            <View style={{ flex: 1 }}>{carousel}</View>
             <View style={{ flex: 1, gap: 10 }}>
               {teamCards}
               {ft.config.kind === "countdown" && ft.config.endSignal ? <View style={{ minHeight: land ? 40 : 46 }} /> : null}
               {info}
               {laps}
             </View>
-            <View style={{ flex: 1 }}>{carousel}</View>
           </View>
         ) : two ? (
           <View testID="free-centered-content" style={{width: "100%", maxWidth: 520, alignSelf: "center"}}>{carousel}</View>
         ) : (
           <>
-            {teamCards}
+            {/* Portrait: the clock comes first, above the scores. */}
             {fillClock ? (
               <View
                 testID="free-clock-fill"
@@ -1000,6 +1001,7 @@ export function LovableFreeLive() {
             ) : (
               carousel
             )}
+            {teamCards}
             {ft.config.kind === "countdown" && ft.config.endSignal ? <View style={{ minHeight: land ? 40 : 46 }} /> : null}
             {info}
             {laps}
@@ -1016,7 +1018,7 @@ export function LovableFreeLive() {
           alignItems: "center",
         }}
       >
-        <View pointerEvents="none" testID="free-notice-host" style={{ alignSelf: "flex-start", width: two ? (width - inset.left - inset.right - 50) / 2 : "100%" }}>
+        <View pointerEvents="none" testID="free-notice-host" style={{ alignSelf: two ? "flex-end" : "flex-start", width: two ? (width - inset.left - inset.right - 50) / 2 : "100%" }}>
           {notice ? noticeLayer : null}
         </View>
         <View
