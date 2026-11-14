@@ -25,11 +25,15 @@ import {
   useStore,
 } from "@/src/store/session-store";
 import {
+  brand,
   lovable as c,
   lovableFont as f,
   withAlpha,
 } from "@/src/visual/lovable";
 import { LovableBackground } from "@/src/components/lovable/background";
+import { PitchPhoto } from "@/src/components/lovable/pitch-photo";
+import { sessionShareText } from "./share-summary";
+import { shareText } from "./share";
 import { LovableIcon } from "@/src/components/lovable/icon";
 import { Jersey, configStyles } from "@/src/components/lovable/configuration";
 import { PhaseFrame } from "@/src/components/lovable/phase2b-ui";
@@ -1235,10 +1239,22 @@ function ClassicMatchResult({
   onGoal: (s: 0 | 1, d: 1 | -1) => void;
 }) {
   const { width, height } = useWindowDimensions();
+  const [shareNote, setShareNote] = useState<string | null>(null);
   const l = session.live!,
     teams = S.liveTeams(session),
     detail = l.detail,
     match = S.currentMatch(session);
+  const draw = l.score[0] === l.score[1];
+  const share = async () => {
+    const outcome = await shareText(sessionShareText(session));
+    setShareNote(
+      outcome === "copied"
+        ? "Résumé copié."
+        : outcome === "unavailable"
+          ? "Partage indisponible sur cet appareil."
+          : null,
+    );
+  };
   const reason =
     match?.finishReason === "regulation"
       ? "Fin du temps réglementaire"
@@ -1247,39 +1263,72 @@ function ClassicMatchResult({
         : "Match arrêté par l'organisateur";
   const periodValue = { ...m.bodyText, fontFamily: "ManropeRefined-Bold" };
   const cards: ReactNode[] = [
+    // Final score on the night pitch. Always light on dark, in both themes.
     <View
       key="result"
       testID="match-result-card"
-      style={[m.card, { gap: 10, alignItems: "stretch" }]}
+      style={{
+        borderRadius: 22,
+        overflow: "hidden",
+        minHeight: width > height ? 150 : 220,
+        paddingVertical: 20,
+        paddingHorizontal: 16,
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        backgroundColor: brand.ink,
+      }}
     >
-      <MatchScoreboard
-        compact
-        compactSize={40}
-        winner={
-          l.scoreOn && l.score[0] !== l.score[1]
-            ? l.score[0] > l.score[1]
-              ? 0
-              : 1
-            : null
+      <PitchPhoto shade="full" position="bottom" />
+      <Text style={{ fontFamily: f.extrabold, fontSize: 16, lineHeight: 22, color: brand.paper }}>
+        {l.scoreOn ? "Score final" : "Match terminé"}
+      </Text>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={
+          l.scoreOn
+            ? `Score ${l.score[0]} à ${l.score[1]} ; corriger le score`
+            : "Score désactivé"
         }
-        teams={teams}
-        score={l.score}
-        scoreOn={l.scoreOn}
-        canScore={false}
-        locked={false}
-        onGoal={onGoal}
-        onCorrect={onCorrect}
-      />
+        accessibilityHint="Ouvrir les commandes de correction du score"
+        disabled={!l.scoreOn}
+        onPress={onCorrect}
+        hitSlop={8}
+      >
+        <Text
+          testID="match-score"
+          accessibilityLiveRegion="polite"
+          maxFontSizeMultiplier={1.2}
+          style={{
+            fontFamily: f.extrabold,
+            fontSize: 60,
+            lineHeight: 66,
+            color: brand.paper,
+            fontVariant: ["tabular-nums"],
+            includeFontPadding: false,
+          }}
+        >
+          {l.scoreOn ? l.score[0] + " – " + l.score[1] : "—"}
+        </Text>
+      </Pressable>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", columnGap: 16, rowGap: 4 }}>
+        {teams.map((team, i) => (
+          <View key={i} style={{ flexDirection: "row", alignItems: "center", gap: 6, maxWidth: "100%" }}>
+            <View style={{ width: 9, height: 9, borderRadius: 5, backgroundColor: team?.color ?? brand.paper }} />
+            <Text numberOfLines={1} style={{ flexShrink: 1, fontFamily: f.semibold, fontSize: 13, lineHeight: 19, color: brand.paper }}>
+              {team?.name}
+            </Text>
+          </View>
+        ))}
+      </View>
       {l.scoreOn ? (
-        <Text style={m.resultLine}>
-          {l.score[0] === l.score[1]
+        <Text style={{ fontFamily: f.extrabold, fontSize: 15, lineHeight: 21, color: brand.paper, textAlign: "center" }}>
+          {draw
             ? "Match nul"
-            : "Victoire de " + teams[l.score[0] > l.score[1] ? 0 : 1]?.name}
+            : teams[l.score[0] > l.score[1] ? 0 : 1]?.name + " remporte le match"}
         </Text>
       ) : null}
-      <Text
-        style={[m.muted, { fontSize: 14, lineHeight: 21, textAlign: "center" }]}
-      >
+      <Text style={{ fontFamily: f.regular, fontSize: 13, lineHeight: 19, color: withAlpha(brand.paper, 0.78), textAlign: "center" }}>
         {reason}
       </Text>
     </View>,
@@ -1409,8 +1458,8 @@ function ClassicMatchResult({
     <>
       <PhaseFrame
         hideBack
-        title="Résultat"
-        subtitle="MATCH CLASSIQUE"
+        title="Fin de session"
+        subtitle="Match classique"
         onBack={onHome}
         footer={
           <View
@@ -1422,16 +1471,37 @@ function ClassicMatchResult({
             }}
           >
             <MatchAction
-              label="Rejouer avec les mêmes paramètres"
-              icon="restart"
-              onPress={onReplay}
+              testID="result-share"
+              label="Partager le résumé"
+              icon="share"
+              onPress={() => {
+                void share();
+              }}
             />
-            <MatchAction
-              label="Terminer et revenir à l'accueil"
-              icon="home"
-              kind="text"
-              onPress={onHome}
-            />
+            {shareNote ? (
+              <Text accessibilityLiveRegion="polite" style={[m.muted, { textAlign: "center" }]}>
+                {shareNote}
+              </Text>
+            ) : null}
+            <View style={{ flexDirection: "row", gap: 8 }}>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <MatchAction
+                  testID="result-replay"
+                  label="Rejouer"
+                  icon="restart"
+                  kind="secondary"
+                  onPress={onReplay}
+                />
+              </View>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <MatchAction
+                  testID="result-home"
+                  label="Retour à l'accueil"
+                  kind="secondary"
+                  onPress={onHome}
+                />
+              </View>
+            </View>
           </View>
         }
       >

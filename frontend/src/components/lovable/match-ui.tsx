@@ -105,7 +105,8 @@ export type MatchIconName =
   | "flag"
   | "userPlus"
   | "sun"
-  | "moon";
+  | "moon"
+  | "share";
 // Lucide 0.575.0 geometry, ISC license in docs/lucide-license.txt.
 export function MatchIcon({
   name,
@@ -139,6 +140,8 @@ export function MatchIcon({
           <Circle cx={12} cy={12} r={4} />
           <Path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
         </>
+      ) : name === "share" ? (
+        <Path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" />
       ) : name === "moon" ? (
         <Path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
       ) : name === "flag" ? (

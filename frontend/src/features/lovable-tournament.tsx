@@ -35,6 +35,8 @@ import {
   snapshotCompetition,
 } from "@/src/store/competition-history";
 import { LovableMatchScreen, NextLaunch } from "./lovable-match";
+import { sessionShareText } from "./share-summary";
+import { shareText } from "./share";
 import { HistoryScreenFrame, h } from "@/src/components/lovable/history-ui";
 import { historySummaryCards } from "@/src/components/lovable/history-summary";
 import { PhaseInput } from "@/src/components/lovable/phase2b-ui";
@@ -910,8 +912,17 @@ export function TournamentSummary({ session: s }: { session: Session }) {
       footer={
         <View style={{ gap: 4 }}>
           <MatchAction
+            testID="result-share"
+            label="Partager le résumé"
+            icon="share"
+            onPress={() => {
+              void shareText(sessionShareText(s));
+            }}
+          />
+          <MatchAction
             label="Rejouer avec les mêmes paramètres"
             icon="restart"
+            kind="secondary"
             disabled={busy || saving || !!error || nameError}
             onPress={replay}
           />
