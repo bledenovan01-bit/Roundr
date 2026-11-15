@@ -28,6 +28,11 @@ async function theme(p, name) {
   await p.getByTestId('match-screen').waitFor();
 }
 async function geometry(p, landscape) {
+  await p.waitForFunction(land => {
+    const clock = document.querySelector('[data-testid="match-carousel"]')?.getBoundingClientRect();
+    const score = document.querySelector('[data-testid="match-team-card-0"]')?.getBoundingClientRect();
+    return clock && score && (land ? clock.right <= score.left : clock.bottom <= score.top);
+  }, landscape);
   const card0 = await p.getByTestId('match-team-card-0').boundingBox();
   const card1 = await p.getByTestId('match-team-card-1').boundingBox();
   assert(card0.x + card0.width < card1.x, 'two separate score cards');
@@ -55,6 +60,9 @@ async function geometry(p, landscape) {
     await context.addInitScript(f => {
       window.__roundrNow = 1800000000000;
       Date.now = () => window.__roundrNow;
+      // Exercise the browser clipboard fallback deterministically. Native share
+      // sheets (including the Windows sheet) require a separate device check.
+      Object.defineProperty(navigator, 'share', { value: undefined, configurable: true });
       // A fresh user for the full journeys; isolated fixtures for launch policies.
       if (f && !sessionStorage.getItem('fixture-loaded')) {
         localStorage.setItem('roundr.welcome.v1', 'seen');
@@ -82,7 +90,7 @@ async function geometry(p, landscape) {
       await button(p, 'Commencer').waitFor();
       await shot(p, 'introduction');
       await button(p, 'Commencer').click();
-      await p.getByTestId('home-screen').waitFor();
+      await p.getByTestId('home-screen').last().waitFor();
       await shot(p, 'accueil-sombre');
       await p.getByRole('button', { name: /^Match classique\./ }).click();
       await button(p, '10 min').click(); await selected(button(p, '10 min'));
@@ -148,11 +156,11 @@ async function geometry(p, landscape) {
       const final = await live(p);
       await p.getByTestId('result-share').click();
       await p.getByText('Résumé copié.', { exact: true }).waitFor();
-      assert.equal(await p.evaluate(() => navigator.clipboard.readText()), sessionShareText(final));
+      assert.equal((await p.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, '\n'), sessionShareText(final));
       await p.getByTestId('result-home').click();
-      await p.getByTestId('home-screen').waitFor(); await shot(p, 'accueil-clair');
-      await p.reload(); await p.getByTestId('home-screen').waitFor();
-      assert.equal(await p.getByTestId('home-screen').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(243, 246, 241)');
+      await p.getByTestId('home-screen').last().waitFor(); await shot(p, 'accueil-clair');
+      await p.reload(); await p.getByTestId('home-screen').last().waitFor();
+      assert.equal(await p.getByTestId('home-screen').last().evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(243, 246, 241)');
       return { correction: '2 → 1 in one tap', runningClock: '18 → 25 seconds through Settings', pausedClock: 25, carousel: 'ring retained both ways', rootRetained: true, shared: true };
     });
     for (const appearance of ['Sombre', 'Clair']) await test('maracana-manual-' + appearance, async p => {
@@ -185,7 +193,7 @@ async function geometry(p, landscape) {
       const archived = await p.evaluate(() => JSON.parse(localStorage.getItem('roundr.summary.v1')));
       assert.equal(archived.matches.filter(m => m.status === 'finished').length, 2);
       await p.getByTestId('result-share').click(); await p.getByText('Résumé copié.', { exact: true }).waitFor();
-      assert.equal(await p.evaluate(() => navigator.clipboard.readText()), sessionShareText(archived));
+      assert.equal((await p.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, '\n'), sessionShareText(archived));
       await shot(p, 'fin-maracana-' + appearance.toLowerCase());
       return { cards: cards.map(r => [r.kind, r.team.name]), preparedWithoutStarting: true, played: 2, shared: true };
     });

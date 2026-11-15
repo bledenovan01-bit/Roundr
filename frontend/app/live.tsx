@@ -35,8 +35,14 @@ export default function LiveScreen() {
   useAppearance();
   const mode=useStore(s=>s.session?.mode);
   const id=useStore(s=>s.session?.id);
-  if(mode==="cup"||mode==="survie")return <LovableTournamentFlow key={id}/>;
-  return mode==="classique"||mode==="maracana"?<LovableMatchScreen/>:<LegacyLiveScreen/>;
+  // Archiving clears the active session before navigation settles. Keep the
+  // current renderer so a newly mounted legacy screen cannot redirect home
+  // over the requested summary route.
+  const [previous, setPrevious] = useState({ mode, id });
+  if (mode && (mode !== previous.mode || id !== previous.id)) setPrevious({ mode, id });
+  const shown = mode ?? previous.mode;
+  if(shown==="cup"||shown==="survie")return <LovableTournamentFlow key={id ?? previous.id}/>;
+  return shown==="classique"||shown==="maracana"?<LovableMatchScreen/>:<LegacyLiveScreen/>;
 }
 function LegacyLiveScreen() {
   const styles = useStyles();

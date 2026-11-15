@@ -1,4 +1,4 @@
-# Retouches PR #32 — travail en cours
+# Retouches PR #32 — recette et corrections
 
 Base distante vérifiée le 14 novembre 2026 par le connecteur GitHub et `git fetch` :
 `4f9afa41d7d92fc9ade5f18350280a37e80ddb8e`, branche
@@ -15,6 +15,9 @@ Base distante vérifiée le 14 novembre 2026 par le connecteur GitHub et `git fe
 - Rotation Maracana : résultat dans sa carte, rôles des équipes puis prochain duel.
   Action manuelle toujours reliée à `launchNext`, suivie de la lecture explicite.
 - Fin de Maracana reliée au résumé archivé et au partage calculé par `buildSummary`.
+  La recette a révélé une redirection concurrente vers l'accueil lors de
+  l'archivage : le composant de route conserve maintenant son écran pendant
+  la navigation vers le résumé, au lieu de monter le mode historique de secours.
 - Ballon extrait des tracés vectoriels de la première page du PDF validé : mêmes
   panneaux pour le composant et les assets. Rayon/texte : 0,132 pour le mot complet,
   0,16 pour l'icône ; Manrope ExtraBold, espacement naturel. Assets régénérés.
@@ -36,20 +39,63 @@ Typecheck et ESLint (`app`, `src`) repassés après les derniers changements : z
 erreur, commandes terminées avec le code 0. Syntaxe des scripts navigateur et de
 génération des assets également vérifiée.
 
-Nouvelle suite `reproduction/browser.cjs` ajoutée à la CI : parcours neuf, correction
-de but, carrousel circulaire et temps écoulé conservés via Paramètres, pause,
-verrouillage, deux thèmes, petits écrans/paysage, partage et trois politiques de
-lancement Maracana. **Cette suite n'est pas encore validée.** Sa première exécution
-s'est arrêtée sur une attente de sélection qui omettait `aria-current` ; cette
-attente a été corrigée. La relance n'a pas été exécutée : le contrôle automatique
-d'autorisation a atteint sa limite d'utilisation.
+Nouvelle suite `reproduction/browser.cjs` ajoutée à la CI. Les cinq parcours ont
+passé dans Chrome, sans erreur JavaScript :
 
-Les captures actuellement présentes sont intermédiaires ; le fichier `FAILED-*`
-documente cet arrêt de test, pas une validation du match. Il reste à rejouer la
-nouvelle suite, les suites navigateur du dépôt, Expo Doctor et les exports des
-trois plateformes, puis à inspecter et remplacer les captures finales.
+1. Nouvel utilisateur, match simple, ajout puis retrait d'un but en un appui.
+   Retour des paramètres avec vue circulaire et affichage du temps écoulé.
+   Le même nœud d'écran reste monté ; chrono 18 → 25 s pendant les paramètres,
+   score, phase et horodatage de départ identiques. Passage sombre → clair →
+   sombre → clair, pause conservée à 25 s, verrouillage des commandes vérifié.
+2. Maracana manuel sombre : résultat, équipes restée/sortie/entrée et prochain
+   duel vérifiés contre le moteur. Prochain match prêt, encore arrêté après
+   11 s ; seule la lecture lance le chrono. Deux matchs archivés et partagés.
+3. Même parcours Maracana en clair.
+4. Lancement automatique : le match suivant démarre automatiquement.
+5. Lancement différé : le match suivant démarre à 30 s, pas à 29 s.
 
-**Aucun commit de ces retouches publié à ce stade. Aucun merge ni build natif.**
+Les résumés sont comparés au texte réellement copié dans le presse-papiers,
+après normalisation CRLF/LF de Windows. `navigator.share` est désactivé dans ce
+test uniquement pour exercer le repli navigateur ; aucune validation de feuille
+native n'est revendiquée.
+
+Les suites V0 finale (21 scénarios) et recette 2 (16) passent. Les boutons de durée
+sont testés avec un appui de 50 ms et une attente explicite de l'état sélectionné
+sur le bouton courant, sans délai fixe après le clic. L'ancien test utilisait un
+clic instantané puis lisait immédiatement l'état. Les attentes du carrousel
+lisent `aria-current` et les mesures paysage attendent la disposition effective.
+
+Expo Doctor : **20/20**. Exports JavaScript web, Android et iOS : réussis.
+Le contrôle de rendu des cinq modes passe ses **78 cas**, sans erreur JavaScript
+ni attribut SVG invalide (avertissement web connu sur le pilote natif d'Animated).
+Les autres suites passent également : 41 scénarios fonctionnels (alertes,
+carrousel dont Musique, commandes et reprise), 36 vérifications audio et
+10 parcours de focus/édition/rotation. Total navigateur : **207 scénarios**,
+dont les cinq nouveaux parcours. Vérification finale terminée le 15 novembre 2026.
+
+## Captures finales
+
+Captures dans `captures/`, prises à 390 × 844, 320 × 568 et 844 × 390 :
+
+| Écran | Sombre | Clair |
+| --- | --- | --- |
+| Accueil | [capture](captures/accueil-sombre.png) | [capture](captures/accueil-clair.png) |
+| Chrono circulaire | [capture](captures/match-circulaire-sombre.png) | [capture](captures/match-circulaire-clair.png) |
+| Petit écran | [capture](captures/match-petit-ecran-sombre.png) | [capture](captures/match-petit-ecran-clair.png) |
+| Paysage | [capture](captures/match-paysage-sombre.png) | [capture](captures/match-paysage-clair.png) |
+| Rotation | [capture](captures/rotation-sombre.png) | [capture](captures/rotation-clair.png) |
+| Résumé Maracana | [capture](captures/fin-maracana-sombre.png) | [capture](captures/fin-maracana-clair.png) |
+
+Aussi : [introduction](captures/introduction.png),
+[configuration](captures/configuration-sombre.png),
+[paramètres](captures/parametres-clair.png),
+[résultat classique](captures/fin-classique-clair.png).
+Les captures d'échecs intermédiaires ont été retirées du dossier livré.
+
+Premier commit local de conservation : `5617b46`. Les corrections de recette et
+les captures finales sont publiées à sa suite sur la même branche de la PR #32.
+Le résultat de la CI du dernier commit est consultable sur la PR ; il est distinct
+des contrôles locaux ci-dessus. Aucun merge ni build natif.
 
 ## Téléphone
 

@@ -1,5 +1,9 @@
 # Maquette fusionnée Lovable / Krono — thème clair, logo, accueil
 
+> Suite de la PR #32 : voir le [rapport des retouches et de la recette](retouches/rapport.md)
+> pour la correction du thème sans remontage, les cartes de score, le logo vérifié
+> sur le PDF et les captures finales. Le présent document conserve le bilan initial.
+
 Branche `claude/roundr-maquette-fusion`, basée sur `main` (`bcdeb90`). Les
 retouches de `docs/v0-polish-final/rapport.md` sont conservées (chrono qui occupe
 la hauteur libre, retours visuels, tutoiement). Aucune règle métier, aucun

@@ -1,1 +1,76 @@
-[]
+[
+  {
+    "name": "classic-theme-continuity-and-share",
+    "passed": true,
+    "detail": {
+      "correction": "2 → 1 in one tap",
+      "runningClock": "18 → 25 seconds through Settings",
+      "pausedClock": 25,
+      "carousel": "ring retained both ways",
+      "rootRetained": true,
+      "shared": true
+    }
+  },
+  {
+    "name": "maracana-manual-Sombre",
+    "passed": true,
+    "detail": {
+      "cards": [
+        [
+          "stay",
+          "Les Renards"
+        ],
+        [
+          "out",
+          "FC Amigos"
+        ],
+        [
+          "in",
+          "Panthères"
+        ]
+      ],
+      "preparedWithoutStarting": true,
+      "played": 2,
+      "shared": true
+    }
+  },
+  {
+    "name": "maracana-manual-Clair",
+    "passed": true,
+    "detail": {
+      "cards": [
+        [
+          "stay",
+          "Les Renards"
+        ],
+        [
+          "out",
+          "FC Amigos"
+        ],
+        [
+          "in",
+          "Panthères"
+        ]
+      ],
+      "preparedWithoutStarting": true,
+      "played": 2,
+      "shared": true
+    }
+  },
+  {
+    "name": "maracana-launch-auto",
+    "passed": true,
+    "detail": {
+      "nextMatchRunning": true,
+      "launch": "auto"
+    }
+  },
+  {
+    "name": "maracana-launch-delay",
+    "passed": true,
+    "detail": {
+      "nextMatchRunning": true,
+      "launch": "delay"
+    }
+  }
+]
