@@ -44,7 +44,7 @@ import {
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha, themed } from "@/src/visual/lovable";
+  withAlpha } from "@/src/visual/lovable";
 import { FreeStorageNotice } from "@/src/components/free-storage-notice";
 import {
   buildSteps,
@@ -188,12 +188,12 @@ function Action({
     </Pressable>
   );
 }
-const hint = themed(() => ({
+const hintStyle = () => ({
   fontFamily: f.regular,
   fontSize: 12,
   lineHeight: 18,
   color: c.muted,
-} as const));
+} as const);
 function Seconds({
   value,
   min,
@@ -595,7 +595,7 @@ export function LovableFreeConfig({
                 <Text style={s.cardTitle}>Aucun chrono enregistré</Text>
                 <Text
                   style={{
-                    ...hint,
+                    ...hintStyle(),
                     fontSize: 13,
                     lineHeight: 19.5,
                     textAlign: "center",
@@ -619,7 +619,7 @@ export function LovableFreeConfig({
                   >
                     {p.name}
                   </Text>
-                  <Text style={[hint, { marginTop: 4 }]}>
+                  <Text style={[hintStyle(), { marginTop: 4 }]}>
                     {freeConfigSummary(p.config)}
                   </Text>
                 </View>
@@ -761,7 +761,7 @@ export function LovableFreeConfig({
           title="Configuration ancienne conservée"
           hint="Ces réglages dépassent les limites du nouvel éditeur. Ils restent utilisables et peuvent être renommés ou enregistrés comme nouveau sans transformation."
         >
-          <Text style={hint}>{freeConfigSummary(d.legacyInterval)}</Text>
+          <Text style={hintStyle()}>{freeConfigSummary(d.legacyInterval)}</Text>
         </ConfigCard>,
       );
     else
@@ -887,7 +887,7 @@ export function LovableFreeConfig({
               />
             </Sub>
           ) : null}
-          <Text style={{ ...hint, fontFamily: f.semibold }}>
+          <Text style={{ ...hintStyle(), fontFamily: f.semibold }}>
             {steps.length} intervalle{steps.length > 1 ? "s" : ""} · durée
             totale {freeDuration(total)}
           </Text>
@@ -970,12 +970,12 @@ export function LovableFreeConfig({
                 }}
               />
               {!fits ? (
-                <Text style={hint}>
+                <Text style={hintStyle()}>
                   Ce mode accepte de 2 à 8 équipes : ta dernière composition
                   en compte {prefs.teams.length}.
                 </Text>
               ) : imported ? (
-                <Text style={hint}>
+                <Text style={hintStyle()}>
                   {prefs.teams.length !== d.teamCount
                     ? `Le nombre d'équipes a été ajusté à ${prefs.teams.length}.`
                     : "Composition importée : tu peux encore la modifier ci-dessous."}
