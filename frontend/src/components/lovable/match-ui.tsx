@@ -22,7 +22,7 @@ import { LovableIcon } from "./icon";
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha, themed } from "@/src/visual/lovable";
+  themed } from "@/src/visual/lovable";
 import {
   matchPages,
   pageNames,
@@ -31,7 +31,7 @@ import {
 } from "@/src/features/match-presentation";
 
 import { TimerDigits } from "./timer-digits";
-import { matchClockLayout } from "@/src/features/chrono-layout";
+import { MATCH_NOTICE_INSET, matchClockLayout } from "@/src/features/chrono-layout";
 
 /** Shared press feedback for live controls: quick, visual only. */
 export const pressedControl = { transform: [{ scale: 0.97 }], opacity: 0.85 } as const;
@@ -358,9 +358,9 @@ export function MatchScoreboard({
             flex: 1, minWidth: 0, padding: width <= 360 ? 10 : 12, gap: 6,
             borderRadius: 18, borderWidth: 1, borderColor: c.border, backgroundColor: c.card,
           }}>
-            <View style={{ flexDirection: "row", gap: 6, alignItems: "center", minHeight: 36 }}>
-              <View style={{ width: 9, height: 9, borderRadius: 5, backgroundColor: team?.color ?? c.muted, borderWidth: 1, borderColor: withAlpha(c.foreground, 0.2) }} />
-              <Text numberOfLines={2} style={[m.teamName, { flex: 1, textAlign: "left", fontFamily: f.semibold }]}>{team?.name}</Text>
+            <View style={{ flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", minHeight: 36 }}>
+              <Jersey color={team?.color ?? c.muted} size={20} />
+              <Text numberOfLines={1} accessibilityLabel={team?.name} style={[m.teamName, { flexShrink: 1, minWidth: 0, fontFamily: f.extrabold, fontSize: (team?.name.length ?? 0) > 15 ? 11 : 13 }]}>{team?.name}</Text>
             </View>
             <Pressable disabled={locked || !scoreOn} accessibilityRole="button"
               accessibilityLabel={scoreOn ? `${team?.name} : ${score[i]} ; corriger le score` : "Score désactivé"}
@@ -679,7 +679,7 @@ export function MatchCarousel({
       testID="match-carousel"
       accessibilityLabel="Vues du match"
       onLayout={(e) => setWidth(e.nativeEvent.layout.width - 2)}
-      style={m.carousel}
+      style={[m.carousel, { paddingTop: MATCH_NOTICE_INSET }]}
     >
     <GestureDetector gesture={gesture}>
     <View>

@@ -1,5 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { View, useWindowDimensions } from "react-native";
+import { useEffect, useState } from "react";
 import type { Session } from "@/src/domain/types";
 import { usePreferences } from "@/src/store/preferences";
 import {
@@ -11,12 +10,6 @@ import {
 import { LiveNoticeBanner } from "../live-notice-banner";
 
 const scopes = new Map<string, AnnouncementQueue>();
-// Preserve the reference's reserved space in the scrolling content, while
-// the one live announcer is hosted above the fixed controls (outside clipping).
-export function MatchAnnouncementSpace({ children, reserveSpace = true }: { children?: ReactNode; reserveSpace?: boolean }) {
-  const { width, height } = useWindowDimensions();
-  return <View pointerEvents="none" style={{ minHeight: reserveSpace ? width > height && height <= 500 ? 40 : 46 : 0, justifyContent: "center" }}>{children}</View>;
-}
 export function MatchAnnouncer({
   session,
   now,
@@ -52,9 +45,5 @@ export function MatchAnnouncer({
     );
     return () => clearTimeout(id);
   }, [until]);
-  return (
-    <MatchAnnouncementSpace reserveSpace={state.current !== null}>
-      <LiveNoticeBanner notice={state.current} variant="lovable" />
-    </MatchAnnouncementSpace>
-  );
+  return <LiveNoticeBanner notice={state.current} variant="lovable" />;
 }

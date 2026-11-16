@@ -38,7 +38,7 @@ import { LovableIcon } from "@/src/components/lovable/icon";
 import { configStyles } from "@/src/components/lovable/configuration";
 import { PhaseFrame } from "@/src/components/lovable/phase2b-ui";
 import { GiantChrono } from "@/src/components/giant-chrono";
-import { MatchAnnouncer, MatchAnnouncementSpace } from "@/src/components/lovable/match-announcer";
+import { MatchAnnouncer } from "@/src/components/lovable/match-announcer";
 import { KeepAwakeControl } from "@/src/components/lovable/keep-awake-control";
 import {
   MatchAction,
@@ -336,21 +336,23 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     />
   );
   const carousel = (
-    <MatchCarousel
-      key={l.matchId}
-      session={session}
-      projection={projection}
-      locked={locked}
-      next={tournament?.info ?? nextPage}
-      selected={selectedPage}
-      onSelect={setSelectedPage}
-      onToggle={() => setShowElapsed((v) => !v)}
-      onGiant={() => setGiant(true)}
-      fill={fillClock ? clockFill : undefined}
-    />
-  );
-  const noticeLayer = (
-    <MatchAnnouncer session={session} now={Math.max(now, storeNow)} />
+    <View style={{ position: "relative", width: "100%" }}>
+      <MatchCarousel
+        key={l.matchId}
+        session={session}
+        projection={projection}
+        locked={locked}
+        next={tournament?.info ?? nextPage}
+        selected={selectedPage}
+        onSelect={setSelectedPage}
+        onToggle={() => setShowElapsed((v) => !v)}
+        onGiant={() => setGiant(true)}
+        fill={fillClock ? clockFill : undefined}
+      />
+      <View pointerEvents="none" testID="match-notice-host" style={{ position: "absolute", top: 8, left: 10, right: 10, zIndex: 2 }}>
+        <MatchAnnouncer session={session} now={Math.max(now, storeNow)} />
+      </View>
+    </View>
   );
   const begin = () => {
     if (!locked) dispatchSession(beginMatch);
@@ -467,7 +469,6 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             <View style={{ flex: 1, minWidth: 0, gap: 10 }}>
               {scoreboard}
               {rankingLink}
-              <MatchAnnouncementSpace />
             </View>
           </View>
         ) : (
@@ -486,7 +487,6 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             )}
             {scoreboard}
             {rankingLink}
-            <MatchAnnouncementSpace />
           </>
         )}
       </ScrollView>
@@ -500,9 +500,6 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           alignItems: "center",
         }}
       >
-        <View pointerEvents="none" testID="match-notice-host" style={{ alignSelf: two ? "flex-end" : "flex-start", width: two ? (width - inset.left - inset.right - 50) / 2 : "100%" }}>
-          {noticeLayer}
-        </View>
         {primary ? (
           <View
             style={{ width: "100%", maxWidth: landscape ? 420 : undefined }}

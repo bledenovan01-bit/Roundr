@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ModeCard, homeCopyStyles } from "@/src/components/mode-card";
 import { LovableIcon, type LovableIconName } from "@/src/components/lovable/icon";
@@ -10,7 +11,7 @@ import { LovableIntro } from "@/src/components/lovable/intro";
 import { PitchPhoto } from "@/src/components/lovable/pitch-photo";
 import { Wordmark } from "@/src/components/lovable/wordmark";
 import { homeSessionPreviews } from "@/src/features/home-session-preview";
-import { useStore } from "@/src/store/session-store";
+import { discardSession, replaceFreeTimer, useStore } from "@/src/store/session-store";
 import { brand, lovable, lovableFont, themed, withAlpha } from "@/src/visual/lovable";
 
 // The five modes, in the order of the merged mockup. Each description says what the mode does.
@@ -63,7 +64,40 @@ export default function HomeScreen() {
       </View>
       {saveError ? <Text accessibilityRole="alert" style={styles.error}>{saveError}</Text> : null}
       <View testID="home-hero" style={styles.heading}><Text testID="home-title" accessibilityRole="header" style={styles.title}>Choisis ton mode</Text></View>
-      {modes.map(mode => <ModeCard key={mode.id} testID={`mode-card-${mode.id}`} title={mode.title} description={mode.description} icon={mode.icon} accent={mode.tile} solid style={{ width: cardWidth }} onPress={() => router.push((mode.id === "custom" ? "/chrono-libre" : `/config/${mode.id}`) as never)} />)}
+      {modes.map(mode => {
+        const resume = resumes.find(item =>
+          item.route === "/live" ? session?.mode === mode.id : mode.id === "custom",
+        );
+        const card = (
+          <ModeCard key={mode.id} testID={`mode-card-${mode.id}`} title={mode.title}
+            description={resume ? resume.action : mode.description}
+            icon={mode.icon} accent={mode.tile} solid style={{ width: cardWidth }}
+            onPress={() => {
+              if (resume) router.push(resume.route);
+              else if (mode.id === "custom") router.push("/chrono-libre");
+              else router.push(`/config/${mode.id}`);
+            }} />
+        );
+        if (!resume) return card;
+        return (
+          <Swipeable key={`${mode.id}-${resume.key}`} containerStyle={{ width: cardWidth }}
+            overshootRight={false} rightThreshold={32}
+            renderRightActions={(_progress, _translation, actions) => (
+              <Pressable testID={`abandon-${mode.id}`} accessibilityRole="button"
+                accessibilityLabel={`Abandonner la session : ${mode.title}`}
+                style={styles.abandon}
+                onPress={() => {
+                  actions.close();
+                  if (resume.route === "/live") discardSession();
+                  else void replaceFreeTimer(null, freeTimer);
+                }}>
+                <LovableIcon name="trash" color={lovable.onError} size={23} />
+              </Pressable>
+            )}>
+            {card}
+          </Swipeable>
+        );
+      })}
       {resumes.map(resume => <ModeCard key={resume.key} testID={resume.route === "/live" ? "resume-session-card" : "resume-free-card"} title={resume.title} icon="history" accent={lovable.primary} resume style={{ width: cardWidth }} onPress={() => router.push(resume.route)}>
         <Text style={[homeCopyStyles.detail, homeCopyStyles.state]}>{resume.state}</Text>
         {resume.teams ? <Text style={homeCopyStyles.detail}>{resume.teams}</Text> : null}
@@ -97,6 +131,7 @@ const styles = themed(() => StyleSheet.create({
   actions: { width: "100%", flexDirection: "row", gap: 10, marginTop: 2 },
   action: { flex: 1, minWidth: 0, minHeight: 50, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, borderRadius: 16, borderWidth: 1, borderColor: lovable.border, backgroundColor: lovable.cardRaised },
   actionText: { flexShrink: 1, fontFamily: lovableFont.extrabold, fontSize: 14, lineHeight: 20, color: lovable.foreground, includeFontPadding: false },
+  abandon: { width: 64, marginLeft: 6, borderRadius: 16, backgroundColor: lovable.error, alignItems: "center", justifyContent: "center" },
   pressed: { transform: [{ scale: 0.97 }] },
   error: { width: "100%", color: lovable.error, fontFamily: lovableFont.semibold },
 }));

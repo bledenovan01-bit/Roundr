@@ -23,7 +23,7 @@ export function RoundrBall({ size }: { size: number }) {
  * Full logo: "Roundr" with the football in place of the full stop. The ball
  * keeps its green in both themes; `onPhoto` keeps the letters light on a photo.
  */
-export function Wordmark({ size = 26, testID, onPhoto = false }: { size?: number; testID?: string; onPhoto?: boolean }) {
+export function Wordmark({ size = 26, testID, onPhoto = false, raiseBall = false }: { size?: number; testID?: string; onPhoto?: boolean; raiseBall?: boolean }) {
   const ball = size * geometry.wordBallRadiusPerSize * 2;
   return (
     <View testID={testID} accessible accessibilityRole="image" accessibilityLabel="Roundr" style={{ flexDirection: "row", alignItems: "flex-end" }}>
@@ -33,8 +33,8 @@ export function Wordmark({ size = 26, testID, onPhoto = false }: { size?: number
       >
         Roundr
       </Text>
-      {/* The ball sits on the baseline, which is 0.2 em above the bottom of the line box. */}
-      <View style={{ marginLeft: size * geometry.wordGapPerSize, marginBottom: size * 0.17 }}>
+      {/* Align the ball optically with the baseline of the wordmark. */}
+      <View style={{ marginLeft: size * geometry.wordGapPerSize, marginBottom: size * (raiseBall ? 0.21 : 0.17) }}>
         <RoundrBall size={ball} />
       </View>
     </View>

@@ -1,12 +1,12 @@
 // Bannière de notification ponctuelle interne (Phase 2 — réf. Lovable).
-// S'affiche SOUS le bloc du chronomètre. Vert = échauffement/préparation,
+// Emplacement défini par l’écran hôte. Vert = échauffement/préparation,
 // orange = alertes de temps. ~4,5 s (piloté par `notice.until` via le store).
 // Non bloquante (pointerEvents="none"), fondu discret en entrée ET en sortie.
 import { useEffect, useState } from "react";
 import { AccessibilityInfo, Animated, Text, View, useWindowDimensions } from "react-native";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { fontFamily, makeStyles, radius, spacing, useTheme } from "@/src/theme";
-import { lovable, withAlpha } from "@/src/visual/lovable";
+import { lovable, themeName, withAlpha } from "@/src/visual/lovable";
 import { MatchIcon } from "./lovable/match-ui";
 
 export type LiveNoticeTone = "warmup" | "time";
@@ -65,12 +65,12 @@ export function LiveNoticeBanner({ notice, variant="legacy" }: { notice: LiveNot
       accessibilityLiveRegion="polite"
       accessible
       accessibilityLabel={shown.message}
-      style={[styles.wrap, { borderColor: accent, backgroundColor: bg, opacity, transform: [{ translateY }] },variant==="lovable"&&{width:"100%",marginTop:0,paddingVertical:shortLandscape?6:8,paddingHorizontal:shortLandscape?12:14,gap:8,borderRadius:16,backgroundColor:withAlpha(lovable.card,.94),borderColor:withAlpha(warm?lovable.primary:lovable.amber,warm?.6:.65),justifyContent:"center"}]}
+      style={[styles.wrap, { borderColor: accent, backgroundColor: bg, opacity, transform: [{ translateY }] },variant==="lovable"&&{width:"100%",marginTop:0,paddingVertical:shortLandscape?6:8,paddingHorizontal:shortLandscape?12:14,gap:8,borderRadius:16,backgroundColor:warm ? colors.brandTertiary : themeName() === "light" ? "#fff0dc" : "#2b2113",borderColor:withAlpha(warm?lovable.primary:lovable.amber,warm?.6:.65),justifyContent:"center"}]}
     >
       {variant==="lovable"?<MatchIcon name={warm?"megaphone":"timer"} size={18} color={warm?lovable.primary:lovable.amber}/>:<View style={[styles.iconWrap, { backgroundColor: accent }]}>
         <MaterialCommunityIcons name={icon} size={18} color={colors.surface} />
       </View>}
-      <Text style={[styles.message, { color: colors.onSurface },variant==="lovable"&&{flex:undefined,flexGrow:0,flexShrink:1,flexBasis:"auto",fontFamily:"ManropeRefined-Bold",fontSize:shortLandscape?13:14,lineHeight:shortLandscape?16.25:17.5,color:lovable.foreground,textAlign:"center"}]} numberOfLines={3}>
+      <Text style={[styles.message, { color: colors.onSurface },variant==="lovable"&&{flex:undefined,flexGrow:0,flexShrink:1,flexBasis:"auto",fontFamily:"ManropeRefined-Bold",fontSize:shortLandscape?13:14,lineHeight:shortLandscape?16.25:17.5,color:warm?lovable.primary:lovable.amber,textAlign:"center"}]} numberOfLines={3}>
         {shown.message}
       </Text>
     </Animated.View>

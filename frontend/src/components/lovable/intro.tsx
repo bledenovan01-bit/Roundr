@@ -17,7 +17,7 @@ export function LovableIntro({ onStart }: { onStart: () => void }) {
     {/* The photo fills the lower part; the veil keeps the upper text area dark. */}
     <PitchPhoto shade="top" position="bottom" style={landscape ? undefined : { top: "34%" }} />
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingLeft: 26 + insets.left, paddingRight: 26 + insets.right, paddingTop: insets.top + (landscape ? 16 : height * 0.2) }]}>
-      <Wordmark size={logoSize} testID="intro-wordmark" onPhoto />
+      <Wordmark size={logoSize} testID="intro-wordmark" onPhoto raiseBall />
       <Text testID="intro-title" accessibilityRole="header" style={[styles.title, { fontSize: titleSize, lineHeight: titleSize * 1.25 }]}>Plus de jeu.{"\n"}Moins d&apos;organisation.</Text>
     </ScrollView>
     <View testID="intro-dock" style={[styles.dock, { paddingTop: landscape ? 8 : 12, paddingLeft: 20 + insets.left, paddingRight: 20 + insets.right, paddingBottom: Math.max(landscape ? 10 : 16, insets.bottom) }]}>

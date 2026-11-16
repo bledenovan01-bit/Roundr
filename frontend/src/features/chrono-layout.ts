@@ -6,8 +6,10 @@
 // and the readout grows with it. Landscape and two-column layouts keep the
 // reference sizes unchanged.
 
-/** Dots row (24) + bottom padding (12) + borders (2) of the match carousel. */
-export const MATCH_CAROUSEL_CHROME = 38;
+/** Fixed room at the top of every match page for the screen-level notice. */
+export const MATCH_NOTICE_INSET = 40;
+/** Notice inset + dots (24) + bottom padding (12) + borders (2). */
+export const MATCH_CAROUSEL_CHROME = MATCH_NOTICE_INSET + 38;
 /** Tabs (46) + dots (24) + status line (21) + bottom padding (12) + borders (2). */
 export const FREE_CAROUSEL_CHROME = 105;
 /** Above this text size the card keeps its reference height (labels may wrap). */
