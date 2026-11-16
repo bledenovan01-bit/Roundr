@@ -11,14 +11,19 @@ export type Preferences = {
   minuteSound:EventSound; periodSound:EventSound; warmupSound:EventSound;
   teams:Team[]; players:string[]; groups:string[][]; error:string|null; compositionSavedAt?:number;
   /** Appearance. Dark is the default; an unknown saved value falls back to it. */
-  theme:ThemeName;
+  theme:ThemeName | "system";
 };
-let state:Preferences={sounds:true,vibrations:true,preparation:true,additional:true,keepAwake:false,
+let state:Preferences={sounds:true,vibrations:true,preparation:true,additional:true,keepAwake:true,
   volume:0.8,startSound:"whistle",endSound:"final",goalSound:"alert",minuteSound:"gong",periodSound:"gong",warmupSound:"prep",
   teams:[],players:[],groups:[],error:null,theme:"dark"};
 const listeners=new Set<()=>void>();
 // The colours follow the preference before any screen is told about the change.
-const emit=()=>{applyTheme(state.theme);listeners.forEach(fn=>fn());};
+let systemTheme: ThemeName = "dark";
+export function followSystemTheme(theme: ThemeName) {
+  systemTheme = theme;
+  if (state.theme === "system") applyTheme(theme);
+}
+const emit=()=>{applyTheme(state.theme === "system" ? systemTheme : state.theme);listeners.forEach(fn=>fn());};
 const sounds = new Set(["off","alert","whistle","final","prep","gong"]);
 const team = (t:any):t is Team => !!t && typeof t.id==="string" && typeof t.name==="string" && typeof t.color==="string";
 let pending=Promise.resolve(), writes=0, loaded=false, readable=false, reading:Promise<void>|null=null;
@@ -43,13 +48,13 @@ export function loadPreferences():Promise<void>{
       for(const key of ["sounds","vibrations","preparation","additional","keepAwake"] as const) {
         if(typeof value[key]==="boolean") clean[key]=value[key];
       }
-      // v2 changes the old implicit always-on default. Future explicit choices persist.
-      if(value.screenSleepVersion!==2) clean.keepAwake=false;
+      // Preserve explicit choices made since the screen-sleep setting was introduced.
+      if(value.screenSleepVersion!==2) clean.keepAwake=true;
       for(const key of ["startSound","endSound","goalSound","minuteSound","periodSound","warmupSound"] as const) {
         if(sounds.has(value[key])) clean[key]=value[key];
       }
       if(Number.isFinite(value.volume)) clean.volume=Math.min(1,Math.max(0,value.volume));
-      if(isThemeName(value.theme)) clean.theme=value.theme;
+      if(isThemeName(value.theme) || value.theme === "system") clean.theme=value.theme;
       if(Array.isArray(value.teams)&&value.teams.every(team)&&new Set(value.teams.map((t:Team)=>t.id)).size===value.teams.length) clean.teams=value.teams;
       if(Array.isArray(value.players)&&value.players.every((x:any)=>typeof x==="string")) clean.players=[...new Set<string>(value.players)];
       if(Array.isArray(value.groups)&&value.groups.every((g:any)=>Array.isArray(g)&&g.every((x:any)=>typeof x==="string"))) clean.groups=value.groups;

@@ -8,9 +8,9 @@ export function useUnsavedChanges(dirty:boolean) {
   const [approved,setApproved]=useState(false);
   const pending=useRef<(()=>void)|null>(null);
   usePreventRemove(dirty&&!approved,({data})=>{
-    Alert.alert("Quitter sans enregistrer ?", "Tes modifications de réglages seront perdues.", [
+    Alert.alert("Abandonner ces réglages ?", "Tes modifications de réglages seront perdues.", [
       {text:"Continuer les réglages",style:"cancel"},
-      {text:"Quitter",style:"destructive",onPress:()=>navigation.dispatch(data.action)},
+      {text:"Abandonner",style:"destructive",onPress:()=>navigation.dispatch(data.action)},
     ]);
   });
   useEffect(()=>{if(approved&&pending.current){const action=pending.current;pending.current=null;action();}},[approved]);

@@ -1,3 +1,4 @@
+import { usePreferences } from "@/src/store/preferences";
 import { useAppearance } from "@/src/hooks/use-appearance";
 import { decorativeSvgAccessibility } from "@/src/components/svg-compat";
 import Svg, { Path } from "react-native-svg";
@@ -66,97 +67,36 @@ import {
 import {
   lovable as c,
   lovableFont as f,
-  withAlpha, themed, themeName } from "@/src/visual/lovable";
+  withAlpha, themed } from "@/src/visual/lovable";
 import { freeDuration } from "@/src/domain/free-configuration";
 
-function ScoreControl({
-  name,
-  color,
-  compact,
-  disabled,
-  onChange,
-}: {
+function ScoreControl({ name, color, disabled, canRemove, onChange }: {
   name: string;
   color: string;
-  compact: false | "list" | "compact";
   disabled: boolean;
+  canRemove: boolean;
   onChange: (n: 1 | -1) => void;
 }) {
-  const held = useRef(false);
-  const origin = useRef<{ x: number; y: number } | null>(null);
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`Ajouter un but : ${name}`}
-      accessibilityHint="Appui long pour retirer un but"
-      accessibilityActions={[
-        { name: "activate", label: "Ajouter un but" },
-        { name: "decrement", label: "Retirer un but" },
-      ]}
-      onAccessibilityAction={(e) => {
-        if (!disabled)
-          onChange(e.nativeEvent.actionName === "decrement" ? -1 : 1);
-      }}
-      disabled={disabled}
-      onPressIn={(event) => {
-        held.current = false;
-        origin.current = {
-          x: event.nativeEvent.pageX,
-          y: event.nativeEvent.pageY,
-        };
-      }}
-      onLongPress={() => {
-        if (held.current) return;
-        held.current = true;
-        onChange(-1);
-      }}
-      onTouchMove={(event) => {
-        if (
-          !freeStationaryTap(origin.current, {
-            x: event.nativeEvent.pageX,
-            y: event.nativeEvent.pageY,
-          })
-        )
-          held.current = true;
-      }}
-      delayLongPress={550}
-      onPress={(event) => {
-        if (
-          !held.current &&
-          freeStationaryTap(origin.current, {
-            x: event.nativeEvent.pageX,
-            y: event.nativeEvent.pageY,
-          })
-        )
-          onChange(1);
-        held.current = false;
-      }}
-      hitSlop={{ top: 5, bottom: 5 }}
-      style={[
-        s.scoreButton,
-        {
-          height: compact === "compact" ? 32 : compact ? 36 : 38,
-          width: compact === "compact" ? 40 : compact ? 56 : undefined,
-          borderColor: color,
-          backgroundColor: withAlpha(color, 0.16),
-          opacity: disabled ? 0.35 : 1,
-        },
-      ]}
-    >
-      <Text
-        style={{
-          fontFamily: f.extrabold,
-          fontSize: compact === "compact" ? 14 : 16,
-          color: themeName() === "light" ? c.foreground : color,
-        }}
-      >
-        +1
-      </Text>
-    </Pressable>
+    <View style={{ flexDirection: "row", gap: 4 }}>
+      {([-1, 1] as const).map(delta => {
+        const blocked = disabled || (delta < 0 && !canRemove);
+        return (
+          <Pressable key={delta} accessibilityRole="button"
+            accessibilityLabel={`${delta < 0 ? "Retirer" : "Ajouter"} un but : ${name}`}
+            disabled={blocked} onPress={() => onChange(delta)}
+            style={[s.scoreButton, { minWidth: 44, minHeight: 44, borderColor: color,
+              backgroundColor: withAlpha(color, 0.16), opacity: blocked ? 0.5 : 1 }]}>
+            <Text style={{ fontFamily: f.extrabold, fontSize: 14, color: c.foreground }}>{delta < 0 ? "−1" : "+1"}</Text>
+          </Pressable>
+        );
+      })}
+    </View>
   );
 }
 export function LovableFreeLive() {
   useAppearance();
+  const prefs = usePreferences();
   const router = useRouter(),
     navigation = useNavigation(),
     inset = useSafeAreaInsets(),
@@ -200,7 +140,7 @@ export function LovableFreeLive() {
     return () => sub.remove();
   }, [locked]);
   useEffect(() => {
-    if (loaded && !ft) router.replace("/");
+    if (loaded && !ft) router.dismissTo("/");
   }, [loaded, ft, router]);
   if (!ft) return null;
   const r = freeReadout(ft, now),
@@ -232,10 +172,10 @@ export function LovableFreeLive() {
     if (saved) {
       setActionError(null);
       setSheet(null);
-      if (action === "end") router.replace("/");
+      if (action === "end") router.dismissTo("/");
     } else {
       setActionError(
-        "Le changement n’a pas été enregistré. La séance précédente est conservée. Réessaie.",
+        "Le changement n’a pas été enregistré. La session précédente est conservée. Réessaie.",
       );
     }
   };
@@ -487,7 +427,7 @@ export function LovableFreeLive() {
                 <ScoreControl
                   name={team.name}
                   color={team.color}
-                  compact={teams.length > 4 ? "compact" : "list"}
+                  canRemove={ft.score[i] > 0}
                   disabled={blocked || stage === "ready"}
                   onChange={(d) => score(i, d)}
                 />
@@ -497,7 +437,7 @@ export function LovableFreeLive() {
               <ScoreControl
                 name={team.name}
                 color={team.color}
-                compact={false}
+                canRemove={ft.score[i] > 0}
                 disabled={blocked || stage === "ready"}
                 onChange={(d) => score(i, d)}
               />
@@ -740,7 +680,7 @@ export function LovableFreeLive() {
               backgroundColor:
                 i === items.length - 1 ? c.primary : c.cardRaised,
               borderColor: i === items.length - 1 ? c.primary : c.border,
-              opacity: blocked ? 0.35 : 1,
+              opacity: blocked ? 0.5 : 1,
             },
             pressed && pressedControl,
           ]}
@@ -818,7 +758,7 @@ export function LovableFreeLive() {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            opacity: blocked ? 0.35 : 1,
+            opacity: blocked ? 0.5 : 1,
           }}
         >
           <MatchIcon name="restart" size={18} color={c.onPrimary} />
@@ -910,7 +850,7 @@ export function LovableFreeLive() {
           accessibilityLabel="Retour à l'accueil"
           disabled={blocked}
           style={({ pressed }) => [m.headerButton, pressed && pressedControl]}
-          onPress={() => router.replace("/")}
+          onPress={() => router.dismissTo("/")}
         >
           <LovableIcon name="back" color={c.foreground} size={20} />
         </Pressable>
@@ -938,7 +878,8 @@ export function LovableFreeLive() {
           }}
           delayLongPress={550}
           onPress={() => {
-            if (!held.current && !locked) router.push({ pathname: "/settings", params: { from: "free" } });
+            if (!held.current && locked) setLocked(false);
+            else if (!held.current) router.push({ pathname: "/settings", params: { from: "free" } });
             held.current = false;
           }}
           accessibilityActions={[
@@ -953,6 +894,10 @@ export function LovableFreeLive() {
           )}
         </Pressable>
       </View>
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <MatchAction label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
+      </View>
+      {!prefs.keepAwake ? <Text style={[m.hint, { textAlign: "center" }]}>Veille autorisée. Le sifflet ne sonne pas écran verrouillé ou en arrière-plan.</Text> : null}
       <ScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}

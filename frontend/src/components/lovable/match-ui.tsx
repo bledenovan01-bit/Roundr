@@ -93,6 +93,7 @@ export type MatchIconName =
   | "music"
   | "lock"
   | "unlock"
+  | "expand"
   | "megaphone"
   | "timer"
   | "plus"
@@ -173,6 +174,8 @@ export function MatchIcon({
           <Circle cx={6} cy={18} r={3} />
           <Circle cx={18} cy={16} r={3} />
         </>
+      ) : name === "expand" ? (
+        <Path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6" />
       ) : name === "lock" || name === "unlock" ? (
         <>
           <Rect x={3} y={11} width={18} height={11} rx={2} />
@@ -262,7 +265,7 @@ export function MatchAction({
                 ? c.cardRaised
                 : "transparent",
           borderWidth: kind === "secondary" ? 1 : 0,
-          opacity: disabled ? 0.35 : pressed ? 0.85 : 1,
+          opacity: disabled ? 0.5 : pressed ? 0.85 : 1,
         },
         pressed && !disabled && { transform: [{ scale: 0.98 }] },
       ]}
@@ -360,7 +363,7 @@ export function MatchScoreboard({
           }}>
             <View style={{ flexDirection: "row", gap: 6, alignItems: "center", justifyContent: "center", minHeight: 36 }}>
               <Jersey color={team?.color ?? c.muted} size={20} />
-              <Text numberOfLines={1} accessibilityLabel={team?.name} style={[m.teamName, { flexShrink: 1, minWidth: 0, fontFamily: f.extrabold, fontSize: (team?.name.length ?? 0) > 15 ? 11 : 13 }]}>{team?.name}</Text>
+              <Text numberOfLines={width <= 360 ? 2 : 1} accessibilityLabel={team?.name} style={[m.teamName, { flexShrink: 1, minWidth: 0, fontFamily: f.extrabold, fontSize: (team?.name.length ?? 0) > 15 ? 11 : 13, lineHeight: 16 }]}>{team?.name}</Text>
             </View>
             <Pressable disabled={locked || !scoreOn} accessibilityRole="button"
               accessibilityLabel={scoreOn ? `${team?.name} : ${score[i]} ; corriger le score` : "Score désactivé"}
@@ -637,6 +640,7 @@ export function MatchCarousel({
     enabled: !locked,
     onSelect: go,
   });
+  const clockPage = pages[page] === "digital" || pages[page] === "ring";
   const status = (kind: string) => (
     <View style={m.status}>
       <View
@@ -681,6 +685,7 @@ export function MatchCarousel({
       onLayout={(e) => setWidth(e.nativeEvent.layout.width - 2)}
       style={[m.carousel, { paddingTop: MATCH_NOTICE_INSET }]}
     >
+    {clockPage && !locked ? <Pressable accessibilityRole="button" accessibilityLabel="Afficher le chrono en plein écran" onPress={onGiant} style={{ position: "absolute", top: MATCH_NOTICE_INSET, right: 6, width: 44, height: 44, alignItems: "center", justifyContent: "center", zIndex: 1 }}><MatchIcon name="expand" size={18} color={c.muted} /></Pressable> : null}
     <GestureDetector gesture={gesture}>
     <View>
       <View style={{ height: slideHeight, overflow: pages[page] === "tournament" ? "visible" : "hidden", zIndex: pages[page] === "tournament" ? 1 : undefined }}>
@@ -789,7 +794,7 @@ export function MatchCarousel({
                             },
                           ]}
                         >
-                          {projection.label}
+                          {projection.label}{projection.canToggle && !locked ? " ⇄" : ""}
                         </Text>
                         <MatchDigits
                           projection={projection}

@@ -110,7 +110,7 @@ function queueWrite(write: Write): Promise<boolean> {
   const operation = pendingWrite.then(async () => {
     if (write.dependency && !write.dependency.succeeded) {
       failedWrites.set(write.key, write);
-      issue("write:" + write.key, "Sauvegarde en attente : l’enregistrement préalable a échoué. Réessaie.");
+      issue("write:" + write.key, "Impossible de sauvegarder. Réessaie.");
       return false;
     }
     try {
@@ -483,6 +483,13 @@ export function renameCompetition(id: string, name: string): Promise<boolean> {
 }
 export function deleteCompetition(id: string): Promise<boolean> {
   return changeCompetition(id, () => ({ schema: 1, id, deleted: true }));
+}
+export function restoreCompetition(entry: Competition): Promise<boolean> {
+  return historyTask(async () => {
+    const key = competitionKey(entry.id);
+    if (!historyWritable(key) || !deletedCompetitions.has(entry.id)) return false;
+    return persist(key, entry);
+  });
 }
 function changeCompetition(id: string, update: (previous: Competition) => CompetitionRecord): Promise<boolean> {
   return historyTask(async () => {

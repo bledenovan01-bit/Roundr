@@ -21,7 +21,7 @@ function Jersey({ color, size }: { color: string; size: number }) {
 }
 function Card({ title, count, children }: { title: string; count?: string | number; children: ReactNode }) { return <View style={h.card}><View style={[h.row, { justifyContent: "space-between" }]}><Text accessibilityRole="header" style={h.heading}>{title}</Text>{count !== undefined ? <Text style={[h.hint, { fontFamily: f.extrabold }]}>{count}</Text> : null}</View>{children}</View>; }
 const round = (n: number) => n === 2 ? "Finale" : n === 4 ? "Demi-finales" : n === 8 ? "Quarts de finale" : n === 16 ? "Huitièmes" : `Tour de ${n}`;
-const how = (m: Match) => m.shootout ? `TAB ${m.shootout[0]}–${m.shootout[1]}` : m.finishReason === "goldenGoal" || m.completedPhase === "golden" ? "golden goal" : m.finishReason === "extraTimeEnd" || m.completedPhase === "prol" ? "a.p." : "";
+const how = (m: Match) => m.shootout ? `TAB ${m.shootout[0]}–${m.shootout[1]}` : m.finishReason === "goldenGoal" || m.completedPhase === "golden" ? "but en or" : m.finishReason === "extraTimeEnd" || m.completedPhase === "prol" ? "a.p." : "";
 const score = (m: Match) => m.score ? `${m.score[0]} – ${m.score[1]}` : "—";
 
 // All values come from the stored native results. No active match action exists here.

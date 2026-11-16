@@ -1,3 +1,5 @@
+import { useSubviewBack } from "@/src/hooks/use-subview-back";
+import { useUndoAction } from "@/src/hooks/use-undo-action";
 import { useAppearance } from "@/src/hooks/use-appearance";
 import { unfinishedRevision } from "@/src/domain/tournament-presentation";
 import { useState } from "react";
@@ -8,7 +10,7 @@ import { HistoryAction, HistoryScreenFrame, h } from "@/src/components/lovable/h
 import { historySummaryCards } from "@/src/components/lovable/history-summary";
 import { LovableIcon } from "@/src/components/lovable/icon";
 import { competitionName, sortedCompetitions, type Competition } from "@/src/store/competition-history";
-import { deleteCompetition, renameCompetition, retryStorage, useStore } from "@/src/store/session-store";
+import { deleteCompetition, renameCompetition, restoreCompetition, retryStorage, useStore } from "@/src/store/session-store";
 import { lovable as c, withAlpha } from "@/src/visual/lovable";
 
 const date = (at: number) => new Date(at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
@@ -20,10 +22,13 @@ export default function History() {
   const [open, setOpen] = useState<string | null>(null), [sheet, setSheet] = useState<Sheet | null>(null);
   const active = useStore(s=>s.session);
   const current = entries.find(entry => entry.id === open);
+  useSubviewBack(!!current && !sheet, () => setOpen(null));
+  const deletion = useUndoAction();
   const errors = error ? <View key="errors" style={{ gap: 8 }}><Text accessibilityRole="alert" style={h.error}>{error}</Text><HistoryAction label="Réessayer la sauvegarde" variant="secondary" onPress={() => { void retryStorage(); }} /></View> : null;
   return <>
-    <HistoryScreenFrame accent={current ? current.kind === "cup" ? c.cup : c.survie : undefined} title={current?.name ?? "Historique"} subtitle={current ? `${current.kind === "cup" ? "Cup" : "Survie"} · ${date(current.endedAt)}` : "Compétitions Cup et Survie"} onBack={() => current ? setOpen(null) : router.back()} footer={current ? <><HistoryAction label="Renommer" icon="pencil" variant="secondary" fitContent={landscape} onPress={() => setSheet({ kind: "rename", entry: current })} /><HistoryAction label="Retour à l'historique" variant="ghost" fitContent={landscape} onPress={() => setOpen(null)} /></> : undefined}>
+    <HistoryScreenFrame accent={current ? current.kind === "cup" ? c.cup : c.survie : undefined} title={current?.name ?? "Tournois joués"} subtitle={current ? `${current.kind === "cup" ? "Cup" : "Survie"} · ${date(current.endedAt)}` : "Compétitions Cup et Survie"} onBack={() => current ? setOpen(null) : router.back()} footer={current ? <><HistoryAction label="Renommer" icon="pencil" variant="secondary" fitContent={landscape} onPress={() => setSheet({ kind: "rename", entry: current })} /><HistoryAction label="Retour à l'historique" variant="ghost" fitContent={landscape} onPress={() => setOpen(null)} /></> : undefined}>
       {current ? [<View key="readonly" style={[h.row, { paddingVertical: 10, paddingHorizontal: 12, borderRadius: 12, backgroundColor: withAlpha(c.primary, 0.14), alignItems: "flex-start" }]}><LovableIcon name="archive" color={c.primary} /><Text style={[h.hint, { flex: 1, color: c.foreground, lineHeight: 17.4 }]}>Consultation en lecture seule · {unfinishedRevision(active,current.session) ? "Palmarès antérieur · compétition en cours de correction" : current.status === "finished" ? "Terminée" : "Interrompue"} · {current.session.teams.length} équipes</Text></View>, errors, ...historySummaryCards(current)] : [
+        deletion.undo ? <HistoryAction key="undo" label={deletion.undo.label} onPress={deletion.restore} /> : null,
         <Text key="hint" style={h.hint}>Enregistré uniquement sur cet appareil. Aucune synchronisation.</Text>, errors,
         !entries.length && available ? <View key="empty" testID="history-empty" style={[h.card, { paddingVertical: 28, paddingHorizontal: 18, alignItems: "center", gap: 8 }]}><LovableIcon name="trophy" size={30} color={c.primary} /><Text accessibilityRole="header" style={[h.heading, { textAlign: "center" }]}>Aucune compétition enregistrée</Text><Text style={[h.hint, { textAlign: "center" }]}>Joue une Cup ou une Survie : son palmarès s&apos;affichera ici, même si tu l&apos;arrêtes en route.</Text></View> : null,
         ...sortedCompetitions(entries).map(entry => { const accent = entry.kind === "cup" ? c.cup : c.survie; const champion = entry.summary.podium.find(p => p.place === 1)?.name; return <View key={entry.id} testID={`history-entry-${entry.id}`} style={[h.card, { padding: 0, overflow: "hidden" }]}>
@@ -32,7 +37,7 @@ export default function History() {
         </View>; }),
       ]}
     </HistoryScreenFrame>
-    {sheet ? <HistorySheet key={sheet.kind + sheet.entry.id} sheet={sheet} onClose={() => setSheet(null)} onDeleted={() => { setSheet(null); setOpen(null); }} /> : null}
+    {sheet ? <HistorySheet key={sheet.kind + sheet.entry.id} sheet={sheet} onClose={() => setSheet(null)} onDeleted={() => { const entry = sheet.entry; setSheet(null); setOpen(null); deletion.offer("Tournoi supprimé · Annuler", () => restoreCompetition(entry)); }} /> : null}
   </>;
 }
 

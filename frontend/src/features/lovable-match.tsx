@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BackHandler,
   Pressable,
@@ -8,8 +8,10 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { useNavigation, useRouter } from "expo-router";
+import { useFocusEffect, useNavigation, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSubviewBack } from "@/src/hooks/use-subview-back";
+import { setPreferences, usePreferences } from "@/src/store/preferences";
 import { Alert } from "@/src/alert";
 import { elapsedMs } from "@/src/chrono/engine";
 import { useDisplayClock } from "@/src/chrono/use-display-clock";
@@ -19,6 +21,7 @@ import { computeStandings } from "@/src/domain/standings";
 import {
   archiveSession,
   dispatchSession,
+  discardSession,
   getStoreState,
   retryStorage,
   startSession,
@@ -77,6 +80,7 @@ const fmt = (ms: number) => {
 export type TournamentMatchUI = {
   title: string; subtitle: string; rankingLabel: string; onRanking: () => void;
   info: ReactNode; onCorrect?: () => void;
+  onDiscard?: () => void;
   overlay: (controls: { locked: boolean; onUnlock: () => void }) => ReactNode;
 };
 export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatchUI } = {}) {
@@ -97,6 +101,15 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     [correcting, setCorrecting] = useState(false),
     [adding, setAdding] = useState(false),
     [teamName, setTeamName] = useState("");
+  const preferences = usePreferences();
+  const keepAwake = preferences.keepAwake;
+  const [undoRestart, setUndoRestart] = useState<{ before: Session; after: Session; until: number } | null>(null);
+  useEffect(() => {
+    if (!undoRestart) return;
+    const timer = setTimeout(() => setUndoRestart(null), Math.max(0, undoRestart.until - Date.now()));
+    return () => clearTimeout(timer);
+  }, [undoRestart]);
+  const [stopping, setStopping] = useState(false);
   const lockHeld = useRef(false);
   const leaving = useRef(false);
   const [selectedPage, setSelectedPage] = useState(0);
@@ -108,24 +121,35 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
   const l = session?.live,
     running = !!l && l.chrono.runningSince !== null && l.stage !== "finished",
     now = useDisplayClock(running);
+  useSubviewBack(!!tournament && !locked && !giant, () => tournament?.onRanking());
   const matchKey = session?.id + ":" + l?.matchId + (tournament ? ":" + (l?.tiebreakStep === "choice" ? "period" : l?.stage === "extra" || l?.stage === "golden" ? l.stage : "period") : "");
   const [displayMatch, setDisplayMatch] = useState(matchKey);
   useEffect(() => {
     navigation.setOptions({ gestureEnabled: !locked });
     return () => navigation.setOptions({ gestureEnabled: true });
   }, [navigation, locked]);
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     const sub = BackHandler.addEventListener("hardwareBackPress", () => {
       if (giant) {
         setGiant(false);
         return true;
       }
-      return locked;
+      if (locked) return true;
+      const current = getStoreState().session;
+      if (current?.mode === "classique" && current.live?.stage === "finished") {
+        archiveSession(S.endSession(current, Date.now()));
+        if (!getStoreState().session) {
+          leaving.current = true;
+          router.dismissTo("/");
+        }
+        return true;
+      }
+      return false;
     });
     return () => sub.remove();
-  }, [locked, giant]);
+  }, [locked, giant, router]));
   useEffect(() => {
-    if (!session && !leaving.current) router.replace("/");
+    if (!session && !leaving.current) router.dismissTo("/");
   }, [session, router]);
   if (displayMatch !== matchKey) {
     setDisplayMatch(matchKey);
@@ -140,13 +164,14 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
   const canScore = l.scoreOn && !finished && !between && l.stage !== "ready" && l.stage !== "shootout" && !l.tiebreakStep;
   const upcoming = maracanaUpcoming(session);
   const home = () => {
-    if (!locked) router.replace("/");
+    if (!locked) router.dismissTo("/");
   };
   const archiveAndHome = (summary = false) => {
     archiveSession(S.endSession(session, Date.now()));
     if (!getStoreState().session) {
       leaving.current = true;
-      router.replace(summary ? "/summary" : "/");
+      if (summary) router.replace("/summary");
+      else router.dismissTo("/");
     }
   };
   const replay = () => {
@@ -193,11 +218,24 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
       },
     ]);
   };
+  const hasResults = session.mode !== "classique" && session.matches.some(match => match.status === "finished");
+  const discard = () => {
+    if (getStoreState().session?.id !== session.id) return;
+    discardSession();
+    if (!getStoreState().session) {
+      tournament?.onDiscard?.();
+      leaving.current = true;
+      router.dismissTo("/");
+    }
+  };
   const restart = () => {
     if (locked) return;
     confirmMatchRestart(() => {
       setShowElapsed(false);
+      const before = getStoreState().session;
       dispatchSession(S.restartCurrent);
+      const after = getStoreState().session;
+      if (before && after && before !== after) setUndoRestart({ before, after, until: Date.now() + 5000 });
     }, !!tournament && (l.stage === "extra" || l.stage === "golden"));
   };
   if (session.mode === "classique" && finished)
@@ -416,7 +454,8 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             lockHeld.current = false;
           }}
           onPress={() => {
-            if (!lockHeld.current && !locked) router.push({ pathname: "/settings", params: { from: "match" } });
+            if (!lockHeld.current && locked) setLocked(false);
+            else if (!lockHeld.current) router.push({ pathname: "/settings", params: { from: "match" } });
             lockHeld.current = false;
           }}
           onLongPress={() => {
@@ -446,6 +485,8 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           gap: landscape ? 10 : 14,
         }}
       >
+        {l.stage === "ready" && preferences.theme === "dark" && new Date(now).getHours() >= 8 && new Date(now).getHours() < 19 ? <MatchAction label="En extérieur ? Choisir le thème clair" kind="text" onPress={() => { void setPreferences({ theme: "light" }); }} /> : null}
+        {!keepAwake ? <Text style={m.hint}>Veille autorisée. Le sifflet ne sonne pas écran verrouillé ou en arrière-plan.</Text> : null}
         {saveError ? (
           <View>
             <Text accessibilityRole="alert" style={m.error}>
@@ -500,24 +541,42 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           alignItems: "center",
         }}
       >
+        {undoRestart && session === undoRestart.after ? (
+          <MatchAction label="Temps remis à zéro · Annuler" kind="text" onPress={() => {
+            if (Date.now() <= undoRestart.until) dispatchSession(current => current === undoRestart.after ? undoRestart.before : current, { silent: true });
+            setUndoRestart(null);
+          }} />
+        ) : null}
+        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
+          <MatchAction label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
+          {!locked ? <>
+            <MatchAction label="Arrêter la session" kind="text" onPress={() => setStopping(true)} />
+            {(session.mode === "classique" || session.mode === "maracana") && l.stage === "ready" && !session.matches.some(match => match.status === "finished") ? (
+              <MatchAction label="Modifier les réglages" kind="text" onPress={() => router.push({ pathname: "/config/[mode]", params: { mode: session.mode, edit: session.id } })} />
+            ) : null}
+          </> : null}
+        </View>
         {primary ? (
           <View
-            style={{ width: "100%", maxWidth: landscape ? 420 : undefined }}
+            style={{ width: "100%", maxWidth: landscape ? 420 : undefined, flexDirection: "row", gap: 8 }}
           >
-            <MatchAction
-              label={
-                between
-                  ? "Démarrer la " +
-                    periodName(
-                      l.periodMs.length,
-                      l.stage === "break" ? l.periodIndex + 1 : l.periodIndex,
-                    ).toLowerCase()
-                  : "Démarrer"
-              }
-              icon="play"
-              onPress={begin}
-              disabled={locked}
-            />
+            <KeepAwakeControl landscape={landscape} height={landscape ? 48 : 56} disabled={locked} />
+            <View style={{ flex: 1 }}>
+              <MatchAction
+                label={
+                  between
+                    ? "Démarrer la " +
+                      periodName(
+                        l.periodMs.length,
+                        l.stage === "break" ? l.periodIndex + 1 : l.periodIndex,
+                      ).toLowerCase()
+                    : "Démarrer"
+                }
+                icon="play"
+                onPress={begin}
+                disabled={locked}
+              />
+            </View>
           </View>
         ) : (
           <View
@@ -536,20 +595,15 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             {(
               [
                 {
-                  label:
-                    l.stage === "additional"
-                      ? l.periodIndex + 1 < l.periodMs.length
-                        ? "Fin période"
-                        : "Siffler"
-                      : "Fin",
-                  icon: "stop",
-                  action: finish,
+                  label: "Recommencer le match",
+                  icon: "restart",
+                  action: restart,
                   disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
                 },
                 {
-                  label: "Relancer",
-                  icon: "restart",
-                  action: restart,
+                  label: "Fin",
+                  icon: "stop",
+                  action: finish,
                   disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
                 },
                 {
@@ -570,9 +624,9 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
                 key={i}
                 testID={
                   i === 0
-                    ? "match-end"
+                    ? "match-restart"
                     : i === 1
-                      ? "match-restart"
+                      ? "match-end"
                       : "match-pause"
                 }
                 accessibilityRole="button"
@@ -588,7 +642,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
                   borderWidth: 1,
                   borderColor: i === 2 ? c.primary : c.border,
                   backgroundColor: i === 2 ? c.primary : c.cardRaised,
-                  opacity: locked || b.disabled ? 0.35 : 1,
+                  opacity: locked || b.disabled ? 0.5 : 1,
                   alignItems: "center",
                   justifyContent: "center",
                   flexDirection: landscape ? "row" : "column",
@@ -602,18 +656,27 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
                 <Text
                   style={{
                     fontFamily: "ManropeRefined-Bold",
-                    fontSize: i === 2 ? 13 : 11,
-                    lineHeight: i === 2 ? 130 / 7 : 110 / 7,
+                    fontSize: 13,
+                    lineHeight: 16,
                     color: i === 2 ? c.onPrimary : c.foreground,
                   }}
                 >
-                  {b.label}
+                  {i === 0 ? "Recommencer" : b.label}
                 </Text>
               </Pressable>
             ))}
           </View>
         )}
       </View>
+      {stopping ? (
+        <MatchSheet label="Arrêter la session ?" onClose={() => setStopping(false)}>
+          <Text accessibilityRole="header" style={m.title}>Arrêter la session ?</Text>
+          <Text style={m.hint}>Le match en cours ne sera pas compté.</Text>
+          {hasResults ? <MatchAction label="Garder les résultats joués" onPress={() => archiveAndHome(true)} /> : null}
+          <MatchAction label={hasResults ? "Tout supprimer" : "Abandonner"} kind="secondary" onPress={discard} />
+          <MatchAction label="Annuler" kind="text" onPress={() => setStopping(false)} />
+        </MatchSheet>
+      ) : null}
       {tournament ? tournament.overlay({locked,onUnlock:()=>setLocked(false)}) : null}
       {session.mode === "maracana" && finished && !ranking && !correcting && !adding ? (
         <MatchSheet label="Fin du match" onClose={home}>

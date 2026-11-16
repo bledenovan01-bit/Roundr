@@ -2,7 +2,7 @@ import { useAppearance } from "@/src/hooks/use-appearance";
 import { useUnsavedChanges } from "@/src/hooks/use-unsaved-changes";
 import { getPreferences } from "@/src/store/preferences";
 import { useCallback, useMemo, useState } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { Alert } from "@/src/alert";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -26,21 +26,30 @@ import { control, fontFamily, fontSize, makeStyles, radius, spacing, useTheme } 
 import { TypographyPreview } from "@/src/typography-preview";
 import { layoutStyles, useScreenLayout } from "@/src/layout";
 
-export default function ConfigScreen() {
+export default function ConfigRoute() {
+  const { mode } = useLocalSearchParams<{ mode?: string }>();
+  if (mode === "custom") return <Redirect href="/chrono-libre" />;
+  if (!GAME_MODES.some(item => item.id === mode)) return <Redirect href="/" />;
+  return <ConfigScreen />;
+}
+
+function ConfigScreen() {
   useAppearance();
   const styles = useStyles();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { safeSides } = useScreenLayout();
   const router = useRouter();
-  const params = useLocalSearchParams<{ mode: GameModeId; replay?: string; teams?: string }>();
+  const params = useLocalSearchParams<{ mode: GameModeId; replay?: string; teams?: string; edit?: string }>();
   const mode = GAME_MODES.find((m) => m.id === params.mode);
   const activeSession = useStore((s) => s.session);
   const saveError = useStore(s=>s.saveError);
 
   const replayFrom = params.replay ? getStoreState().lastSummary : null;
 
+  const editing = params.edit && activeSession?.id === params.edit && activeSession.mode === params.mode && activeSession.live?.stage === "ready" ? activeSession : null;
   const [config, setConfig] = useState<AnyConfig>(() => {
+    if (editing) return editing.config;
     if (replayFrom && replayFrom.mode === params.mode && (replayFrom.config.mode === "cup" || replayFrom.config.mode === "survie")) return normalizeTournament({ ...replayFrom.config, tournamentPolicy: "lovable", ...(replayFrom.config.mode === "cup" ? {bestNext: replayFrom.config.bestNext ?? true} : {soundControl:"session"}) });
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.config.mode === "classique" || replayFrom.config.mode === "maracana" ? lovableReplayConfig(replayFrom.config) : replayFrom.config;
     const base = params.mode === "classique" || params.mode === "maracana" ? lovableLaunchDefaults(params.mode) : params.mode === "cup" || params.mode === "survie" ? tournamentDefaults(params.mode) : defaultConfig(params.mode ?? "classique");
@@ -48,6 +57,7 @@ export default function ConfigScreen() {
     return { ...base, sounds: pref.sounds, ...(base.mode === "custom" ? { additional: pref.additional } : {}), ...(params.teams && base.mode !== "classique" && base.mode !== "custom" ? { teamCount: pref.teams.length } : {}), ...(params.teams ? { customTeams: true } : {}), ...(base.mode === "custom" ? { savePreset: false } : {}) };
   });
   const [teams, setTeams] = useState<Team[]>(() => {
+    if (editing) return editing.teams;
     if (replayFrom && replayFrom.mode === params.mode) return replayFrom.teams;
     if (params.teams && getPreferences().teams.length) return getPreferences().teams;
     if (params.mode === "classique" || params.mode === "maracana") return lovableConfigTeams(params.mode, params.mode === "maracana" ? 8 : 2);
@@ -77,9 +87,9 @@ export default function ConfigScreen() {
     const go = () => leave(() => {
       const now = Date.now();
       const session = config.mode === "cup" || config.mode === "survie" ? createTournamentSession(config, launchTeams, now) : createSession(config, launchTeams, now);
-      if (startSession({ ...session, ...(config.mode === "cup" || config.mode === "survie" ? { tournamentView: "hub" as const } : {}), live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null })) router.replace("/live" as never);
+      if (startSession({ ...session, ...(config.mode === "cup" || config.mode === "survie" ? { tournamentView: "hub" as const } : {}), live: session.live ? { ...session.live, chrono: { ...session.live.chrono, runningSince: null } } : null })) { if (editing && router.canGoBack()) router.back(); else router.replace("/live"); }
     });
-    if (activeSession && activeSession.status === "active") {
+    if (activeSession && activeSession.status === "active" && !editing) {
       // C03 — ne jamais écraser silencieusement une session active.
       Alert.alert("Session en cours", "Une session active existe déjà. La remplacer efface sa progression.", [
         { text: "Annuler", style: "cancel" },

@@ -23,6 +23,7 @@ import type { Session } from "@/src/domain/types";
 import {
   archiveSession,
   dispatchSession,
+  discardSession,
   flushStorage,
   getStoreState,
   renameCompetition,
@@ -54,7 +55,6 @@ import {
   TournamentBar,
   TournamentBracket,
   TournamentCard,
-  TournamentDanger,
   TournamentFixtures,
   TournamentGroupCards,
   TournamentInfo,
@@ -87,8 +87,9 @@ export function LovableTournamentFlow({
     [localView, setLocalView] = useState<string | null>(
       initialHub ? "hub" : null,
     );
+  const leaving = useRef(false);
   useEffect(() => {
-    if (!session)
+    if (!session && !leaving.current)
       router.replace(
         last && (last.mode === "cup" || last.mode === "survie")
           ? "/summary"
@@ -103,7 +104,7 @@ export function LovableTournamentFlow({
     live = s.live,
     match = S.currentMatch(s);
   const view = localView ?? s.tournamentView ?? (live ? "match" : "hub"),
-    home = () => router.replace("/");
+    home = () => router.dismissTo("/");
   const setView = (v: "hub" | "match" | "summary") => {
     if (s.tournamentView !== undefined) {
       dispatchSession((x) => ({ ...x, tournamentView: v }));
@@ -156,7 +157,13 @@ export function LovableTournamentFlow({
           Les résultats déjà joués sont conservés dans le résumé. Aucun
           vainqueur ne sera désigné si la finale n&apos;est pas terminée.
         </Text>
-        <TournamentDanger onPress={interrupt} />
+        {s.matches.some(match => match.status === "finished") ? <MatchAction label="Garder les résultats joués" onPress={interrupt} /> : null}
+        <MatchAction label="Tout supprimer" kind="secondary" onPress={() => {
+          leaving.current = true;
+          discardSession();
+          if (!getStoreState().session) router.dismissTo("/");
+          else leaving.current = false;
+        }} />
         <MatchAction
           label="Continuer le tournoi"
           kind="text"
@@ -234,7 +241,7 @@ export function LovableTournamentFlow({
         : live.stage === "extra"
           ? "Prolongation"
           : live.stage === "golden"
-            ? "Golden goal"
+            ? "But en or"
             : "";
     return (
       <LovableMatchScreen
@@ -245,6 +252,7 @@ export function LovableTournamentFlow({
             .join(" · "),
           rankingLabel: ranking,
           onRanking: () => setView("hub"),
+          onDiscard: () => { leaving.current = true; },
           info,
           onCorrect:
             live.stage === "finished"
@@ -298,7 +306,7 @@ export function LovableTournamentFlow({
                     label={
                       live.stage === "extra"
                         ? "Préparer la prolongation"
-                        : "Préparer le golden goal"
+                        : "Préparer le but en or"
                     }
                     icon="play"
                     disabled={locked}

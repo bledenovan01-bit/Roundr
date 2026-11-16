@@ -70,7 +70,7 @@ export function TournamentConfiguration({config,onChange,teams,onTeams,onBack,on
   if((config.mode==="cup"&&rounds.includes(4))||(config.mode==="survie"&&config.teamCount>=4))
     cards.push(<ToggleCard key="third" title={config.mode==="cup"?"Petite finale":"Match pour la 3e place"} hint={config.mode==="cup"?"Match pour la 3e place":undefined} on={config.smallFinal} set={smallFinal=>set({smallFinal})}/>);
   cards.push(<ConfigCard key="tie" title="Gestion des égalités" hint="Pour les matchs à élimination">
-    <View style={{gap:8}}>{([{value:"shootout",label:"Tirs au but directs"},{value:"extraThenShootout",label:"Prolongation puis tirs au but"},{value:"golden",label:"Golden goal"}] as const).map(o=><Chip key={o.value} alignStart label={o.label} active={config.drawRule===o.value} onPress={()=>set({drawRule:o.value})}/>)}</View>
+    <View style={{gap:8}}>{([{value:"shootout",label:"Tirs au but directs"},{value:"extraThenShootout",label:"Prolongation puis tirs au but"},{value:"golden",label:"But en or (le premier but gagne)"}] as const).map(o=><Chip key={o.value} alignStart label={o.label} active={config.drawRule===o.value} onPress={()=>set({drawRule:o.value})}/>)}</View>
     {config.drawRule==="extraThenShootout"?<Sub label="Durée de prolongation"><Stepper value={config.extraMin} min={1} max={15} unit="min" label="la prolongation" onChange={extraMin=>set({extraMin})}/></Sub>:null}
   </ConfigCard>);
   cards.push(<ToggleCard key="teams" title="Personnaliser les équipes" hint={config.draw==="manual"?"Noms, couleurs et ordre":"Noms et couleurs"} on={config.customTeams} set={customTeams=>set({customTeams})}>

@@ -1,13 +1,14 @@
+import { useAppearance } from "@/src/hooks/use-appearance";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { LogBox, View } from "react-native";
+import { LogBox, useColorScheme, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 
-import { loadPreferences, usePreferences } from "@/src/store/preferences";
+import { followSystemTheme, loadPreferences } from "@/src/store/preferences";
 import { lovable } from "@/src/visual/lovable";
 import { SessionRuntime } from "@/src/components/session-runtime";
 import { FreeTimerRuntime } from "@/src/components/free-timer-runtime";
@@ -22,7 +23,9 @@ LogBox.ignoreAllLogs(true);
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
-  const theme = usePreferences().theme;
+  const deviceTheme = useColorScheme();
+  useEffect(() => followSystemTheme(deviceTheme === "light" ? "light" : "dark"), [deviceTheme]);
+  const theme = useAppearance();
   const [fontsLoaded, fontError] = useFonts({
     "BarlowCondensed-Bold": require("../assets/fonts/BarlowCondensed-Bold.ttf"),
     "Manrope-Medium": require("../assets/fonts/Manrope-Medium.ttf"),

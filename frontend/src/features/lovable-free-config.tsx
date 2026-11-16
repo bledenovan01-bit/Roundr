@@ -7,6 +7,8 @@ import {
   rememberFreeEditing,
   freePresetSnapshot,
 } from "./free-config-draft";
+import { useSubviewBack } from "@/src/hooks/use-subview-back";
+import { useUndoAction } from "@/src/hooks/use-undo-action";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   Modal,
@@ -427,6 +429,8 @@ export function LovableFreeConfig({
     [deleting, setDeleting] = useState<FreeTimerPreset | null>(null),
     [busy, setBusy] = useState(false),
     [imported, setImported] = useState<string | null>(null);
+  useSubviewBack(step !== "type" && !saveOpen && !deleting && !busy, () => setStep(step === "settings" && editing ? "saved" : "type"));
+  const deletion = useUndoAction();
   const [viewportHeight, setViewportHeight] = useState(0),
     [measure, setMeasure] = useState({ content: 0, button: 50 });
   const saveHeight =
@@ -586,6 +590,7 @@ export function LovableFreeConfig({
         {
           [
             notice,
+            deletion.undo ? <Action key="undo" label={deletion.undo.label} onPress={deletion.restore} /> : null,
             !presets.length ? (
               <View
                 key="empty"
@@ -685,7 +690,10 @@ export function LovableFreeConfig({
                       setBusy(true);
                       const ok = await deleteFreePreset(deleting.id);
                       setBusy(false);
-                      if (ok) setDeleting(null);
+                      if (ok) {
+                        deletion.offer("Chrono supprimé · Annuler", () => saveFreePreset(deleting));
+                        setDeleting(null);
+                      }
                     }}
                   />
                   <Action

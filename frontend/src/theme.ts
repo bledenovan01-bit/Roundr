@@ -6,7 +6,7 @@
 // components; add new tokens here if a color is missing.
 
 import { useMemo, useSyncExternalStore } from "react";
-import { Appearance, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { subscribeTheme, themeName } from "@/src/visual/lovable";
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
@@ -153,14 +153,6 @@ export const control = {
   icon: 48,
 } as const;
 
-export function setColorScheme(scheme: ColorScheme) {
-  Appearance.setColorScheme?.(scheme);
-}
-
-// Force dark scheme app-wide for consistency with the pitch-side utility brief.
-setColorScheme?.("dark");
-
-// The appearance is the user's choice in Settings, not the phone's setting.
 export function useTheme(): { scheme: ColorScheme; colors: ThemeColors } {
   const scheme = useSyncExternalStore(subscribeTheme, themeName, themeName);
   return { scheme, colors: themes[scheme] };

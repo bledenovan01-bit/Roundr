@@ -244,7 +244,7 @@ export default function LovableSettings() {
             <TextInput
               accessibilityLabel="Durée de la période"
               editable={false}
-              value={`${seconds} s`}
+              value={seconds ? [Math.floor(seconds / 60) + " min", seconds % 60 ? (seconds % 60) + " s" : ""].filter(Boolean).join(" ") : "Sans limite de temps"}
               style={[configStyles.input, { opacity: 0.6 }]}
             />
           </View>
@@ -296,6 +296,7 @@ export default function LovableSettings() {
             options={[
               { value: "dark", label: "Sombre" },
               { value: "light", label: "Clair" },
+              { value: "system", label: "Comme le téléphone" },
             ]}
             onChange={(theme) => {
               void setPreferences({ theme });
@@ -304,6 +305,7 @@ export default function LovableSettings() {
         </View>
       </ConfigCard>,
     );
+    cards.push(<ConfigCard key="sound-settings" title="Audio"><PhaseAction kind="secondary" label="Sons et volume" onPress={() => setAdvanced(true)} /></ConfigCard>);
     cards.push(
       <ToggleCard
         key="sounds"

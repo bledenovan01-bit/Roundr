@@ -30,7 +30,7 @@ let buttons: Buttons = [], answer = false, confirmCalls = 0;
 // Unit boundary only. The actual Alert adapter is executed; no production dialog is replaced.
 const previousWindow = (globalThis as any).window;
 (globalThis as any).window = { confirm(text: string) {
-  assert(text.includes("Relancer le match ?"));
+  assert(text.includes("Recommencer le match ?"));
   confirmCalls++;
   return answer;
 } };
@@ -96,7 +96,7 @@ async function run() {
         ask();
         if (os !== "web") {
           assert.equal(mutations, 0, "opening a native dialog must not mutate");
-          assert.equal(buttons[1].text, "Relancer");
+          assert.equal(buttons[1].text, "Remettre à zéro");
           buttons[1].onPress!();
         }
         await st.flushStorage();

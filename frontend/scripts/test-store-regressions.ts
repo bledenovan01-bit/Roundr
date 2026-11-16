@@ -40,7 +40,7 @@ async function main(){
   assert.equal(Store.getStoreState().session,null);
   assert.equal(memory.get("roundr.session.corrupt.v1"),"{}");
   assert.equal(Store.getStoreState().presets[0].id,"old");
-  assert.equal(Prefs.getPreferences().keepAwake,false);
+  assert.equal(Prefs.getPreferences().keepAwake,true);
   assert.equal(Prefs.getPreferences().volume,1);
   console.log("✓ Corrupt session is retained and legacy Custom preset survives");
   for(const mode of ["classique","custom","maracana","cup","survie"] as const) {

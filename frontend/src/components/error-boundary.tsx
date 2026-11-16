@@ -52,7 +52,7 @@ function ErrorFallback({ error, resetError }: { error: Error; resetError: () => 
     <ScrollView style={styles.root} contentContainerStyle={[styles.container, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24, paddingLeft: insets.left + 24, paddingRight: insets.right + 24 }]} testID="error-fallback">
       <View style={styles.content}>
         <Text style={styles.title}>Un problème est survenu</Text>
-        <Text style={styles.message}>Relance Roundr pour continuer.</Text>
+        <Text style={styles.message}>Relance Roundr pour continuer. La dernière sauvegarde du match sera reprise si elle est disponible.</Text>
         {__DEV__ ? <Text style={styles.devMessage}>{error.message}</Text> : null}
         <Pressable
           onPress={handleReload}

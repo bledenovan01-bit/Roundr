@@ -36,14 +36,14 @@ export function KeepAwakeControl({
       }}
       style={({ pressed }) => ({
         // Fixed and compact so the existing commands keep their width.
-        width: landscape ? 92 : 56,
+        width: landscape ? 132 : 84,
         flexShrink: 0,
         height,
         borderRadius: 16,
         borderWidth: 1,
         borderColor: on ? c.primary : c.border,
         backgroundColor: on ? withAlpha(c.primary, 0.12) : c.cardRaised,
-        opacity: disabled ? 0.35 : pressed ? 0.9 : 1,
+        opacity: disabled ? 0.5 : pressed ? 0.9 : 1,
         alignItems: "center",
         justifyContent: "center",
         flexDirection: landscape ? "row" : "column",
@@ -51,14 +51,15 @@ export function KeepAwakeControl({
         paddingHorizontal: 4,
       })}
     >
-      <MatchIcon name={on ? "sun" : "moon"} color={tint} />
+      <MatchIcon name={on ? "lock" : "unlock"} color={tint} />
       <Text
-        numberOfLines={1}
+        numberOfLines={2}
         adjustsFontSizeToFit
         style={{
           fontFamily: "ManropeRefined-Bold",
-          fontSize: 11,
-          lineHeight: 110 / 7,
+          fontSize: 13,
+          lineHeight: 15,
+          textAlign: "center",
           color: tint,
         }}
       >

@@ -19,6 +19,7 @@ export function LovableIntro({ onStart }: { onStart: () => void }) {
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingLeft: 26 + insets.left, paddingRight: 26 + insets.right, paddingTop: insets.top + (landscape ? 16 : height * 0.2) }]}>
       <Wordmark size={logoSize} testID="intro-wordmark" onPhoto raiseBall />
       <Text testID="intro-title" accessibilityRole="header" style={[styles.title, { fontSize: titleSize, lineHeight: titleSize * 1.25 }]}>Plus de jeu.{"\n"}Moins d&apos;organisation.</Text>
+      <Text style={styles.details}>Chrono avec sifflet, suivi du score et rotation des équipes.</Text>
     </ScrollView>
     <View testID="intro-dock" style={[styles.dock, { paddingTop: landscape ? 8 : 12, paddingLeft: 20 + insets.left, paddingRight: 20 + insets.right, paddingBottom: Math.max(landscape ? 10 : 16, insets.bottom) }]}>
       <LovableButton label="Commencer" testID="welcome-start" onPress={onStart} landscape={landscape} onPhoto />
@@ -31,5 +32,6 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   content: { flexGrow: 1, gap: 14, paddingBottom: 22 },
   title: { fontFamily: lovableFont.semibold, color: brand.paper, includeFontPadding: false },
+  details: { fontFamily: lovableFont.semibold, fontSize: 15, lineHeight: 22, color: brand.paper },
   dock: { alignItems: "center" },
 });

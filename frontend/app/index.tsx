@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Alert } from "@/src/alert";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ModeCard, homeCopyStyles } from "@/src/components/mode-card";
@@ -10,16 +11,16 @@ import { LovableIcon, type LovableIconName } from "@/src/components/lovable/icon
 import { LovableIntro } from "@/src/components/lovable/intro";
 import { PitchPhoto } from "@/src/components/lovable/pitch-photo";
 import { Wordmark } from "@/src/components/lovable/wordmark";
-import { homeSessionPreviews } from "@/src/features/home-session-preview";
-import { discardSession, replaceFreeTimer, useStore } from "@/src/store/session-store";
+import { homeSessionPreviews, type HomeResume } from "@/src/features/home-session-preview";
+import { discardSession, getStoreState, replaceFreeTimer, retryStorage, useStore } from "@/src/store/session-store";
 import { brand, lovable, lovableFont, themed, withAlpha } from "@/src/visual/lovable";
 
 // The five modes, in the order of the merged mockup. Each description says what the mode does.
 const modes = [
   { id: "classique", title: "Match classique", description: "Deux équipes, un chrono.", icon: "pitch", tile: brand.tile.classic },
-  { id: "maracana", title: "Maracana", description: "Les équipes tournent à chaque match.", icon: "refresh", tile: brand.tile.maracana },
-  { id: "cup", title: "Cup", description: "Des poules à la finale.", icon: "trophy", tile: brand.tile.cup },
-  { id: "survie", title: "Survie", description: "Tu gagnes, tu restes. Sinon, dehors.", icon: "swords", tile: brand.tile.survie },
+  { id: "maracana", title: "Maracana", description: "3 à 8 équipes. Roundr gère les rotations.", icon: "refresh", tile: brand.tile.maracana },
+  { id: "cup", title: "Cup", description: "Des poules, puis des matchs à élimination.", icon: "trophy", tile: brand.tile.cup },
+  { id: "survie", title: "Survie", description: "Matchs à élimination directe.", icon: "swords", tile: brand.tile.survie },
   { id: "custom", title: "Chrono libre", description: "Chrono, compte à rebours, intervalles.", icon: "timer", tile: brand.tile.custom },
 ] as const;
 
@@ -43,6 +44,21 @@ export default function HomeScreen() {
   if (showWelcome === null && !resumes.length) return <View style={styles.root} />;
   if (showWelcome && !resumes.length) return <LovableIntro onStart={enter} />;
 
+  const confirmAbandon = (resume: HomeResume) => Alert.alert(
+    "Abandonner la session ?",
+    "Cette session ne sera plus reprenable. Les résultats déjà enregistrés sont conservés.",
+    [
+      { text: "Annuler", style: "cancel" },
+      { text: "Abandonner", style: "destructive", onPress: () => {
+        const current = getStoreState();
+        if (resume.route === "/live") {
+          if (current.session?.id === resume.key) discardSession();
+        } else if (current.freeTimer && `free-${current.freeTimer.createdAt}` === resume.key) {
+          void replaceFreeTimer(null, current.freeTimer);
+        }
+      } },
+    ],
+  );
   const landscape = width > height;
   // Usable width with native large text and safe-area insets.
   const usableWidth = width - insets.left - insets.right;
@@ -62,7 +78,18 @@ export default function HomeScreen() {
           <LovableIcon name="gear" color={brand.paper} size={20} />
         </Pressable>
       </View>
-      {saveError ? <Text accessibilityRole="alert" style={styles.error}>{saveError}</Text> : null}
+      {saveError ? <View style={{ width: "100%", gap: 4 }}><Text accessibilityRole="alert" style={styles.error}>La sauvegarde a échoué. Réessaie.</Text><HomeAction title="Réessayer la sauvegarde" icon="refresh" testID="home-retry-save" onPress={() => { void retryStorage(); }} /></View> : null}
+      {resumes.map(resume => <View key={resume.key} style={{ width: cardWidth, gap: 4 }}><ModeCard testID={resume.route === "/live" ? "resume-session-card" : "resume-free-card"} title={resume.title} icon="history" accent={lovable.primary} resume style={{ width: cardWidth }} onPress={() => router.push(resume.route)}>
+        {resume.state === "En cours" ? <Text style={homeCopyStyles.detail}>Le chrono continue. Touche cette carte pour y revenir.</Text> : null}
+        <Text style={[homeCopyStyles.detail, homeCopyStyles.state]}>{resume.state}</Text>
+        {resume.teams ? <Text style={homeCopyStyles.detail}>{resume.teams}</Text> : null}
+        {resume.time ? <Text style={[homeCopyStyles.detail, { fontVariant: ["tabular-nums"] }]}>{resume.time}</Text> : null}
+        <Text style={[homeCopyStyles.detail, homeCopyStyles.action]}>{resume.action}</Text>
+      </ModeCard>
+        <Pressable accessibilityRole="button" accessibilityLabel={`Abandonner : ${resume.title}`} onPress={() => confirmAbandon(resume)} style={{ minHeight: 44, flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center" }}>
+          <LovableIcon name="trash" color={lovable.error} size={17} /><Text style={[homeCopyStyles.detail, { color: lovable.error }]}>Abandonner la session</Text>
+        </Pressable>
+      </View>)}
       <View testID="home-hero" style={styles.heading}><Text testID="home-title" accessibilityRole="header" style={styles.title}>Choisis ton mode</Text></View>
       {modes.map(mode => {
         const resume = resumes.find(item =>
@@ -82,15 +109,11 @@ export default function HomeScreen() {
         return (
           <Swipeable key={`${mode.id}-${resume.key}`} containerStyle={{ width: cardWidth }}
             overshootRight={false} rightThreshold={32}
-            renderRightActions={(_progress, _translation, actions) => (
+            renderRightActions={() => (
               <Pressable testID={`abandon-${mode.id}`} accessibilityRole="button"
                 accessibilityLabel={`Abandonner la session : ${mode.title}`}
                 style={styles.abandon}
-                onPress={() => {
-                  actions.close();
-                  if (resume.route === "/live") discardSession();
-                  else void replaceFreeTimer(null, freeTimer);
-                }}>
+                onPress={() => confirmAbandon(resume)}>
                 <LovableIcon name="trash" color={lovable.onError} size={23} />
               </Pressable>
             )}>
@@ -98,15 +121,9 @@ export default function HomeScreen() {
           </Swipeable>
         );
       })}
-      {resumes.map(resume => <ModeCard key={resume.key} testID={resume.route === "/live" ? "resume-session-card" : "resume-free-card"} title={resume.title} icon="history" accent={lovable.primary} resume style={{ width: cardWidth }} onPress={() => router.push(resume.route)}>
-        <Text style={[homeCopyStyles.detail, homeCopyStyles.state]}>{resume.state}</Text>
-        {resume.teams ? <Text style={homeCopyStyles.detail}>{resume.teams}</Text> : null}
-        {resume.time ? <Text style={[homeCopyStyles.detail, { fontVariant: ["tabular-nums"] }]}>{resume.time}</Text> : null}
-        <Text style={[homeCopyStyles.detail, homeCopyStyles.action]}>{resume.action}</Text>
-      </ModeCard>)}
       <View style={styles.actions}>
         <HomeAction title="Faire les équipes" icon="users" testID="mode-card-team-builder" onPress={() => router.push("/team-builder")} />
-        <HomeAction title="Historique" icon="history" testID="home-history-link" onPress={() => router.push("/history")} />
+        <HomeAction title="Tournois joués" icon="history" testID="home-history-link" onPress={() => router.push("/history")} />
       </View>
     </ScrollView>
   </View>;

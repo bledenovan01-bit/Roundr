@@ -106,6 +106,8 @@ jobs:
         run: node docs/svg-web-audit/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json" "$RUNNER_TEMP/roundr-audio-results" audio
       - name: Theme continuity, score cards, Maracana launch policies and sharing
         run: node docs/maquette-fusion/reproduction/browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fusion-results"
+      - name: V0 UX acceptance (abandon, lock, reset, teams, score and history)
+        run: node docs/audit-ux-pr32-browser.cjs http://localhost:8098 "$RUNNER_TEMP/roundr-fixtures.json"
       - name: Preserve reports, screenshots and server logs
         if: always()
         uses: actions/upload-artifact@v4

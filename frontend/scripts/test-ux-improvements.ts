@@ -76,7 +76,7 @@ assert.match(control, /accessibilityRole="switch"/);
 assert.match(source("src/features/lovable-match.tsx"), /<KeepAwakeControl[\s\S]*disabled=\{locked\}/);
 assert.match(freeLive, /<KeepAwakeControl[\s\S]*disabled=\{locked\}/);
 assert.match(source("src/features/lovable-settings.tsx"), /setPreferences\(\{ keepAwake \}\)/, "Settings still writes the same preference");
-assert.equal(keepAwakeLabel(true).text, "Écran");
+assert.equal(keepAwakeLabel(true).text, "Écran allumé");
 assert.notEqual(keepAwakeLabel(true).hint, keepAwakeLabel(false).hint);
 // Screen-lock runtime is unchanged: it still follows the preference.
 assert.match(source("src/components/session-runtime.tsx"), /const awake=!!running&&p\.keepAwake;/);
