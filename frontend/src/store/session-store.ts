@@ -513,6 +513,14 @@ export function discardSession() {
   void persist(KEYS.session, null);
 }
 
+// Undo of discardSession: puts the abandoned session back exactly as it was
+// (score, stage, running chrono). Refused if another session started since.
+export async function restoreSession(session: Session): Promise<boolean> {
+  if (state.session !== null || !writable(KEYS.session)) return false;
+  set({ session, now: Date.now() });
+  return persist(KEYS.session, session);
+}
+
 export async function setPresets(presets: Preset[]): Promise<boolean> {
   if (!writable(KEYS.presets)) return false;
   if (!arrayOf(presets, validPreset)) { issue("input:" + KEYS.presets, "Anciens chronos invalides : sauvegarde refusée."); return false; }

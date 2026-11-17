@@ -3,6 +3,8 @@ import { AccessibilityInfo, AppState } from "react-native";
 import { useRuntimeKeepAwake } from "@/src/hooks/use-runtime-keep-awake";
 import { usePreferences } from "@/src/store/preferences";
 import { dismissNotice, tick, useStore } from "@/src/store/session-store";
+import { matchAlertPlan } from "@/src/notifications/end-alert-plan";
+import { syncEndAlerts } from "@/src/notifications/end-alerts";
 
 export function SessionRuntime() {
   const session=useStore(s=>s.session);const notice=useStore(s=>s.notice);
@@ -19,6 +21,10 @@ export function SessionRuntime() {
     });
     return()=>{if(interval)clearInterval(interval);sub.remove();};
   },[running]);
+  // Rings the end of the period even with the screen locked (only rescheduled when the plan changes).
+  const alertPlan=matchAlertPlan(session,{sounds:p.sounds,vibrations:p.vibrations});
+  const alertSignature=alertPlan?JSON.stringify(alertPlan):"";
+  useEffect(()=>{syncEndAlerts("match",alertSignature?JSON.parse(alertSignature):null);},[alertSignature]);
   const awake=!!running&&p.keepAwake;
   useRuntimeKeepAwake(awake, "roundr-match");
   useEffect(()=>{

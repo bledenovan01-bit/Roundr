@@ -897,7 +897,7 @@ export function LovableFreeLive() {
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
         <MatchAction label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
       </View>
-      {!prefs.keepAwake ? <Text style={[m.hint, { textAlign: "center" }]}>Veille autorisée. Le sifflet ne sonne pas écran verrouillé ou en arrière-plan.</Text> : null}
+      {!prefs.keepAwake ? <Text style={[m.hint, { textAlign: "center" }]}>Veille autorisée. Écran verrouillé, la fin est signalée par une notification si tu l’as autorisée.</Text> : null}
       <ScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}

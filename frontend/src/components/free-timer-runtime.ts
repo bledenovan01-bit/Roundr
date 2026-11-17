@@ -8,6 +8,8 @@ import {
   getStoreState,
 } from "@/src/store/session-store";
 import { playSound } from "@/src/audio/sounds";
+import { freeAlertPlan } from "@/src/notifications/end-alert-plan";
+import { syncEndAlerts } from "@/src/notifications/end-alerts";
 import * as Haptics from "@/src/haptics";
 import { freeTimeNotice, freeTransition } from "@/src/features/free-live-state";
 import type { FreeTimerState } from "@/src/domain/free-timer";
@@ -108,6 +110,12 @@ export function FreeTimerRuntime() {
       subscription.remove();
     };
   }, [running]);
+  // Rings each step end even with the screen locked (only rescheduled when the plan changes).
+  const alertPlan = freeAlertPlan(ft, { sounds: prefs.sounds, vibrations: prefs.vibrations });
+  const alertSignature = alertPlan ? JSON.stringify(alertPlan) : "";
+  useEffect(() => {
+    syncEndAlerts("free", alertSignature ? JSON.parse(alertSignature) : null);
+  }, [alertSignature]);
   useRuntimeKeepAwake(running && prefs.keepAwake, "roundr-free");
   return null;
 }

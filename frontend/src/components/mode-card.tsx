@@ -12,6 +12,8 @@ type Props = {
   accent: string;
   solid?: boolean;
   onPress: () => void;
+  /** Shows a "?" button that explains the mode without opening it. */
+  onHelp?: () => void;
   testID: string;
   quiet?: boolean;
   resume?: boolean;
@@ -21,14 +23,14 @@ type Props = {
 };
 
 // Shared home tile. No entrance animation: all cards appear together.
-export function ModeCard({ title, description, icon, accent, solid, onPress, testID, quiet, resume, children, style, onLayout }: Props) {
+export function ModeCard({ title, description, icon, accent, solid, onPress, onHelp, testID, quiet, resume, children, style, onLayout }: Props) {
   const tile = solid
     ? { backgroundColor: accent, borderColor: accent }
     : resume
       ? { backgroundColor: "transparent", borderColor: lovable.primary, borderRadius: 23 }
       : { backgroundColor: withAlpha(accent, 0.16), borderColor: withAlpha(accent, 0.35) };
   const pictogram = solid ? brand.paper : resume ? lovable.primary : quiet || icon === "timer" ? lovable.muted : accent;
-  return <Pressable testID={testID} onLayout={onLayout} accessibilityRole="button" accessibilityLabel={children ? undefined : `${title}. ${description ?? ""}`} onPress={() => { Haptics.selectionAsync().catch(() => {}); onPress(); }} style={({ pressed }) => [styles.card, quiet && styles.quiet, resume && styles.resume, style, pressed && styles.pressed]}>
+  const content = <>
     <View style={[styles.icon, tile]}>
       <LovableIcon name={icon} size={solid ? 22 : 18} color={pictogram} />
     </View>
@@ -38,7 +40,22 @@ export function ModeCard({ title, description, icon, accent, solid, onPress, tes
       {children}
     </View>
     <LovableIcon name="chevron" color={lovable.muted} />
+  </>;
+  const press = () => { Haptics.selectionAsync().catch(() => {}); onPress(); };
+  const label = children ? undefined : `${title}. ${description ?? ""}`;
+  if (!onHelp) return <Pressable testID={testID} onLayout={onLayout} accessibilityRole="button" accessibilityLabel={label} onPress={press} style={({ pressed }) => [styles.card, quiet && styles.quiet, resume && styles.resume, style, pressed && styles.pressed]}>
+    {content}
   </Pressable>;
+  // The help button sits beside the card action, never inside it: a button
+  // nested in a button is invalid on the web and steals the tap on native.
+  return <View onLayout={onLayout} style={[styles.card, styles.split, quiet && styles.quiet, resume && styles.resume, style]}>
+    <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} onPress={press} style={({ pressed }) => [styles.main, pressed && styles.pressed]}>
+      {content}
+    </Pressable>
+    <Pressable testID={`${testID}-help`} accessibilityRole="button" accessibilityLabel={`Comment fonctionne ${title}`} onPress={onHelp} style={({ pressed }) => [styles.help, pressed && styles.pressed]}>
+      <Text style={styles.helpText}>?</Text>
+    </Pressable>
+  </View>;
 }
 
 export const homeCopyStyles = themed(() => (StyleSheet.create({
@@ -49,6 +66,8 @@ export const homeCopyStyles = themed(() => (StyleSheet.create({
 
 const styles = themed(() => (StyleSheet.create({
   card: { minHeight: 68, flexDirection: "row", alignItems: "center", gap: 14, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 18, backgroundColor: lovable.card, borderColor: lovable.border, borderWidth: 1 },
+  split: { paddingVertical: 0, paddingLeft: 0, paddingRight: 8, gap: 4 },
+  main: { flex: 1, minWidth: 0, minHeight: 66, flexDirection: "row", alignItems: "center", gap: 14, paddingVertical: 10, paddingLeft: 12, paddingRight: 4 },
   quiet: { backgroundColor: "transparent" },
   resume: { backgroundColor: lovable.resume, borderColor: withAlpha(lovable.primary, 0.45) },
   pressed: { transform: [{ scale: 0.97 }] },
@@ -56,4 +75,6 @@ const styles = themed(() => (StyleSheet.create({
   copy: { flex: 1, minWidth: 0, gap: 2 },
   title: { fontFamily: lovableFont.extrabold, fontSize: 16, lineHeight: 22, color: lovable.foreground, includeFontPadding: false },
   description: { fontFamily: lovableFont.regular, fontSize: 13, lineHeight: 18, color: lovable.muted, includeFontPadding: false },
+  help: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, borderColor: lovable.border, alignItems: "center", justifyContent: "center" },
+  helpText: { fontFamily: lovableFont.extrabold, fontSize: 17, lineHeight: 22, color: lovable.foreground, includeFontPadding: false },
 })));

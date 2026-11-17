@@ -486,7 +486,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
         }}
       >
         {l.stage === "ready" && preferences.theme === "dark" && new Date(now).getHours() >= 8 && new Date(now).getHours() < 19 ? <MatchAction label="En extérieur ? Choisir le thème clair" kind="text" onPress={() => { void setPreferences({ theme: "light" }); }} /> : null}
-        {!keepAwake ? <Text style={m.hint}>Veille autorisée. Le sifflet ne sonne pas écran verrouillé ou en arrière-plan.</Text> : null}
+        {!keepAwake ? <Text style={m.hint}>Veille autorisée. Écran verrouillé, la fin est signalée par une notification si tu l’as autorisée.</Text> : null}
         {saveError ? (
           <View>
             <Text accessibilityRole="alert" style={m.error}>

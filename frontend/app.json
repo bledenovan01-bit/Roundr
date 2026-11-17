@@ -60,6 +60,12 @@
   }
 ],
       "expo-asset",
+      [
+        "expo-notifications",
+        {
+          "color": "#6ce182"
+        }
+      ],
       "./modules/roundr-spotify-remote/app.plugin.js"
     ],
     "experiments": {

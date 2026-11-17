@@ -9,6 +9,7 @@ import {
 } from "./free-config-draft";
 import { useSubviewBack } from "@/src/hooks/use-subview-back";
 import { useUndoAction } from "@/src/hooks/use-undo-action";
+import { SwipeToDelete } from "@/src/components/lovable/swipe-delete";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   Modal,
@@ -612,7 +613,13 @@ export function LovableFreeConfig({
               </View>
             ) : null,
             ...presets.map((p) => (
-              <View key={p.id} testID={`free-preset-${p.id}`} style={s.card}>
+              <SwipeToDelete
+                key={p.id}
+                testID={`free-preset-swipe-delete-${p.id}`}
+                label={`Supprimer ${p.name}`}
+                onDelete={() => setDeleting(p)}
+              >
+              {(guard) => <View testID={`free-preset-${p.id}`} style={s.card}>
                 <View>
                   <Text
                     style={{
@@ -638,7 +645,7 @@ export function LovableFreeConfig({
                       kind="primary"
                       height={44}
                       disabled={loading}
-                      onPress={() => launch(p.config, p.name)}
+                      onPress={guard(() => launch(p.config, p.name))}
                     />
                   </View>
                   <View style={{ flex: 1 }}>
@@ -646,14 +653,14 @@ export function LovableFreeConfig({
                       label="Modifier"
                       icon="pencil"
                       height={44}
-                      onPress={() => {
+                      onPress={guard(() => {
                         const next = draftFromConfig(p.config);
                         rememberFreeDraft(next);
                         setDraft(next);
                         edit({ id: p.id, name: p.name });
                         setNote(null);
                         setStep("settings");
-                      }}
+                      })}
                     />
                   </View>
                   <Pressable
@@ -665,12 +672,13 @@ export function LovableFreeConfig({
                       alignItems: "center",
                       justifyContent: "center",
                     }}
-                    onPress={() => setDeleting(p)}
+                    onPress={guard(() => setDeleting(p))}
                   >
                     <FreeIcon name="trash" size={18} />
                   </Pressable>
                 </View>
-              </View>
+              </View>}
+              </SwipeToDelete>
             )),
             deleting ? (
               <FreeSheet

@@ -225,6 +225,7 @@ let fail = false;
   "expo-keep-awake": {},
   "@/src/audio/sounds": { async playSound() {} },
   "@/src/haptics": { async selectionAsync() {} },
+  "@/src/notifications/end-alerts": { syncEndAlerts() {} },
 };
 const runtime = req(
   "../src/components/free-timer-runtime",

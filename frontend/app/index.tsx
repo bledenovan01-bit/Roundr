@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { Alert } from "@/src/alert";
-import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ModeCard, homeCopyStyles } from "@/src/components/mode-card";
 import { LovableIcon, type LovableIconName } from "@/src/components/lovable/icon";
@@ -12,7 +11,10 @@ import { LovableIntro } from "@/src/components/lovable/intro";
 import { PitchPhoto } from "@/src/components/lovable/pitch-photo";
 import { Wordmark } from "@/src/components/lovable/wordmark";
 import { homeSessionPreviews, type HomeResume } from "@/src/features/home-session-preview";
-import { discardSession, getStoreState, replaceFreeTimer, retryStorage, useStore } from "@/src/store/session-store";
+import { discardSession, getStoreState, replaceFreeTimer, restoreSession, retryStorage, useStore } from "@/src/store/session-store";
+import { useUndoAction } from "@/src/hooks/use-undo-action";
+import { SwipeToDelete } from "@/src/components/lovable/swipe-delete";
+import { ModeHelpSheet, type ModeId } from "@/src/components/lovable/mode-help";
 import { brand, lovable, lovableFont, themed, withAlpha } from "@/src/visual/lovable";
 
 // The five modes, in the order of the merged mockup. Each description says what the mode does.
@@ -35,6 +37,8 @@ export default function HomeScreen() {
   const now = useStore(s => s.now);
   const resumes = homeSessionPreviews(session, freeTimer, now);
   const [showWelcome, setShowWelcome] = useState<boolean | null>(null);
+  const abandon = useUndoAction();
+  const [help, setHelp] = useState<ModeId | null>(null);
   useEffect(() => {
     let mounted = true;
     AsyncStorage.getItem("roundr.welcome.v1").then(value => { if (mounted) setShowWelcome(value !== "seen"); }, () => { if (mounted) setShowWelcome(false); });
@@ -52,9 +56,15 @@ export default function HomeScreen() {
       { text: "Abandonner", style: "destructive", onPress: () => {
         const current = getStoreState();
         if (resume.route === "/live") {
-          if (current.session?.id === resume.key) discardSession();
+          const abandoned = current.session;
+          if (abandoned?.id !== resume.key) return;
+          discardSession();
+          if (!getStoreState().session) abandon.offer("Session abandonnée · Annuler", () => restoreSession(abandoned));
         } else if (current.freeTimer && `free-${current.freeTimer.createdAt}` === resume.key) {
-          void replaceFreeTimer(null, current.freeTimer);
+          const abandoned = current.freeTimer;
+          void replaceFreeTimer(null, abandoned).then(ok => {
+            if (ok) abandon.offer("Chrono abandonné · Annuler", () => replaceFreeTimer(abandoned, null));
+          });
         }
       } },
     ],
@@ -79,6 +89,7 @@ export default function HomeScreen() {
         </Pressable>
       </View>
       {saveError ? <View style={{ width: "100%", gap: 4 }}><Text accessibilityRole="alert" style={styles.error}>La sauvegarde a échoué. Réessaie.</Text><HomeAction title="Réessayer la sauvegarde" icon="refresh" testID="home-retry-save" onPress={() => { void retryStorage(); }} /></View> : null}
+      {abandon.undo ? <View style={{ width: "100%", flexDirection: "row" }}><HomeAction title={abandon.undo.label} icon="history" testID="home-undo-abandon" onPress={abandon.restore} /></View> : null}
       {resumes.map(resume => <View key={resume.key} style={{ width: cardWidth, gap: 4 }}><ModeCard testID={resume.route === "/live" ? "resume-session-card" : "resume-free-card"} title={resume.title} icon="history" accent={lovable.primary} resume style={{ width: cardWidth }} onPress={() => router.push(resume.route)}>
         {resume.state === "En cours" ? <Text style={homeCopyStyles.detail}>Le chrono continue. Touche cette carte pour y revenir.</Text> : null}
         <Text style={[homeCopyStyles.detail, homeCopyStyles.state]}>{resume.state}</Text>
@@ -95,30 +106,25 @@ export default function HomeScreen() {
         const resume = resumes.find(item =>
           item.route === "/live" ? session?.mode === mode.id : mode.id === "custom",
         );
-        const card = (
+        const card = (onPress: () => void) => (
           <ModeCard key={mode.id} testID={`mode-card-${mode.id}`} title={mode.title}
             description={resume ? resume.action : mode.description}
             icon={mode.icon} accent={mode.tile} solid style={{ width: cardWidth }}
-            onPress={() => {
-              if (resume) router.push(resume.route);
-              else if (mode.id === "custom") router.push("/chrono-libre");
-              else router.push(`/config/${mode.id}`);
-            }} />
+            onHelp={() => setHelp(mode.id)}
+            onPress={onPress} />
         );
-        if (!resume) return card;
+        const open = () => {
+          if (resume) router.push(resume.route);
+          else if (mode.id === "custom") router.push("/chrono-libre");
+          else router.push(`/config/${mode.id}`);
+        };
+        if (!resume) return card(open);
         return (
-          <Swipeable key={`${mode.id}-${resume.key}`} containerStyle={{ width: cardWidth }}
-            overshootRight={false} rightThreshold={32}
-            renderRightActions={() => (
-              <Pressable testID={`abandon-${mode.id}`} accessibilityRole="button"
-                accessibilityLabel={`Abandonner la session : ${mode.title}`}
-                style={styles.abandon}
-                onPress={() => confirmAbandon(resume)}>
-                <LovableIcon name="trash" color={lovable.onError} size={23} />
-              </Pressable>
-            )}>
-            {card}
-          </Swipeable>
+          <SwipeToDelete key={`${mode.id}-${resume.key}`} containerStyle={{ width: cardWidth }}
+            testID={`abandon-${mode.id}`} label={`Abandonner la session : ${mode.title}`}
+            onDelete={() => confirmAbandon(resume)}>
+            {guard => card(guard(open))}
+          </SwipeToDelete>
         );
       })}
       <View style={styles.actions}>
@@ -126,6 +132,7 @@ export default function HomeScreen() {
         <HomeAction title="Tournois joués" icon="history" testID="home-history-link" onPress={() => router.push("/history")} />
       </View>
     </ScrollView>
+    {help ? <ModeHelpSheet mode={help} onClose={() => setHelp(null)} /> : null}
   </View>;
 }
 
@@ -148,7 +155,6 @@ const styles = themed(() => StyleSheet.create({
   actions: { width: "100%", flexDirection: "row", gap: 10, marginTop: 2 },
   action: { flex: 1, minWidth: 0, minHeight: 50, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, borderRadius: 16, borderWidth: 1, borderColor: lovable.border, backgroundColor: lovable.cardRaised },
   actionText: { flexShrink: 1, fontFamily: lovableFont.extrabold, fontSize: 14, lineHeight: 20, color: lovable.foreground, includeFontPadding: false },
-  abandon: { width: 64, marginLeft: 6, borderRadius: 16, backgroundColor: lovable.error, alignItems: "center", justifyContent: "center" },
   pressed: { transform: [{ scale: 0.97 }] },
   error: { width: "100%", color: lovable.error, fontFamily: lovableFont.semibold },
 }));

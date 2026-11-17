@@ -1,5 +1,5 @@
 import { useSubviewBack } from "@/src/hooks/use-subview-back";
-import { Alert } from "@/src/alert";
+import { useUndoAction } from "@/src/hooks/use-undo-action";
 import { useAppearance } from "@/src/hooks/use-appearance";
 import { useState, type ReactNode } from "react";
 import { Keyboard, Pressable, Text, View, useWindowDimensions } from "react-native";
@@ -22,6 +22,7 @@ export function LovableTeamMaker() {
   const [choice,setChoice]=useState(false),[overwrite,setOverwrite]=useState(false),[done,setDone]=useState(false);
   const [source,setSource]=useState<"names"|"count">("names"),[count,setCount]=useState(10),[teamCount,setTeamCount]=useState(2);
   const [players,setPlayers]=useState<string[]>([]),[draft,setDraft]=useState(""),[editing,setEditing]=useState<number|null>(null);
+  const clearing=useUndoAction();
   const [result,setResult]=useState<string[][]|null>(null),[meta,setMeta]=useState(tournamentTeams(2)),[picked,setPicked]=useState<{t:number;p:number}|null>(null);
   useSubviewBack(!!result && !done && !overwrite && !status.saving, () => { setResult(null); setPicked(null); });
   const onBack=()=>{if(status.saving)return;if(result){setResult(null);setPicked(null);return;}if(router.canGoBack())router.back();else router.replace("/");};
@@ -74,7 +75,8 @@ export function LovableTeamMaker() {
           <Pressable accessibilityRole="button" accessibilityLabel={"Retirer "+p} onPress={()=>{setPlayers(players.filter((_,j)=>j!==i));if(editing===i){setEditing(null);setDraft("");}else if(editing!==null&&editing>i)setEditing(editing-1);}} hitSlop={8} style={{width:28,height:28,borderRadius:99,alignItems:"center",justifyContent:"center"}}><PhaseIcon name="x" size={15} color={c.muted}/></Pressable>
         </View>)}</View>
         {editing!==null?<PhaseAction kind="ghost" label="Annuler la modification" onPress={()=>{setEditing(null);setDraft("");}}/>:null}
-        {players.length?<PhaseAction kind="ghost" label="Vider la liste" onPress={()=>Alert.alert("Vider la liste ?", "Tous les noms saisis seront retirés.", [{text:"Annuler",style:"cancel"},{text:"Vider",style:"destructive",onPress:()=>{setPlayers([]);setEditing(null);setDraft("");}}])}/>:null}
+        {players.length?<PhaseAction kind="ghost" label="Vider la liste" onPress={()=>{const cleared=players;setPlayers([]);setEditing(null);setDraft("");clearing.offer("Liste vidée · Annuler",async()=>{setPlayers(current=>current.length?current:cleared);return true;});}}/>:null}
+        {clearing.undo?<PhaseAction kind="secondary" label={clearing.undo.label} onPress={clearing.restore}/>:null}
       </>:<Sub label="Nombre de joueurs"><Stepper value={count} min={2} max={60} unit="joueurs" label="le nombre de joueurs" onChange={setCount}/></Sub>}
     </ConfigCard>);
     cards.push(<ConfigCard key="count" title="Nombre d'équipes"><View style={{flexDirection:"row",gap:8}}>{[2,3,4,5,6,7,8].map(n=><View key={n} style={{flex:1}}><ChipNumber value={n} active={teamCount===n} onPress={()=>{setTeamCount(n);setMeta(tournamentTeams(n));}}/></View>)}</View></ConfigCard>);
