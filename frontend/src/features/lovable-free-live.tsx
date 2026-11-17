@@ -64,6 +64,8 @@ import {
   setFreeTimer,
   useStore,
 } from "@/src/store/session-store";
+import { offerAbandonUndo } from "@/src/store/abandon-undo";
+import { useAlertPermissionGate } from "@/src/components/lovable/alert-permission";
 import {
   lovable as c,
   lovableFont as f,
@@ -106,6 +108,7 @@ export function LovableFreeLive() {
     replacing = useStore((x) => x.replacingFreeTimer);
   const now = useDisplayClock(!!ft?.running),
     notice = useFreeNotice();
+  const alertGate = useAlertPermissionGate();
   const [sheet, setSheet] = useState<{
       kind: "reset" | "restart" | "end";
       createdAt: number;
@@ -172,7 +175,11 @@ export function LovableFreeLive() {
     if (saved) {
       setActionError(null);
       setSheet(null);
-      if (action === "end") router.dismissTo("/");
+      if (action === "end") {
+        // A finished session has nothing left to resume; only a live one is offered back.
+        if (!current.finished) offerAbandonUndo("Chrono abandonné · Annuler", () => replaceFreeTimer(current, null));
+        router.dismissTo("/");
+      }
     } else {
       setActionError(
         "Le changement n’a pas été enregistré. La session précédente est conservée. Réessaie.",
@@ -727,7 +734,7 @@ export function LovableFreeLive() {
         label="Démarrer"
         icon="play"
         disabled={blocked}
-        onPress={() => perform("toggle")}
+        onPress={() => alertGate.gate(() => perform("toggle"))}
       />
     ) : stage === "ended" ? (
       <View
@@ -983,6 +990,7 @@ export function LovableFreeLive() {
           {dock}
         </View>
       </View>
+      {alertGate.sheet}
       {sheet ? (
         <MatchSheet
           dismissOnBackdrop

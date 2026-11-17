@@ -12,7 +12,7 @@ import { PitchPhoto } from "@/src/components/lovable/pitch-photo";
 import { Wordmark } from "@/src/components/lovable/wordmark";
 import { homeSessionPreviews, type HomeResume } from "@/src/features/home-session-preview";
 import { discardSession, getStoreState, replaceFreeTimer, restoreSession, retryStorage, useStore } from "@/src/store/session-store";
-import { useUndoAction } from "@/src/hooks/use-undo-action";
+import { offerAbandonUndo, restoreAbandoned, useAbandonUndo } from "@/src/store/abandon-undo";
 import { SwipeToDelete } from "@/src/components/lovable/swipe-delete";
 import { ModeHelpSheet, type ModeId } from "@/src/components/lovable/mode-help";
 import { brand, lovable, lovableFont, themed, withAlpha } from "@/src/visual/lovable";
@@ -37,7 +37,7 @@ export default function HomeScreen() {
   const now = useStore(s => s.now);
   const resumes = homeSessionPreviews(session, freeTimer, now);
   const [showWelcome, setShowWelcome] = useState<boolean | null>(null);
-  const abandon = useUndoAction();
+  const abandonUndo = useAbandonUndo();
   const [help, setHelp] = useState<ModeId | null>(null);
   useEffect(() => {
     let mounted = true;
@@ -59,11 +59,11 @@ export default function HomeScreen() {
           const abandoned = current.session;
           if (abandoned?.id !== resume.key) return;
           discardSession();
-          if (!getStoreState().session) abandon.offer("Session abandonnée · Annuler", () => restoreSession(abandoned));
+          if (!getStoreState().session) offerAbandonUndo("Session abandonnée · Annuler", () => restoreSession(abandoned));
         } else if (current.freeTimer && `free-${current.freeTimer.createdAt}` === resume.key) {
           const abandoned = current.freeTimer;
           void replaceFreeTimer(null, abandoned).then(ok => {
-            if (ok) abandon.offer("Chrono abandonné · Annuler", () => replaceFreeTimer(abandoned, null));
+            if (ok) offerAbandonUndo("Chrono abandonné · Annuler", () => replaceFreeTimer(abandoned, null));
           });
         }
       } },
@@ -89,7 +89,7 @@ export default function HomeScreen() {
         </Pressable>
       </View>
       {saveError ? <View style={{ width: "100%", gap: 4 }}><Text accessibilityRole="alert" style={styles.error}>La sauvegarde a échoué. Réessaie.</Text><HomeAction title="Réessayer la sauvegarde" icon="refresh" testID="home-retry-save" onPress={() => { void retryStorage(); }} /></View> : null}
-      {abandon.undo ? <View style={{ width: "100%", flexDirection: "row" }}><HomeAction title={abandon.undo.label} icon="history" testID="home-undo-abandon" onPress={abandon.restore} /></View> : null}
+      {abandonUndo ? <View style={{ width: "100%", flexDirection: "row" }}><HomeAction title={abandonUndo.label} icon="history" testID="home-undo-abandon" onPress={() => { void restoreAbandoned(); }} /></View> : null}
       {resumes.map(resume => <View key={resume.key} style={{ width: cardWidth, gap: 4 }}><ModeCard testID={resume.route === "/live" ? "resume-session-card" : "resume-free-card"} title={resume.title} icon="history" accent={lovable.primary} resume style={{ width: cardWidth }} onPress={() => router.push(resume.route)}>
         {resume.state === "En cours" ? <Text style={homeCopyStyles.detail}>Le chrono continue. Touche cette carte pour y revenir.</Text> : null}
         <Text style={[homeCopyStyles.detail, homeCopyStyles.state]}>{resume.state}</Text>

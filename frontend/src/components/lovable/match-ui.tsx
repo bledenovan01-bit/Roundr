@@ -219,6 +219,8 @@ export function MatchAction({
   disabled = false,
   testID,
   fontSize,
+  danger = false,
+  inline = false,
 }: {
   label: string;
   onPress: () => void;
@@ -228,6 +230,10 @@ export function MatchAction({
   disabled?: boolean;
   testID?: string;
   fontSize?: number;
+  /** Red label and icon, for an action that ends or deletes something. */
+  danger?: boolean;
+  /** Sized to its label instead of the full row, so several links share one line. */
+  inline?: boolean;
 }) {
   const { width, height: screenHeight } = useWindowDimensions(),
     h =
@@ -240,7 +246,9 @@ export function MatchAction({
             ? 48
             : 56);
   const color =
-      kind === "primary"
+      danger && kind !== "primary"
+        ? c.error
+        : kind === "primary"
         ? c.onPrimary
         : kind === "text"
           ? c.muted
@@ -267,6 +275,7 @@ export function MatchAction({
           borderWidth: kind === "secondary" ? 1 : 0,
           opacity: disabled ? 0.5 : pressed ? 0.85 : 1,
         },
+        inline && { width: "auto", paddingHorizontal: 8, gap: 6 },
         pressed && !disabled && { transform: [{ scale: 0.98 }] },
       ]}
     >

@@ -24,6 +24,7 @@ import {
   archiveSession,
   dispatchSession,
   discardSession,
+  restoreSession,
   flushStorage,
   getStoreState,
   renameCompetition,
@@ -31,6 +32,7 @@ import {
   startSession,
   useStore,
 } from "@/src/store/session-store";
+import { offerAbandonUndo } from "@/src/store/abandon-undo";
 import {
   competitionName,
   snapshotCompetition,
@@ -159,10 +161,13 @@ export function LovableTournamentFlow({
         </Text>
         {s.matches.some(match => match.status === "finished") ? <MatchAction label="Garder les résultats joués" onPress={interrupt} /> : null}
         <MatchAction label="Tout supprimer" kind="secondary" onPress={() => {
+          const abandoned = getStoreState().session;
           leaving.current = true;
           discardSession();
-          if (!getStoreState().session) router.dismissTo("/");
-          else leaving.current = false;
+          if (!getStoreState().session) {
+            if (abandoned) offerAbandonUndo("Tournoi supprimé · Annuler", () => restoreSession(abandoned));
+            router.dismissTo("/");
+          } else leaving.current = false;
         }} />
         <MatchAction
           label="Continuer le tournoi"

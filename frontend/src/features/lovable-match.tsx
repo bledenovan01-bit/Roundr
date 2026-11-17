@@ -22,11 +22,14 @@ import {
   archiveSession,
   dispatchSession,
   discardSession,
+  restoreSession,
   getStoreState,
   retryStorage,
   startSession,
   useStore,
 } from "@/src/store/session-store";
+import { offerAbandonUndo } from "@/src/store/abandon-undo";
+import { useAlertPermissionGate } from "@/src/components/lovable/alert-permission";
 import {
   brand,
   lovable as c,
@@ -103,13 +106,14 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     [teamName, setTeamName] = useState("");
   const preferences = usePreferences();
   const keepAwake = preferences.keepAwake;
-  const [undoRestart, setUndoRestart] = useState<{ before: Session; after: Session; until: number } | null>(null);
+  const [undoRestart, setUndoRestart] = useState<{ before: Session; after: Session; until: number; label: string } | null>(null);
   useEffect(() => {
     if (!undoRestart) return;
     const timer = setTimeout(() => setUndoRestart(null), Math.max(0, undoRestart.until - Date.now()));
     return () => clearTimeout(timer);
   }, [undoRestart]);
   const [stopping, setStopping] = useState(false);
+  const alertGate = useAlertPermissionGate();
   const lockHeld = useRef(false);
   const leaving = useRef(false);
   const [selectedPage, setSelectedPage] = useState(0);
@@ -220,9 +224,11 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
   };
   const hasResults = session.mode !== "classique" && session.matches.some(match => match.status === "finished");
   const discard = () => {
-    if (getStoreState().session?.id !== session.id) return;
+    const abandoned = getStoreState().session;
+    if (abandoned?.id !== session.id) return;
     discardSession();
     if (!getStoreState().session) {
+      offerAbandonUndo("Session abandonnée · Annuler", () => restoreSession(abandoned));
       tournament?.onDiscard?.();
       leaving.current = true;
       router.dismissTo("/");
@@ -230,13 +236,15 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
   };
   const restart = () => {
     if (locked) return;
+    // In a tournament extra time or golden goal, only the time restarts: the score is kept.
+    const keepsScore = !!tournament && (l.stage === "extra" || l.stage === "golden");
     confirmMatchRestart(() => {
       setShowElapsed(false);
       const before = getStoreState().session;
       dispatchSession(S.restartCurrent);
       const after = getStoreState().session;
-      if (before && after && before !== after) setUndoRestart({ before, after, until: Date.now() + 5000 });
-    }, !!tournament && (l.stage === "extra" || l.stage === "golden"));
+      if (before && after && before !== after) setUndoRestart({ before, after, until: Date.now() + 5000, label: keepsScore ? "Temps remis à zéro · Annuler" : "Match remis à zéro · Annuler" });
+    }, keepsScore);
   };
   if (session.mode === "classique" && finished)
     return (
@@ -393,7 +401,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     </View>
   );
   const begin = () => {
-    if (!locked) dispatchSession(beginMatch);
+    if (!locked) alertGate.gate(() => dispatchSession(beginMatch));
   };
   const primary = l.stage === "ready" || between || l.tiebreakStep === "ready";
   return (
@@ -542,17 +550,17 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
         }}
       >
         {undoRestart && session === undoRestart.after ? (
-          <MatchAction label="Temps remis à zéro · Annuler" kind="text" onPress={() => {
+          <MatchAction label={undoRestart.label} kind="text" onPress={() => {
             if (Date.now() <= undoRestart.until) dispatchSession(current => current === undoRestart.after ? undoRestart.before : current, { silent: true });
             setUndoRestart(null);
           }} />
         ) : null}
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
-          <MatchAction label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
+        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", columnGap: 8, rowGap: 0 }}>
+          <MatchAction inline label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
           {!locked ? <>
-            <MatchAction label="Arrêter la session" kind="text" onPress={() => setStopping(true)} />
+            <MatchAction inline label="Arrêter la session" icon="stop" kind="text" danger onPress={() => setStopping(true)} />
             {(session.mode === "classique" || session.mode === "maracana") && l.stage === "ready" && !session.matches.some(match => match.status === "finished") ? (
-              <MatchAction label="Modifier les réglages" kind="text" onPress={() => router.push({ pathname: "/config/[mode]", params: { mode: session.mode, edit: session.id } })} />
+              <MatchAction inline label="Modifier les réglages" icon="pencil" kind="text" onPress={() => router.push({ pathname: "/config/[mode]", params: { mode: session.mode, edit: session.id } })} />
             ) : null}
           </> : null}
         </View>
@@ -668,6 +676,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           </View>
         )}
       </View>
+      {alertGate.sheet}
       {stopping ? (
         <MatchSheet label="Arrêter la session ?" onClose={() => setStopping(false)}>
           <Text accessibilityRole="header" style={m.title}>Arrêter la session ?</Text>
@@ -705,6 +714,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           </Text>
           <Text style={[m.muted, { textAlign: "center" }]}>{teams[0]?.name} · {teams[1]?.name}</Text>
           </View>
+          {l.scoreOn ? <MatchAction testID="maracana-correct-score" label="Corriger le score" icon="pencil" kind="secondary" disabled={locked} onPress={correct} /> : null}
           <Rotation session={session} />
           <NextLaunch session={session} locked={locked} />
           <View style={{ gap: 8 }}>
@@ -721,7 +731,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
               />
             ) : null}
             {!session.pendingLaunch || session.pendingLaunch.cancelled ? (
-              <Text style={[m.muted, { textAlign: "center", fontSize: 12, lineHeight: 18 }]}>Le match sera prêt. Appuie sur lecture au coup d’envoi.</Text>
+              <Text style={[m.muted, { textAlign: "center", fontSize: 12, lineHeight: 18 }]}>Le match sera prêt. Touche Démarrer au coup d’envoi.</Text>
             ) : null}
             <MatchAction
               label="Voir le classement"
@@ -1525,6 +1535,15 @@ function ClassicMatchResult({
               alignSelf: "center",
             }}
           >
+            {l.scoreOn ? (
+              <MatchAction
+                testID="result-correct-score"
+                label="Corriger le score"
+                icon="pencil"
+                kind="secondary"
+                onPress={onCorrect}
+              />
+            ) : null}
             <MatchAction
               testID="result-share"
               label="Partager le résumé"

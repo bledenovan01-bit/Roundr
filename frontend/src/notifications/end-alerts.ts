@@ -31,18 +31,31 @@ function configure() {
   }
 }
 
-// Asked once, the first time a running chrono needs a signal.
-function allowed(): Promise<boolean> {
-  if (!permission) {
-    permission = Notifications.getPermissionsAsync()
-      .then(async (current) => {
-        if (current.granted) return true;
-        if (!current.canAskAgain) return false;
-        return (await Notifications.requestPermissionsAsync()).granted;
-      })
-      .catch(() => false);
-  }
+export type EndAlertPermission = "granted" | "undetermined" | "denied" | "unsupported";
+
+/** Current permission, without asking. */
+export function endAlertPermission(): Promise<EndAlertPermission> {
+  return Notifications.getPermissionsAsync()
+    .then((current): EndAlertPermission => current.granted ? "granted" : current.canAskAgain ? "undetermined" : "denied")
+    .catch((): EndAlertPermission => "unsupported");
+}
+
+/**
+ * Shows the system prompt. Only called after Roundr has explained why, from
+ * the sheet shown before the first start: never by the scheduler itself.
+ */
+export function requestEndAlertPermission(): Promise<boolean> {
+  permission = Notifications.requestPermissionsAsync().then(result => result.granted).catch(() => false);
   return permission;
+}
+
+// Scheduling only uses a permission the user already gave.
+function allowed(): Promise<boolean> {
+  if (!permission) permission = Notifications.getPermissionsAsync().then(current => current.granted).catch(() => false);
+  return permission.then(granted => {
+    if (!granted) permission = null; // re-read later: the user may allow it in the phone settings
+    return granted;
+  });
 }
 
 /** Replaces the pending alerts of one owner ("match" or "free") with `plan`. */

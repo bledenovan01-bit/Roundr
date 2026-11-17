@@ -13,7 +13,7 @@ if (c.mode !== "classique") throw Error();
 assert.equal(c.totalMin, 30); assert.equal(c.periods, 2); assert.equal(c.breakMin, 5); assert.equal(c.additional, false);
 const classic = createSession(c, lovableConfigTeams("classique", 2), 1000);
 assert.deepEqual(classic.live!.periodMs, [900000,900000]);
-assert.deepEqual(lovableConfigTeams("classique",2).map(team=>team.name),["Les Renards","FC Amigos"]);
+assert.deepEqual(lovableConfigTeams("classique",2).map(team=>team.name),["Équipe A","Équipe B"]);
 assert.deepEqual((defaultConfig("classique") as typeof c).totalMin, 10, "legacy defaults remain available");
 console.log("✓ New classic defaults match Lovable; legacy defaults and engine remain intact");
 const oldClassic=defaultConfig("classique") as typeof c, frozenReplay=JSON.stringify(oldClassic);

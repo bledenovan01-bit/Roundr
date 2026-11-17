@@ -14,7 +14,8 @@ export const referenceTeamPalette = ["#ff8900", "#5ad578", "#2e91ff", "#fd393f",
 const referenceTeamColors = [0, 1, 2, 5, 4, 3, 6, 7].map(index => referenceTeamPalette[index]);
 const names = ["Les Renards", "FC Amigos", "Panthères", "Galactiques", "Tigers", "Squad FC", "Los Amigos", "Dream Team"];
 export function lovableConfigTeams(mode: "classique" | "maracana", count: number): Team[] {
-  const list = mode === "classique" ? names.slice(0, 2) : names;
+  // A single match names its sides neutrally; Maracana keeps distinct names for the rotation.
+  const list = mode === "classique" ? ["Équipe A", "Équipe B"] : names;
   return Array.from({ length: count }, (_, i) => ({ id: `t${i + 1}`, name: list[i] ?? `Équipe ${i + 1}`, color: referenceTeamColors[i % referenceTeamColors.length] }));
 }
 
