@@ -124,8 +124,25 @@ const base = process.argv[2] || 'http://localhost:8083';
       const ready = fixtures.find(fixture => fixture.name === 'maracana-ready');
       const maracana = JSON.parse(ready.storage['roundr.session.v1']);
       maracana.config.launch = 'manual';
-      await page.evaluate(value => localStorage.setItem('roundr.session.v1', JSON.stringify(value)), maracana);
+      await page.evaluate(value => {
+        const prefsKey = 'roundr.preferences.v1';
+        const prefs = JSON.parse(localStorage.getItem(prefsKey)) ?? {};
+        localStorage.setItem(prefsKey, JSON.stringify({ ...prefs, keepAwake: false, screenSleepVersion: 2, theme: 'light' }));
+        localStorage.setItem('roundr.session.v1', JSON.stringify(value));
+      }, maracana);
       await go('/live');
+      await button('Démarrer').waitFor();
+      const [lock, stopAction, edit, scores, dock] = await Promise.all([
+        button('Verrouiller').boundingBox(),
+        button('Arrêter la session').boundingBox(),
+        button('Modifier les réglages').boundingBox(),
+        id('match-scoreboard').boundingBox(),
+        id('match-dock').boundingBox(),
+      ]);
+      assert(lock && stopAction && edit && scores && dock);
+      assert(Math.abs(lock.y - stopAction.y) < 1 && Math.abs(stopAction.y - edit.y) < 1, 'Match actions share one row');
+      assert(scores.y + scores.height <= dock.y + 1, 'Both score cards fit above the dock');
+      console.log('PASS compact dock and full score cards in Maracana');
       await button('Démarrer').click();
       await id('match-goal-0').click();
       await id('match-end').click();

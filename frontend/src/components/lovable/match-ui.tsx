@@ -219,6 +219,7 @@ export function MatchAction({
   disabled = false,
   testID,
   fontSize,
+  compact = false,
 }: {
   label: string;
   onPress: () => void;
@@ -228,6 +229,7 @@ export function MatchAction({
   disabled?: boolean;
   testID?: string;
   fontSize?: number;
+  compact?: boolean;
 }) {
   const { width, height: screenHeight } = useWindowDimensions(),
     h =
@@ -266,6 +268,14 @@ export function MatchAction({
                 : "transparent",
           borderWidth: kind === "secondary" ? 1 : 0,
           opacity: disabled ? 0.5 : pressed ? 0.85 : 1,
+        },
+        compact && {
+          width: "auto",
+          flex: 1,
+          minWidth: 0,
+          paddingHorizontal: 4,
+          paddingVertical: 2,
+          gap: 4,
         },
         pressed && !disabled && { transform: [{ scale: 0.98 }] },
       ]}

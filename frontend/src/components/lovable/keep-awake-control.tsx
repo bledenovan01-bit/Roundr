@@ -47,11 +47,11 @@ export function KeepAwakeControl({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: landscape ? "row" : "column",
-        gap: landscape ? 6 : 4,
+        gap: landscape ? 6 : 2,
         paddingHorizontal: 4,
       })}
     >
-      <MatchIcon name={on ? "lock" : "unlock"} color={tint} />
+      <MatchIcon name={on ? "lock" : "unlock"} size={landscape ? 20 : 16} color={tint} />
       <Text
         numberOfLines={2}
         adjustsFontSizeToFit

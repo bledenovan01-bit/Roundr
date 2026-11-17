@@ -396,6 +396,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     if (!locked) dispatchSession(beginMatch);
   };
   const primary = l.stage === "ready" || between || l.tiebreakStep === "ready";
+  const dockMaxWidth = landscape ? (primary ? 420 : 640) : undefined;
   return (
     <View testID="match-screen" style={m.root}>
       <LovableBackground />
@@ -547,18 +548,33 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             setUndoRestart(null);
           }} />
         ) : null}
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
-          <MatchAction label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
-          {!locked ? <>
-            <MatchAction label="Arrêter la session" kind="text" onPress={() => setStopping(true)} />
-            {(session.mode === "classique" || session.mode === "maracana") && l.stage === "ready" && !session.matches.some(match => match.status === "finished") ? (
-              <MatchAction label="Modifier les réglages" kind="text" onPress={() => router.push({ pathname: "/config/[mode]", params: { mode: session.mode, edit: session.id } })} />
-            ) : null}
-          </> : null}
+        <View style={{ width: "100%", maxWidth: dockMaxWidth, flexDirection: "row", gap: 4, marginBottom: 4 }}>
+          <MatchAction
+            label={locked ? "Déverrouiller" : "Verrouiller"}
+            icon={locked ? "unlock" : "lock"}
+            kind="text"
+            compact
+            onPress={() => setLocked(value => !value)}
+          />
+          {!locked ? (
+            <>
+              <MatchAction label="Arrêter la session" kind="text" compact onPress={() => setStopping(true)} />
+              {(session.mode === "classique" || session.mode === "maracana") &&
+              l.stage === "ready" &&
+              !session.matches.some(match => match.status === "finished") ? (
+                <MatchAction
+                  label="Modifier les réglages"
+                  kind="text"
+                  compact
+                  onPress={() => router.push({ pathname: "/config/[mode]", params: { mode: session.mode, edit: session.id } })}
+                />
+              ) : null}
+            </>
+          ) : null}
         </View>
         {primary ? (
           <View
-            style={{ width: "100%", maxWidth: landscape ? 420 : undefined, flexDirection: "row", gap: 8 }}
+            style={{ width: "100%", maxWidth: dockMaxWidth, flexDirection: "row", gap: 8 }}
           >
             <KeepAwakeControl landscape={landscape} height={landscape ? 48 : 56} disabled={locked} />
             <View style={{ flex: 1 }}>
@@ -582,7 +598,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           <View
             style={{
               width: "100%",
-              maxWidth: landscape ? 640 : undefined,
+              maxWidth: dockMaxWidth,
               flexDirection: "row",
               gap: 8,
             }}
