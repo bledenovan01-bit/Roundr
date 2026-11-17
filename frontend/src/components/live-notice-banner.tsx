@@ -3,7 +3,7 @@
 // orange = alertes de temps. ~4,5 s (piloté par `notice.until` via le store).
 // Non bloquante (pointerEvents="none"), fondu discret en entrée ET en sortie.
 import { useEffect, useState } from "react";
-import { AccessibilityInfo, Animated, Text, View, useWindowDimensions } from "react-native";
+import { AccessibilityInfo, Animated, Pressable, Text, View, useWindowDimensions } from "react-native";
 import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { fontFamily, makeStyles, radius, spacing, useTheme } from "@/src/theme";
 import { lovable, themeName, withAlpha } from "@/src/visual/lovable";
@@ -12,7 +12,10 @@ import { MatchIcon } from "./lovable/match-ui";
 export type LiveNoticeTone = "warmup" | "time";
 export type LiveNotice = { message: string; until: number; tone: LiveNoticeTone };
 
-export function LiveNoticeBanner({ notice, variant="legacy" }: { notice: LiveNotice | null;variant?:"legacy"|"lovable" }) {
+/** Optional tap action (e.g. undo), which makes the banner touchable. */
+export type LiveNoticeAction = { label: string; onPress: () => void };
+
+export function LiveNoticeBanner({ notice, variant="legacy", action }: { notice: LiveNotice | null;variant?:"legacy"|"lovable"; action?: LiveNoticeAction }) {
   const styles = useStyles();
   const { colors } = useTheme();
   const {width,height}=useWindowDimensions(),shortLandscape=width>height&&height<=500;
@@ -60,14 +63,15 @@ export function LiveNoticeBanner({ notice, variant="legacy" }: { notice: LiveNot
   const icon = warm ? "bullhorn-variant" : "timer-alert-outline";
   return (
     <Animated.View
-      pointerEvents="none"
+      pointerEvents={action ? "auto" : "none"}
       testID="live-notice-banner"
       accessibilityLiveRegion="polite"
-      accessible
-      accessibilityLabel={shown.message}
+      accessible={!action}
+      accessibilityLabel={action ? undefined : shown.message}
       style={[styles.wrap, { borderColor: accent, backgroundColor: bg, opacity, transform: [{ translateY }] },variant==="lovable"&&{width:"100%",marginTop:0,paddingVertical:shortLandscape?6:8,paddingHorizontal:shortLandscape?12:14,gap:8,borderRadius:16,backgroundColor:warm ? colors.brandTertiary : themeName() === "light" ? "#fff0dc" : "#2b2113",borderColor:withAlpha(warm?lovable.primary:lovable.amber,warm?.6:.65),justifyContent:"center"}]}
     >
-      {variant==="lovable"?<MatchIcon name={warm?"megaphone":"timer"} size={18} color={warm?lovable.primary:lovable.amber}/>:<View style={[styles.iconWrap, { backgroundColor: accent }]}>
+      {action ? <Pressable testID="live-notice-action" accessibilityRole="button" accessibilityLabel={action.label} accessibilityHint={shown.message} onPress={action.onPress} hitSlop={6} style={({pressed})=>({position:"absolute",top:0,bottom:0,left:0,right:0,zIndex:1,borderRadius:16,opacity:pressed?.6:1,backgroundColor:pressed?withAlpha(lovable.foreground,.06):"transparent"})}/> : null}
+      {variant==="lovable"?<MatchIcon name={action?"restart":warm?"megaphone":"timer"} size={18} color={warm?lovable.primary:lovable.amber}/>:<View style={[styles.iconWrap, { backgroundColor: accent }]}>
         <MaterialCommunityIcons name={icon} size={18} color={colors.surface} />
       </View>}
       <Text style={[styles.message, { color: colors.onSurface },variant==="lovable"&&{flex:undefined,flexGrow:0,flexShrink:1,flexBasis:"auto",fontFamily:"ManropeRefined-Bold",fontSize:shortLandscape?13:14,lineHeight:shortLandscape?16.25:17.5,color:warm?lovable.primary:lovable.amber,textAlign:"center"}]} numberOfLines={3}>

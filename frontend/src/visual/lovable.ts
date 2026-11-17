@@ -42,6 +42,10 @@ const dark = {
   scrim: "rgba(0,3,3,.78)",
   /** "Enters the pitch" marker in the Maracana rotation. */
   incoming: "#20c8d5",
+  /** Ending command (Fin): lightly red surface, border and label. */
+  dangerSurface: "#2e191c",
+  dangerBorder: "#60343a",
+  dangerText: "#ffaaa1",
 };
 
 export type Palette = { [K in keyof typeof dark]: string };
@@ -74,6 +78,9 @@ const light: Palette = {
   onError: "#ffffff",
   scrim: "rgba(12,27,24,.45)",
   incoming: "#0b7f8a",
+  dangerSurface: "#fae9e8",
+  dangerBorder: "#d9a19e",
+  dangerText: "#923130",
 };
 
 export const palettes: Record<ThemeName, Palette> = { dark, light };

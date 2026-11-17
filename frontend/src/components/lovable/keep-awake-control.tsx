@@ -3,6 +3,7 @@ import { lovable as c, withAlpha } from "@/src/visual/lovable";
 import { setPreferences, usePreferences } from "@/src/store/preferences";
 import { keepAwakeLabel } from "@/src/features/keep-awake-control";
 import { MatchIcon } from "./match-ui";
+import { MatchBarButton } from "./match-bar";
 
 /**
  * "Écran" button of the chrono command bars. It reads and writes the same
@@ -14,13 +15,33 @@ export function KeepAwakeControl({
   height,
   disabled = false,
   testID = "keep-awake-toggle",
+  compact = false,
 }: {
   landscape: boolean;
   height: number;
   disabled?: boolean;
   testID?: string;
+  /** Icon only, for the match bar: moon = sleep allowed, sun = screen kept on. */
+  compact?: boolean;
 }) {
   const on = usePreferences().keepAwake;
+  if (compact)
+    return (
+      <MatchBarButton
+        testID={testID}
+        landscape={landscape}
+        icon={on ? "sun" : "moon"}
+        tone={on ? "active" : "neutral"}
+        accessibilityRole="switch"
+        accessibilityLabel="Maintenir l’écran allumé"
+        accessibilityHint={keepAwakeLabel(on).hint}
+        checked={on}
+        disabled={disabled}
+        onPress={() => {
+          void setPreferences({ keepAwake: !on });
+        }}
+      />
+    );
   const tint = on ? c.primary : c.foreground;
   return (
     <Pressable

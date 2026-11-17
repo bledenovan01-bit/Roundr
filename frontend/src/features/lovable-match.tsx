@@ -46,6 +46,8 @@ import { PhaseFrame } from "@/src/components/lovable/phase2b-ui";
 import { GiantChrono } from "@/src/components/giant-chrono";
 import { MatchAnnouncer } from "@/src/components/lovable/match-announcer";
 import { KeepAwakeControl } from "@/src/components/lovable/keep-awake-control";
+import { MatchBarButton, useMatchBarMetrics } from "@/src/components/lovable/match-bar";
+import { LiveNoticeBanner } from "@/src/components/live-notice-banner";
 import {
   MatchAction,
   MatchCarousel,
@@ -54,7 +56,6 @@ import {
   MatchSheet,
   m,
   pressedControl,
-  type MatchIconName,
 } from "@/src/components/lovable/match-ui";
 import {
   CLOCK_FILL_MAX_FONT_SCALE,
@@ -113,8 +114,9 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     return () => clearTimeout(timer);
   }, [undoRestart]);
   const [stopping, setStopping] = useState(false);
+  const [options, setOptions] = useState(false);
+  const bar = useMatchBarMetrics(landscape);
   const alertGate = useAlertPermissionGate();
-  const lockHeld = useRef(false);
   const leaving = useRef(false);
   const [selectedPage, setSelectedPage] = useState(0);
   // Portrait only: the clock card takes the height the screen leaves unused.
@@ -167,6 +169,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     between = l.stage === "break" || l.stage === "awaitPeriod";
   const canScore = l.scoreOn && !finished && !between && l.stage !== "ready" && l.stage !== "shootout" && !l.tiebreakStep;
   const upcoming = maracanaUpcoming(session);
+  const undoNotice = undoRestart && session === undoRestart.after ? undoRestart : null;
   const home = () => {
     if (!locked) router.dismissTo("/");
   };
@@ -234,10 +237,10 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
       router.dismissTo("/");
     }
   };
+  // In a tournament extra time or golden goal, only the time restarts: the score is kept.
+  const keepsScore = !!tournament && (l.stage === "extra" || l.stage === "golden");
   const restart = () => {
     if (locked) return;
-    // In a tournament extra time or golden goal, only the time restarts: the score is kept.
-    const keepsScore = !!tournament && (l.stage === "extra" || l.stage === "golden");
     confirmMatchRestart(() => {
       setShowElapsed(false);
       const before = getStoreState().session;
@@ -395,8 +398,23 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
         onGiant={() => setGiant(true)}
         fill={fillClock ? clockFill : undefined}
       />
-      <View pointerEvents="none" testID="match-notice-host" style={{ position: "absolute", top: 8, left: 10, right: 10, zIndex: 2 }}>
-        <MatchAnnouncer session={session} now={Math.max(now, storeNow)} />
+      <View pointerEvents="box-none" testID="match-notice-host" style={{ position: "absolute", top: 8, left: 10, right: 10, zIndex: 2 }}>
+        {/* The restart undo is a one-off notice too, so the bar keeps one row. */}
+        {undoNotice ? (
+          <LiveNoticeBanner
+            variant="lovable"
+            notice={{ message: undoNotice.label, until: undoNotice.until, tone: "warmup" }}
+            action={{
+              label: "Annuler la remise à zéro",
+              onPress: () => {
+                if (Date.now() <= undoNotice.until) dispatchSession(current => current === undoNotice.after ? undoNotice.before : current, { silent: true });
+                setUndoRestart(null);
+              },
+            }}
+          />
+        ) : (
+          <MatchAnnouncer session={session} now={Math.max(now, storeNow)} />
+        )}
       </View>
     </View>
   );
@@ -404,6 +422,14 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
     if (!locked) alertGate.gate(() => dispatchSession(beginMatch));
   };
   const primary = l.stage === "ready" || between || l.tiebreakStep === "ready";
+  // Before the first kick-off of this match the bar only offers Démarrer.
+  const beforeKickoff = l.stage === "ready";
+  const blockedStage = finished || l.stage === "shootout" || l.tiebreakStep === "choice";
+  const startLabel = between
+    ? "Démarrer la " + periodName(l.periodMs.length, l.stage === "break" ? l.periodIndex + 1 : l.periodIndex).toLowerCase()
+    : "Démarrer";
+  // The match settings stay editable until a match of the session has been played.
+  const editable = (session.mode === "classique" || session.mode === "maracana") && l.stage === "ready" && !session.matches.some(match => match.status === "finished");
   return (
     <View testID="match-screen" style={m.root}>
       <LovableBackground />
@@ -436,48 +462,18 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
             {subtitle}
           </Text>
         </View>
+        {/* Options only: locking has its own padlock in the match bar. */}
         <Pressable
-          testID="match-lock-settings"
+          testID="match-options"
           accessibilityRole="button"
-          accessibilityLabel={
-            locked ? "Déverrouiller les commandes" : "Paramètres du match"
-          }
-          accessibilityHint="Appui long pour verrouiller ou déverrouiller les commandes"
-          accessibilityActions={[
-            {
-              name: "activate",
-              label: locked ? "Déverrouiller" : "Paramètres",
-            },
-            {
-              name: "longpress",
-              label: locked ? "Déverrouiller" : "Verrouiller",
-            },
-          ]}
-          onAccessibilityAction={(e) => {
-            if (e.nativeEvent.actionName === "longpress" || locked)
-              setLocked((v) => !v);
-            else router.push({ pathname: "/settings", params: { from: "match" } });
-          }}
-          onPressIn={() => {
-            lockHeld.current = false;
-          }}
-          onPress={() => {
-            if (!lockHeld.current && locked) setLocked(false);
-            else if (!lockHeld.current) router.push({ pathname: "/settings", params: { from: "match" } });
-            lockHeld.current = false;
-          }}
-          onLongPress={() => {
-            lockHeld.current = true;
-            setLocked((v) => !v);
-          }}
-          delayLongPress={550}
-          style={({ pressed }) => [m.headerButton, pressed && pressedControl]}
+          accessibilityLabel="Options du match"
+          accessibilityHint={editable ? "Réglages du match, paramètres de l’app ou arrêt de la session" : "Paramètres de l’app ou arrêt de la session"}
+          accessibilityState={{ disabled: locked }}
+          disabled={locked}
+          onPress={() => setOptions(true)}
+          style={({ pressed }) => [m.headerButton, locked && { opacity: 0.45 }, pressed && pressedControl]}
         >
-          {locked ? (
-            <MatchIcon name="lock" color={c.amber} />
-          ) : (
-            <LovableIcon name="gear" size={20} color={c.foreground} />
-          )}
+          <LovableIcon name="gear" size={20} color={c.foreground} />
         </Pressable>
       </View>
       <ScrollView
@@ -549,134 +545,78 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
           alignItems: "center",
         }}
       >
-        {undoRestart && session === undoRestart.after ? (
-          <MatchAction label={undoRestart.label} kind="text" onPress={() => {
-            if (Date.now() <= undoRestart.until) dispatchSession(current => current === undoRestart.after ? undoRestart.before : current, { silent: true });
-            setUndoRestart(null);
-          }} />
-        ) : null}
-        <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", columnGap: 8, rowGap: 0 }}>
-          <MatchAction inline label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
-          {!locked ? <>
-            <MatchAction inline label="Arrêter la session" icon="stop" kind="text" danger onPress={() => setStopping(true)} />
-            {(session.mode === "classique" || session.mode === "maracana") && l.stage === "ready" && !session.matches.some(match => match.status === "finished") ? (
-              <MatchAction inline label="Modifier les réglages" icon="pencil" kind="text" onPress={() => router.push({ pathname: "/config/[mode]", params: { mode: session.mode, edit: session.id } })} />
-            ) : null}
-          </> : null}
-        </View>
-        {primary ? (
-          <View
-            style={{ width: "100%", maxWidth: landscape ? 420 : undefined, flexDirection: "row", gap: 8 }}
-          >
-            <KeepAwakeControl landscape={landscape} height={landscape ? 48 : 56} disabled={locked} />
-            <View style={{ flex: 1 }}>
-              <MatchAction
-                label={
-                  between
-                    ? "Démarrer la " +
-                      periodName(
-                        l.periodMs.length,
-                        l.stage === "break" ? l.periodIndex + 1 : l.periodIndex,
-                      ).toLowerCase()
-                    : "Démarrer"
-                }
-                icon="play"
-                onPress={begin}
-                disabled={locked}
-              />
-            </View>
+        {beforeKickoff && !locked ? (
+          // Before the first kick-off: one full-width command.
+          <View style={{ width: "100%", maxWidth: landscape ? 420 : undefined }}>
+            <MatchAction testID="match-start" label="Démarrer" icon="play" height={bar.height} onPress={begin} />
           </View>
         ) : (
+          // In play, paused or between periods: one row, always in this order.
           <View
+            testID="match-bar"
             style={{
               width: "100%",
               maxWidth: landscape ? 640 : undefined,
               flexDirection: "row",
-              gap: 8,
+              gap: bar.gap,
             }}
           >
-            <KeepAwakeControl
+            <MatchBarButton
+              testID="match-lock"
               landscape={landscape}
-              height={landscape ? 48 : 60}
-              disabled={locked}
+              icon={locked ? "lock" : "unlock"}
+              tone={locked ? "warning" : "neutral"}
+              accessibilityRole="switch"
+              checked={locked}
+              accessibilityLabel={locked ? "Déverrouiller les commandes" : "Verrouiller les commandes"}
+              accessibilityHint={locked ? "Commandes et score bloqués, le chrono continue. Touche pour déverrouiller." : "Bloque les commandes et le score ; le chrono continue."}
+              onPress={() => setLocked(value => !value)}
             />
-            {(
-              [
-                {
-                  label: "Recommencer le match",
-                  icon: "restart",
-                  action: restart,
-                  disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
-                },
-                {
-                  label: "Fin",
-                  icon: "stop",
-                  action: finish,
-                  disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
-                },
-                {
-                  label: projection.running ? "Pause" : "Reprendre",
-                  icon: projection.running ? "pause" : "play",
-                  action: () =>
-                    dispatchSession(projection.running ? S.pause : S.resume),
-                  disabled: finished || l.stage === "shootout" || l.tiebreakStep === "choice",
-                },
-              ] as {
-                label: string;
-                icon: MatchIconName;
-                action: () => void;
-                disabled: boolean;
-              }[]
-            ).map((b, i) => (
-              <Pressable
-                key={i}
-                testID={
-                  i === 0
-                    ? "match-restart"
-                    : i === 1
-                      ? "match-end"
-                      : "match-pause"
-                }
-                accessibilityRole="button"
-                accessibilityLabel={b.label}
-                disabled={locked || b.disabled}
-                accessibilityState={{ disabled: locked || b.disabled }}
-                onPress={b.action}
-                style={({ pressed }) => [{
-                  flex: i === 2 ? 1.6 : 1,
-                  minHeight: landscape ? 48 : 60,
-                  minWidth: 44,
-                  borderRadius: 16,
-                  borderWidth: 1,
-                  borderColor: i === 2 ? c.primary : c.border,
-                  backgroundColor: i === 2 ? c.primary : c.cardRaised,
-                  opacity: locked || b.disabled ? 0.5 : 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: landscape ? "row" : "column",
-                  gap: landscape ? 6 : 4,
-                }, pressed && pressedControl]}
-              >
-                <MatchIcon
-                  name={b.icon}
-                  color={i === 2 ? c.onPrimary : c.foreground}
-                />
-                <Text
-                  style={{
-                    fontFamily: "ManropeRefined-Bold",
-                    fontSize: 13,
-                    lineHeight: 16,
-                    color: i === 2 ? c.onPrimary : c.foreground,
-                  }}
-                >
-                  {i === 0 ? "Recommencer" : b.label}
-                </Text>
-              </Pressable>
-            ))}
+            <KeepAwakeControl compact landscape={landscape} height={bar.height} disabled={locked} />
+            <MatchBarButton
+              testID="match-end"
+              landscape={landscape}
+              icon="stop"
+              label="Fin"
+              tone="danger"
+              accessibilityLabel="Terminer le match"
+              disabled={locked || blockedStage}
+              onPress={finish}
+            />
+            <MatchBarButton
+              testID="match-restart"
+              landscape={landscape}
+              icon="restart"
+              label="Relancer"
+              accessibilityLabel={keepsScore ? "Relancer le temps de cette phase" : "Relancer le match"}
+              disabled={locked || blockedStage}
+              onPress={restart}
+            />
+            <MatchBarButton
+              testID="match-pause"
+              landscape={landscape}
+              icon={projection.running ? "pause" : "play"}
+              label={projection.running ? "Pause" : primary ? "Démarrer" : "Reprendre"}
+              accessibilityLabel={projection.running ? "Pause" : primary ? startLabel : "Reprendre"}
+              tone="primary"
+              disabled={locked || blockedStage}
+              onPress={primary ? begin : () => dispatchSession(projection.running ? S.pause : S.resume)}
+            />
           </View>
         )}
       </View>
       {alertGate.sheet}
+      {options && !locked ? (
+        <MatchSheet label="Options du match" onClose={() => setOptions(false)} dismissOnBackdrop>
+          <Text accessibilityRole="header" style={m.title}>Options du match</Text>
+          {editable ? (
+            <MatchAction testID="match-options-config" label="Modifier les réglages du match" icon="pencil" kind="secondary" onPress={() => { setOptions(false); router.push({ pathname: "/config/[mode]", params: { mode: session.mode, edit: session.id } }); }} />
+          ) : null}
+          <MatchAction testID="match-options-settings" label="Paramètres de l’app" kind="secondary" onPress={() => { setOptions(false); router.push({ pathname: "/settings", params: { from: "match" } }); }} />
+          <MatchAction testID="match-options-stop" label="Arrêter la session" icon="stop" kind="text" danger onPress={() => { setOptions(false); setStopping(true); }} />
+          <MatchAction label="Fermer" kind="text" onPress={() => setOptions(false)} />
+        </MatchSheet>
+      ) : null}
       {stopping ? (
         <MatchSheet label="Arrêter la session ?" onClose={() => setStopping(false)}>
           <Text accessibilityRole="header" style={m.title}>Arrêter la session ?</Text>

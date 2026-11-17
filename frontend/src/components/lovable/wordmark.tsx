@@ -23,20 +23,34 @@ export function RoundrBall({ size }: { size: number }) {
  * Full logo: "Roundr" with the football in place of the full stop. The ball
  * keeps its green in both themes; `onPhoto` keeps the letters light on a photo.
  */
-export function Wordmark({ size = 26, testID, onPhoto = false, raiseBall = false }: { size?: number; testID?: string; onPhoto?: boolean; raiseBall?: boolean }) {
+export function Wordmark({ size = 26, testID, onPhoto = false }: { size?: number; testID?: string; onPhoto?: boolean }) {
   const ball = size * geometry.wordBallRadiusPerSize * 2;
+  // The line box is exactly the font's ascent + descent: iOS, Android and the
+  // web then all put the baseline DESCENT above the bottom of the text, so the
+  // bottom of the ball sits on the baseline of the "r", as in the icon.
+  const line = size * (MANROPE_ASCENT + MANROPE_DESCENT);
   return (
-    <View testID={testID} accessible accessibilityRole="image" accessibilityLabel="Roundr" style={{ flexDirection: "row", alignItems: "flex-end" }}>
+    <View
+      testID={testID}
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel="Roundr"
+      // Keeps the former 1.1 em footprint in the screens' layouts.
+      style={{ flexDirection: "row", alignItems: "flex-end", marginVertical: -(line - size * 1.1) / 2 }}
+    >
       <Text
-        maxFontSizeMultiplier={1.2}
-        style={{ color: onPhoto ? brand.paper : lovable.foreground, fontFamily: lovableFont.extrabold, fontSize: size, lineHeight: size * 1.1, letterSpacing: 0, includeFontPadding: false }}
+        allowFontScaling={false}
+        style={{ color: onPhoto ? brand.paper : lovable.foreground, fontFamily: lovableFont.extrabold, fontSize: size, lineHeight: line, letterSpacing: geometry.letterSpacingEm * size, includeFontPadding: false }}
       >
         Roundr
       </Text>
-      {/* Align the ball optically with the baseline of the wordmark. */}
-      <View style={{ marginLeft: size * geometry.wordGapPerSize, marginBottom: size * (raiseBall ? 0.21 : 0.17) }}>
+      <View style={{ marginLeft: size * geometry.wordGapPerSize, marginBottom: size * MANROPE_DESCENT }}>
         <RoundrBall size={ball} />
       </View>
     </View>
   );
 }
+
+/** Manrope Refined ExtraBold vertical metrics (hhea = typo = win), in em. */
+const MANROPE_ASCENT = 2132 / 2000;
+const MANROPE_DESCENT = 600 / 2000;
