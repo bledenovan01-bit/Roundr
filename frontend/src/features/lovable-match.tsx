@@ -565,7 +565,7 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
               testID="match-lock"
               landscape={landscape}
               icon={locked ? "lock" : "unlock"}
-              tone={locked ? "warning" : "neutral"}
+              tone={locked ? "active" : "neutral"}
               accessibilityRole="switch"
               checked={locked}
               accessibilityLabel={locked ? "Déverrouiller les commandes" : "Verrouiller les commandes"}
@@ -710,7 +710,9 @@ export function LovableMatchScreen({ tournament }: { tournament?: TournamentMatc
               }
             />
             <MatchAction
+              testID="maracana-home"
               label="Retour à l’accueil"
+              icon="home"
               kind="text"
               disabled={locked}
               onPress={home}
@@ -1484,38 +1486,43 @@ function ClassicMatchResult({
                 onPress={onCorrect}
               />
             ) : null}
+            {/* Rejouer is the main action, full width; share and home share one row. */}
             <MatchAction
-              testID="result-share"
-              label="Partager le résumé"
-              icon="share"
-              onPress={() => {
-                void share();
-              }}
+              testID="result-replay"
+              label="Rejouer"
+              icon="restart"
+              onPress={onReplay}
             />
-            {shareNote ? (
-              <Text accessibilityLiveRegion="polite" style={[m.muted, { textAlign: "center" }]}>
-                {shareNote}
-              </Text>
-            ) : null}
             <View style={{ flexDirection: "row", gap: 8 }}>
               <View style={{ flex: 1, minWidth: 0 }}>
                 <MatchAction
-                  testID="result-replay"
-                  label="Rejouer"
-                  icon="restart"
+                  testID="result-share"
+                  label="Partager le résumé"
+                  icon="share"
                   kind="secondary"
-                  onPress={onReplay}
+                  fontSize={13} compact
+                  onPress={() => {
+                    void share();
+                  }}
                 />
               </View>
               <View style={{ flex: 1, minWidth: 0 }}>
                 <MatchAction
                   testID="result-home"
-                  label="Retour à l'accueil"
+                  label="Retour à l’accueil"
+                  icon="home"
                   kind="secondary"
+                  danger
+                  fontSize={13} compact
                   onPress={onHome}
                 />
               </View>
             </View>
+            {shareNote ? (
+              <Text accessibilityLiveRegion="polite" style={[m.muted, { textAlign: "center" }]}>
+                {shareNote}
+              </Text>
+            ) : null}
           </View>
         }
       >

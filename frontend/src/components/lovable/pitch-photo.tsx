@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -30,6 +31,40 @@ export function PitchPhoto({
       ) : (
         <LinearGradient colors={[ink(0.5), ink(0.38), ink(0.62)]} style={StyleSheet.absoluteFill} />
       )}
+    </View>
+  );
+}
+
+/** Validated HD photo (1024 × 1536), shared by the intro and the home banner. */
+export const INTRO_PHOTO = require("../../../assets/images/roundr-intro-hd.png");
+
+/**
+ * Home banner: the portrait intro photo laid out horizontally. The photo is
+ * sized to the banner width and placed so the big ball sits on the right; a
+ * left veil keeps the logo and the slogan on a dark area.
+ */
+export function HomeBannerPhoto() {
+  const [size, setSize] = useState<{ width: number; height: number } | null>(null);
+  const ink = (alpha: number) => withAlpha(brand.ink, alpha);
+  // Framing measured on the mockup: photo as wide as the banner, shifted right
+  // by 27 %, with the top of the ball (photo row ~990) at 47 % of the banner height.
+  const frame = size && (() => {
+    const width = size.width * 1.02;
+    const k = width / 1024;
+    return { width, height: 1536 * k, left: size.width * 0.27, top: size.height * 0.47 - 990 * k };
+  })();
+  return (
+    <View
+      testID="home-banner-photo"
+      pointerEvents="none"
+      accessible={false}
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+      onLayout={e => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
+      style={[StyleSheet.absoluteFill, { backgroundColor: brand.ink, overflow: "hidden" }]}
+    >
+      {frame ? <Image source={INTRO_PHOTO} contentFit="cover" style={{ position: "absolute", ...frame }} transition={0} /> : null}
+      <LinearGradient colors={[ink(1), ink(0.88), ink(0.3), ink(0)]} locations={[0, 0.3, 0.5, 0.66]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
     </View>
   );
 }

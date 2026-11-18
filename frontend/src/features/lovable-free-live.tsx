@@ -1,7 +1,5 @@
 import { usePreferences } from "@/src/store/preferences";
 import { useAppearance } from "@/src/hooks/use-appearance";
-import { decorativeSvgAccessibility } from "@/src/components/svg-compat";
-import Svg, { Path } from "react-native-svg";
 import {
   FreeScore,
   FreeTransitionFlash,
@@ -38,6 +36,7 @@ import {
 } from "./chrono-layout";
 import { FreeClockTrack } from "@/src/components/lovable/free-clock";
 import { KeepAwakeControl } from "@/src/components/lovable/keep-awake-control";
+import { MatchBarButton, useMatchBarMetrics } from "@/src/components/lovable/match-bar";
 import { recentSwipe } from "./carousel-swipe";
 import { MUSIC_CARD_AVAILABLE } from "@/src/music/availability";
 import { useFreeNotice } from "@/src/components/free-timer-runtime";
@@ -120,7 +119,6 @@ export function LovableFreeLive() {
     [musicOpen, setMusicOpen] = useState(false);
   // Portrait only: the clock card takes the height the screen leaves unused.
   const [clockFill, setClockFill] = useState<number | undefined>(undefined);
-  const held = useRef(false);
   const clockOrigin = useRef<{ x: number; y: number } | null>(null);
   const swipedAt = useRef(0);
   const two =
@@ -128,6 +126,7 @@ export function LovableFreeLive() {
       width - inset.left - inset.right >= 600 &&
       fontScale <= 1.5,
     land = width > height;
+  const barMetrics = useMatchBarMetrics(land);
   const select = (view: FreeTimerDisplay) => {
     const current = getStoreState().freeTimer;
     if (current && !locked)
@@ -649,83 +648,59 @@ export function LovableFreeLive() {
       </View>
     ) : null;
 
-  const controls = (
-    items: {
-      label: string;
-      icon: "stop" | "restart" | "play" | "pause" | "flag" | "skip";
-      action: () => void;
-    }[],
-  ) => (
+  // Same bar as the match screens: Verrouillage · Veille · Fin · Relancer · Pause/Reprendre.
+  const bar = (main: { label: string; accessibilityLabel: string; icon: "play" | "pause"; action: () => void }) => (
     <View
+      testID="free-bar"
       style={{
         flexDirection: "row",
-        gap: 8,
+        gap: barMetrics.gap,
         width: "100%",
         maxWidth: land ? 640 : undefined,
       }}
     >
-      <KeepAwakeControl
+      <MatchBarButton
+        testID="free-lock"
         landscape={land}
-        height={land ? 48 : 60}
-        disabled={locked}
+        icon={locked ? "lock" : "unlock"}
+        tone={locked ? "active" : "neutral"}
+        accessibilityRole="switch"
+        checked={locked}
+        accessibilityLabel={locked ? "Déverrouiller les commandes" : "Verrouiller les commandes"}
+        accessibilityHint={locked ? "Commandes et score bloqués, le chrono continue. Touche pour déverrouiller." : "Bloque les commandes et le score ; le chrono continue."}
+        disabled={busy || replacing}
+        onPress={() => setLocked(value => !value)}
       />
-      {items.map((item, i) => (
-        <Pressable
-          key={item.label}
-          accessibilityRole="button"
-          accessibilityLabel={item.label}
-          disabled={blocked}
-          onPress={item.action}
-          style={({ pressed }) => [
-            s.control,
-            {
-              height: land ? 48 : 60,
-              flex: i === items.length - 1 ? 1.6 : 1,
-              flexBasis: 0,
-              minWidth: 0,
-              flexDirection: land ? "row" : "column",
-              backgroundColor:
-                i === items.length - 1 ? c.primary : c.cardRaised,
-              borderColor: i === items.length - 1 ? c.primary : c.border,
-              opacity: blocked ? 0.5 : 1,
-            },
-            pressed && pressedControl,
-          ]}
-        >
-          {item.icon === "skip" ? (
-            <Svg
-              width={20}
-              height={20}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={c.foreground}
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              {...decorativeSvgAccessibility}
-            >
-              <Path d="M21 4v16" />
-              <Path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z" />
-            </Svg>
-          ) : (
-            <MatchIcon
-              name={item.icon}
-              color={i === items.length - 1 ? c.onPrimary : c.foreground}
-            />
-          )}
-          <Text
-            numberOfLines={1}
-            adjustsFontSizeToFit
-            style={{
-              fontFamily: "ManropeRefined-Bold",
-              fontSize: i === items.length - 1 ? 13 : 11,
-              color: i === items.length - 1 ? c.onPrimary : c.foreground,
-            }}
-          >
-            {item.label}
-          </Text>
-        </Pressable>
-      ))}
+      <KeepAwakeControl compact landscape={land} height={barMetrics.height} disabled={locked} />
+      <MatchBarButton
+        testID="free-end"
+        landscape={land}
+        icon="stop"
+        label="Fin"
+        tone="danger"
+        accessibilityLabel="Terminer la session"
+        disabled={blocked}
+        onPress={() => open("end")}
+      />
+      <MatchBarButton
+        testID="free-restart"
+        landscape={land}
+        icon="restart"
+        label="Relancer"
+        accessibilityLabel="Relancer le chrono"
+        disabled={blocked}
+        onPress={() => open("reset")}
+      />
+      <MatchBarButton
+        testID="free-pause"
+        landscape={land}
+        icon={main.icon}
+        label={main.label}
+        accessibilityLabel={main.accessibilityLabel}
+        tone="primary"
+        disabled={blocked}
+        onPress={main.action}
+      />
     </View>
   );
   const dock =
@@ -793,44 +768,28 @@ export function LovableFreeLive() {
         />
       </View>
     ) : stage === "waiting" ? (
-      controls([
-        { label: "Fin", icon: "stop", action: () => open("end") },
-        {
-          label: `Lancer : ${next?.label ?? "suite"}`,
-          icon: "play",
-          action: () => perform("next"),
-        },
-      ])
+      // Between two steps the main command starts the next one, like a new period.
+      bar({ label: "Démarrer", accessibilityLabel: "Lancer : " + (next?.label ?? "suite"), icon: "play", action: () => perform("next") })
     ) : (
-      controls([
-        { label: "Fin", icon: "stop", action: () => open("end") },
-        {
-          label:
-            stage === "running" && isStopwatch
-              ? "Tour"
-              : stage === "running" && ft.config.kind === "interval"
-                ? "Passer"
-                : "Réinitialiser",
-          icon:
-            stage === "running" && isStopwatch
-              ? "flag"
-              : stage === "running" && ft.config.kind === "interval"
-                ? "skip"
-                : "restart",
-          action: () =>
-            stage === "running" && isStopwatch
-              ? perform("lap")
-              : stage === "running" && ft.config.kind === "interval"
-                ? perform("skip")
-                : open("reset"),
-        },
-        {
-          label: stage === "running" ? "Pause" : "Reprendre",
-          icon: stage === "running" ? "pause" : "play",
-          action: () => perform("toggle"),
-        },
-      ])
+      bar({
+        label: stage === "running" ? "Pause" : "Reprendre",
+        accessibilityLabel: stage === "running" ? "Pause" : "Reprendre",
+        icon: stage === "running" ? "pause" : "play",
+        action: () => perform("toggle"),
+      })
     );
+  // Mode-specific command, outside the shared bar: lap (stopwatch) or skip (intervals).
+  const modeAction =
+    stage === "running" && (isStopwatch || ft.config.kind === "interval") ? (
+      <MatchAction
+        testID={isStopwatch ? "free-lap" : "free-skip"}
+        label={isStopwatch ? "Tour" : "Passer l’étape"}
+        icon={isStopwatch ? "flag" : "in"}
+        kind="secondary"
+        disabled={blocked}
+        onPress={() => perform(isStopwatch ? "lap" : "skip")}
+      />
+    ) : null;
   const sheetTitle =
     sheet?.kind === "reset"
       ? "Réinitialiser le chrono ?"
@@ -871,38 +830,16 @@ export function LovableFreeLive() {
         </View>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={
-            locked ? "Déverrouiller les commandes" : "Paramètres du chrono"
-          }
-          accessibilityHint="Appui long pour verrouiller les commandes"
-          style={({ pressed }) => [m.headerButton, pressed && pressedControl]}
-          onPressIn={() => {
-            held.current = false;
-          }}
-          onLongPress={() => {
-            held.current = true;
-            setLocked((v) => !v);
-          }}
-          delayLongPress={550}
-          onPress={() => {
-            if (!held.current && locked) setLocked(false);
-            else if (!held.current) router.push({ pathname: "/settings", params: { from: "free" } });
-            held.current = false;
-          }}
-          accessibilityActions={[
-            { name: "longpress", label: "Verrouiller ou déverrouiller" },
-          ]}
-          onAccessibilityAction={() => setLocked((v) => !v)}
+          testID="free-settings"
+          accessibilityLabel="Paramètres"
+          accessibilityState={{ disabled: locked }}
+          disabled={locked}
+          style={({ pressed }) => [m.headerButton, locked && { opacity: 0.45 }, pressed && pressedControl]}
+          onPress={() => router.push({ pathname: "/settings", params: { from: "free" } })}
         >
-          {locked ? (
-            <MatchIcon name="lock" color={c.amber} />
-          ) : (
-            <LovableIcon name="gear" color={c.foreground} size={20} />
-          )}
+          {/* Locking has its own padlock in the bar, as in the match screens. */}
+          <LovableIcon name="gear" color={c.foreground} size={20} />
         </Pressable>
-      </View>
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <MatchAction label={locked ? "Déverrouiller" : "Verrouiller"} icon={locked ? "unlock" : "lock"} kind="text" onPress={() => setLocked(value => !value)} />
       </View>
       {!prefs.keepAwake ? <Text style={[m.hint, { textAlign: "center" }]}>Veille autorisée. Écran verrouillé, la fin est signalée par une notification si tu l’as autorisée.</Text> : null}
       <ScrollView
@@ -933,6 +870,7 @@ export function LovableFreeLive() {
             {/* Landscape: clock on the left, scores and details on the right. */}
             <View style={{ flex: 1 }}>{carousel}</View>
             <View style={{ flex: 1, gap: 10 }}>
+              {modeAction}
               {teamCards}
               {ft.config.kind === "countdown" && ft.config.endSignal ? <View style={{ minHeight: land ? 40 : 46 }} /> : null}
               {info}
@@ -955,6 +893,7 @@ export function LovableFreeLive() {
             ) : (
               carousel
             )}
+            {modeAction}
             {teamCards}
             {ft.config.kind === "countdown" && ft.config.endSignal ? <View style={{ minHeight: land ? 40 : 46 }} /> : null}
             {info}

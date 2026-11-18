@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ModeCard, homeCopyStyles } from "@/src/components/mode-card";
 import { LovableIcon, type LovableIconName } from "@/src/components/lovable/icon";
 import { LovableIntro } from "@/src/components/lovable/intro";
-import { PitchPhoto } from "@/src/components/lovable/pitch-photo";
+import { HomeBannerPhoto } from "@/src/components/lovable/pitch-photo";
 import { Wordmark } from "@/src/components/lovable/wordmark";
 import { homeSessionPreviews, type HomeResume } from "@/src/features/home-session-preview";
 import { discardSession, getStoreState, replaceFreeTimer, restoreSession, retryStorage, useStore } from "@/src/store/session-store";
@@ -79,7 +79,7 @@ export default function HomeScreen() {
     <ScrollView testID="home-scroll" showsVerticalScrollIndicator={false} contentContainerStyle={[styles.grid, { paddingTop: insets.top + (landscape ? 8 : 12), paddingLeft: 20 + insets.left, paddingRight: 20 + insets.right, paddingBottom: Math.max(16, insets.bottom) }]}>
       {/* The photo stays in this banner in both themes; everything below is on plain surfaces. */}
       <View testID="home-header" style={[styles.hero, { minHeight: compactHero ? 104 : 150 }]}>
-        <PitchPhoto shade="left" position="right bottom" />
+        <HomeBannerPhoto />
         <View style={styles.heroCopy}>
           <Wordmark testID="home-wordmark" size={compactHero ? 30 : 38} onPhoto />
           <Text testID="home-slogan" style={[styles.slogan, compactHero && styles.sloganCompact]}>Lance tes matchs,{compactHero ? " " : "\n"}gère les scores{compactHero ? " " : "\n"}et les rotations.</Text>

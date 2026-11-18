@@ -21,7 +21,7 @@ export function KeepAwakeControl({
   height: number;
   disabled?: boolean;
   testID?: string;
-  /** Icon only, for the match bar: moon = sleep allowed, sun = screen kept on. */
+  /** Icon only: outline sun = sleep allowed, filled sun = screen kept on. */
   compact?: boolean;
 }) {
   const on = usePreferences().keepAwake;
@@ -30,7 +30,7 @@ export function KeepAwakeControl({
       <MatchBarButton
         testID={testID}
         landscape={landscape}
-        icon={on ? "sun" : "moon"}
+        icon={on ? "sunFilled" : "sun"}
         tone={on ? "active" : "neutral"}
         accessibilityRole="switch"
         accessibilityLabel="Maintenir l’écran allumé"
@@ -72,7 +72,7 @@ export function KeepAwakeControl({
         paddingHorizontal: 4,
       })}
     >
-      <MatchIcon name={on ? "lock" : "unlock"} color={tint} />
+      <MatchIcon name={on ? "sunFilled" : "sun"} color={tint} />
       <Text
         numberOfLines={2}
         adjustsFontSizeToFit

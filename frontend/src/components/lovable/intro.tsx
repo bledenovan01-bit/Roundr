@@ -5,9 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { brand, lovableFont, withAlpha } from "@/src/visual/lovable";
 import { LovableButton } from "./button";
 import { Wordmark } from "./wordmark";
-
-// Validated intro photo (1024 × 1536), extracted unchanged from the mockup PDF.
-const INTRO_PHOTO = require("../../../assets/images/roundr-intro-hd.png");
+import { INTRO_PHOTO } from "./pitch-photo";
 
 // Welcome screen: the night pitch fills the screen, its dark sky holds the
 // logo and the promise, the big ball stays in the foreground. Always dark, in
@@ -30,7 +28,7 @@ export function LovableIntro({ onStart }: { onStart: () => void }) {
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[styles.content, { paddingLeft: 26 + insets.left, paddingRight: 26 + insets.right, paddingTop: insets.top + (landscape ? 16 : height * 0.17) }]}>
       <Wordmark size={logoSize} testID="intro-wordmark" onPhoto />
       <Text testID="intro-title" accessibilityRole="header" maxFontSizeMultiplier={1.3} style={[styles.title, { fontSize: titleSize, lineHeight: titleSize * 1.2 }]}>{"Plus de jeu.\nMoins d’organisation."}</Text>
-      <Text testID="intro-details" maxFontSizeMultiplier={1.5} style={[styles.details, { fontSize: detailSize, lineHeight: detailSize * 1.36, maxWidth: landscape ? 360 : 340 }]}>Du coup d’envoi au dernier but, garde le fil du match.</Text>
+      <Text testID="intro-details" maxFontSizeMultiplier={1.5} style={[styles.details, { fontSize: detailSize, lineHeight: detailSize * 1.36, maxWidth: landscape ? 360 : 340 }]}>{"Du coup d’envoi au dernier but,\ngarde le fil du match."}</Text>
     </ScrollView>
     <View testID="intro-dock" style={[styles.dock, { paddingTop: landscape ? 8 : 12, paddingLeft: 20 + insets.left, paddingRight: 20 + insets.right, paddingBottom: Math.max(landscape ? 10 : 16, insets.bottom) }]}>
       <LovableButton label="Commencer" testID="welcome-start" onPress={onStart} landscape={landscape} onPhoto />

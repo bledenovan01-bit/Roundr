@@ -106,6 +106,8 @@ export type MatchIconName =
   | "flag"
   | "userPlus"
   | "sun"
+  /** Same sun with a filled disc: the screen is kept on. */
+  | "sunFilled"
   | "moon"
   | "share";
 // Lucide 0.575.0 geometry, ISC license in docs/lucide-license.txt.
@@ -136,9 +138,9 @@ export function MatchIcon({
     >
       {name === "home" ? (
         <Path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-8H9v8H4a1 1 0 0 1-1-1z" />
-      ) : name === "sun" ? (
+      ) : name === "sun" || name === "sunFilled" ? (
         <>
-          <Circle cx={12} cy={12} r={4} />
+          <Circle cx={12} cy={12} r={4} fill={name === "sunFilled" ? color : "none"} />
           <Path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
         </>
       ) : name === "share" ? (
@@ -221,6 +223,7 @@ export function MatchAction({
   fontSize,
   danger = false,
   inline = false,
+  compact = false,
 }: {
   label: string;
   onPress: () => void;
@@ -234,6 +237,8 @@ export function MatchAction({
   danger?: boolean;
   /** Sized to its label instead of the full row, so several links share one line. */
   inline?: boolean;
+  /** Tighter padding, for two actions sharing one row. */
+  compact?: boolean;
 }) {
   const { width, height: screenHeight } = useWindowDimensions(),
     h =
@@ -245,8 +250,12 @@ export function MatchAction({
           : width > screenHeight
             ? 48
             : 56);
+  // A secondary danger action is a quiet red button (same tint as Fin).
+  const dangerSurface = danger && kind === "secondary";
   const color =
-      danger && kind !== "primary"
+      dangerSurface
+        ? c.dangerText
+        : danger && kind !== "primary"
         ? c.error
         : kind === "primary"
         ? c.onPrimary
@@ -269,13 +278,17 @@ export function MatchAction({
           backgroundColor:
             kind === "primary"
               ? c.primary
-              : kind === "secondary"
+              : dangerSurface
+                ? c.dangerSurface
+                : kind === "secondary"
                 ? c.cardRaised
                 : "transparent",
           borderWidth: kind === "secondary" ? 1 : 0,
+          ...(dangerSurface ? { borderColor: c.dangerBorder } : null),
           opacity: disabled ? 0.5 : pressed ? 0.85 : 1,
         },
         inline && { width: "auto", paddingHorizontal: 8, gap: 6 },
+        compact && { paddingHorizontal: 8, gap: 6 },
         pressed && !disabled && { transform: [{ scale: 0.98 }] },
       ]}
     >

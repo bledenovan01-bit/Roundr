@@ -430,6 +430,7 @@ export function LovableTournamentFlow({
                 />
                 <MatchAction
                   label="Retour à l’accueil"
+                  icon="home"
                   kind="text"
                   disabled={locked}
                   onPress={home}
@@ -925,19 +926,20 @@ export function TournamentSummary({ session: s }: { session: Session }) {
       footer={
         <View style={{ gap: 4 }}>
           <MatchAction
+            testID="result-replay"
+            label="Rejouer avec les mêmes paramètres"
+            icon="restart"
+            disabled={busy || saving || !!error || nameError}
+            onPress={replay}
+          />
+          <MatchAction
             testID="result-share"
             label="Partager le résumé"
             icon="share"
+            kind="secondary"
             onPress={() => {
               void shareText(sessionShareText(s));
             }}
-          />
-          <MatchAction
-            label="Rejouer avec les mêmes paramètres"
-            icon="restart"
-            kind="secondary"
-            disabled={busy || saving || !!error || nameError}
-            onPress={replay}
           />
           <MatchAction
             label="Terminer et revenir à l'accueil"

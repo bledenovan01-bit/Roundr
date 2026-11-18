@@ -26,14 +26,15 @@ export function MaracanaSummary({ session }: { session: Session }) {
   };
   return <PhaseFrame title="Fin de session" subtitle="Maracana" onBack={home} footer={
     <View style={{ gap: 8 }}>
-      <MatchAction testID="result-share" label="Partager le résumé" icon="share" onPress={() => { void share(); }} />
-      {note ? <Text accessibilityLiveRegion="polite" style={[m.muted, { textAlign: "center" }]}>{note}</Text> : null}
+      {/* Same hierarchy as the match summary: Rejouer first, share and home below. */}
+      <MatchAction testID="result-replay" label="Rejouer" icon="restart" disabled={!!active || !!error} onPress={() => {
+        if (!getStoreState().session && startSession(createSession(session.config, session.teams, Date.now()))) router.replace("/live");
+      }} />
       <View style={{ flexDirection: "row", gap: 8 }}>
-        <View style={{ flex: 1 }}><MatchAction label="Rejouer" kind="secondary" icon="restart" disabled={!!active || !!error} onPress={() => {
-          if (!getStoreState().session && startSession(createSession(session.config, session.teams, Date.now()))) router.replace("/live");
-        }} /></View>
-        <View style={{ flex: 1 }}><MatchAction label="Retour à l’accueil" kind="secondary" onPress={home} /></View>
+        <View style={{ flex: 1, minWidth: 0 }}><MatchAction testID="result-share" label="Partager le résumé" icon="share" kind="secondary" fontSize={13} compact onPress={() => { void share(); }} /></View>
+        <View style={{ flex: 1, minWidth: 0 }}><MatchAction testID="result-home" label="Retour à l’accueil" icon="home" kind="secondary" danger fontSize={13} compact onPress={home} /></View>
       </View>
+      {note ? <Text accessibilityLiveRegion="polite" style={[m.muted, { textAlign: "center" }]}>{note}</Text> : null}
     </View>
   }>{[
     error ? <Text key="error" accessibilityRole="alert" style={m.error}>{error}</Text> : null,

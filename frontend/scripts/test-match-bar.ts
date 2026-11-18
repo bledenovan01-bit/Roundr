@@ -29,9 +29,10 @@ assert.match(row, /onPress=\{\(\) => setLocked\(value => !value\)\}/);
 assert.doesNotMatch(match, /onLongPress=\{\(\) => \{\s*lockHeld/, "the gear no longer locks");
 assert.doesNotMatch(match, /setLocked[^\n]*S\.pause/, "locking never pauses the clock");
 
-// 4. Sleep: icon only, moon = sleep allowed, sun = screen kept on; same preference as Settings.
+// 4. Sleep: icon only, outline sun = sleep allowed, filled sun = screen kept on; same preference as Settings.
 const keepAwake = source("src/components/lovable/keep-awake-control.tsx");
-assert.match(keepAwake, /icon=\{on \? "sun" : "moon"\}/);
+assert.match(keepAwake, /icon=\{on \? "sunFilled" : "sun"\}/);
+assert.match(source("src/components/lovable/match-ui.tsx"), /fill=\{name === "sunFilled" \? color : "none"\}/);
 assert.match(keepAwake, /accessibilityRole="switch"/);
 assert.match(keepAwake, /checked=\{on\}/);
 
@@ -62,9 +63,37 @@ assert.doesNotMatch(wordmark, /raiseBall/, "one ball position for home and intro
 
 // 8. Intro: validated photo and exact copy.
 const intro = source("src/components/lovable/intro.tsx");
-assert.match(intro, /roundr-intro-hd\.png/);
+assert.match(intro, /source=\{INTRO_PHOTO\}/);
+assert.match(source("src/components/lovable/pitch-photo.tsx"), /INTRO_PHOTO = require\("\.\.\/\.\.\/\.\.\/assets\/images\/roundr-intro-hd\.png"\)/);
 assert.ok(intro.includes('{"Plus de jeu.\\nMoins d’organisation."}'));
-assert.ok(intro.includes("Du coup d’envoi au dernier but, garde le fil du match."));
+assert.ok(intro.includes('{"Du coup d’envoi au dernier but,\\ngarde le fil du match."}'));
 assert.ok(fs.statSync(path.join(root, "assets/images/roundr-intro-hd.png")).size > 1_000_000);
+
+// 9. Chrono libre: same bar, same order, same labels; lap and skip stay outside the bar.
+const free = source("src/features/lovable-free-live.tsx");
+const freeBar = free.slice(free.indexOf('testID="free-bar"'));
+const freeOrder = ['testID="free-lock"', "<KeepAwakeControl compact", 'testID="free-end"', 'testID="free-restart"', 'testID="free-pause"'].map(id => freeBar.indexOf(id));
+assert.ok(freeOrder.every(i => i > 0), "every command is in the free bar");
+assert.deepEqual([...freeOrder].sort((a, b) => a - b), freeOrder, "same order as the match bar");
+assert.match(freeBar, /label="Fin"\s+tone="danger"/);
+assert.match(freeBar, /label="Relancer"/);
+assert.match(free, /testID=\{isStopwatch \? "free-lap" : "free-skip"\}/);
+assert.doesNotMatch(free, /onLongPress/, "the gear no longer locks");
+
+// 10. Summaries: Rejouer is the main green action; home is quiet red with a house.
+for (const file of ["src/features/lovable-match.tsx", "src/features/lovable-maracana-summary.tsx"]) {
+  const src = source(file);
+  assert.match(src, /testID="result-replay"\s+label="Rejouer"\s+icon="restart"\s+(disabled=\{[^}]*\}\s+)?onPress/, file + ": Rejouer is primary");
+  assert.match(src, /testID="result-home"\s+label="Retour à l’accueil"\s+icon="home"\s+kind="secondary"\s+danger/, file);
+  assert.match(src, /testID="result-share"\s+label="Partager le résumé"\s+icon="share"\s+kind="secondary"/, file);
+}
+assert.match(match, /testID="maracana-home"\s+label="Retour à l’accueil"\s+icon="home"\s+kind="text"/);
+
+// 11. Home: HD photo banner, no chevron on mode cards, small "?" with a 44 pt target.
+assert.match(source("app/index.tsx"), /<HomeBannerPhoto \/>/);
+const card = source("src/components/mode-card.tsx");
+assert.match(card, /\{onHelp \? null : <LovableIcon name="chevron"/);
+assert.match(card, /help: \{ width: 44, height: 44/);
+assert.match(card, /helpMark: \{ width: 24, height: 24/);
 
 console.log("✓ V0 mockup: one-row match bar, lock/sleep icons, red Fin, undo notice, aligned logo ball and intro");

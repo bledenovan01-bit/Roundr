@@ -39,7 +39,8 @@ export function ModeCard({ title, description, icon, accent, solid, onPress, onH
       {description ? <Text testID={`${testID}-description`} style={styles.description}>{description}</Text> : null}
       {children}
     </View>
-    <LovableIcon name="chevron" color={lovable.muted} />
+    {/* Mode choice cards show only the help "?" on the right, no chevron. */}
+    {onHelp ? null : <LovableIcon name="chevron" color={lovable.muted} />}
   </>;
   const press = () => { Haptics.selectionAsync().catch(() => {}); onPress(); };
   const label = children ? undefined : `${title}. ${description ?? ""}`;
@@ -53,7 +54,8 @@ export function ModeCard({ title, description, icon, accent, solid, onPress, onH
       {content}
     </Pressable>
     <Pressable testID={`${testID}-help`} accessibilityRole="button" accessibilityLabel={`Comment fonctionne ${title}`} onPress={onHelp} style={({ pressed }) => [styles.help, pressed && styles.pressed]}>
-      <Text style={styles.helpText}>?</Text>
+      {/* Small visual mark, full 44 pt touch area. */}
+      <View style={styles.helpMark}><Text style={styles.helpText}>?</Text></View>
     </Pressable>
   </View>;
 }
@@ -75,6 +77,7 @@ const styles = themed(() => (StyleSheet.create({
   copy: { flex: 1, minWidth: 0, gap: 2 },
   title: { fontFamily: lovableFont.extrabold, fontSize: 16, lineHeight: 22, color: lovable.foreground, includeFontPadding: false },
   description: { fontFamily: lovableFont.regular, fontSize: 13, lineHeight: 18, color: lovable.muted, includeFontPadding: false },
-  help: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, borderColor: lovable.border, alignItems: "center", justifyContent: "center" },
-  helpText: { fontFamily: lovableFont.extrabold, fontSize: 17, lineHeight: 22, color: lovable.foreground, includeFontPadding: false },
+  help: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
+  helpMark: { width: 24, height: 24, borderRadius: 12, borderWidth: 1, borderColor: withAlpha(lovable.foreground, 0.28), alignItems: "center", justifyContent: "center" },
+  helpText: { fontFamily: lovableFont.extrabold, fontSize: 12, lineHeight: 15, color: lovable.foreground, includeFontPadding: false },
 })));
