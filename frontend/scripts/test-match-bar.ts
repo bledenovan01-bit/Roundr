@@ -96,4 +96,11 @@ assert.match(card, /\{onHelp \? null : <LovableIcon name="chevron"/);
 assert.match(card, /help: \{ width: 44, height: 44/);
 assert.match(card, /helpMark: \{ width: 24, height: 24/);
 
+// 12. Prevented navigation goes through `repeat`, never a direct re-dispatch (infinite loop on iPhone).
+for (const file of ["src/hooks/use-subview-back.ts", "src/hooks/use-unsaved-changes.ts"]) {
+  const src = source(file);
+  assert.match(src, /repeat/, file);
+  assert.doesNotMatch(src, /navigation\.dispatch\(data\.action\)/, file + ": no re-dispatch while prevention is on");
+}
+
 console.log("✓ V0 mockup: one-row match bar, lock/sleep icons, red Fin, undo notice, aligned logo ball and intro");
